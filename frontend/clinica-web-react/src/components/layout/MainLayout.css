@@ -1,0 +1,18 @@
+.main-layout { display: flex; min-height: 100vh; }
+.main-content {
+  flex: 1; padding: 20px; transition: margin-left 0.3s ease;
+  min-height: 100vh; background: #f7fafc;
+}
+.main-content.sidebar-open { margin-left: 280px; }
+.sidebar-toggle {
+  background: none; border: none; font-size: 22px;
+  cursor: pointer; padding: 8px; margin-bottom: 16px; color: #4a5568;
+}
+.sidebar-overlay {
+  display: none;
+  position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 99;
+}
+@media (max-width: 768px) {
+  .main-content.sidebar-open { margin-left: 0; }
+  .sidebar-overlay { display: block; }
+}
