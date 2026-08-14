@@ -23,7 +23,7 @@ function getPatientName(paciente) {
 }
 
 export default function StudyResultsScreen() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const { selectedPatient } = usePatient();

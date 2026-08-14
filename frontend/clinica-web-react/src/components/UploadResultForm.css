@@ -1,0 +1,254 @@
+/* UploadResultForm.css */
+
+.uf-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 16px 40px;
+  background-color: #f7fafc;
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.uf-centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+}
+
+.uf-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px 16px;
+  border-radius: 0 0 16px 16px;
+  margin: 0 -16px 16px;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.uf-back-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: #fff;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.uf-back-btn:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.uf-header-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.uf-card {
+  background: #fff;
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.uf-info-row {
+  display: flex;
+  margin-bottom: 8px;
+}
+
+.uf-label {
+  width: 100px;
+  font-weight: 600;
+  color: #2d3748;
+  flex-shrink: 0;
+}
+
+.uf-value {
+  color: #4a5568;
+  word-break: break-word;
+}
+
+.uf-section-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 12px;
+}
+
+.uf-pick-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #e8f4fd;
+  color: #4dabf7;
+  border: 1px dashed #4dabf7;
+  border-radius: 8px;
+  padding: 12px 16px;
+  width: 100%;
+  justify-content: center;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.uf-pick-btn:hover {
+  background: #d0ebff;
+}
+
+.uf-file-list {
+  margin-top: 12px;
+}
+
+.uf-file-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f7fafc;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-bottom: 6px;
+}
+
+.uf-file-icon {
+  color: #667eea;
+  font-size: 1.2rem;
+}
+
+.uf-file-name {
+  flex: 1;
+  color: #2d3748;
+  font-size: 0.9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.uf-file-size {
+  font-size: 0.8rem;
+  color: #718096;
+  margin: 0 8px;
+}
+
+.uf-remove-file {
+  background: none;
+  border: none;
+  color: #e53e3e;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0 4px;
+}
+
+.uf-remove-file:hover {
+  color: #c53030;
+}
+
+.uf-hint {
+  font-size: 0.8rem;
+  color: #a0aec0;
+  margin-top: 8px;
+}
+
+.uf-textarea {
+  width: 100%;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 100px;
+}
+
+.uf-textarea:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+}
+
+.uf-submit-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #667eea;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 14px;
+  width: 100%;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 8px;
+}
+
+.uf-submit-btn:hover:not(.disabled) {
+  background: #5a6fd6;
+}
+
+.uf-submit-btn.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.uf-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #e2e8f0;
+  border-top: 4px solid #667eea;
+  border-radius: 50%;
+  animation: uf-spin 0.8s linear infinite;
+}
+
+.uf-spinner-small {
+  width: 24px;
+  height: 24px;
+  border: 3px solid #e2e8f0;
+  border-top: 3px solid #fff;
+  border-radius: 50%;
+  animation: uf-spin 0.8s linear infinite;
+}
+
+@keyframes uf-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.uf-loading-text {
+  margin-top: 12px;
+  color: #718096;
+}
+
+.uf-error-text {
+  color: #e53e3e;
+  font-size: 1rem;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.uf-retry-btn {
+  background: #667eea;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 24px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.uf-retry-btn:hover {
+  background: #5a6fd6;
+}

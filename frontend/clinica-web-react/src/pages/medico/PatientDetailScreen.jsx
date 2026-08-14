@@ -62,7 +62,7 @@ function calculateAge(fecnac) {
 }
 
 export default function PatientDetailScreen() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const { id, idAtencion, idExp } = useParams();

@@ -6,7 +6,6 @@ import {
   FiHome, FiSettings, FiLogOut, FiUser, FiHeart, FiFileText,
   FiClipboard, FiActivity, FiPrinter, FiMonitor, FiBarChart2,
 } from 'react-icons/fi';
-import { MdLocalHospital } from 'react-icons/md';
 import './Sidebar.css';
 
 const iconMap = {
