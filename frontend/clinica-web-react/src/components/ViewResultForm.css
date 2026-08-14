@@ -1,0 +1,370 @@
+/* ViewResultForm.css */
+
+.vr-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 16px 40px;
+  background-color: #f7fafc;
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.vr-centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  background-color: #f7fafc;
+}
+
+.vr-loading-text {
+  margin-top: 12px;
+  color: #718096;
+  font-size: 1rem;
+}
+
+.vr-error-text {
+  color: #e53e3e;
+  font-size: 1rem;
+  text-align: center;
+  margin: 12px 0;
+}
+
+.vr-retry-btn {
+  background: #667eea;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 24px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.vr-retry-btn:hover {
+  background: #5a6fd6;
+}
+
+.vr-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px 16px;
+  border-radius: 0 0 20px 20px;
+  margin: 0 -16px 16px;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.vr-back-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: #fff;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.vr-back-btn:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.vr-header-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.vr-main {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+@media (max-width: 768px) {
+  .vr-main {
+    flex-direction: column;
+  }
+}
+
+.vr-list-container {
+  flex: 0.38;
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  min-height: 400px;
+}
+
+.vr-preview-container {
+  flex: 0.62;
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.vr-section-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  gap: 8px;
+}
+
+.vr-section-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.vr-badge {
+  background: #e8f4fd;
+  color: #4dabf7;
+  border-radius: 12px;
+  padding: 0 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.vr-file-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.vr-file-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  width: 100%;
+  text-align: left;
+}
+
+.vr-file-item:hover {
+  background: #f7fafc;
+}
+
+.vr-file-item.vr-active {
+  background: #e8f4fd;
+  border-color: #4dabf7;
+}
+
+.vr-file-icon {
+  font-size: 1.2rem;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e8f4fd;
+  border-radius: 8px;
+}
+
+.vr-file-name {
+  flex: 1;
+  font-size: 0.85rem;
+  color: #2d3748;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.vr-file-badge {
+  background: #edf2f7;
+  color: #4a5568;
+  padding: 0 6px;
+  border-radius: 4px;
+  font-size: 0.6rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  line-height: 18px;
+}
+
+.vr-empty-text {
+  color: #a0aec0;
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.vr-preview-box {
+  flex: 1;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 1px solid #edf2f7;
+  overflow: hidden;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vr-preview-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+}
+
+.vr-placeholder-text {
+  font-size: 1rem;
+  color: #a0aec0;
+  margin-top: 12px;
+  font-weight: 500;
+}
+
+.vr-placeholder-subtext {
+  font-size: 0.85rem;
+  color: #cbd5e0;
+  margin-top: 4px;
+  text-align: center;
+}
+
+.vr-image-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8fafc;
+}
+
+.vr-preview-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.vr-pdf-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+}
+
+.vr-pdf-icon-wrapper {
+  width: 100px;
+  height: 100px;
+  border-radius: 20px;
+  background: #ebf4ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+}
+
+.vr-pdf-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #2d3748;
+  text-align: center;
+  margin-bottom: 8px;
+  max-width: 300px;
+}
+
+.vr-pdf-badge {
+  background: #e2e8f0;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #4a5568;
+  margin-bottom: 12px;
+}
+
+.vr-download-pdf-btn {
+  background: #667eea;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 24px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.vr-download-pdf-btn:hover:not(:disabled) {
+  background: #5a6fd6;
+}
+
+.vr-download-pdf-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.vr-download-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #667eea;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 12px;
+  width: 100%;
+}
+
+.vr-download-btn:hover:not(.vr-disabled) {
+  background: #5a6fd6;
+}
+
+.vr-download-btn.vr-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.vr-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #e2e8f0;
+  border-top: 4px solid #667eea;
+  border-radius: 50%;
+  animation: vr-spin 0.8s linear infinite;
+}
+
+.vr-spinner-small {
+  width: 24px;
+  height: 24px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top: 3px solid #fff;
+  border-radius: 50%;
+  animation: vr-spin 0.8s linear infinite;
+}
+
+@keyframes vr-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

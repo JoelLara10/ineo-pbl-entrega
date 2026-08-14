@@ -39,7 +39,7 @@ function setCachedValue(key, data, ttl = CACHE_TTL) {
 }
 
 export default function HistoriaClinicaScreen() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const { selectedPatient } = usePatient();
@@ -128,7 +128,7 @@ export default function HistoriaClinicaScreen() {
         nopat: formData.nopat.join(','),
       };
 
-      const reloadData = async () => {
+      /* const reloadData = async () => {
         if (!idAtencion || !idExp) return;
         setLoadingData(true);
         try {
@@ -157,7 +157,7 @@ export default function HistoriaClinicaScreen() {
         } finally {
           setLoadingData(false);
         }
-      };
+      }; */
       const response = await api.post(`/historia-clinica/${idAtencion}/${idExp}`, dataToSend);
       if (response.data) {
         setCachedValue(`${idAtencion}_${idExp}`, formData);

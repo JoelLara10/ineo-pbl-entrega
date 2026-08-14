@@ -1,7 +1,15 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { FiActivity, FiAlertCircle, FiArrowLeft, FiChevronLeft, FiChevronRight, FiHeart, FiRefreshCw, FiShield, FiUser } from 'react-icons/fi';
+import {
+  FiAlertCircle,
+  FiArrowLeft,
+  FiChevronLeft,
+  FiChevronRight,
+  FiRefreshCw,
+  FiShield,
+  FiUser,
+} from 'react-icons/fi'
 import { MdLocalHospital, MdOutlineBed } from 'react-icons/md';
 import { useAuth } from '../../context/AuthContext';
 import { usePatient } from '../../context/PatientContext';
