@@ -31,13 +31,13 @@ describe("Estructura principal de INEO Web", () => {
     expect(apiService).toContain("/api/v1");
   });
 
-  it("debe incluir rutas privadas para usuarios autenticados", () => {
+  it("debe incluir rutas protegidas", () => {
     const router = readFileSync(
       projectFile("src/router/AppRouter.jsx"),
       "utf8",
     );
 
-    expect(router).toMatch(/PrivateRoute|ProtectedRoute|RequireAuth/);
+    expect(router).toMatch(/PrivateRoute/);
     expect(router).toContain("isAuthenticated");
     expect(router).toContain('<Navigate to="/login" replace />');
   });
