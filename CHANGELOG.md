@@ -2,7 +2,26 @@
 
 Este archivo registra la integración organizada del PBL. No sustituye el historial de desarrollo de los repositorios originales.
 
-## [Entrega PBL] — 2026-08-14
+## [1.0.0] — 2026-08-14
+
+### Added
+- Versión final del Sistema de Gestión Clínica INEO.
+- Integración de frontend React, backend Flask y MongoDB.
+- Módulos administrativo, médico, enfermería, estudios y configuración.
+- Analítica y visualizaciones.
+- Documentación técnica y de usuario.
+- Evidencias finales de validación.
+
+### Changed
+- Consolidación de los entregables de los Sprints 1–6.
+- Integración de la documentación final del proyecto.
+
+### Fixed
+- Correcciones finales identificadas durante la validación del sistema.
+
+### Release
+- Tag: `v1.0.0`
+- Rama: `main`
 
 ### Sprint 6 — Cierre
 
