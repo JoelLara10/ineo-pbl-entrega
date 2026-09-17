@@ -111,14 +111,14 @@ export default function SparkAnalysisScreen({ type }) {
       </div>
     </div>
     <header className="spark-header"><span>{t('spark.eyebrow')}</span><h1>{t(`spark.types.${type}.title`)}</h1><p>{t(`spark.types.${type}.description`)}</p></header>
-    {error && <div className="spark-error">{error}</div>}
-    {status.running && <div className="spark-status">{t('spark.runningHint')}</div>}
-    {loading ? <div className="spark-empty">{t('common.loading')}</div> : !data?.available ? (
-      <div className="spark-empty"><h2>{t('spark.noResults')}</h2><p>{t('spark.noResultsHint')}</p></div>
+    {error && <div className="spark-state spark-state-error" role="alert"><h2>{t('spark.states.error.title')}</h2><p>{error}</p><button onClick={load}>{t('common.retry')}</button></div>}
+    {!error && status.running && <div className="spark-state spark-state-processing" role="status"><h2>{t('spark.states.processing.title')}</h2><p>{t('spark.states.processing.hint')}</p><button onClick={load}>{t('spark.refresh')}</button></div>}
+    {!error && loading ? <div className="spark-state" role="status"><h2>{t('spark.states.loading.title')}</h2><p>{t('spark.states.loading.hint')}</p></div> : !error && !data?.available ? (
+      <div className="spark-state"><h2>{t('spark.states.empty.title')}</h2><p>{t('spark.states.empty.hint')}</p><button className="spark-primary" onClick={run}>{t('spark.states.empty.action')}</button></div>
     ) : <>
       {sections.map(([key, value]) => <section className="spark-panel" key={key}><h2>{t(`spark.sections.${key}`, prettyKey(key))}</h2><DataValue value={value} /></section>)}
       <VisualGallery images={data.visualizations} />
     </>}
-    {status.state === 'failed' && <details className="spark-log"><summary>{t('spark.executionFailed')}</summary><pre>{status.log}</pre></details>}
+    {status.state === 'failed' && <details className="spark-log"><summary>{t('spark.executionFailed')}</summary>{status.log && <pre>{status.log}</pre>}</details>}
   </main>;
 }

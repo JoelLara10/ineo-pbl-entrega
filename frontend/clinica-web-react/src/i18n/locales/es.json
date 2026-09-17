@@ -948,6 +948,42 @@
     "observationsLabel": "Observaciones",
     "footer": "INEO v2.0 - Diagnóstico médico"
   },
+  "spark": {
+    "eyebrow": "ANALÍTICA SPARK",
+    "title": "Panel de análisis Spark",
+    "description": "Consulta y ejecuta los análisis disponibles para apoyar decisiones clínicas y administrativas.",
+    "refresh": "Actualizar",
+    "run": "Ejecutar análisis",
+    "running": "Procesando...",
+    "runningHint": "El análisis se está procesando. Los resultados se actualizarán automáticamente.",
+    "resultsReady": "Resultados disponibles",
+    "noResults": "Sin resultados",
+    "noResultsHint": "Todavía no existen resultados para este análisis.",
+    "loadError": "No fue posible consultar el análisis.",
+    "runError": "No fue posible iniciar el análisis.",
+    "executionFailed": "La ejecución del análisis falló",
+    "types": {
+      "analytics": { "title": "Analítica general", "description": "Indicadores generales y tendencias operativas." },
+      "met": { "title": "Métricas MET", "description": "Métricas de desempeño y evolución temporal." },
+      "clinical": { "title": "Analítica clínica", "description": "Indicadores clínicos derivados de la información hospitalaria." },
+      "unsupervised": { "title": "Análisis no supervisado", "description": "Agrupaciones y patrones detectados en los datos." }
+    },
+    "sections": {
+      "summary": "Resumen",
+      "metrics": "Métricas",
+      "trends": "Tendencias",
+      "predictions": "Predicciones",
+      "clusters": "Grupos detectados",
+      "recommendations": "Recomendaciones"
+    },
+    "states": {
+      "loading": { "title": "Consultando análisis", "hint": "Espera mientras obtenemos el estado y los resultados." },
+      "processing": { "title": "Análisis en proceso", "hint": "Puedes actualizar ahora o esperar a la actualización automática." },
+      "empty": { "title": "Aún no hay resultados", "hint": "Ejecuta el análisis para generar la primera versión de los resultados.", "action": "Ejecutar ahora" },
+      "offline": { "title": "Sin conexión con Spark", "hint": "Revisa la conexión con la API y vuelve a intentarlo." },
+      "error": { "title": "No se pudo completar la consulta" }
+    }
+  },
   "administrative": {
     "title": "Administrativo",
     "subtitle": "Gestión de pacientes, cuentas y servicios administrativos",

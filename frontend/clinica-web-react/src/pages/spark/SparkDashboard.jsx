@@ -9,6 +9,8 @@ export default function SparkDashboard() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [overview, setOverview] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const cards = [
     ['analytics', FiBarChart2, '/admin/spark/analytics'],
     ['met', FiTrendingUp, '/admin/spark/met'],
@@ -16,9 +18,16 @@ export default function SparkDashboard() {
     ['unsupervised', FiGitBranch, '/admin/spark/unsupervised'],
   ];
 
-  useEffect(() => {
-    sparkService.getOverview().then(setOverview).catch(() => setOverview({}));
-  }, []);
+  const loadOverview = () => {
+    setLoading(true);
+    setError(false);
+    sparkService.getOverview()
+      .then(setOverview)
+      .catch(() => { setOverview({}); setError(true); })
+      .finally(() => setLoading(false));
+  };
+
+  useEffect(loadOverview, []);
 
   return (
     <main className="spark-page">
@@ -27,6 +36,8 @@ export default function SparkDashboard() {
         <h1>{t('spark.title')}</h1>
         <p>{t('spark.description')}</p>
       </header>
+      {loading && <div className="spark-state" role="status"><h2>{t('spark.states.loading.title')}</h2><p>{t('spark.states.loading.hint')}</p></div>}
+      {error && <div className="spark-state spark-state-error" role="alert"><h2>{t('spark.states.offline.title')}</h2><p>{t('spark.states.offline.hint')}</p><button onClick={loadOverview}>{t('common.retry')}</button></div>}
       <section className="spark-cards">
         {cards.map(([type, CardIcon, path]) => (
           <button className="spark-module-card" key={type} onClick={() => navigate(path)}>
