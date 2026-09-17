@@ -8,7 +8,7 @@ El alcance se determinó cruzando la columna `Sprint` de la hoja `PBL` con la co
 | --- | --- | --- |
 | PBL-01-T1 | Revisión de rutas, módulos, dependencias y restricción por rol administrador. | Esta documentación y prueba estructural. |
 | PBL-01-T2 | Registro del panel y cuatro rutas Spark en React. | `AppRouter.jsx` y `sprint1-joel.test.js`. |
-| PBL-04-T2 | Estados de carga, procesamiento, sin datos, sin conexión y error, cada uno con orientación o acción. | Componentes y estilos de `pages/spark`. |
+| PBL-04-T2 | Estados diferenciados de sin ejecutar, sin datos, sin conexión, procesamiento y fallo, cada uno con una acción. | Componentes, traducciones y estilos de `pages/spark`. |
 | PBL-05-T3 | Claves `spark.*`, módulos, secciones, estados, botones y mensajes en español e inglés. | `i18n/locales/es.json` y `en.json`. |
 | PBL-26-T4 | Datos sintéticos por rol, relaciones válidas, restauración automática por prueba e integración con rutas reales. | Fixture y `test_sprint1_environment.py`, ejecutados por API CI. |
 

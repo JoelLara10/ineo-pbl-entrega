@@ -979,8 +979,10 @@
     "states": {
       "loading": { "title": "Loading analysis", "hint": "Please wait while the status and results are retrieved." },
       "processing": { "title": "Analysis in progress", "hint": "Refresh now or wait for the automatic update." },
-      "empty": { "title": "No results yet", "hint": "Run the analysis to generate the first set of results.", "action": "Run now" },
+      "notRun": { "title": "Analysis not run", "hint": "This analysis has not been run yet.", "action": "Run now" },
+      "empty": { "title": "No data found", "hint": "The run completed but did not produce data to display.", "action": "Refresh results" },
       "offline": { "title": "Spark is unavailable", "hint": "Check the API connection and try again." },
+      "failed": { "title": "Analysis failed", "hint": "The run could not be completed. Review the details and try again.", "action": "Run again" },
       "error": { "title": "The request could not be completed" }
     }
   },

@@ -63,15 +63,17 @@ export default function SparkAnalysisScreen({ type }) {
   const [status, setStatus] = useState({ state: 'idle', running: false });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [errorKind, setErrorKind] = useState('error');
 
   const load = useCallback(async () => {
-    setLoading(true); setError('');
+    setLoading(true); setError(''); setErrorKind('error');
     try {
       const [results, currentStatus] = await Promise.all([
         sparkService.getResults(type), sparkService.getStatus(type),
       ]);
       setData(results); setStatus(currentStatus);
     } catch (requestError) {
+      setErrorKind(requestError.response ? 'error' : 'offline');
       setError(requestError.response?.data?.error || t('spark.loadError'));
     } finally { setLoading(false); }
   }, [t, type]);
@@ -97,9 +99,12 @@ export default function SparkAnalysisScreen({ type }) {
   );
 
   const run = async () => {
-    setError('');
+    setError(''); setErrorKind('error');
     try { const response = await sparkService.run(type); setStatus(response.status); }
-    catch (requestError) { setError(requestError.response?.data?.error || t('spark.runError')); }
+    catch (requestError) {
+      setErrorKind(requestError.response ? 'error' : 'offline');
+      setError(requestError.response?.data?.error || t('spark.runError'));
+    }
   };
 
   return <main className="spark-page">
@@ -111,14 +116,17 @@ export default function SparkAnalysisScreen({ type }) {
       </div>
     </div>
     <header className="spark-header"><span>{t('spark.eyebrow')}</span><h1>{t(`spark.types.${type}.title`)}</h1><p>{t(`spark.types.${type}.description`)}</p></header>
-    {error && <div className="spark-state spark-state-error" role="alert"><h2>{t('spark.states.error.title')}</h2><p>{error}</p><button onClick={load}>{t('common.retry')}</button></div>}
-    {!error && status.running && <div className="spark-state spark-state-processing" role="status"><h2>{t('spark.states.processing.title')}</h2><p>{t('spark.states.processing.hint')}</p><button onClick={load}>{t('spark.refresh')}</button></div>}
-    {!error && loading ? <div className="spark-state" role="status"><h2>{t('spark.states.loading.title')}</h2><p>{t('spark.states.loading.hint')}</p></div> : !error && !data?.available ? (
-      <div className="spark-state"><h2>{t('spark.states.empty.title')}</h2><p>{t('spark.states.empty.hint')}</p><button className="spark-primary" onClick={run}>{t('spark.states.empty.action')}</button></div>
+    {error && <div className="spark-state spark-state-error" role="alert"><h2>{t(`spark.states.${errorKind}.title`)}</h2><p>{errorKind === 'offline' ? t('spark.states.offline.hint') : error}</p><button onClick={load}>{t('common.retry')}</button></div>}
+    {!error && loading ? <div className="spark-state" role="status"><h2>{t('spark.states.loading.title')}</h2><p>{t('spark.states.loading.hint')}</p><button onClick={load}>{t('spark.refresh')}</button></div>
+      : !error && (status.running || status.state === 'pending' || status.state === 'processing') ? <div className="spark-state spark-state-processing" role="status"><h2>{t('spark.states.processing.title')}</h2><p>{t('spark.states.processing.hint')}</p><button onClick={load}>{t('spark.refresh')}</button></div>
+      : !error && status.state === 'failed' ? <div className="spark-state spark-state-error" role="alert"><h2>{t('spark.states.failed.title')}</h2><p>{t('spark.states.failed.hint')}</p><button onClick={run}>{t('spark.states.failed.action')}</button></div>
+      : !error && !data?.available && status.state === 'idle' ? <div className="spark-state"><h2>{t('spark.states.notRun.title')}</h2><p>{t('spark.states.notRun.hint')}</p><button className="spark-primary" onClick={run}>{t('spark.states.notRun.action')}</button></div>
+      : !error && !data?.available ? (
+      <div className="spark-state"><h2>{t('spark.states.empty.title')}</h2><p>{t('spark.states.empty.hint')}</p><button onClick={load}>{t('spark.states.empty.action')}</button></div>
     ) : <>
       {sections.map(([key, value]) => <section className="spark-panel" key={key}><h2>{t(`spark.sections.${key}`, prettyKey(key))}</h2><DataValue value={value} /></section>)}
       <VisualGallery images={data.visualizations} />
     </>}
-    {status.state === 'failed' && <details className="spark-log"><summary>{t('spark.executionFailed')}</summary>{status.log && <pre>{status.log}</pre>}</details>}
+    {status.state === 'failed' && status.log && <details className="spark-log"><summary>{t('spark.executionFailed')}</summary><pre>{status.log}</pre></details>}
   </main>;
 }
