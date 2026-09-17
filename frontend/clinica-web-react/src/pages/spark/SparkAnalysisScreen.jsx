@@ -67,17 +67,10 @@ export default function SparkAnalysisScreen({ type }) {
   const load = useCallback(async () => {
     setLoading(true); setError('');
     try {
-      const currentStatus = await sparkService.getStatus(type);
-      setStatus(currentStatus);
-
-      if (currentStatus.state === 'completed' || !currentStatus.running) {
-        try {
-          setData(await sparkService.getResults(type));
-        } catch (resultsError) {
-          if (resultsError.response?.status === 404) setData(null);
-          else throw resultsError;
-        }
-      }
+      const [results, currentStatus] = await Promise.all([
+        sparkService.getResults(type), sparkService.getStatus(type),
+      ]);
+      setData(results); setStatus(currentStatus);
     } catch (requestError) {
       setError(requestError.response?.data?.error || t('spark.loadError'));
     } finally { setLoading(false); }
@@ -87,18 +80,12 @@ export default function SparkAnalysisScreen({ type }) {
   useEffect(() => {
     if (!status.running) return undefined;
     const timer = window.setInterval(async () => {
-      try {
-        const next = await sparkService.getStatus(type);
-        setStatus(next);
-        if (!next.running) load();
-      } catch (requestError) {
-        window.clearInterval(timer);
-        setStatus({ state: 'failed', running: false, log: '' });
-        setError(requestError.response?.data?.error || t('spark.loadError'));
-      }
+      const next = await sparkService.getStatus(type);
+      setStatus(next);
+      if (!next.running) load();
     }, 3000);
     return () => window.clearInterval(timer);
-  }, [load, status.running, t, type]);
+  }, [load, status.running, type]);
 
   const sections = useMemo(
     () => Object.entries(data || {}).filter(
@@ -111,11 +98,7 @@ export default function SparkAnalysisScreen({ type }) {
 
   const run = async () => {
     setError('');
-    try {
-      const nextStatus = await sparkService.run(type);
-      setData(null);
-      setStatus(nextStatus);
-    }
+    try { const response = await sparkService.run(type); setStatus(response.status); }
     catch (requestError) { setError(requestError.response?.data?.error || t('spark.runError')); }
   };
 
@@ -128,12 +111,10 @@ export default function SparkAnalysisScreen({ type }) {
       </div>
     </div>
     <header className="spark-header"><span>{t('spark.eyebrow')}</span><h1>{t(`spark.types.${type}.title`)}</h1><p>{t(`spark.types.${type}.description`)}</p></header>
-    {error && <div className="spark-error">{error}</div>}
-    {status.state === 'pending' && <div className="spark-status">{t('spark.pendingHint', 'El análisis está en espera de ejecución.')}</div>}
-    {status.state === 'processing' && <div className="spark-status">{t('spark.runningHint')}</div>}
-    {status.state === 'completed' && <div className="spark-status">{t('spark.completedHint', 'El análisis terminó correctamente.')}</div>}
-    {loading ? <div className="spark-empty">{t('common.loading')}</div> : !data?.available ? (
-      <div className="spark-empty"><h2>{t('spark.noResults')}</h2><p>{t('spark.noResultsHint')}</p></div>
+    {error && <div className="spark-state spark-state-error" role="alert"><h2>{t('spark.states.error.title')}</h2><p>{error}</p><button onClick={load}>{t('common.retry')}</button></div>}
+    {!error && status.running && <div className="spark-state spark-state-processing" role="status"><h2>{t('spark.states.processing.title')}</h2><p>{t('spark.states.processing.hint')}</p><button onClick={load}>{t('spark.refresh')}</button></div>}
+    {!error && loading ? <div className="spark-state" role="status"><h2>{t('spark.states.loading.title')}</h2><p>{t('spark.states.loading.hint')}</p></div> : !error && !data?.available ? (
+      <div className="spark-state"><h2>{t('spark.states.empty.title')}</h2><p>{t('spark.states.empty.hint')}</p><button className="spark-primary" onClick={run}>{t('spark.states.empty.action')}</button></div>
     ) : <>
       {sections.map(([key, value]) => <section className="spark-panel" key={key}><h2>{t(`spark.sections.${key}`, prettyKey(key))}</h2><DataValue value={value} /></section>)}
       <VisualGallery images={data.visualizations} />

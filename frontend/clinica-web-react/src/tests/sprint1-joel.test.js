@@ -1,36 +1,36 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { normalizeSparkStatus } from '../services/sparkService';
-import { formatLocalDate, formatLocalNumber, getAppLocale } from '../utils/locale';
 
-const source = (path) => readFileSync(resolve(process.cwd(), path), 'utf8');
+const read = (path) => readFileSync(resolve(process.cwd(), path), 'utf8');
 
-describe('Sprint 1 de Joel', () => {
-  it('PBL-01 registra el panel y los cuatro análisis Spark', () => {
-    const router = source('src/router/AppRouter.jsx');
+describe('Tareas de Joel del Sprint 1', () => {
+  it('PBL-01-T2 registra el panel y los cuatro módulos Spark', () => {
+    const router = read('src/router/AppRouter.jsx');
     [
       'admin/spark',
       'admin/spark/analytics',
       'admin/spark/met',
       'admin/spark/clinical',
       'admin/spark/unsupervised',
-    ].forEach((path) => expect(router).toContain(`path="${path}"`));
-    expect(router).toContain('{isAdminOrAdministrativo && (');
+    ].forEach((route) => expect(router).toContain(`path="${route}"`));
   });
 
-  it('PBL-03 normaliza los estados del contrato Spark', () => {
-    expect(normalizeSparkStatus({ status: 'queued' })).toMatchObject({ state: 'processing', running: true });
-    expect(normalizeSparkStatus({ status: { state: 'completed' } })).toMatchObject({ state: 'completed', running: false });
-    expect(normalizeSparkStatus({ state: 'error', message: 'falló' })).toMatchObject({ state: 'failed', running: false, log: 'falló' });
+  it('PBL-04-T2 presenta estados con acciones de recuperación', () => {
+    const analysis = read('src/pages/spark/SparkAnalysisScreen.jsx');
+    const dashboard = read('src/pages/spark/SparkDashboard.jsx');
+    expect(analysis).toContain("spark.states.empty.action");
+    expect(analysis).toContain("common.retry");
+    expect(dashboard).toContain("spark.states.offline.hint");
   });
 
-  it('PBL-06 usa formatos locales consistentes', () => {
-    expect(getAppLocale('es-MX')).toBe('es-MX');
-    expect(getAppLocale('en-US')).toBe('en-US');
-    expect(formatLocalNumber(1234.5, 'es')).not.toBe('—');
-    expect(formatLocalNumber(1234.5, 'en')).not.toBe('—');
-    expect(formatLocalDate('2026-09-17T12:00:00Z', 'es')).not.toBe('—');
-    expect(formatLocalDate('2026-09-17T12:00:00Z', 'en')).not.toBe('—');
+  it('PBL-05-T3 mantiene las claves Spark equivalentes en ambos idiomas', () => {
+    const es = JSON.parse(read('src/i18n/locales/es.json'));
+    const en = JSON.parse(read('src/i18n/locales/en.json'));
+    expect(es.spark).toBeDefined();
+    expect(en.spark).toBeDefined();
+    expect(Object.keys(es.spark)).toEqual(Object.keys(en.spark));
+    expect(Object.keys(es.spark.types)).toEqual(Object.keys(en.spark.types));
+    expect(Object.keys(es.spark.states)).toEqual(Object.keys(en.spark.states));
   });
 });

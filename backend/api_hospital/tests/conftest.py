@@ -1,3 +1,7 @@
+from copy import deepcopy
+import json
+from pathlib import Path
+
 import pytest
 
 
@@ -20,3 +24,11 @@ def app(monkeypatch):
 @pytest.fixture()
 def client(app):
     return app.test_client()
+
+
+@pytest.fixture()
+def synthetic_data():
+    """Entrega una copia limpia de los datos sintéticos en cada prueba."""
+    fixture_path = Path(__file__).parent / "fixtures" / "sprint1_data.json"
+    with fixture_path.open(encoding="utf-8") as fixture_file:
+        return deepcopy(json.load(fixture_file))

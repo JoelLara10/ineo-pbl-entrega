@@ -1,0 +1,15 @@
+{
+  "users": [
+    {"id": "USR-TEST-ADMIN", "username": "admin.test", "role": "admin"},
+    {"id": "USR-TEST-MED", "username": "medico.test", "role": "medico"},
+    {"id": "USR-TEST-NURSE", "username": "enfermeria.test", "role": "enfermeria"},
+    {"id": "USR-TEST-STUDIES", "username": "estudios.test", "role": "estudios"}
+  ],
+  "patients": [
+    {"id": "PAC-TEST-001", "record": "EXP-TEST-001", "name": "Paciente Sintético Uno"},
+    {"id": "PAC-TEST-002", "record": "EXP-TEST-002", "name": "Paciente Sintético Dos"}
+  ],
+  "studies": [
+    {"id": "EST-TEST-001", "patient_id": "PAC-TEST-001", "type": "laboratorio", "status": "pendiente"}
+  ]
+}

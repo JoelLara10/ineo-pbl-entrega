@@ -948,6 +948,42 @@
     "observationsLabel": "Observations",
     "footer": "INEO v2.0 - Medical diagnosis"
   },
+  "spark": {
+    "eyebrow": "SPARK ANALYTICS",
+    "title": "Spark analytics dashboard",
+    "description": "Review and run available analyses to support clinical and administrative decisions.",
+    "refresh": "Refresh",
+    "run": "Run analysis",
+    "running": "Processing...",
+    "runningHint": "The analysis is processing. Results will refresh automatically.",
+    "resultsReady": "Results available",
+    "noResults": "No results",
+    "noResultsHint": "There are no results for this analysis yet.",
+    "loadError": "The analysis could not be loaded.",
+    "runError": "The analysis could not be started.",
+    "executionFailed": "Analysis execution failed",
+    "types": {
+      "analytics": { "title": "General analytics", "description": "General indicators and operational trends." },
+      "met": { "title": "MET metrics", "description": "Performance metrics and changes over time." },
+      "clinical": { "title": "Clinical analytics", "description": "Clinical indicators derived from hospital information." },
+      "unsupervised": { "title": "Unsupervised analysis", "description": "Groups and patterns detected in the data." }
+    },
+    "sections": {
+      "summary": "Summary",
+      "metrics": "Metrics",
+      "trends": "Trends",
+      "predictions": "Predictions",
+      "clusters": "Detected groups",
+      "recommendations": "Recommendations"
+    },
+    "states": {
+      "loading": { "title": "Loading analysis", "hint": "Please wait while the status and results are retrieved." },
+      "processing": { "title": "Analysis in progress", "hint": "Refresh now or wait for the automatic update." },
+      "empty": { "title": "No results yet", "hint": "Run the analysis to generate the first set of results.", "action": "Run now" },
+      "offline": { "title": "Spark is unavailable", "hint": "Check the API connection and try again." },
+      "error": { "title": "The request could not be completed" }
+    }
+  },
   "administrative": {
     "title": "Administrative",
     "subtitle": "Patient, account and administrative service management",
