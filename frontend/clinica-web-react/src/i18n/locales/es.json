@@ -979,8 +979,10 @@
     "states": {
       "loading": { "title": "Consultando análisis", "hint": "Espera mientras obtenemos el estado y los resultados." },
       "processing": { "title": "Análisis en proceso", "hint": "Puedes actualizar ahora o esperar a la actualización automática." },
-      "empty": { "title": "Aún no hay resultados", "hint": "Ejecuta el análisis para generar la primera versión de los resultados.", "action": "Ejecutar ahora" },
+      "notRun": { "title": "Análisis sin ejecutar", "hint": "Este análisis todavía no se ha ejecutado.", "action": "Ejecutar ahora" },
+      "empty": { "title": "No se encontraron datos", "hint": "La ejecución terminó, pero no produjo datos para mostrar.", "action": "Actualizar resultados" },
       "offline": { "title": "Sin conexión con Spark", "hint": "Revisa la conexión con la API y vuelve a intentarlo." },
+      "failed": { "title": "El análisis falló", "hint": "La ejecución no pudo completarse. Revisa el detalle e inténtalo nuevamente.", "action": "Volver a ejecutar" },
       "error": { "title": "No se pudo completar la consulta" }
     }
   },
