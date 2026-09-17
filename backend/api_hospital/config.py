@@ -4,22 +4,23 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+
 class Config:
     # MongoDB
     MONGO_URI = os.getenv('MONGO_URI', 'mongodb://localhost:27017/')
-    MONGO_DB = os.getenv('MONGO_DB', 'hospital_db')
-    
+    MONGO_DB = os.getenv('MONGO_DB', 'ineo_db2')
+
     # JWT
     SECRET_KEY = os.getenv('SECRET_KEY', 'tu-clave-secreta-muy-segura-cambiar-en-produccion')
     JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY', 'jwt-secret-key-cambiar')
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=8)
     JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=30)
-    
+
     # API
     API_TITLE = "Hospital API"
     API_VERSION = "v1"
     API_PREFIX = "/api/v1"
-    
+
     # CORS
     CORS_ORIGINS = [
         "http://localhost:8081",
@@ -32,9 +33,10 @@ class Config:
         "http://10.178.52.14:5173",
         "http://192.168.1.4:5173",
     ]
-    
+
     # Paginación
     DEFAULT_PAGE_SIZE = 20
     MAX_PAGE_SIZE = 100
+
 
 config = Config()
