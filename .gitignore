@@ -29,3 +29,4 @@ backups/
 uploads/
 temp/
 *.log
+backend/api_hospital/api-hospital.env
