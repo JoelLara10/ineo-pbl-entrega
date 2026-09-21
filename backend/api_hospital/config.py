@@ -32,6 +32,7 @@ class Config:
         "http://10.30.40.67:5173",
         "http://10.178.52.14:5173",
         "http://192.168.1.4:5173",
+        "https://api-clinica-jx4m.onrender.com/api/v1"
     ]
 
     # Paginación
