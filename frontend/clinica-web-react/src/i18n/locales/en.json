@@ -977,13 +977,57 @@
       "recommendations": "Recommendations"
     },
     "states": {
-      "loading": { "title": "Loading analysis", "hint": "Please wait while the status and results are retrieved." },
-      "processing": { "title": "Analysis in progress", "hint": "Refresh now or wait for the automatic update." },
-      "notRun": { "title": "Analysis not run", "hint": "This analysis has not been run yet.", "action": "Run now" },
-      "empty": { "title": "No data found", "hint": "The run completed but did not produce data to display.", "action": "Refresh results" },
-      "offline": { "title": "Spark is unavailable", "hint": "Check the API connection and try again." },
-      "failed": { "title": "Analysis failed", "hint": "The run could not be completed. Review the details and try again.", "action": "Run again" },
-      "error": { "title": "The request could not be completed" }
+      "loading": {
+        "title": "Loading analysis",
+        "hint": "Please wait while the status and results are retrieved."
+      },
+      "pending": {
+        "title": "Pending",
+        "hint": "The clinical analysis has not been run yet.",
+        "action": "Run now"
+      },
+      "processing": {
+        "title": "Processing",
+        "hint": "Refresh now or wait for the automatic update."
+      },
+      "completed": {
+        "title": "Completed",
+        "hint": "The analysis finished and results are available."
+      },
+      "failed": {
+        "title": "Failed",
+        "hint": "The run could not be completed. Review the details and try again.",
+        "action": "Run again"
+      },
+      "notRun": {
+        "title": "Analysis not run",
+        "hint": "This analysis has not been run yet.",
+        "action": "Run now"
+      },
+      "empty": {
+        "title": "No data found",
+        "hint": "The run completed but did not produce data to display.",
+        "action": "Refresh results"
+      },
+      "offline": {
+        "title": "Spark is unavailable",
+        "hint": "Check the API connection and try again."
+      },
+      "forbidden": {
+        "title": "Permission denied",
+        "hint": "Your role is not authorized to run or view this clinical analysis."
+      },
+      "unauthorized": {
+        "title": "Invalid session",
+        "hint": "Sign in again to continue."
+      },
+      "conflict": {
+        "title": "Analysis already running",
+        "hint": "A clinical analysis is already in progress. Wait for it to finish or refresh the status."
+      },
+      "error": {
+        "title": "The request could not be completed"
+      }
     }
   },
   "administrative": {

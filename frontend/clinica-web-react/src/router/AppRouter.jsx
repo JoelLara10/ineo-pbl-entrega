@@ -104,6 +104,7 @@ export default function AppRouter() {
   const isMedico = role === 'medico';
   const isEnfermeria = role === 'enfermero' || role === 'enfermeria';
   const isEstudios = role === 'estudios';
+  const canSparkClinical = isAdminOrAdministrativo || isMedico;
 
   return (
     <Suspense fallback={<PageLoader />}>
@@ -118,7 +119,14 @@ export default function AppRouter() {
                 <Suspense fallback={<PageLoader />}>
                   <Routes>
                     <Route path="/" element={<DashboardScreen />} />
-
+¿
+                    {canSparkClinical && (
+                      <>
+                        <Route path="admin/spark" element={<SparkDashboard />} />
+                        <Route path="admin/spark/clinical" element={<ClinicalAnalyticsScreen />} />
+                      </>
+                    )}
+                    
                     {isAdminOrAdministrativo && (
                       <>
                         <Route path="admin" element={<AdminScreen />} />
@@ -130,10 +138,8 @@ export default function AppRouter() {
                         <Route path="censo" element={<CensoScreen />} />
                         <Route path="corte-caja" element={<CorteCajaScreen />} />
                         <Route path="camas" element={<Navigate to="/config/camas" replace />} />
-                        <Route path="admin/spark" element={<SparkDashboard />} />
                         <Route path="admin/spark/analytics" element={<AnalyticsScreen />} />
                         <Route path="admin/spark/met" element={<MetAnalyticsScreen />} />
-                        <Route path="admin/spark/clinical" element={<ClinicalAnalyticsScreen />} />
                         <Route path="admin/spark/unsupervised" element={<UnsupervisedAnalyticsScreen />} />
                       </>
                     )}

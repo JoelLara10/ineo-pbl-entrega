@@ -7,7 +7,7 @@ const read = (path) => readFileSync(resolve(process.cwd(), path), 'utf8');
 describe('PBL-03 flujo clínico', () => {
   it('mantiene las claves de estado existentes usadas por Joel', () => {
     const analysis = read('src/pages/spark/SparkAnalysisScreen.jsx');
-    expect(analysis).toContain('spark.states.notRun.action');
+    expect(analysis).toContain('spark.states.pending.action');
     expect(analysis).toContain('spark.states.empty.action');
     expect(analysis).toContain('spark.states.failed.action');
     expect(analysis).toContain('spark.states.processing.hint');

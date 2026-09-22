@@ -1,35 +1,22 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { FiActivity, FiBarChart2, FiGitBranch, FiTrendingUp } from 'react-icons/fi';
-import { useAuth } from '../../context/AuthContext';
 import { sparkService } from '../../services/sparkService';
 import './Spark.css';
-
-const ALL_CARDS = [
-  ['analytics', FiBarChart2, '/admin/spark/analytics'],
-  ['met', FiTrendingUp, '/admin/spark/met'],
-  ['clinical', FiActivity, '/admin/spark/clinical'],
-  ['unsupervised', FiGitBranch, '/admin/spark/unsupervised'],
-];
-
-/** El médico solo ve el módulo clínico (PBL-03). Admin/administrativo ven todos. */
-function cardsForRole(role) {
-  if (role === 'medico') {
-    return ALL_CARDS.filter(([type]) => type === 'clinical');
-  }
-  return ALL_CARDS;
-}
 
 export default function SparkDashboard() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { user } = useAuth();
   const [overview, setOverview] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-
-  const cards = useMemo(() => cardsForRole(user?.role), [user?.role]);
+  const cards = [
+    ['analytics', FiBarChart2, '/admin/spark/analytics'],
+    ['met', FiTrendingUp, '/admin/spark/met'],
+    ['clinical', FiActivity, '/admin/spark/clinical'],
+    ['unsupervised', FiGitBranch, '/admin/spark/unsupervised'],
+  ];
 
   const loadOverview = () => {
     setLoading(true);
@@ -49,22 +36,11 @@ export default function SparkDashboard() {
         <h1>{t('spark.title')}</h1>
         <p>{t('spark.description')}</p>
       </header>
-      {loading && (
-        <div className="spark-state" role="status">
-          <h2>{t('spark.states.loading.title')}</h2>
-          <p>{t('spark.states.loading.hint')}</p>
-        </div>
-      )}
-      {error && (
-        <div className="spark-state spark-state-error" role="alert">
-          <h2>{t('spark.states.offline.title')}</h2>
-          <p>{t('spark.states.offline.hint')}</p>
-          <button type="button" onClick={loadOverview}>{t('common.retry')}</button>
-        </div>
-      )}
+      {loading && <div className="spark-state" role="status"><h2>{t('spark.states.loading.title')}</h2><p>{t('spark.states.loading.hint')}</p></div>}
+      {error && <div className="spark-state spark-state-error" role="alert"><h2>{t('spark.states.offline.title')}</h2><p>{t('spark.states.offline.hint')}</p><button onClick={loadOverview}>{t('common.retry')}</button></div>}
       <section className="spark-cards">
         {cards.map(([type, CardIcon, path]) => (
-          <button type="button" className="spark-module-card" key={type} onClick={() => navigate(path)}>
+          <button className="spark-module-card" key={type} onClick={() => navigate(path)}>
             <CardIcon size={30} />
             <h2>{t(`spark.types.${type}.title`)}</h2>
             <p>{t(`spark.types.${type}.description`)}</p>

@@ -19,7 +19,7 @@ describe('Tareas de Joel del Sprint 1', () => {
   it('PBL-04-T2 presenta estados con acciones de recuperación', () => {
     const analysis = read('src/pages/spark/SparkAnalysisScreen.jsx');
     const dashboard = read('src/pages/spark/SparkDashboard.jsx');
-    expect(analysis).toContain("spark.states.notRun.action");
+    expect(analysis).toContain('spark.states.pending.action');
     expect(analysis).toContain("spark.states.empty.action");
     expect(analysis).toContain("spark.states.failed.action");
     expect(analysis).toContain("spark.states.processing.hint");

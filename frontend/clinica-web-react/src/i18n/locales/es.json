@@ -977,13 +977,57 @@
       "recommendations": "Recomendaciones"
     },
     "states": {
-      "loading": { "title": "Consultando análisis", "hint": "Espera mientras obtenemos el estado y los resultados." },
-      "processing": { "title": "Análisis en proceso", "hint": "Puedes actualizar ahora o esperar a la actualización automática." },
-      "notRun": { "title": "Análisis sin ejecutar", "hint": "Este análisis todavía no se ha ejecutado.", "action": "Ejecutar ahora" },
-      "empty": { "title": "No se encontraron datos", "hint": "La ejecución terminó, pero no produjo datos para mostrar.", "action": "Actualizar resultados" },
-      "offline": { "title": "Sin conexión con Spark", "hint": "Revisa la conexión con la API y vuelve a intentarlo." },
-      "failed": { "title": "El análisis falló", "hint": "La ejecución no pudo completarse. Revisa el detalle e inténtalo nuevamente.", "action": "Volver a ejecutar" },
-      "error": { "title": "No se pudo completar la consulta" }
+      "loading": {
+        "title": "Consultando análisis",
+        "hint": "Espera mientras obtenemos el estado y los resultados."
+      },
+      "pending": {
+        "title": "Pendiente",
+        "hint": "El análisis clínico aún no se ha ejecutado.",
+        "action": "Ejecutar ahora"
+      },
+      "processing": {
+        "title": "Procesando",
+        "hint": "Puedes actualizar ahora o esperar a la actualización automática."
+      },
+      "completed": {
+        "title": "Completado",
+        "hint": "El análisis terminó y hay resultados disponibles."
+      },
+      "failed": {
+        "title": "Fallido",
+        "hint": "La ejecución no pudo completarse. Revisa el detalle e inténtalo nuevamente.",
+        "action": "Volver a ejecutar"
+      },
+      "notRun": {
+        "title": "Análisis sin ejecutar",
+        "hint": "Este análisis todavía no se ha ejecutado.",
+        "action": "Ejecutar ahora"
+      },
+      "empty": {
+        "title": "No se encontraron datos",
+        "hint": "La ejecución terminó, pero no produjo datos para mostrar.",
+        "action": "Actualizar resultados"
+      },
+      "offline": {
+        "title": "Sin conexión con Spark",
+        "hint": "Revisa la conexión con la API y vuelve a intentarlo."
+      },
+      "forbidden": {
+        "title": "Sin permiso",
+        "hint": "Tu rol no tiene autorización para ejecutar o consultar este análisis clínico."
+      },
+      "unauthorized": {
+        "title": "Sesión no válida",
+        "hint": "Inicia sesión de nuevo para continuar."
+      },
+      "conflict": {
+        "title": "Análisis en curso",
+        "hint": "Ya hay un análisis clínico procesándose. Espera a que termine o actualiza el estado."
+      },
+      "error": {
+        "title": "No se pudo completar la consulta"
+      }
     }
   },
   "administrative": {

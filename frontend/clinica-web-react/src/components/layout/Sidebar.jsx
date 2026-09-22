@@ -100,7 +100,7 @@ export default function Sidebar({ isOpen, onClose }) {
 
   menuSections.push({ title: t('sidebar.principal'), items: principalItems });
 
-  if ((isAdmin || role === 'administrativo') && currentModule === 'spark') {
+  /*if ((isAdmin || role === 'administrativo') && currentModule === 'spark') {
     menuSections.push({
       title: t('sidebar.sparkSection'),
       items: [
@@ -109,6 +109,27 @@ export default function Sidebar({ isOpen, onClose }) {
         { name: t('spark.types.clinical.title'), icon: 'pulse-outline', path: '/admin/spark/clinical', requiresPatient: false },
         { name: t('spark.types.unsupervised.title'), icon: 'flask-outline', path: '/admin/spark/unsupervised', requiresPatient: false },
       ],
+    });
+  }*/
+ const isAdminOrAdministrativo = isAdmin || role === 'administrativo';
+  const canSparkClinical = isAdminOrAdministrativo || isMedico;
+
+  if (canSparkClinical && currentModule === 'spark') {
+    const sparkItems = isAdminOrAdministrativo
+      ? [
+          { name: t('spark.types.analytics.title'), icon: 'bar-chart-outline', path: '/admin/spark/analytics', requiresPatient: false },
+          { name: t('spark.types.met.title'), icon: 'speedometer-outline', path: '/admin/spark/met', requiresPatient: false },
+          { name: t('spark.types.clinical.title'), icon: 'pulse-outline', path: '/admin/spark/clinical', requiresPatient: false },
+          { name: t('spark.types.unsupervised.title'), icon: 'flask-outline', path: '/admin/spark/unsupervised', requiresPatient: false },
+        ]
+      : [
+          // Médico: solo análisis clínico (PBL-03)
+          { name: t('spark.types.clinical.title'), icon: 'pulse-outline', path: '/admin/spark/clinical', requiresPatient: false },
+        ];
+
+    menuSections.push({
+      title: t('sidebar.sparkSection'),
+      items: sparkItems,
     });
   }
 
@@ -194,8 +215,9 @@ export default function Sidebar({ isOpen, onClose }) {
   const moduleItems = [];
   if (isAdmin || role === 'administrativo')
     moduleItems.push({ name: t('sidebar.administration'), icon: 'settings-outline', path: '/admin',       requiresPatient: false });
-  if (isAdmin || role === 'administrativo')
+  if (isAdminOrAdministrativo || isMedico)
     moduleItems.push({ name: t('sidebar.spark'), icon: 'bar-chart-outline', path: '/admin/spark', requiresPatient: false });
+  
   if (isAdmin || isMedico)
     moduleItems.push({ name: t('sidebar.medical'),         icon: 'pulse-outline',    path: '/medico',      requiresPatient: false });
   if (isAdmin || isEnfermeria)
