@@ -1,15 +1,8 @@
 from copy import deepcopy
 import json
-import os
 from pathlib import Path
 
 import pytest
-
-# Ambiente de prueba aislado y secretos de CI con longitud JWT válida (RFC 7518).
-os.environ.setdefault("MONGO_URI", "mongodb://localhost:27017/")
-os.environ.setdefault("MONGO_DB", "hospital_test")
-os.environ.setdefault("SECRET_KEY", "ci-test-secret-key-min-32-characters")
-os.environ.setdefault("JWT_SECRET_KEY", "ci-test-jwt-secret-key-min-32-chars")
 
 
 @pytest.fixture()

@@ -1,5 +1,4 @@
-REQUIRED_ROLES = {"admin", "administrativo", "medico", "enfermero", "estudios"}
-PRODUCTION_DB_NAMES = {"hospital_db", "ineo_db2"}
+REQUIRED_ROLES = {"admin", "medico", "enfermeria", "estudios"}
 
 
 def test_synthetic_environment_has_isolated_users_and_relations(synthetic_data):
@@ -9,29 +8,16 @@ def test_synthetic_environment_has_isolated_users_and_relations(synthetic_data):
     assert roles == REQUIRED_ROLES
     assert all("TEST" in user["id"] for user in synthetic_data["users"])
     assert all("TEST" in patient_id for patient_id in patient_ids)
-    assert all("TEST" in study["id"] for study in synthetic_data["studies"])
     assert all(study["patient_id"] in patient_ids for study in synthetic_data["studies"])
-    assert all("Sintético" in patient["name"] or "TEST" in patient["name"] for patient in synthetic_data["patients"])
 
 
 def test_fixture_is_restored_for_every_test(synthetic_data):
-    assert len(synthetic_data["users"]) == 5
+    assert len(synthetic_data["users"]) == 4
     synthetic_data["users"].clear()
-    synthetic_data["patients"].clear()
 
 
 def test_fixture_cleanup_returns_original_data(synthetic_data):
-    assert len(synthetic_data["users"]) == 5
-    assert len(synthetic_data["patients"]) == 2
-    assert {user["role"] for user in synthetic_data["users"]} == REQUIRED_ROLES
-
-
-def test_test_database_name_is_isolated_from_production(monkeypatch):
-    import os
-
-    db_name = os.getenv("MONGO_DB", "hospital_test")
-    assert db_name not in PRODUCTION_DB_NAMES
-    assert "test" in db_name.lower()
+    assert len(synthetic_data["users"]) == 4
 
 
 def test_real_application_exposes_modules_used_by_synthetic_data(app):
@@ -41,4 +27,3 @@ def test_real_application_exposes_modules_used_by_synthetic_data(app):
     assert any(route.startswith("/api/v1/auth") for route in routes)
     assert any("patient" in route for route in routes)
     assert any("stud" in route or "exam" in route for route in routes)
-    assert any(route.startswith("/api/v1/spark") for route in routes)

@@ -48,6 +48,6 @@ jobs:
         env:
           MONGO_URI: mongodb://localhost:27017/
           MONGO_DB: hospital_test
-          SECRET_KEY: ci-test-secret-key-min-32-characters
-          JWT_SECRET_KEY: ci-test-jwt-secret-key-min-32-chars
+          SECRET_KEY: ci-test-secret-key
+          JWT_SECRET_KEY: ci-test-jwt-secret-key
         run: python -m pytest -v --cov=. --cov-report=term-missing

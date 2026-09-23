@@ -1,0 +1,35 @@
+============================= test session starts ==============================
+platform linux -- Python 3.10.21, pytest-9.1.1, pluggy-1.6.0 -- /usr/local/bin/python3
+cachedir: .pytest_cache
+rootdir: /tmp/ineo-pbl-entrega/backend/api_hospital
+plugins: cov-7.1.0
+collecting ... collected 26 items
+
+tests/test_sprint1_environment.py::test_synthetic_environment_has_isolated_users_and_relations PASSED [  3%]
+tests/test_sprint1_environment.py::test_fixture_is_restored_for_every_test PASSED [  7%]
+tests/test_sprint1_environment.py::test_fixture_cleanup_returns_original_data PASSED [ 11%]
+tests/test_sprint1_environment.py::test_test_database_name_is_isolated_from_production PASSED [ 15%]
+tests/test_sprint1_environment.py::test_real_application_exposes_modules_used_by_synthetic_data PASSED [ 19%]
+tests/test_auth.py::test_health_endpoint_reports_api_available PASSED    [ 23%]
+tests/test_auth.py::test_login_requires_credentials PASSED               [ 26%]
+tests/test_auth.py::test_current_user_rejects_invalid_token PASSED       [ 30%]
+tests/test_patients.py::test_patients_requires_authentication PASSED     [ 34%]
+tests/test_patients.py::test_administrative_patients_requires_authentication PASSED [ 38%]
+tests/test_nursing.py::test_nursing_notes_read_requires_authentication PASSED [ 42%]
+tests/test_nursing.py::test_nursing_notes_write_requires_authentication PASSED [ 46%]
+tests/test_spark_clinical.py::test_spark_routes_are_registered PASSED    [ 50%]
+tests/test_spark_clinical.py::test_clinical_status_without_job_is_pending PASSED [ 53%]
+tests/test_spark_clinical.py::test_clinical_result_without_job_is_unavailable PASSED [ 57%]
+tests/test_spark_clinical.py::test_run_clinical_returns_processing_status PASSED [ 61%]
+tests/test_spark_clinical.py::test_status_during_job_is_processing PASSED [ 65%]
+tests/test_spark_clinical.py::test_run_clinical_while_processing_returns_conflict PASSED [ 69%]
+tests/test_spark_clinical.py::test_completed_job_returns_real_clinical_payload PASSED [ 73%]
+tests/test_spark_clinical.py::test_completed_job_without_data_is_unavailable PASSED [ 76%]
+tests/test_spark_clinical.py::test_failed_job_keeps_failed_status_and_log PASSED [ 80%]
+tests/test_spark_clinical.py::test_invalid_type_returns_bad_request PASSED [ 84%]
+tests/test_spark_clinical.py::test_unimplemented_type_returns_bad_request PASSED [ 88%]
+tests/test_spark_clinical.py::test_spark_requires_token PASSED           [ 92%]
+tests/test_spark_clinical.py::test_spark_rejects_unauthorized_role PASSED [ 96%]
+tests/test_spark_clinical.py::test_overview_reports_clinical_availability PASSED [100%]
+
+============================== 26 passed in 2.75s ==============================
