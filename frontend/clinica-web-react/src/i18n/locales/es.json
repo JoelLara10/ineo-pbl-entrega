@@ -9,6 +9,8 @@
     "errorCredentials": "Credenciales incorrectas"
   },
   "sidebar": {
+    "spark": "Spark",
+    "sparkSection": "ANÁLISIS SPARK",
     "principal": "PRINCIPAL",
     "dashboard": "Dashboard",
     "medicalPanel": "Panel Médico",

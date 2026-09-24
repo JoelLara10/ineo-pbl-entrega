@@ -9,6 +9,8 @@
     "errorCredentials": "Invalid credentials"
   },
   "sidebar": {
+    "spark": "Spark",
+    "sparkSection": "SPARK ANALYSIS",
     "principal": "MAIN",
     "dashboard": "Dashboard",
     "medicalPanel": "Medical Panel",
