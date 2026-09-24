@@ -85,6 +85,64 @@ npm run build
 - Suite backend completa: **86 aprobadas, 7 omitidas** (motor Spark opcional).
 - Lint y compilación de producción: aprobados.
 
+## Casos de prueba y resultados observados
+
+Las pruebas se ejecutaron el **24 de septiembre de 2026**. Para las pruebas
+locales se utilizó Flask con una base Mongo simulada y datos sintéticos. En
+Render no se utilizó ninguna cuenta ni se envió información clínica.
+
+| ID | Tarea | Escenario y dato de entrada | Resultado esperado | Resultado observado | Estado |
+|---|---|---|---|---|---|
+| CP-01 | PBL-01-T3 | Abrir directamente `/admin/spark` y sus cuatro páginas con sesión `admin` sintética | Permanecer en la URL solicitada y mostrar el módulo | Las cinco páginas cargaron sin redirigir al inicio | Aprobado local |
+| CP-02 | PBL-01-T3 | Abrir `/admin/spark/clinical` sin sesión | Redirigir a `/login` | Redirigió a `/login` | Aprobado local |
+| CP-03 | PBL-01-T3 | Abrir `/admin/spark/clinical` con rol `medico` | Impedir la ruta de administrador | Redirigió a `/` | Aprobado local |
+| CP-04 | PBL-02-T5 / PBL-13-T5 | Consultar overview, resultados, status y run con token `admin` sintético | Respuestas JSON conformes a los esquemas y sin 404 | `test_spark_contract.py` validó estados, resultados, códigos y esquema v1 | Aprobado local |
+| CP-05 | PBL-03-T5 | Iniciar análisis, consultar estado y completar con ocho registros sintéticos | `idle → pending → running → completed`, resultado disponible | Estado completado y `summary.total=8` | Aprobado local |
+| CP-06 | PBL-03-T5 / PBL-04-T3 | Producir excepción, resultado vacío y reintento | Error controlado, `available=false` para vacío y reintento posible | Se verificaron `failed`, vacío y nuevo trabajo en las pruebas de contrato | Aprobado local; visual pendiente |
+| CP-07 | PBL-05-T4 | Comparar `spark.*` en español e inglés y mostrar datos dinámicos | Claves equivalentes, etiquetas traducidas y sin claves técnicas | Se renderizaron «Promedio/Frecuencia cardíaca» y «Mean/Heart rate» | Aprobado local |
+| CP-08 | PBL-26-T3 | Login de `admin`, `medico`, `enfermeria` y `estudios` sintéticos | Identidad del rol correcto; Spark solo para `admin` | Cuatro logins y `/auth/me` válidos; Spark: 200 para admin, 403 para otros roles | Aprobado local |
+| CP-09 | PBL-26-T3 | Contraseña incorrecta y usuario inexistente | 401, sin token ni acceso a Spark | Ambas credenciales devolvieron 401 sin token | Aprobado local |
+| CP-10 | PBL-26-T3 | Alterar colecciones durante una prueba | Restablecer usuarios, pacientes y trabajos en la siguiente prueba | Se recuperaron 4 usuarios, 8 pacientes y 0 trabajos | Aprobado local |
+| CP-11 | PBL-02-T5 / PBL-13-T5 | Solicitudes **sin token** a Render | 401 JSON `unauthorized` con versión 1.0; nunca 404 | Las diez rutas de la tabla siguiente devolvieron 401 y contrato válido | Aprobado en Render, solo sin token |
+
+### Registro de la API publicada
+
+**Base:** `https://api-clinica-jx4m.onrender.com`. Resultado de
+`python scripts/sprint7_smoke_public.py`:
+
+| Método y ruta bajo `/api/v1/spark` | HTTP | `code` | Contrato |
+|---|---:|---|---|
+| GET `/overview` | 401 | `unauthorized` | OK |
+| GET `/analytics` | 401 | `unauthorized` | OK |
+| GET `/status/analytics` | 401 | `unauthorized` | OK |
+| GET `/met` | 401 | `unauthorized` | OK |
+| GET `/status/met` | 401 | `unauthorized` | OK |
+| GET `/clinical` | 401 | `unauthorized` | OK |
+| GET `/status/clinical` | 401 | `unauthorized` | OK |
+| GET `/unsupervised` | 401 | `unauthorized` | OK |
+| GET `/status/unsupervised` | 401 | `unauthorized` | OK |
+| POST `/run/analytics` | 401 | `unauthorized` | OK |
+
+**Resumen de consola:** `75 passed` en las pruebas específicas de backend;
+`86 passed, 7 skipped` en la suite backend; `42 passed` en Vitest. Los siete
+casos omitidos requieren habilitar el motor Spark real y Java según la guía de
+ambiente del equipo. Los 401 de Render son el resultado correcto para un cliente
+sin token; **no significan que haya fallado la ruta**.
+
+### Evidencia visual que debe agregarse al entregar en clase
+
+Las pruebas automáticas dejan resultados reproducibles en el repositorio, pero
+esta ejecución no generó capturas del navegador ni de una sesión autenticada
+en Render. Si solicitan capturas, colocar aquí las siguientes imágenes reales:
+
+1. **Figura 1.** Consola de `python -m pytest -q tests` con el resumen final.
+2. **Figura 2.** Consola de `npm test` con el resumen final.
+3. **Figura 3.** Consola de `python scripts/sprint7_smoke_public.py` con las diez rutas.
+4. **Figura 4.** Panel Spark abierto con una cuenta de prueba administradora en
+   el ambiente autorizado, sin mostrar token, contraseña ni datos de pacientes.
+
+No se presenta una captura simulada como evidencia de ejecución.
+
 La prueba sin credenciales confirma existencia y control de acceso en Render; no
 demuestra resultados Spark, roles autenticados ni la interfaz publicada. Para esa
 aceptación se necesita una cuenta de prueba autorizada y datos sintéticos en el
