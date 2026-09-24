@@ -169,6 +169,40 @@ def test_timeout_retains_previous_result(monkeypatch):
     assert service.results('analytics')['summary']['total'] == 8
 
 
+def test_missing_pyspark_fails_fast_with_actionable_message(monkeypatch):
+    monkeypatch.setattr(service.importlib.util, 'find_spec', lambda _name: None)
+    with pytest.raises(service.SparkRuntimeError, match='PySpark no está instalado'):
+        service.run_engine('analytics', [])
+
+
+def test_missing_java_fails_fast_with_actionable_message(monkeypatch):
+    monkeypatch.setattr(service.importlib.util, 'find_spec', lambda _name: object())
+    monkeypatch.setattr(service.shutil, 'which', lambda _name: None)
+    with pytest.raises(service.SparkRuntimeError, match='Java no está disponible'):
+        service.run_engine('analytics', [])
+
+
+def test_runtime_failure_is_persisted_for_the_user(monkeypatch):
+    message = 'Java 17 no está configurado correctamente para ejecutar Spark.'
+    monkeypatch.setattr(service, 'run_engine', Mock(side_effect=service.SparkRuntimeError(message)))
+    state, created = service.start('analytics')
+    assert created
+    service.execute('analytics', state['job_id'])
+    saved = service.read_job('analytics')
+    assert saved['state'] == 'failed'
+    assert saved['error'] == message
+
+
+def test_new_job_has_a_bounded_recovery_window(executor):
+    before = service.now()
+    state, created = service.start('met')
+    assert created
+    job = service.read_job('met')
+    stored_before = before.replace(tzinfo=None) if job['expires_at'].tzinfo is None else before
+    assert job['expires_at'] <= stored_before + timedelta(seconds=service.JOB_TTL + 1)
+    assert state['state'] == 'pending'
+
+
 def test_old_job_cannot_overwrite_replacement(monkeypatch, isolated_database):
     first, _ = service.start('clinical')
 
