@@ -1,4 +1,20 @@
-# Manual técnico — Estado de integración Spark
+# Manual técnico — Spark
+
+## Actualización Sprint 7
+
+El backend ya incorpora rutas, contratos versionados, procesamiento PySpark real,
+persistencia de estados/resultados y pruebas. Consultar:
+
+- [Contrato v1](../../contracts/v1/README.md)
+- [Ambiente reproducible y requisitos Java/PySpark](../sprints/sprint-7/ambiente-pruebas.md)
+- [Análisis y alcance de Zahid](../sprints/sprint-7/analisis-zahid.md)
+- [Entrega y evidencia](../sprints/sprint-7/entrega-zahid.md)
+
+El despliegue en producción y UAT no forman parte de esta actualización.
+
+---
+
+## Diagnóstico histórico — Sprint 5 (anterior a esta implementación)
 
 **Sistema:** INEO — React y API Hospital  
 **Sprint:** 5 — Calidad, Seguridad y Spark  
@@ -110,4 +126,3 @@ No deben publicarse métricas, gráficas o cantidades que no procedan de una eje
 ## 9. Criterio de terminación
 
 Spark solo podrá marcarse como terminado cuando el backend esté incorporado, los endpoints respondan, al menos una ejecución real produzca resultados verificables, las pruebas de seguridad pasen y la interfaz consuma esos resultados sin datos simulados.
-

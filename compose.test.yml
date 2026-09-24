@@ -1,0 +1,39 @@
+name: ineo-sprint7-test
+services:
+  mongo-test:
+    image: mongo:7.0
+    ports:
+      - '127.0.0.1:27018:27017'
+    volumes:
+      - synthetic-data:/data/db
+    healthcheck:
+      test: ['CMD', 'mongosh', '--quiet', '--eval', 'db.adminCommand("ping").ok']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+  seed:
+    build:
+      context: backend/api_hospital
+      dockerfile: Dockerfile.test
+    environment: &test-environment
+      MONGO_URI: mongodb://mongo-test:27017/
+      MONGO_DB: ineo_test_sprint7
+      SECRET_KEY: synthetic-only-secret-never-production
+      INEO_TEST_RESET: 'YES'
+      ENABLE_SCHEDULER: 'false'
+    command: ['python', '-m', 'testing.seed']
+    depends_on:
+      mongo-test:
+        condition: service_healthy
+  api-test:
+    build:
+      context: backend/api_hospital
+      dockerfile: Dockerfile.test
+    environment: *test-environment
+    ports:
+      - '127.0.0.1:5002:5001'
+    depends_on:
+      seed:
+        condition: service_completed_successfully
+volumes:
+  synthetic-data:
