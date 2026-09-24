@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import adminService from '../../services/adminService';
 import AdminLayout from './AdminLayout';
 import useAdminData from './useAdminData';
+import { formatRegionalNumber } from '../../i18n/regional';
 
 const LIMIT = 5;
 const documentDefaults = [
@@ -42,7 +43,7 @@ export default function PacienteDetailScreen() {
   }, []);
   useEffect(() => { if (selectedAttention) loadAccount(selectedAttention); }, [loadAccount, selectedAttention]);
 
-  const currency = (value) => new Intl.NumberFormat(i18n.language, { style: 'currency', currency: 'MXN' }).format(Number(value || 0));
+  const currency = (value) => formatRegionalNumber(value || 0, i18n.language, { style: 'currency', currency: 'MXN' });
   const patient = account?.patient || selected;
   const charges = account?.charges || account?.items || [];
   const documents = account?.documents?.length ? account.documents : documentDefaults.map(([key, label]) => ({

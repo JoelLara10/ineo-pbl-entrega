@@ -1,0 +1,738 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ineo:api:v1",
+  "$defs": {
+    "error": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "error"
+      ]
+    },
+    "spark_error": {
+      "type": "object",
+      "properties": {
+        "contract_version": {
+          "const": "1.0"
+        },
+        "error": {
+          "type": "string"
+        },
+        "code": {
+          "enum": [
+            "unauthorized",
+            "forbidden",
+            "invalid_type",
+            "invalid_request",
+            "unavailable"
+          ]
+        }
+      },
+      "required": [
+        "contract_version",
+        "error",
+        "code"
+      ]
+    },
+    "spark_status": {
+      "type": "object",
+      "properties": {
+        "contract_version": {
+          "const": "1.0"
+        },
+        "state": {
+          "enum": [
+            "idle",
+            "pending",
+            "running",
+            "completed",
+            "failed"
+          ]
+        },
+        "running": {
+          "type": "boolean"
+        },
+        "job_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "started_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "finished_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "error": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "contract_version",
+        "state",
+        "running",
+        "job_id",
+        "started_at",
+        "finished_at",
+        "error"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "enum": [
+                  "pending",
+                  "running"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "running": {
+                "const": true
+              },
+              "job_id": {
+                "type": "string"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "running": {
+                "const": false
+              }
+            }
+          }
+        }
+      ]
+    },
+    "image": {
+      "type": "object",
+      "properties": {
+        "filename": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string",
+          "pattern": "^/spark/images/"
+        }
+      },
+      "required": [
+        "filename",
+        "name",
+        "url"
+      ]
+    },
+    "spark_result": {
+      "type": "object",
+      "properties": {
+        "contract_version": {
+          "const": "1.0"
+        },
+        "available": {
+          "type": "boolean"
+        },
+        "timestamp": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "visualizations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/image"
+          }
+        },
+        "summary": {
+          "type": "object",
+          "properties": {
+            "total": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "groups": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": []
+        },
+        "metrics": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "enum": [
+                      "ABIERTA",
+                      "CERRADA",
+                      "OTRO"
+                    ]
+                  },
+                  "count": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "required": [
+                  "status",
+                  "count"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "day": {
+                    "type": "string",
+                    "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+                  },
+                  "count": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "required": [
+                  "day",
+                  "count"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "measure": {
+                    "enum": [
+                      "fc",
+                      "fr",
+                      "temp",
+                      "spo2"
+                    ]
+                  },
+                  "count": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "mean": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "minimum": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "maximum": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "measure",
+                  "count",
+                  "mean",
+                  "minimum",
+                  "maximum"
+                ]
+              }
+            ]
+          }
+        },
+        "clusters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "cluster": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "means": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "number"
+                }
+              }
+            },
+            "required": [
+              "cluster",
+              "count",
+              "means"
+            ]
+          }
+        },
+        "pca": {
+          "type": "object",
+          "properties": {
+            "features": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "explained_variance": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
+              }
+            },
+            "seed": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "standardized": {
+              "type": "boolean"
+            },
+            "candidates": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "k": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "silhouette": {
+                    "type": "number"
+                  },
+                  "inertia": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "k",
+                  "silhouette",
+                  "inertia"
+                ]
+              }
+            },
+            "selected_k": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": []
+        },
+        "quality": {
+          "type": "object",
+          "properties": {
+            "source_rows": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "used_rows": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "excluded_rows": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "reason": {
+              "type": "string"
+            }
+          },
+          "required": []
+        }
+      },
+      "required": [
+        "contract_version",
+        "available",
+        "timestamp",
+        "visualizations",
+        "summary",
+        "metrics",
+        "clusters",
+        "pca",
+        "quality"
+      ]
+    },
+    "spark_run": {
+      "type": "object",
+      "properties": {
+        "contract_version": {
+          "const": "1.0"
+        },
+        "status": {
+          "$ref": "#/$defs/spark_status"
+        }
+      },
+      "required": [
+        "contract_version",
+        "status"
+      ]
+    },
+    "spark_overview": {
+      "type": "object",
+      "properties": {
+        "analytics": {
+          "type": "object",
+          "properties": {
+            "available": {
+              "type": "boolean"
+            },
+            "status": {
+              "$ref": "#/$defs/spark_status"
+            }
+          },
+          "required": [
+            "available",
+            "status"
+          ]
+        },
+        "met": {
+          "type": "object",
+          "properties": {
+            "available": {
+              "type": "boolean"
+            },
+            "status": {
+              "$ref": "#/$defs/spark_status"
+            }
+          },
+          "required": [
+            "available",
+            "status"
+          ]
+        },
+        "clinical": {
+          "type": "object",
+          "properties": {
+            "available": {
+              "type": "boolean"
+            },
+            "status": {
+              "$ref": "#/$defs/spark_status"
+            }
+          },
+          "required": [
+            "available",
+            "status"
+          ]
+        },
+        "unsupervised": {
+          "type": "object",
+          "properties": {
+            "available": {
+              "type": "boolean"
+            },
+            "status": {
+              "$ref": "#/$defs/spark_status"
+            }
+          },
+          "required": [
+            "available",
+            "status"
+          ]
+        }
+      },
+      "required": [
+        "analytics",
+        "met",
+        "clinical",
+        "unsupervised"
+      ]
+    },
+    "auth_login": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        },
+        "user": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "username": {
+              "type": "string"
+            },
+            "role": {
+              "type": "string"
+            },
+            "nombre": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "papell": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "id",
+            "username",
+            "role",
+            "nombre",
+            "papell"
+          ]
+        }
+      },
+      "required": [
+        "token",
+        "user"
+      ]
+    },
+    "patients": {
+      "type": "object",
+      "properties": {
+        "summary": {
+          "type": "object",
+          "properties": {
+            "activos": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "altas": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "expedientes": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "activos",
+            "altas",
+            "expedientes"
+          ]
+        },
+        "pagination": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "page": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "limit",
+            "page"
+          ]
+        },
+        "groups": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "key": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "pagination": {
+                "type": "object",
+                "properties": {
+                  "page": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "limit": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "total": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "total_pages": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "has_more": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "page",
+                  "limit",
+                  "total",
+                  "total_pages",
+                  "has_more"
+                ]
+              },
+              "patients": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "Id_exp": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "record": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "Id_exp",
+                    "name",
+                    "record",
+                    "status"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "key",
+              "title",
+              "pagination",
+              "patients"
+            ]
+          }
+        }
+      },
+      "required": [
+        "summary",
+        "pagination",
+        "groups"
+      ]
+    },
+    "studies_counts": {
+      "type": "object",
+      "properties": {
+        "laboratorio": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "gabinete": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "total": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "laboratorio",
+        "gabinete",
+        "total"
+      ]
+    },
+    "analytics": {
+      "type": "object",
+      "properties": {
+        "active_patients": {
+          "type": "object",
+          "properties": {
+            "total": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "by_area": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          },
+          "required": [
+            "total",
+            "by_area"
+          ]
+        },
+        "today_attentions": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "today_income": {
+          "type": "number"
+        },
+        "bed_occupancy": {
+          "type": "object",
+          "properties": {
+            "total": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "occupied": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "available": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "percentage": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "total",
+            "occupied",
+            "available",
+            "percentage"
+          ]
+        },
+        "pending_exams": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "active_patients",
+        "today_attentions",
+        "today_income",
+        "bed_occupancy",
+        "pending_exams"
+      ]
+    }
+  }
+}

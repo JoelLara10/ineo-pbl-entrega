@@ -1,19 +1,17 @@
+import { formatRegionalDate } from '../../i18n/regional';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FiArrowLeft, FiClock, FiRefreshCw, FiSave, FiShield, FiUser } from 'react-icons/fi';
 import { usePatient } from '../../context/PatientContext';
 import api from '../../services/api';
-import moment from 'moment';
-import 'moment/locale/es';
 import { useTranslation } from 'react-i18next';
 
-moment.locale('es');
 
 const CARE_STATES = ['EN_PROCESO', 'PENDIENTE', 'COMPLETADO'];
 
 export default function EnfermeriaCareScreen() {
   const { t, i18n } = useTranslation();
-  moment.locale(i18n.language === 'en' ? 'en' : 'es');
+
   const navigate = useNavigate();
   const location = useLocation();
   const { selectedPatient } = usePatient();
@@ -131,7 +129,7 @@ export default function EnfermeriaCareScreen() {
         ) : (
           history.map((item, index) => (
             <article key={item.id_cuidado || index} style={styles.historyItem}>
-              <div style={styles.historyDate}>{moment(item.fecha_registro).format('DD/MM/YYYY HH:mm')} - Enf. {item.enfermero_nombre || t('nursingCare.notSpecified')}</div>
+              <div style={styles.historyDate}>{formatRegionalDate(item.fecha_registro, i18n.language, 'dateTime')} - Enf. {item.enfermero_nombre || t('nursingCare.notSpecified')}</div>
               <div style={styles.historyText}>Estado: {item.estado || 'EN_PROCESO'}</div>
               <div style={styles.historyText}>{t('nursingCare.diagnosisLabel') + ' '}{item.diagnostico_enfermeria || 'N/A'}</div>
               <div style={styles.historyText}>{t('nursingCare.objectivesLabel') + ' '}{item.objetivos || 'N/A'}</div>

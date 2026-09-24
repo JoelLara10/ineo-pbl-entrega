@@ -1,15 +1,14 @@
+import { formatRegionalDate } from '../../i18n/regional';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FiArrowLeft, FiClock, FiRefreshCw, FiSave, FiShield, FiUser } from 'react-icons/fi';
 import { usePatient } from '../../context/PatientContext';
 import api from '../../services/api';
-import moment from 'moment';
-import 'moment/locale/es';
 import { useTranslation } from 'react-i18next';
 
 export default function EnfermeriaAssessmentScreen() {
   const { t, i18n } = useTranslation();
-  moment.locale(i18n.language === 'en' ? 'en' : 'es');
+
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -134,7 +133,7 @@ export default function EnfermeriaAssessmentScreen() {
         ) : (
           history.map((item, index) => (
             <article key={item.id_valoracion || index} style={styles.historyItem}>
-              <div style={styles.historyDate}>{moment(item.fecha_registro).format('DD/MM/YYYY HH:mm')} - Enf. {item.enfermero_nombre || 'No especificado'}</div>
+              <div style={styles.historyDate}>{formatRegionalDate(item.fecha_registro, i18n.language, 'dateTime')} - Enf. {item.enfermero_nombre || 'No especificado'}</div>
               <div style={styles.historyText}>{t('nursingAssessment.generalStateLabel')} {item.valoracion?.estado_general || 'N/A'}</div>
               <div style={styles.historyText}>{t('nursingAssessment.painLabel')} {item.valoracion?.dolor || 'N/A'}</div>
               <div style={styles.historyText}>{t('nursingAssessment.mobilityLabel')} {item.valoracion?.movilidad || 'N/A'}</div>

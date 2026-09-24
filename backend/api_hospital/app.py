@@ -22,6 +22,7 @@ from routes.billing import billing_bp
 from routes.administrative import admin_bp, mobile_admin_bp
 from routes.backup import backup_bp
 from routes.performance import performance_bp
+from routes.spark import spark_bp
 from middleware.auth_middleware import token_required
 from scheduler.jobs import init_scheduler
 
@@ -57,9 +58,11 @@ def create_app():
     app.register_blueprint(admin_bp, url_prefix=f'{config.API_PREFIX}')
     app.register_blueprint(backup_bp, url_prefix=f'{config.API_PREFIX}/backup')
     app.register_blueprint(performance_bp, url_prefix=f'{config.API_PREFIX}/performance')
+    app.register_blueprint(spark_bp, url_prefix=f'{config.API_PREFIX}/spark')
 
     # Iniciar tareas automáticas después de registrar las rutas.
-    init_scheduler(app)
+    if os.getenv('ENABLE_SCHEDULER', 'true').lower() == 'true':
+        init_scheduler(app)
     
 
     @app.before_request

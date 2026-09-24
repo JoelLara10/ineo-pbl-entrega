@@ -1,3 +1,4 @@
+import { formatRegionalDate } from '../../i18n/regional';
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FiArrowLeft, FiChevronDown, FiChevronUp, FiClock, FiPlus, FiRefreshCw, FiSave, FiShield, FiTrash2, FiUser } from 'react-icons/fi';
@@ -5,8 +6,6 @@ import { MdMedication } from 'react-icons/md';
 import { usePatient } from '../../context/PatientContext';
 import api from '../../services/api';
 import { useTranslation } from 'react-i18next';
-import moment from 'moment';
-import 'moment/locale/es';
 
 const CACHE_PREFIX = 'ineo_web_cache_medico_prescriptions_';
 const CACHE_TTL = 2 * 60 * 1000;
@@ -48,7 +47,7 @@ function setCachedValue(key, data, ttl = CACHE_TTL) {
 
 export default function PrescriptionScreen() {
   const { t, i18n } = useTranslation();
-  moment.locale(i18n.language === 'en' ? 'en' : 'es');
+
   const navigate = useNavigate();
   const location = useLocation();
   const { selectedPatient } = usePatient();
@@ -231,9 +230,9 @@ export default function PrescriptionScreen() {
             {loadingHistory ? <div style={styles.statusBox}>{t('prescription.loadingHistory')}</div> : history.length === 0 ? <div style={styles.statusBox}>{t('prescription.noPrescriptions')}</div> : history.map((item, index) => (
               <article key={item.id_receta || `${item.fecha_registro || 'prescription'}-${index}`} style={styles.historyItem}>
                 <div style={styles.historyHeader}>
-                  <div style={styles.historyBadge}>{moment(item.fecha_registro).format('DD/MM')}</div>
+                  <div style={styles.historyBadge}>{formatRegionalDate(item.fecha_registro, i18n.language, 'short')}</div>
                   <div>
-                    <div style={styles.historyDate}>{moment(item.fecha_registro).format('dddd, D [de] MMMM [de] YYYY [a las] HH:mm')}</div>
+                    <div style={styles.historyDate}>{formatRegionalDate(item.fecha_registro, i18n.language, 'longDateTime')}</div>
                     <div style={styles.historyAuthor}>Dr. {item.medico_nombre || 'No especificado'}</div>
                   </div>
                 </div>

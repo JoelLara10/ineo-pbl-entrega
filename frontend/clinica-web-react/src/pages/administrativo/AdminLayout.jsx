@@ -1,6 +1,7 @@
 import { FiArrowLeft, FiRefreshCw } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { formatRegionalDate } from '../../i18n/regional';
 import './Administrativo.css';
 
 export default function AdminLayout({ title, subtitle, children, onRefresh, refreshing, updatedAt, actions }) {
@@ -28,7 +29,7 @@ export default function AdminLayout({ title, subtitle, children, onRefresh, refr
       </header>
       {updatedAt && (
         <p className="adm-updated">
-          {t('administrative.updated')}: {new Intl.DateTimeFormat(i18n.language, { dateStyle: 'short', timeStyle: 'short' }).format(updatedAt)}
+          {t('administrative.updated')}: {formatRegionalDate(updatedAt, i18n.language, 'dateTime')}
         </p>
       )}
       {children}

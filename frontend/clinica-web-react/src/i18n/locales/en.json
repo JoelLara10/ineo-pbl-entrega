@@ -963,27 +963,107 @@
     "runError": "The analysis could not be started.",
     "executionFailed": "Analysis execution failed",
     "types": {
-      "analytics": { "title": "General analytics", "description": "General indicators and operational trends." },
-      "met": { "title": "MET metrics", "description": "Performance metrics and changes over time." },
-      "clinical": { "title": "Clinical analytics", "description": "Clinical indicators derived from hospital information." },
-      "unsupervised": { "title": "Unsupervised analysis", "description": "Groups and patterns detected in the data." }
+      "analytics": {
+        "title": "General analytics",
+        "description": "General indicators and operational trends."
+      },
+      "met": {
+        "title": "MET metrics",
+        "description": "Performance metrics and changes over time."
+      },
+      "clinical": {
+        "title": "Clinical analytics",
+        "description": "Clinical indicators derived from hospital information."
+      },
+      "unsupervised": {
+        "title": "Unsupervised analysis",
+        "description": "Groups and patterns detected in the data."
+      }
     },
     "sections": {
       "summary": "Summary",
       "metrics": "Metrics",
       "trends": "Trends",
       "predictions": "Predictions",
-      "clusters": "Detected groups",
-      "recommendations": "Recommendations"
+      "clusters": "Exploratory clusters",
+      "recommendations": "Recommendations",
+      "quality": "Data quality",
+      "pca": "Exploratory PCA"
     },
     "states": {
-      "loading": { "title": "Loading analysis", "hint": "Please wait while the status and results are retrieved." },
-      "processing": { "title": "Analysis in progress", "hint": "Refresh now or wait for the automatic update." },
-      "notRun": { "title": "Analysis not run", "hint": "This analysis has not been run yet.", "action": "Run now" },
-      "empty": { "title": "No data found", "hint": "The run completed but did not produce data to display.", "action": "Refresh results" },
-      "offline": { "title": "Spark is unavailable", "hint": "Check the API connection and try again." },
-      "failed": { "title": "Analysis failed", "hint": "The run could not be completed. Review the details and try again.", "action": "Run again" },
-      "error": { "title": "The request could not be completed" }
+      "loading": {
+        "title": "Loading analysis",
+        "hint": "Please wait while the status and results are retrieved."
+      },
+      "processing": {
+        "title": "Analysis in progress",
+        "hint": "Refresh now or wait for the automatic update."
+      },
+      "notRun": {
+        "title": "Analysis not run",
+        "hint": "This analysis has not been run yet.",
+        "action": "Run now"
+      },
+      "empty": {
+        "title": "No data found",
+        "hint": "The run completed but did not produce data to display.",
+        "action": "Refresh results"
+      },
+      "offline": {
+        "title": "Spark is unavailable",
+        "hint": "Check the API connection and try again."
+      },
+      "failed": {
+        "title": "Analysis failed",
+        "hint": "The run could not be completed. Review the details and try again.",
+        "action": "Run again"
+      },
+      "error": {
+        "title": "The request could not be completed"
+      }
+    },
+    "fields": {
+      "total": "Total",
+      "status": "Status",
+      "count": "Count",
+      "day": "Day",
+      "measure": "Measurement",
+      "mean": "Mean",
+      "minimum": "Minimum",
+      "maximum": "Maximum",
+      "fc": "Heart rate (beats/min)",
+      "fr": "Respiratory rate (breaths/min)",
+      "temp": "Temperature (°C)",
+      "spo2": "Oxygen saturation (%)",
+      "groups": "Groups",
+      "cluster": "Cluster",
+      "means": "Means",
+      "features": "Features",
+      "explained_variance": "Explained variance",
+      "components": "Components",
+      "seed": "Seed",
+      "standardized": "Standardized",
+      "candidates": "Evaluated models",
+      "selected_k": "Selected number of groups",
+      "k": "Number of groups",
+      "silhouette": "Silhouette",
+      "inertia": "Inertia",
+      "source_rows": "Source rows",
+      "used_rows": "Used rows",
+      "excluded_rows": "Excluded rows",
+      "reason": "Reason"
+    },
+    "values": {
+      "fc": "Heart rate (beats/min)",
+      "fr": "Respiratory rate (breaths/min)",
+      "temp": "Temperature (°C)",
+      "spo2": "Oxygen saturation (%)",
+      "ABIERTA": "Open",
+      "CERRADA": "Closed",
+      "OTRO": "Other",
+      "true": "Yes",
+      "false": "No",
+      "insufficient_complete_distinct_rows": "At least four complete rows and three distinct values are required."
     }
   },
   "administrative": {

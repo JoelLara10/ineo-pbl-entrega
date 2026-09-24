@@ -1,14 +1,12 @@
+import { formatRegionalDate } from '../../i18n/regional';
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FiActivity, FiArrowLeft, FiDownload, FiFileText, FiPrinter, FiShield, FiUser } from 'react-icons/fi';
 import { MdOutlineScreenshotMonitor } from 'react-icons/md';
 import { usePatient } from '../../context/PatientContext';
 import api from '../../services/api';
-import moment from 'moment';
-import 'moment/locale/es';
 import { useTranslation } from 'react-i18next';
 
-moment.locale('es');
 
 function buildAssetUrl(path) {
   if (!path) return null;
@@ -23,7 +21,7 @@ function getPatientName(paciente) {
 }
 
 export default function StudyResultsScreen() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const { selectedPatient } = usePatient();
@@ -83,10 +81,10 @@ export default function StudyResultsScreen() {
       <article key={`${item.id_examen || item.fecha || 'exam'}_${item.tipo || 'tipo'}`} style={styles.resultCard}>
         <div style={styles.resultHeader}>
           <div>
-            <div style={{ ...styles.resultDateBadge, backgroundColor: color }}>{moment(item.fecha).format('DD/MM')}</div>
+            <div style={{ ...styles.resultDateBadge, backgroundColor: color }}>{formatRegionalDate(item.fecha, i18n.language, 'short')}</div>
           </div>
           <div style={styles.resultHeaderContent}>
-            <strong style={styles.resultDate}>{moment(item.fecha).format('dddd, D [de] MMMM [de] YYYY [a las] HH:mm')}</strong>
+            <strong style={styles.resultDate}>{formatRegionalDate(item.fecha, i18n.language, 'longDateTime')}</strong>
             <span style={styles.resultMeta}>{t('studyResults.doctor')} {item.medico || t('studyResults.notSpecified')}</span>
           </div>
           <span style={{ ...styles.statusPill, backgroundColor: item.estado === 'REALIZADO' ? '#dcfce7' : '#fef3c7', color: item.estado === 'REALIZADO' ? '#166534' : '#92400e' }}>{item.estado || 'PENDIENTE'}</span>
@@ -168,7 +166,7 @@ export default function StudyResultsScreen() {
                 <button type="button" style={styles.linkButton} onClick={() => setSelectedExam(null)}>{t('studyResults.close')}</button>
               </div>
               <div style={styles.detailPanelBody}>
-                <div style={styles.detailPanelMeta}><span>{t('studyResults.date')}</span><strong>{moment(selectedExam.fecha).format('DD/MM/YYYY HH:mm')}</strong></div>
+                <div style={styles.detailPanelMeta}><span>{t('studyResults.date')}</span><strong>{formatRegionalDate(selectedExam.fecha, i18n.language, 'dateTime')}</strong></div>
                 <div style={styles.detailPanelMeta}><span>{t('studyResults.physician')}</span><strong>{selectedExam.medico || t('studyResults.notSpecified')}</strong></div>
                 <div style={styles.detailPanelMeta}><span>{t('studyResults.observations')}</span><strong>{selectedExam.observaciones || t('studyResults.noObservations')}</strong></div>
                 <div style={styles.detailResultsList}>

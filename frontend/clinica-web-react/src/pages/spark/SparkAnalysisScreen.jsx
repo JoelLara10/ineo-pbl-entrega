@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { FiArrowLeft, FiPlay, FiRefreshCw } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import { sparkService } from '../../services/sparkService';
+import { formatRegionalDate, formatRegionalNumber } from '../../i18n/regional';
 import './Spark.css';
 
 const isSimple = (value) => value === null || ['string', 'number', 'boolean'].includes(typeof value);
@@ -15,22 +16,29 @@ const hasContent = (value) => {
 };
 
 function DataValue({ value }) {
-  if (isSimple(value)) return <span>{value === null ? '—' : String(value)}</span>;
+  const { t, i18n } = useTranslation();
+  if (typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    return <span>{formatRegionalDate(value, i18n.language)}</span>;
+  }
+  if (isSimple(value)) return <span>{value === null ? '—' : typeof value === 'number'
+    ? formatRegionalNumber(value, i18n.language, { maximumFractionDigits: 4 })
+    : t(`spark.values.${value}`, String(value))}</span>;
   if (Array.isArray(value)) {
     if (!value.length) return <span>—</span>;
-    if (value.every(isSimple)) return <ul>{value.slice(0, 20).map((item, index) => <li key={index}>{String(item)}</li>)}</ul>;
+    if (value.every(isSimple)) return <ul>{value.slice(0, 20).map((item, index) => <li key={index}><DataValue value={item} /></li>)}</ul>;
     return <div className="spark-array">{value.slice(0, 12).map((item, index) => <DataObject key={index} data={item} />)}</div>;
   }
   return <DataObject data={value} />;
 }
 
-function DataObject({ data }) {
+export function DataObject({ data }) {
+  const { t } = useTranslation();
   if (!data || typeof data !== 'object') return <DataValue value={data} />;
   return (
     <div className="spark-data-grid">
       {Object.entries(data).map(([key, value]) => (
         <div className={isSimple(value) ? 'spark-datum' : 'spark-nested'} key={key}>
-          <strong>{prettyKey(key)}</strong>
+          <strong>{t(`spark.fields.${key}`, prettyKey(key))}</strong>
           <DataValue value={value} />
         </div>
       ))}
@@ -81,18 +89,27 @@ export default function SparkAnalysisScreen({ type }) {
   useEffect(() => { load(); }, [load]);
   useEffect(() => {
     if (!status.running) return undefined;
+    let active = true;
     const timer = window.setInterval(async () => {
-      const next = await sparkService.getStatus(type);
-      setStatus(next);
-      if (!next.running) load();
+      try {
+        const next = await sparkService.getStatus(type);
+        if (!active) return;
+        setStatus(next);
+        if (!next.running) load();
+      } catch (requestError) {
+        if (!active) return;
+        window.clearInterval(timer);
+        setErrorKind(requestError.response ? 'error' : 'offline');
+        setError(requestError.response?.data?.error || t('spark.loadError'));
+      }
     }, 3000);
-    return () => window.clearInterval(timer);
-  }, [load, status.running, type]);
+    return () => { active = false; window.clearInterval(timer); };
+  }, [load, status.running, t, type]);
 
   const sections = useMemo(
     () => Object.entries(data || {}).filter(
       ([key, value]) =>
-        !['available', 'timestamp', 'visualizations'].includes(key) &&
+        !['available', 'timestamp', 'visualizations', 'contract_version'].includes(key) &&
         hasContent(value)
     ),
     [data]
@@ -123,9 +140,9 @@ export default function SparkAnalysisScreen({ type }) {
       : !error && !data?.available && status.state === 'idle' ? <div className="spark-state"><h2>{t('spark.states.notRun.title')}</h2><p>{t('spark.states.notRun.hint')}</p><button className="spark-primary" onClick={run}>{t('spark.states.notRun.action')}</button></div>
       : !error && !data?.available ? (
       <div className="spark-state"><h2>{t('spark.states.empty.title')}</h2><p>{t('spark.states.empty.hint')}</p><button onClick={load}>{t('spark.states.empty.action')}</button></div>
-    ) : <>
+    ) : !error && <>
       {sections.map(([key, value]) => <section className="spark-panel" key={key}><h2>{t(`spark.sections.${key}`, prettyKey(key))}</h2><DataValue value={value} /></section>)}
-      <VisualGallery images={data.visualizations} />
+      <VisualGallery images={data?.visualizations} />
     </>}
     {status.state === 'failed' && status.log && <details className="spark-log"><summary>{t('spark.executionFailed')}</summary><pre>{status.log}</pre></details>}
   </main>;

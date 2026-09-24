@@ -1,3 +1,4 @@
+import { formatRegionalDate } from '../../i18n/regional';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -6,11 +7,7 @@ import { MdLocalHospital, MdOutlineBed } from 'react-icons/md';
 import { useAuth } from '../../context/AuthContext';
 import { usePatient } from '../../context/PatientContext';
 import api from '../../services/api';
-import moment from 'moment';
-import 'moment/locale/es';
-import 'moment/locale/en-gb';
 
-moment.locale('es');
 
 const CACHE_PREFIX = 'ineo_web_cache_';
 const CACHE_TTL = 5 * 60 * 1000;
@@ -90,9 +87,6 @@ export default function EnfermeriaScreen() {
   const [refreshing, setRefreshing] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  useEffect(() => {
-    moment.locale(i18n.language === 'en' ? 'en-gb' : 'es');
-  }, [i18n.language]);
 
   const loadPatients = useCallback(async (forceRefresh = false) => {
     setLoading(true);
@@ -213,7 +207,7 @@ export default function EnfermeriaScreen() {
       <div style={styles.heroCard}>
         <div>
           <p style={styles.heroGreeting}>{t('nursing.greeting', { name: user?.username || 'User' })}</p>
-          <p style={styles.heroDate}>{moment().format('dddd, D [de] MMMM [de] YYYY')}</p>
+          <p style={styles.heroDate}>{formatRegionalDate(new Date(), i18n.language, 'long')}</p>
         </div>
         <div style={styles.heroPill}>{t('nursing.totalPatients', { count: totalPatients })}</div>
       </div>

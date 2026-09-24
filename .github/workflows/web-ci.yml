@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - "sprint-*"
+      - "sprints/**"
   pull_request:
     branches:
       - main
