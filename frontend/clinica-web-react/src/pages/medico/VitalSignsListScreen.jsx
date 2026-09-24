@@ -1,10 +1,9 @@
+import { formatRegionalDate } from '../../i18n/regional';
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FiActivity, FiArrowLeft, FiDownload, FiPlus, FiShield, FiUser } from 'react-icons/fi';
 import { usePatient } from '../../context/PatientContext';
 import api from '../../services/api';
-import moment from 'moment';
-import 'moment/locale/es';
 import { useTranslation } from 'react-i18next';
 
 function openPdfForVitalSigns(idSignos) {
@@ -30,9 +29,6 @@ export default function VitalSignsListScreen() {
   const [patient, setPatient] = useState(null);
   const [history, setHistory] = useState([]);
 
-  useEffect(() => {
-    moment.locale(i18n.language === 'en' ? 'en' : 'es');
-  }, [i18n.language]);
 
   const patientLabel = useMemo(() => `Exp: ${idExp || 'N/A'} | Atención: ${idAtencion || 'N/A'}`, [idAtencion, idExp]);
 
@@ -96,7 +92,7 @@ export default function VitalSignsListScreen() {
               <article key={item.id_signos || `${item.fecha_registro || 'signos'}-${index}`} style={styles.historyItem}>
                 <div style={styles.historyItemHeader}>
                   <div>
-                    <div style={styles.historyDate}>{moment(item.fecha_registro).format('DD/MM/YYYY HH:mm')}</div>
+                    <div style={styles.historyDate}>{formatRegionalDate(item.fecha_registro, i18n.language, 'dateTime')}</div>
                     <div style={styles.historySubtitle}>Registro #{index + 1}</div>
                   </div>
                   <button type="button" style={styles.secondaryButton} onClick={() => openPdfForVitalSigns(item.id_signos)}><FiDownload size={16} /> PDF</button>

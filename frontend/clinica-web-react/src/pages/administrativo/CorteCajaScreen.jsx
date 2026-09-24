@@ -5,9 +5,10 @@ import { useTranslation } from 'react-i18next';
 import adminService from '../../services/adminService';
 import AdminLayout from './AdminLayout';
 import useAdminData from './useAdminData';
+import { formatRegionalNumber } from '../../i18n/regional';
 
 const LIMIT = 5;
-const currency = (value, language) => new Intl.NumberFormat(language, { style: 'currency', currency: 'MXN' }).format(Number(value || 0));
+const currency = (value, language) => formatRegionalNumber(value || 0, language, { style: 'currency', currency: 'MXN' });
 export default function CorteCajaScreen() {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();

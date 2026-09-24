@@ -1,10 +1,9 @@
+import { formatRegionalDate } from '../../i18n/regional';
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FiArrowLeft, FiChevronDown, FiChevronUp, FiClipboard, FiClock, FiRefreshCw, FiSave, FiShield, FiUser } from 'react-icons/fi';
 import { usePatient } from '../../context/PatientContext';
 import api from '../../services/api';
-import moment from 'moment';
-import 'moment/locale/es';
 import { useTranslation } from 'react-i18next';
 
 const CACHE_CURRENT = 'ineo_web_cache_medico_diagnosis_current_';
@@ -53,9 +52,6 @@ export default function DiagnosisScreen() {
   const [errorMessage, setErrorMessage] = useState('');
   const [formData, setFormData] = useState({ diagnostico_principal: '', diagnosticos_secundarios: '', observaciones: '' });
 
-  useEffect(() => {
-    moment.locale(i18n.language === 'en' ? 'en' : 'es');
-  }, [i18n.language]);
 
   const patientLabel = useMemo(() => `Exp: ${idExp || 'N/A'} | Atención: ${idAtencion || 'N/A'}`, [idAtencion, idExp]);
 
@@ -228,7 +224,7 @@ export default function DiagnosisScreen() {
               <div style={styles.historyTitleRow}><FiClock size={18} /><strong>{t('medicalDiagnosis.history')}</strong><span style={styles.historyCount}>{history.length} {t('vitalSigns.registros')}</span></div>
               {showHistory ? <FiChevronUp size={18} /> : <FiChevronDown size={18} />}
             </button>
-            {showHistory ? <div style={styles.historyBody}>{loadingHistory ? <div style={styles.statusBox}>{t('medicalDiagnosis.loadingHistory')}</div> : history.length === 0 ? <div style={styles.statusBox}>{t('medicalDiagnosis.noDiagnoses')}</div> : history.map((item, index) => <article key={`diag_${item.id_diagnostico || 'no-id'}_${index}`} style={styles.historyItem}><div style={styles.historyHeader}><div style={styles.historyBadge}>{moment(item.fecha_registro).format('DD/MM')}</div><div><div style={styles.historyDate}>{moment(item.fecha_registro).format('dddd, D [de] MMMM [de] YYYY [a las] HH:mm')}</div><div style={styles.historyAuthor}>Dr. {item.medico_nombre || 'No especificado'}</div></div></div><div style={styles.historyFieldLabel}>{t('medicalDiagnosis.principalLabel')}</div><p style={styles.historyFieldValue}>{item.diagnostico_principal}</p>{item.diagnosticos_secundarios ? <><div style={styles.historyFieldLabel}>{t('medicalDiagnosis.secondaryLabel')}</div><p style={styles.historyFieldValue}>{item.diagnosticos_secundarios}</p></> : null}{item.observaciones ? <><div style={styles.historyFieldLabel}>{t('medicalDiagnosis.observationsLabel')}</div><p style={styles.historyFieldValue}>{item.observaciones}</p></> : null}</article>)}</div> : null}
+            {showHistory ? <div style={styles.historyBody}>{loadingHistory ? <div style={styles.statusBox}>{t('medicalDiagnosis.loadingHistory')}</div> : history.length === 0 ? <div style={styles.statusBox}>{t('medicalDiagnosis.noDiagnoses')}</div> : history.map((item, index) => <article key={`diag_${item.id_diagnostico || 'no-id'}_${index}`} style={styles.historyItem}><div style={styles.historyHeader}><div style={styles.historyBadge}>{formatRegionalDate(item.fecha_registro, i18n.language, 'short')}</div><div><div style={styles.historyDate}>{formatRegionalDate(item.fecha_registro, i18n.language, 'longDateTime')}</div><div style={styles.historyAuthor}>Dr. {item.medico_nombre || 'No especificado'}</div></div></div><div style={styles.historyFieldLabel}>{t('medicalDiagnosis.principalLabel')}</div><p style={styles.historyFieldValue}>{item.diagnostico_principal}</p>{item.diagnosticos_secundarios ? <><div style={styles.historyFieldLabel}>{t('medicalDiagnosis.secondaryLabel')}</div><p style={styles.historyFieldValue}>{item.diagnosticos_secundarios}</p></> : null}{item.observaciones ? <><div style={styles.historyFieldLabel}>{t('medicalDiagnosis.observationsLabel')}</div><p style={styles.historyFieldValue}>{item.observaciones}</p></> : null}</article>)}</div> : null}
           </section>
         </>
       )}

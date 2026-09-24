@@ -1,3 +1,4 @@
+import { formatRegionalDate } from '../../i18n/regional';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -8,9 +9,6 @@ import {
 } from 'react-icons/fi';
 import { MdOutlineBed } from 'react-icons/md';
 import { GiMedicinePills, GiChemicalDrop } from 'react-icons/gi';
-import moment from 'moment';
-import 'moment/locale/es';
-import 'moment/locale/en-gb';
 import './DashboardScreen.css';
 
 const iconMap = {
@@ -38,9 +36,6 @@ export default function DashboardScreen() {
   const [pendingStudies, setPendingStudies] = useState({ total: 0 });
   const [refreshing, setRefreshing] = useState(false);
 
-  useEffect(() => {
-    moment.locale(i18n.language === 'en' ? 'en-gb' : 'es');
-  }, [i18n.language]);
 
   useEffect(() => { loadDashboardData(); }, []);
 
@@ -94,7 +89,7 @@ export default function DashboardScreen() {
         <div className="dash-header-content">
           <div>
             <h2 className="dash-greeting">{t('dashboard.greeting', { name: user?.username || 'User' })}</h2>
-            <p className="dash-date">{moment().format('dddd, D [de] MMMM [de] YYYY')}</p>
+            <p className="dash-date">{formatRegionalDate(new Date(), i18n.language, 'long')}</p>
           </div>
           <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
             <button className="dash-icon-btn" onClick={onRefresh} title={t('dashboard.refresh')}>

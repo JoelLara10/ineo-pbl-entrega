@@ -1,14 +1,12 @@
+import { formatRegionalDate } from '../../i18n/regional';
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { FiActivity, FiAlertCircle, FiArrowLeft, FiFileText, FiHeart, FiPhone, FiShield, FiTool, FiUser, FiUsers } from 'react-icons/fi';
 import { MdLocalHospital, MdMedication } from 'react-icons/md';
 import { usePatient } from '../../context/PatientContext';
 import api from '../../services/api';
-import moment from 'moment';
-import 'moment/locale/es';
 import { useTranslation } from 'react-i18next';
 
-moment.locale('es');
 
 const CACHE_PREFIX = 'ineo_web_cache_medico_patient_detail_';
 const CACHE_TTL = 2 * 60 * 1000;
@@ -62,7 +60,7 @@ function calculateAge(fecnac) {
 }
 
 export default function PatientDetailScreen() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const { id, idAtencion, idExp } = useParams();
@@ -181,7 +179,7 @@ export default function PatientDetailScreen() {
 
             <div style={styles.infoGrid}>
               <div style={styles.infoItem}><span style={styles.infoLabel}>{t('medicalDetail.age')}</span><strong style={styles.infoValue}>{calculateAge(patientData.fecnac)} {t('medicalDetail.years')}</strong></div>
-              <div style={styles.infoItem}><span style={styles.infoLabel}>{t('medicalDetail.admissionDate')}</span><strong style={styles.infoValue}>{patientData.fecha ? moment(patientData.fecha).format('DD/MM/YYYY') : 'N/A'}</strong></div>
+              <div style={styles.infoItem}><span style={styles.infoLabel}>{t('medicalDetail.admissionDate')}</span><strong style={styles.infoValue}>{patientData.fecha ? formatRegionalDate(patientData.fecha, i18n.language, 'date') : 'N/A'}</strong></div>
               <div style={styles.infoItem}><span style={styles.infoLabel}>{t('medicalDetail.bed')}</span><strong style={styles.infoValue}>{camaData.num_cama} - {camaData.tipo || 'N/A'}</strong></div>
               <div style={styles.infoItem}><span style={styles.infoLabel}>{t('medicalDetail.diagnosisLabel')}</span><strong style={styles.infoValue}>{patientData.motivo_atn || t('medicalDetail.pending')}</strong></div>
             </div>

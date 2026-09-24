@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { FiArrowLeft, FiPlay, FiRefreshCw } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import { sparkService } from '../../services/sparkService';
+import { formatRegionalDate, formatRegionalNumber } from '../../i18n/regional';
 import './Spark.css';
 
 const isSimple = (value) => value === null || ['string', 'number', 'boolean'].includes(typeof value);
@@ -16,8 +17,11 @@ const hasContent = (value) => {
 
 function DataValue({ value }) {
   const { t, i18n } = useTranslation();
+  if (typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    return <span>{formatRegionalDate(value, i18n.language)}</span>;
+  }
   if (isSimple(value)) return <span>{value === null ? '—' : typeof value === 'number'
-    ? new Intl.NumberFormat(i18n.language, { maximumFractionDigits: 4 }).format(value)
+    ? formatRegionalNumber(value, i18n.language, { maximumFractionDigits: 4 })
     : t(`spark.values.${value}`, String(value))}</span>;
   if (Array.isArray(value)) {
     if (!value.length) return <span>—</span>;

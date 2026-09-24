@@ -1,13 +1,11 @@
+import { formatRegionalDate } from '../../i18n/regional';
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FiActivity, FiArrowLeft, FiHeart, FiSave, FiShield, FiUser } from 'react-icons/fi';
 import { usePatient } from '../../context/PatientContext';
 import api from '../../services/api';
-import moment from 'moment';
-import 'moment/locale/es';
 import { useTranslation } from 'react-i18next';
 
-moment.locale('es');
 
 const CACHE_PREFIX = 'ineo_web_cache_enfermeria_vital_signs_';
 const CACHE_TTL = 2 * 60 * 1000;
@@ -53,7 +51,7 @@ function parseNumericValue(value) {
 
 export default function EnfermeriaVitalSignsScreen() {
   const { t, i18n } = useTranslation();
-  moment.locale(i18n.language === 'en' ? 'en' : 'es');
+
   const navigate = useNavigate();
   const location = useLocation();
   const { selectedPatient } = usePatient();
@@ -251,7 +249,7 @@ export default function EnfermeriaVitalSignsScreen() {
           ) : (
             history.map((item, index) => (
               <article key={item.id_signos || `${item.fecha_registro || 'sv'}-${index}`} style={styles.historyItem}>
-                <div style={styles.historyDate}>{moment(item.fecha_registro).format('DD/MM/YYYY HH:mm')}</div>
+                <div style={styles.historyDate}>{formatRegionalDate(item.fecha_registro, i18n.language, 'dateTime')}</div>
                 <div style={styles.historyGrid}>
                   {item.ta ? <div style={styles.metricCard}><span style={styles.metricLabel}>TA</span><strong>{item.ta}</strong></div> : null}
                   {item.fc !== undefined && item.fc !== null ? <div style={styles.metricCard}><span style={styles.metricLabel}>FC</span><strong>{item.fc}</strong></div> : null}

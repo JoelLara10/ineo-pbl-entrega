@@ -1,3 +1,4 @@
+import { formatRegionalDate } from '../../i18n/regional';
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
@@ -15,11 +16,8 @@ import {
 import { MdLocalHospital, MdMedication } from 'react-icons/md';
 import { usePatient } from '../../context/PatientContext';
 import api from '../../services/api';
-import moment from 'moment';
-import 'moment/locale/es';
 import { useTranslation } from 'react-i18next';
 
-moment.locale('es');
 
 const CACHE_PREFIX = 'ineo_web_cache_patient_detail_';
 const CACHE_TTL = 2 * 60 * 1000;
@@ -74,7 +72,7 @@ function calculateAge(fecnac) {
 
 export default function PatientDetailScreen() {
   const { t, i18n } = useTranslation();
-  moment.locale(i18n.language === 'en' ? 'en' : 'es');
+
   const navigate = useNavigate();
   const location = useLocation();
   const { id, idAtencion, idExp } = useParams();
@@ -245,7 +243,7 @@ export default function PatientDetailScreen() {
               <div style={styles.infoItem}>
                 <span style={styles.infoLabel}>{t('nursingDetail.admissionDate')}</span>
                 <strong style={styles.infoValue}>
-                  {patientData.fecha ? moment(patientData.fecha).format('DD/MM/YYYY') : 'N/A'}
+                  {patientData.fecha ? formatRegionalDate(patientData.fecha, i18n.language, 'date') : 'N/A'}
                 </strong>
               </div>
               <div style={styles.infoItem}>
