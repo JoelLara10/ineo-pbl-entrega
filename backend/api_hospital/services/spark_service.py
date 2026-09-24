@@ -1,10 +1,12 @@
 """Persistent Spark jobs; no patient identifiers leave the source projection."""
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta, timezone
+import importlib.util
 import json
 import math
 import os
 from pathlib import Path
+import shutil
 import signal
 import subprocess
 import sys
@@ -17,8 +19,21 @@ from utils.database import get_collection
 TYPES = ('analytics', 'met', 'clinical', 'unsupervised')
 VERSION = '1.0'
 EXECUTOR = ThreadPoolExecutor(max_workers=1, thread_name_prefix='ineo-spark')
-TIMEOUT = 180
+TIMEOUT = int(os.getenv('SPARK_TIMEOUT_SECONDS', '180'))
+JOB_TTL = int(os.getenv('SPARK_JOB_TTL_SECONDS', str(TIMEOUT + 60)))
 MAX_ROWS = 20000
+
+
+class SparkRuntimeError(RuntimeError):
+    """Safe, actionable runtime failure that may be returned to the UI."""
+
+
+def runtime_error():
+    if importlib.util.find_spec('pyspark') is None:
+        return 'PySpark no está instalado en la API. Instala requirements-spark.txt y reinicia el servicio.'
+    if not shutil.which('java'):
+        return 'Java no está disponible en la API. Instala Java 17 y configura JAVA_HOME.'
+    return None
 
 
 def now():
@@ -92,25 +107,37 @@ def collect_source(kind):
 
 def run_engine(kind, rows):
     """Isolate the JVM and kill its process group on timeout (Linux deployment)."""
+    unavailable = runtime_error()
+    if unavailable:
+        raise SparkRuntimeError(unavailable)
     with tempfile.TemporaryDirectory(prefix='ineo-spark-') as directory:
         source = Path(directory) / 'input.json'
         target = Path(directory) / 'output.json'
         source.write_text(json.dumps({'type': kind, 'rows': rows}), encoding='utf-8')
         process = subprocess.Popen(
             [sys.executable, str(Path(__file__).with_name('spark_engine.py')), str(source), str(target)],
-            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+            stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, text=True,
             start_new_session=os.name != 'nt')
         try:
-            process.wait(timeout=TIMEOUT)
+            _, stderr = process.communicate(timeout=TIMEOUT)
         except subprocess.TimeoutExpired:
             if os.name != 'nt':
                 os.killpg(process.pid, signal.SIGKILL)
             else:
                 process.kill()
-            process.wait()
-            raise
+            process.communicate()
+            raise SparkRuntimeError(
+                f'El análisis excedió el límite de {TIMEOUT} segundos. Inténtalo con menos datos.'
+            )
         if process.returncode != 0 or not target.exists():
-            raise RuntimeError('spark_execution_failed')
+            lowered = (stderr or '').lower()
+            if 'java_home' in lowered or 'java gateway' in lowered or 'java: not found' in lowered:
+                raise SparkRuntimeError('Java 17 no está configurado correctamente para ejecutar Spark.')
+            if 'no module named' in lowered and 'pyspark' in lowered:
+                raise SparkRuntimeError('PySpark no está instalado en la API.')
+            if process.returncode in (-9, 137) or 'outofmemory' in lowered or 'cannot allocate memory' in lowered:
+                raise SparkRuntimeError('El servidor no tiene memoria suficiente para ejecutar Spark.')
+            raise SparkRuntimeError('El motor Spark terminó inesperadamente. Revisa los logs del servicio.')
         return json.loads(target.read_text(encoding='utf-8'))
 
 
@@ -125,6 +152,8 @@ def execute(kind, job_id):
         result = run_engine(kind, collect_source(kind))
         result.update(contract_version=VERSION, timestamp=stamp(now()), visualizations=[])
         update = {'state': 'completed', 'result': result, 'error': None}
+    except SparkRuntimeError as error:
+        update = {'state': 'failed', 'error': str(error)}
     except Exception:
         # Do not publish source rows, paths, credentials or raw JVM logs.
         update = {'state': 'failed', 'error': 'No se pudo completar el análisis. Revisa el motor Spark y la fuente de datos.'}
@@ -141,7 +170,7 @@ def start(kind):
         {'_id': kind, 'state': {'$nin': ['pending', 'running']}},
         {'$set': {'job_id': job_id, 'state': 'pending', 'error': None,
                   'started_at': None, 'finished_at': None,
-                  'expires_at': now() + timedelta(seconds=TIMEOUT * len(TYPES) + 120)}},
+                  'expires_at': now() + timedelta(seconds=JOB_TTL)}},
         return_document=ReturnDocument.AFTER)
     if doc is None:
         return status_of(read_job(kind)), False
