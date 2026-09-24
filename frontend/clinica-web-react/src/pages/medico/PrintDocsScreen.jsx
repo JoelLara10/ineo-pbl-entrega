@@ -5,6 +5,7 @@ import { MdMedication, MdOutlineScreenshotMonitor } from 'react-icons/md';
 import { usePatient } from '../../context/PatientContext';
 import api from '../../services/api';
 import { useTranslation } from 'react-i18next';
+import { formatRegionalDate } from '../../i18n/regional';
 
 function getPatientName(patientInfo) {
   if (!patientInfo) return 'Paciente';
@@ -231,7 +232,7 @@ export default function PrintDocsScreen() {
                           <span style={styles.historyMeta}>{t('printDocs.historyIds', { idExp: entry.idExp, idAtencion: entry.idAtencion })}</span>
                         </div>
                         <time style={styles.historyDate} dateTime={entry.printedAt}>
-                          {new Intl.DateTimeFormat(i18n.language, { dateStyle: 'short', timeStyle: 'short' }).format(new Date(entry.printedAt))}
+                          {formatRegionalDate(entry.printedAt, i18n.language, 'dateTime')}
                         </time>
                       </div>
                     );

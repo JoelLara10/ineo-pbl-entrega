@@ -1,7 +1,25 @@
-from datetime import datetime, timezone
-import threading
+"""Persistent Spark jobs; no patient identifiers leave the source projection.
 
-from services.analytics_service import AnalyticsService
+Resolución de merge:
+- Se conserva la interfaz de clase `SparkService` (usada por routes/spark.py).
+- Se adopta el motor PySpark vía subprocess (`spark_engine.py`) de origin/main.
+- Se añade expiración de jobs y manejo seguro de errores (no filtra rutas,
+  credenciales ni logs crudos de la JVM).
+"""
+from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime, timedelta, timezone
+import json
+import math
+import os
+from pathlib import Path
+import signal
+import subprocess
+import sys
+import tempfile
+from uuid import uuid4
+
+from pymongo import ReturnDocument
+
 from utils.database import get_collection
 
 
@@ -18,19 +36,26 @@ class SparkNotImplemented(ValueError):
 
 
 class SparkService:
+    VERSION = '1.0'
     ALLOWED_TYPES = ('analytics', 'met', 'clinical', 'unsupervised')
     IMPLEMENTED_TYPES = ('clinical',)
     COLLECTION = 'spark_jobs'
-    JOB_TIMEOUT_SECONDS = 60
-    _lock = threading.Lock()
+    JOB_TIMEOUT_SECONDS = 180
+    MAX_ROWS = 20000
+
+    _executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix='ineo-spark')
+
+    # --- API pública -------------------------------------------------------
 
     @classmethod
     def get_overview(cls):
         overview = {}
         for analysis_type in cls.ALLOWED_TYPES:
-            status = cls.get_status(analysis_type)
-            result = cls.get_result(analysis_type)
+            job = cls._read_job(analysis_type)
+            status = cls._status_payload(analysis_type, job)
+            result = (job or {}).get('result') or cls._empty_result(analysis_type)
             overview[analysis_type] = {
+                'contract_version': cls.VERSION,
                 'available': bool(result.get('available')),
                 'state': status['state'],
             }
@@ -39,17 +64,13 @@ class SparkService:
     @classmethod
     def get_status(cls, analysis_type):
         cls._assert_allowed(analysis_type)
-        job = cls._read_job(analysis_type)
-        return cls._status_payload(analysis_type, job)
+        return cls._status_payload(analysis_type, cls._read_job(analysis_type))
 
     @classmethod
     def get_result(cls, analysis_type):
         cls._assert_allowed(analysis_type)
         job = cls._read_job(analysis_type)
-        result = (job or {}).get('result')
-        if result:
-            return result
-        return cls._empty_result(analysis_type)
+        return (job or {}).get('result') or cls._empty_result(analysis_type)
 
     @classmethod
     def run(cls, analysis_type, requested_by=None, role=None):
@@ -57,88 +78,168 @@ class SparkService:
         if analysis_type not in cls.IMPLEMENTED_TYPES:
             raise SparkNotImplemented('Tipo de análisis no implementado en PBL-03')
 
-        with cls._lock:
-            current = cls._read_job(analysis_type) or {}
-            if current.get('running') or current.get('state') == 'processing':
-                raise SparkJobConflict('El análisis clínico ya se está procesando')
+        collection = get_collection(cls.COLLECTION)
+        collection.update_one(
+            {'_id': analysis_type},
+            {'$setOnInsert': {'state': 'idle'}},
+            upsert=True,
+        )
+        cls._expire_stale(analysis_type)
 
-            started_at = cls._now()
-            job = {
+        job_id = str(uuid4())
+        doc = collection.find_one_and_update(
+            {'_id': analysis_type, 'state': {'$nin': ['pending', 'running']}},
+            {'$set': {
                 'type': analysis_type,
-                'state': 'processing',
-                'running': True,
-                'started_at': started_at,
-                'finished_at': None,
+                'job_id': job_id,
+                'state': 'pending',
+                'error': None,
                 'log': None,
-                'result': current.get('result'),
+                'started_at': None,
+                'finished_at': None,
                 'requested_by': requested_by,
                 'role': role,
-            }
-            cls._write_job(analysis_type, job)
-
-        cls._launch(analysis_type)
-        return {'status': cls._status_payload(analysis_type, job)}
-
-    @classmethod
-    def _launch(cls, analysis_type):
-        thread = threading.Thread(
-            target=cls._execute_clinical,
-            args=(analysis_type,),
-            daemon=True,
-            name=f'spark-{analysis_type}',
+                'expires_at': cls._now() + timedelta(
+                    seconds=cls.JOB_TIMEOUT_SECONDS + 120
+                ),
+            }},
+            return_document=ReturnDocument.AFTER,
         )
-        thread.start()
+        if doc is None:
+            raise SparkJobConflict('El análisis clínico ya se está procesando')
+
+        try:
+            cls._executor.submit(cls._execute, analysis_type, job_id)
+        except RuntimeError as error:
+            collection.update_one(
+                {'_id': analysis_type, 'job_id': job_id},
+                {'$set': {'state': 'failed',
+                          'error': 'Ejecutor no disponible.'}},
+            )
+            raise SparkNotImplemented('Ejecutor no disponible') from error
+
+        return {
+            'contract_version': cls.VERSION,
+            'status': cls._status_payload(analysis_type, doc),
+        }
+
+    # --- Ejecución asíncrona ----------------------------------------------
 
     @classmethod
-    def _execute_clinical(cls, analysis_type):
-        box = {}
-
-        def work():
-            try:
-                box['data'] = AnalyticsService.get_clinical_analytics()
-            except Exception as error:
-                box['error'] = error
-
-        worker = threading.Thread(target=work, daemon=True, name=f'spark-{analysis_type}-work')
-        worker.start()
-        worker.join(cls.JOB_TIMEOUT_SECONDS)
-
-        finished_at = cls._now()
-        current = cls._read_job(analysis_type) or {'type': analysis_type}
-
-        if worker.is_alive() or 'error' in box:
-            log = 'Tiempo de espera agotado al ejecutar el análisis clínico'
-            if 'error' in box:
-                log = cls._safe_log(box['error'])
-            current.update({
-                'state': 'failed',
-                'running': False,
-                'finished_at': finished_at,
-                'log': log,
-                'result': cls._empty_result(analysis_type, timestamp=finished_at),
-            })
-            cls._write_job(analysis_type, current)
+    def _execute(cls, analysis_type, job_id):
+        collection = get_collection(cls.COLLECTION)
+        claimed = collection.update_one(
+            {'_id': analysis_type, 'job_id': job_id,
+             'state': 'pending', 'expires_at': {'$gt': cls._now()}},
+            {'$set': {'state': 'running', 'started_at': cls._now()}},
+        )
+        if not claimed.modified_count:
             return
 
-        payload = box.get('data') or {}
-        available = cls._has_clinical_content(payload)
-        result = {
-            'available': available,
-            'timestamp': finished_at,
-            'type': analysis_type,
-            'top_diagnosis': payload.get('top_diagnosis') or [],
-            'age_distribution': payload.get('age_distribution') or [],
-            'average_stay_days': payload.get('average_stay_days', 0),
-            'visualizations': [],
-        }
-        current.update({
-            'state': 'completed',
-            'running': False,
-            'finished_at': finished_at,
-            'log': None,
-            'result': result,
-        })
-        cls._write_job(analysis_type, current)
+        try:
+            rows = cls._collect_source(analysis_type)
+            result = cls._run_engine(analysis_type, rows)
+            result.update(
+                contract_version=cls.VERSION,
+                timestamp=cls._stamp(cls._now()),
+                visualizations=[],
+            )
+            update = {'state': 'completed', 'result': result,
+                      'error': None, 'log': None}
+        except Exception as error:
+            # No publicar filas, rutas, credenciales ni logs crudos de la JVM.
+            update = {
+                'state': 'failed',
+                'result': cls._empty_result(analysis_type),
+                'error': 'No se pudo completar el análisis. '
+                         'Revisa el motor Spark y la fuente de datos.',
+                'log': cls._safe_log(error),
+            }
+        update['finished_at'] = cls._now()
+        collection.update_one(
+            {'_id': analysis_type, 'job_id': job_id, 'state': 'running'},
+            {'$set': update},
+        )
+
+    @classmethod
+    def _collect_source(cls, analysis_type):
+        """Proyección acotada; falla si excede MAX_ROWS en lugar de truncar."""
+        clinical = analysis_type in ('clinical', 'unsupervised')
+        fields = ('fc', 'fr', 'temp', 'spo2') if clinical else ('status', 'fecha_ing')
+        source = 'signos_vitales' if clinical else 'atencion'
+
+        docs = list(
+            get_collection(source)
+            .find({}, {'_id': 0, **{f: 1 for f in fields}})
+            .limit(cls.MAX_ROWS + 1)
+        )
+        if len(docs) > cls.MAX_ROWS:
+            raise ValueError('dataset_limit')
+
+        rows = []
+        for doc in docs:
+            if clinical:
+                row = {}
+                for field in fields:
+                    raw = doc.get(field)
+                    try:
+                        value = float(raw)
+                        row[field] = (
+                            value
+                            if math.isfinite(value) and not isinstance(raw, bool)
+                            else None
+                        )
+                    except (TypeError, ValueError):
+                        row[field] = None
+                rows.append(row)
+            else:
+                date = doc.get('fecha_ing')
+                if isinstance(date, str):
+                    try:
+                        date = datetime.fromisoformat(date.replace('Z', '+00:00'))
+                    except ValueError:
+                        date = None
+                rows.append({
+                    'day': date.date().isoformat()
+                           if isinstance(date, datetime) else None,
+                    'status': doc.get('status')
+                              if doc.get('status') in ('ABIERTA', 'CERRADA')
+                              else 'OTRO',
+                })
+        return rows
+
+    @classmethod
+    def _run_engine(cls, analysis_type, rows):
+        """Aísla la JVM y mata el grupo de procesos al expirar (Linux)."""
+        with tempfile.TemporaryDirectory(prefix='ineo-spark-') as directory:
+            source = Path(directory) / 'input.json'
+            target = Path(directory) / 'output.json'
+            source.write_text(
+                json.dumps({'type': analysis_type, 'rows': rows}),
+                encoding='utf-8',
+            )
+            process = subprocess.Popen(
+                [sys.executable,
+                 str(Path(__file__).with_name('spark_engine.py')),
+                 str(source), str(target)],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                start_new_session=os.name != 'nt',
+            )
+            try:
+                process.wait(timeout=cls.JOB_TIMEOUT_SECONDS)
+            except subprocess.TimeoutExpired:
+                if os.name != 'nt':
+                    os.killpg(process.pid, signal.SIGKILL)
+                else:
+                    process.kill()
+                process.wait()
+                raise RuntimeError('spark_timeout')
+            if process.returncode != 0 or not target.exists():
+                raise RuntimeError('spark_execution_failed')
+            return json.loads(target.read_text(encoding='utf-8'))
+
+    # --- Helpers -----------------------------------------------------------
 
     @classmethod
     def _assert_allowed(cls, analysis_type):
@@ -147,63 +248,71 @@ class SparkService:
 
     @classmethod
     def _read_job(cls, analysis_type):
-        document = get_collection(cls.COLLECTION).find_one({'type': analysis_type})
+        cls._expire_stale(analysis_type)
+        document = get_collection(cls.COLLECTION).find_one({'_id': analysis_type})
         if not document:
             return None
         document.pop('_id', None)
         return document
 
     @classmethod
-    def _write_job(cls, analysis_type, job):
-        payload = dict(job)
-        payload['type'] = analysis_type
-        payload.pop('_id', None)
+    def _expire_stale(cls, analysis_type):
         get_collection(cls.COLLECTION).update_one(
-            {'type': analysis_type},
-            {'$set': payload},
-            upsert=True,
+            {'_id': analysis_type,
+             'state': {'$in': ['pending', 'running']},
+             'expires_at': {'$lte': cls._now()}},
+            {'$set': {
+                'state': 'failed',
+                'finished_at': cls._now(),
+                'error': 'La ejecución fue interrumpida. Vuelve a ejecutarla.',
+            }},
         )
 
     @classmethod
     def _status_payload(cls, analysis_type, job):
         job = job or {}
-        state = job.get('state') or 'pending'
-        running = bool(job.get('running')) and state == 'processing'
+        state = job.get('state') or 'idle'
         return {
+            'contract_version': cls.VERSION,
             'state': state,
-            'running': running,
+            'running': state in ('pending', 'running'),
+            'job_id': job.get('job_id'),
             'type': analysis_type,
-            'started_at': job.get('started_at'),
-            'finished_at': job.get('finished_at'),
+            'started_at': cls._stamp(job.get('started_at')),
+            'finished_at': cls._stamp(job.get('finished_at')),
             'log': job.get('log'),
+            'error': job.get('error'),
         }
 
     @classmethod
-    def _empty_result(cls, analysis_type, timestamp=None):
+    def _empty_result(cls, analysis_type):
         return {
+            'contract_version': cls.VERSION,
             'available': False,
-            'timestamp': timestamp,
+            'timestamp': None,
             'type': analysis_type,
             'visualizations': [],
+            'summary': {},
+            'metrics': [],
+            'clusters': [],
+            'pca': {},
+            'quality': {},
         }
 
     @staticmethod
-    def _has_clinical_content(payload):
-        if payload.get('top_diagnosis'):
-            return True
-        if payload.get('age_distribution'):
-            return True
-        stay = payload.get('average_stay_days')
-        return isinstance(stay, (int, float)) and stay > 0
+    def _now():
+        return datetime.now(timezone.utc)
 
     @staticmethod
-    def _now():
-        return datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')
+    def _stamp(value):
+        if isinstance(value, datetime):
+            if value.tzinfo is None:
+                value = value.replace(tzinfo=timezone.utc)
+            return value.isoformat()
+        return value
 
     @staticmethod
     def _safe_log(error):
         text = str(error) or error.__class__.__name__
         text = text.replace('\n', ' ').strip()
-        if len(text) > 500:
-            text = text[:500]
-        return text
+        return text[:500]

@@ -16,7 +16,6 @@ const LoginScreen = () => {
 
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
-    localStorage.setItem('@ineo_lang', lng);
   };
 
   const handleLogin = async () => {

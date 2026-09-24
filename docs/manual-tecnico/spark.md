@@ -1,4 +1,21 @@
-# Manual técnico — Integración Spark (PBL-03)
+# Manual técnico — Spark
+
+## Actualización Sprint 7
+
+El backend ya incorpora rutas, contratos versionados, procesamiento PySpark real,
+persistencia de estados/resultados y pruebas. Consultar:
+
+- [Contrato v1](../../contracts/v1/README.md)
+- [Ambiente reproducible y requisitos Java/PySpark](../sprints/sprint-7/ambiente-pruebas.md)
+- [Análisis y alcance de Zahid](../sprints/sprint-7/analisis-zahid.md)
+- [Entrega y evidencia](../sprints/sprint-7/entrega-zahid.md)
+
+El despliegue en producción y UAT no forman parte de esta actualización.
+
+---
+
+## Diagnóstico histórico — Sprint 5 (anterior a esta implementación)
+
 
 **Sistema:** INEO — React y API Hospital  
 **Sprint:** 7  
@@ -108,3 +125,4 @@ npm test
 ```
 
 Flujo manual: login admin o médico → `/admin/spark/clinical` → pendiente → ejecutar → procesando → completado con datos (o vacío si Mongo no tiene agregados).
+

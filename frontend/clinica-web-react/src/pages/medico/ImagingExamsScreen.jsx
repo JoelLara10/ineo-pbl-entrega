@@ -1,3 +1,4 @@
+import { formatRegionalDate } from '../../i18n/regional';
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FiArrowLeft, FiChevronDown, FiChevronUp, FiClock, FiRefreshCw, FiSave, FiShield, FiUser } from 'react-icons/fi';
@@ -5,8 +6,6 @@ import { MdOutlineScreenshotMonitor } from 'react-icons/md';
 import { usePatient } from '../../context/PatientContext';
 import api from '../../services/api';
 import { useTranslation } from 'react-i18next';
-import moment from 'moment';
-import 'moment/locale/es';
 
 const CATALOG_CACHE = 'ineo_web_cache_imaging_catalog';
 const HISTORY_PREFIX = 'ineo_web_cache_imaging_history_';
@@ -41,7 +40,7 @@ function setCachedValue(key, data, ttl) {
 
 export default function ImagingExamsScreen() {
   const { t, i18n } = useTranslation();
-  moment.locale(i18n.language === 'en' ? 'en' : 'es');
+
   const navigate = useNavigate();
   const location = useLocation();
   const { selectedPatient } = usePatient();
@@ -246,7 +245,7 @@ export default function ImagingExamsScreen() {
           <div style={styles.historyBody}>
             {loadingHistory ? <div style={styles.statusBox}>{t('imagingExams.loadingHistory')}</div> : history.length === 0 ? <div style={styles.statusBox}>{t('imagingExams.noRequests')}</div> : history.map((item, index) => (
               <article key={item.id_examen || `${item.fecha || 'gab'}-${index}`} style={styles.historyItem}>
-                <div style={styles.historyDate}>{moment(item.fecha_solicitud || item.fecha).format('DD/MM/YYYY HH:mm')}</div>
+                <div style={styles.historyDate}>{formatRegionalDate(item.fecha_solicitud || item.fecha, i18n.language, 'dateTime')}</div>
                 <div style={styles.historyDoctor}>Dr. {item.medico || item.medico_nombre || 'No especificado'}</div>
                 <div style={styles.historyExams}>
                   {(Array.isArray(item.examenes) ? item.examenes : []).map((exam, examIndex) => <span key={`${exam}-${examIndex}`} style={styles.historyExamChip}>{exam}</span>)}

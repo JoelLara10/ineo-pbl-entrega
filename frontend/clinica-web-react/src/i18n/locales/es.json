@@ -963,18 +963,32 @@
     "runError": "No fue posible iniciar el análisis.",
     "executionFailed": "La ejecución del análisis falló",
     "types": {
-      "analytics": { "title": "Analítica general", "description": "Indicadores generales y tendencias operativas." },
-      "met": { "title": "Métricas MET", "description": "Métricas de desempeño y evolución temporal." },
-      "clinical": { "title": "Analítica clínica", "description": "Indicadores clínicos derivados de la información hospitalaria." },
-      "unsupervised": { "title": "Análisis no supervisado", "description": "Agrupaciones y patrones detectados en los datos." }
+      "analytics": {
+        "title": "Analítica general",
+        "description": "Indicadores generales y tendencias operativas."
+      },
+      "met": {
+        "title": "Métricas MET",
+        "description": "Métricas de desempeño y evolución temporal."
+      },
+      "clinical": {
+        "title": "Analítica clínica",
+        "description": "Indicadores clínicos derivados de la información hospitalaria."
+      },
+      "unsupervised": {
+        "title": "Análisis no supervisado",
+        "description": "Agrupaciones y patrones detectados en los datos."
+      }
     },
     "sections": {
       "summary": "Resumen",
       "metrics": "Métricas",
       "trends": "Tendencias",
       "predictions": "Predicciones",
-      "clusters": "Grupos detectados",
-      "recommendations": "Recomendaciones"
+      "clusters": "Grupos exploratorios",
+      "recommendations": "Recomendaciones",
+      "quality": "Calidad de los datos",
+      "pca": "PCA exploratorio"
     },
     "states": {
       "loading": {
@@ -1028,6 +1042,50 @@
       "error": {
         "title": "No se pudo completar la consulta"
       }
+
+    },
+    "fields": {
+      "total": "Total",
+      "status": "Estado",
+      "count": "Cantidad",
+      "day": "Día",
+      "measure": "Medición",
+      "mean": "Promedio",
+      "minimum": "Mínimo",
+      "maximum": "Máximo",
+      "fc": "Frecuencia cardíaca (lat/min)",
+      "fr": "Frecuencia respiratoria (resp/min)",
+      "temp": "Temperatura (°C)",
+      "spo2": "Saturación de oxígeno (%)",
+      "groups": "Grupos",
+      "cluster": "Grupo",
+      "means": "Promedios",
+      "features": "Variables",
+      "explained_variance": "Varianza explicada",
+      "components": "Componentes",
+      "seed": "Semilla",
+      "standardized": "Estandarizado",
+      "candidates": "Modelos evaluados",
+      "selected_k": "Número de grupos seleccionado",
+      "k": "Número de grupos",
+      "silhouette": "Silueta",
+      "inertia": "Inercia",
+      "source_rows": "Registros de origen",
+      "used_rows": "Registros utilizados",
+      "excluded_rows": "Registros excluidos",
+      "reason": "Motivo"
+    },
+    "values": {
+      "fc": "Frecuencia cardíaca (lat/min)",
+      "fr": "Frecuencia respiratoria (resp/min)",
+      "temp": "Temperatura (°C)",
+      "spo2": "Saturación de oxígeno (%)",
+      "ABIERTA": "Abierta",
+      "CERRADA": "Cerrada",
+      "OTRO": "Otro",
+      "true": "Sí",
+      "false": "No",
+      "insufficient_complete_distinct_rows": "Se requieren al menos cuatro registros completos y tres valores distintos."
     }
   },
   "administrative": {

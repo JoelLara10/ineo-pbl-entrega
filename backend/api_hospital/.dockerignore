@@ -1,0 +1,12 @@
+.env*
+!.env.example
+venv
+.venv
+__pycache__
+.pytest_cache
+.coverage
+uploads
+backups
+static/resultados
+test-results.xml
+spark-results.xml

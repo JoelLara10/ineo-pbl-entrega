@@ -9,6 +9,9 @@ venv/
 __pycache__/
 *.pyc
 .pytest_cache/
+.coverage
+test-results.xml
+spark-results.xml
 
 # Node
 node_modules/

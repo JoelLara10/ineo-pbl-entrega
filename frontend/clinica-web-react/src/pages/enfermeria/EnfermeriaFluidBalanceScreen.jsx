@@ -1,17 +1,15 @@
+import { formatRegionalDate } from '../../i18n/regional';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FiArrowLeft, FiClock, FiRefreshCw, FiSave, FiShield, FiUser } from 'react-icons/fi';
 import { usePatient } from '../../context/PatientContext';
 import api from '../../services/api';
-import moment from 'moment';
-import 'moment/locale/es';
 import { useTranslation } from 'react-i18next';
 
-moment.locale('es');
 
 export default function EnfermeriaFluidBalanceScreen() {
   const { t, i18n } = useTranslation();
-  moment.locale(i18n.language === 'en' ? 'en' : 'es');
+
   const navigate = useNavigate();
   const location = useLocation();
   const { selectedPatient } = usePatient();
@@ -130,7 +128,7 @@ export default function EnfermeriaFluidBalanceScreen() {
         ) : (
           history.map((item, index) => (
             <article key={item.id_balance || index} style={styles.historyItem}>
-              <div style={styles.historyDate}>{moment(item.fecha_registro).format('DD/MM/YYYY HH:mm')} - Enf. {item.enfermero_nombre || t('nursingFluidBalance.notSpecified')}</div>
+              <div style={styles.historyDate}>{formatRegionalDate(item.fecha_registro, i18n.language, 'dateTime')} - Enf. {item.enfermero_nombre || t('nursingFluidBalance.notSpecified')}</div>
               <div style={styles.historyText}>{t('nursingFluidBalance.inputsLabel') + ' '}{item.total_ingresos || 0} ml</div>
               <div style={styles.historyText}>{t('nursingFluidBalance.outputsLabel') + ' '}{item.total_egresos || 0} ml</div>
               <div style={styles.historyText}>{t('nursingFluidBalance.netBalance') + ' '}{item.balance_neto || 0} ml</div>

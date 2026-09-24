@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="35" failures="0" errors="0" time="0.880340568">
+    <testsuite name="src/tests/pbl06-language.test.jsx" timestamp="2026-09-24T15:36:22.634Z" hostname="2ab271df7bd3" tests="14" failures="0" errors="0" skipped="0" time="0.650249637">
+        <testcase classname="src/tests/pbl06-language.test.jsx" name="PBL-06-T1 — persistencia de idioma y formato regional &gt; cambia textos, fecha y moneda en la misma pantalla mediante los botones reales ES/EN" time="0.40796379">
+        </testcase>
+        <testcase classname="src/tests/pbl06-language.test.jsx" name="PBL-06-T1 — persistencia de idioma y formato regional &gt; restaura inglés en una nueva sesión después de cerrar sesión y remontar la aplicación" time="0.182655358">
+        </testcase>
+        <testcase classname="src/tests/pbl06-language.test.jsx" name="PBL-06-T1 — persistencia de idioma y formato regional &gt; persiste también cambios de idioma hechos fuera del login" time="0.003749597">
+        </testcase>
+        <testcase classname="src/tests/pbl06-language.test.jsx" name="PBL-06-T1 — persistencia de idioma y formato regional &gt; normaliza la preferencia almacenada en-US a en" time="0.002117455">
+        </testcase>
+        <testcase classname="src/tests/pbl06-language.test.jsx" name="PBL-06-T1 — persistencia de idioma y formato regional &gt; normaliza la preferencia almacenada es-MX a es" time="0.001600307">
+        </testcase>
+        <testcase classname="src/tests/pbl06-language.test.jsx" name="PBL-06-T1 — persistencia de idioma y formato regional &gt; normaliza la preferencia almacenada incorrecto a es" time="0.00393138">
+        </testcase>
+        <testcase classname="src/tests/pbl06-language.test.jsx" name="PBL-06-T1 — persistencia de idioma y formato regional &gt; normaliza la preferencia almacenada  a es" time="0.007998914">
+        </testcase>
+        <testcase classname="src/tests/pbl06-language.test.jsx" name="PBL-06-T1 — persistencia de idioma y formato regional &gt; continúa traduciendo si el navegador bloquea la lectura y escritura de almacenamiento" time="0.009206264">
+        </testcase>
+        <testcase classname="src/tests/pbl06-language.test.jsx" name="PBL-06-T1 — persistencia de idioma y formato regional &gt; conserva la fecha de calendario y utiliza el orden regional" time="0.002933261">
+        </testcase>
+        <testcase classname="src/tests/pbl06-language.test.jsx" name="PBL-06-T1 — persistencia de idioma y formato regional &gt; localiza fechas y horas de estilo dateTime" time="0.007304229">
+        </testcase>
+        <testcase classname="src/tests/pbl06-language.test.jsx" name="PBL-06-T1 — persistencia de idioma y formato regional &gt; localiza fechas y horas de estilo long" time="0.002478837">
+        </testcase>
+        <testcase classname="src/tests/pbl06-language.test.jsx" name="PBL-06-T1 — persistencia de idioma y formato regional &gt; localiza fechas y horas de estilo longDateTime" time="0.004039499">
+        </testcase>
+        <testcase classname="src/tests/pbl06-language.test.jsx" name="PBL-06-T1 — persistencia de idioma y formato regional &gt; localiza fechas y horas de estilo short" time="0.002185454">
+        </testcase>
+        <testcase classname="src/tests/pbl06-language.test.jsx" name="PBL-06-T1 — persistencia de idioma y formato regional &gt; formatea cantidades en es-MX/en-US sin confundir México con España" time="0.003294748">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/tests/project-structure.test.js" timestamp="2026-09-24T15:36:22.646Z" hostname="2ab271df7bd3" tests="10" failures="0" errors="0" skipped="0" time="0.024702425">
+        <testcase classname="src/tests/project-structure.test.js" name="Estructura principal de INEO Web &gt; debe incluir src/main.jsx" time="0.006617647">
+        </testcase>
+        <testcase classname="src/tests/project-structure.test.js" name="Estructura principal de INEO Web &gt; debe incluir src/router/AppRouter.jsx" time="0.000593208">
+        </testcase>
+        <testcase classname="src/tests/project-structure.test.js" name="Estructura principal de INEO Web &gt; debe incluir src/context/AuthContext.jsx" time="0.000637141">
+        </testcase>
+        <testcase classname="src/tests/project-structure.test.js" name="Estructura principal de INEO Web &gt; debe incluir src/context/PatientContext.jsx" time="0.000576819">
+        </testcase>
+        <testcase classname="src/tests/project-structure.test.js" name="Estructura principal de INEO Web &gt; debe incluir el módulo src/pages/administrativo" time="0.000658091">
+        </testcase>
+        <testcase classname="src/tests/project-structure.test.js" name="Estructura principal de INEO Web &gt; debe incluir el módulo src/pages/enfermeria" time="0.000522361">
+        </testcase>
+        <testcase classname="src/tests/project-structure.test.js" name="Estructura principal de INEO Web &gt; debe incluir el módulo src/pages/medico" time="0.000535325">
+        </testcase>
+        <testcase classname="src/tests/project-structure.test.js" name="Estructura principal de INEO Web &gt; debe incluir el módulo src/pages/estudios" time="0.000561496">
+        </testcase>
+        <testcase classname="src/tests/project-structure.test.js" name="Estructura principal de INEO Web &gt; debe conservar la configuración de la API" time="0.001863268">
+        </testcase>
+        <testcase classname="src/tests/project-structure.test.js" name="Estructura principal de INEO Web &gt; debe incluir rutas protegidas" time="0.001237397">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/tests/sprint1-joel.test.js" timestamp="2026-09-24T15:36:22.652Z" hostname="2ab271df7bd3" tests="3" failures="0" errors="0" skipped="0" time="0.025980415">
+        <testcase classname="src/tests/sprint1-joel.test.js" name="Tareas de Joel del Sprint 1 &gt; PBL-01-T2 registra el panel y los cuatro módulos Spark" time="0.012190244">
+        </testcase>
+        <testcase classname="src/tests/sprint1-joel.test.js" name="Tareas de Joel del Sprint 1 &gt; PBL-04-T2 presenta estados con acciones de recuperación" time="0.001639223">
+        </testcase>
+        <testcase classname="src/tests/sprint1-joel.test.js" name="Tareas de Joel del Sprint 1 &gt; PBL-05-T3 mantiene las claves Spark equivalentes en ambos idiomas" time="0.008810487">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/tests/sprint7-zahid.test.jsx" timestamp="2026-09-24T15:36:22.655Z" hostname="2ab271df7bd3" tests="8" failures="0" errors="0" skipped="0" time="0.179408091">
+        <testcase classname="src/tests/sprint7-zahid.test.jsx" name="Sprint 7 — Zahid: PBL-05-T5 y contrato consumidor Spark &gt; traduce todas las claves estáticas y dinámicas de Spark" time="0.041931217">
+        </testcase>
+        <testcase classname="src/tests/sprint7-zahid.test.jsx" name="Sprint 7 — Zahid: PBL-05-T5 y contrato consumidor Spark &gt; renderiza etiquetas y medidas reales en es" time="0.115414186">
+        </testcase>
+        <testcase classname="src/tests/sprint7-zahid.test.jsx" name="Sprint 7 — Zahid: PBL-05-T5 y contrato consumidor Spark &gt; renderiza etiquetas y medidas reales en en" time="0.006922279">
+        </testcase>
+        <testcase classname="src/tests/sprint7-zahid.test.jsx" name="Sprint 7 — Zahid: PBL-05-T5 y contrato consumidor Spark &gt; consume las rutas y formatos de analytics" time="0.002735754">
+        </testcase>
+        <testcase classname="src/tests/sprint7-zahid.test.jsx" name="Sprint 7 — Zahid: PBL-05-T5 y contrato consumidor Spark &gt; consume las rutas y formatos de met" time="0.001120681">
+        </testcase>
+        <testcase classname="src/tests/sprint7-zahid.test.jsx" name="Sprint 7 — Zahid: PBL-05-T5 y contrato consumidor Spark &gt; consume las rutas y formatos de clinical" time="0.001219181">
+        </testcase>
+        <testcase classname="src/tests/sprint7-zahid.test.jsx" name="Sprint 7 — Zahid: PBL-05-T5 y contrato consumidor Spark &gt; consume las rutas y formatos de unsupervised" time="0.001191575">
+        </testcase>
+        <testcase classname="src/tests/sprint7-zahid.test.jsx" name="Sprint 7 — Zahid: PBL-05-T5 y contrato consumidor Spark &gt; propaga errores de API para que la pantalla permita reintentar" time="0.003462663">
+        </testcase>
+    </testsuite>
+</testsuites>

@@ -61,7 +61,8 @@ def create_app():
     app.register_blueprint(spark_bp, url_prefix=f'{config.API_PREFIX}/spark')
 
     # Iniciar tareas automáticas después de registrar las rutas.
-    init_scheduler(app)
+    if os.getenv('ENABLE_SCHEDULER', 'true').lower() == 'true':
+        init_scheduler(app)
     
 
     @app.before_request

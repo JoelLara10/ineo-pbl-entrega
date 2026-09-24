@@ -1,10 +1,9 @@
+import { formatRegionalDate } from '../../i18n/regional';
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FiArrowLeft, FiChevronDown, FiChevronUp, FiClock, FiFileText, FiRefreshCw, FiSave, FiShield, FiUser } from 'react-icons/fi';
 import { usePatient } from '../../context/PatientContext';
 import api from '../../services/api';
-import moment from 'moment';
-import 'moment/locale/es';
 import { useTranslation } from 'react-i18next';
 
 const CACHE_PREFIX = 'ineo_web_cache_medical_notes_';
@@ -50,9 +49,6 @@ export default function MedicalNoteScreen() {
   const [errorMessage, setErrorMessage] = useState('');
   const [formData, setFormData] = useState({ subjetivo: '', objetivo: '', analisis: '', plan: '' });
 
-  useEffect(() => {
-    moment.locale(i18n.language === 'en' ? 'en' : 'es');
-  }, [i18n.language]);
 
   const patientLabel = useMemo(() => `Exp: ${idExp || 'N/A'} | Atención: ${idAtencion || 'N/A'}`, [idAtencion, idExp]);
 
@@ -188,7 +184,7 @@ export default function MedicalNoteScreen() {
           <div style={styles.historyBody}>
             {loadingHistory ? <div style={styles.statusBox}>{t('medicalSoap.loadingHistory')}</div> : history.length === 0 ? <div style={styles.statusBox}>{t('medicalSoap.noNotes')}</div> : history.map((item, index) => (
               <article key={item.id_nota || `${item.fecha_registro || 'note'}-${index}`} style={styles.historyItem}>
-                <div style={styles.historyHeader}><div style={styles.historyBadge}>{moment(item.fecha_registro).format('DD/MM')}</div><div><div style={styles.historyDate}>{moment(item.fecha_registro).format('dddd, D [de] MMMM [de] YYYY [a las] HH:mm')}</div><div style={styles.historyAuthor}>Dr. {item.id_medico || 'No especificado'}</div></div></div>
+                <div style={styles.historyHeader}><div style={styles.historyBadge}>{formatRegionalDate(item.fecha_registro, i18n.language, 'short')}</div><div><div style={styles.historyDate}>{formatRegionalDate(item.fecha_registro, i18n.language, 'longDateTime')}</div><div style={styles.historyAuthor}>Dr. {item.id_medico || 'No especificado'}</div></div></div>
                 {sections.map((section) => item[section.key] ? <div key={section.key} style={styles.historyFieldBlock}><div style={styles.historyFieldLabel}>{section.label}</div><p style={styles.historyFieldValue}>{item[section.key]}</p></div> : null)}
               </article>
             ))}
