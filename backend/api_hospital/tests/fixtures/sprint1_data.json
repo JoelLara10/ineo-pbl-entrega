@@ -6,9 +6,8 @@
   },
   "users": [
     {"id": "USR-TEST-ADMIN", "username": "admin.test", "role": "admin"},
-    {"id": "USR-TEST-ADMINIST", "username": "administrativo.test", "role": "administrativo"},
     {"id": "USR-TEST-MED", "username": "medico.test", "role": "medico"},
-    {"id": "USR-TEST-NURSE", "username": "enfermero.test", "role": "enfermero"},
+    {"id": "USR-TEST-NURSE", "username": "enfermero.test", "role": "enfermeria"},
     {"id": "USR-TEST-STUDIES", "username": "estudios.test", "role": "estudios"}
   ],
   "patients": [
