@@ -22,6 +22,7 @@ describe('Tareas de Joel del Sprint 1', () => {
     expect(analysis).toContain("spark.states.notRun.action");
     expect(analysis).toContain("spark.states.empty.action");
     expect(analysis).toContain("spark.states.failed.action");
+    expect(analysis).toContain("status.error || t('spark.states.failed.hint')");
     expect(analysis).toContain("spark.states.processing.hint");
     expect(analysis).toContain("common.retry");
     expect(dashboard).toContain("spark.states.offline.hint");
