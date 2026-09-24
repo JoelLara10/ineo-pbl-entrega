@@ -40,3 +40,23 @@ def test_mutations_do_not_escape_isolated_test(isolated_database):
     isolated_database.pacientes.delete_many({})
     isolated_database.spark_jobs.insert_one({'_id': 'synthetic-only'})
     assert isolated_database.users.count_documents({}) == 0
+
+
+def test_image_contract_accepts_synthetic_relative_url_and_rejects_external_url():
+    from jsonschema import ValidationError
+    from tests.test_spark_contract import validate
+    from services.spark_service import empty_result
+
+    result = empty_result()
+    validate('spark_result', result)  # Este incremento puede entregar visualizations=[].
+    result['visualizations'] = [{
+        'filename': 'synthetic.png', 'name': 'Gráfica sintética',
+        'url': '/spark/images/synthetic.png',
+    }]
+    validate('spark_result', result)
+    result['visualizations'][0]['url'] = 'https://externo.example/synthetic.png'
+    with pytest.raises(ValidationError):
+        validate('spark_result', result)
+    del result['visualizations'][0]['filename']
+    with pytest.raises(ValidationError):
+        validate('spark_result', result)
