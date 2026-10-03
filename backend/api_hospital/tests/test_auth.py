@@ -1,4 +1,5 @@
 import bcrypt
+import pytest
 
 def test_health_endpoint_reports_api_available(client):
     response = client.get("/health")
@@ -121,3 +122,20 @@ def test_malformed_password_hash_is_rejected_without_leaking_value(capsys):
     captured = capsys.readouterr()
     assert sensitive_value not in captured.out
     assert sensitive_value not in captured.err
+
+
+def test_jwt_configuration_rejects_default_secret(monkeypatch):
+    from middleware.auth_middleware import validate_jwt_configuration
+
+    monkeypatch.setenv("SECRET_KEY", "tu-clave-secreta")
+
+    with pytest.raises(RuntimeError, match="32 caracteres"):
+        validate_jwt_configuration()
+
+
+def test_jwt_configuration_accepts_strong_environment_secret(monkeypatch):
+    from middleware.auth_middleware import validate_jwt_configuration
+
+    monkeypatch.setenv("SECRET_KEY", "clave-prueba-segura-de-32-caracteres-minimo")
+
+    assert validate_jwt_configuration() is None
