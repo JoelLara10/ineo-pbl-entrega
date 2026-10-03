@@ -73,7 +73,16 @@ def token_required(f):
         payload = verify_token(token)
         if not payload:
             return jsonify({'error': 'Token inválido o expirado'}), 401
-        
+
+        # SEGURIDAD (Jesús): el JWT por sí solo no garantiza que la cuenta siga
+        # autorizada. Se consulta el estado actual para revocar inmediatamente
+        # los tokens de usuarios eliminados o desactivados.
+        from models.user import UserModel
+        current_user = UserModel.find_by_id(payload.get('user_id'))
+
+        if not current_user or not current_user.get('activo', True):
+            return jsonify({'error': 'Token inválido o expirado'}), 401
+
         g.user = payload
         return f(*args, **kwargs)
     
