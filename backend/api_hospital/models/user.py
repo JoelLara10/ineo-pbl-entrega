@@ -71,24 +71,23 @@ class UserModel:
     
     @staticmethod
     def verify_password(user, password):
-        """Verifica la contraseña sin importar cómo esté almacenada"""
+        """Verifica la contraseña sin exponer hashes ni detalles internos."""
 
         if not user or 'password' not in user:
-            print("❌ No se encontró campo 'password'")
             return False
 
         try:
             stored = UserModel._normalize_password_hash(user['password'])
 
-            print(f"🔍 Hash normalizado: {stored}")
-            result = bcrypt.checkpw(password.encode("utf-8"), stored)
-            print(f"✅ bcrypt.checkpw: {result}")
+            # SEGURIDAD (Jaime): el hash y el resultado de bcrypt nunca se imprimen.
+            # Los registros de producción podrían ser consultados por terceros y
+            # un hash filtrado permitiría ataques de fuerza bruta fuera del sistema.
+            return bcrypt.checkpw(password.encode("utf-8"), stored)
 
-            return result
-
-        except Exception as e:
-            print(f"❌ Error verificando contraseña: {e}")
-            return False    
+        except (TypeError, ValueError):
+            # SEGURIDAD (Jaime): un hash malformado se trata como credencial
+            # inválida sin mostrar el valor recibido ni el detalle de la excepción.
+            return False
         
     @staticmethod
     def _normalize_password_hash(stored):
