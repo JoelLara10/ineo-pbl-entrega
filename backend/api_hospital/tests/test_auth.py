@@ -139,3 +139,56 @@ def test_jwt_configuration_accepts_strong_environment_secret(monkeypatch):
     monkeypatch.setenv("SECRET_KEY", "clave-prueba-segura-de-32-caracteres-minimo")
 
     assert validate_jwt_configuration() is None
+
+
+def test_inactive_user_cannot_obtain_new_token(monkeypatch):
+    from services.auth_service import AuthService
+    from models.user import UserModel
+
+    inactive_user = {
+        "_id": "507f1f77bcf86cd799439011",
+        "username": "usuario-inactivo",
+        "role": "medico",
+        "activo": False,
+        "password": b"hash-no-usado",
+    }
+
+    monkeypatch.setattr(
+        UserModel,
+        "find_by_username",
+        lambda _username: inactive_user,
+    )
+    monkeypatch.setattr(
+        UserModel,
+        "verify_password",
+        lambda _user, _password: True,
+    )
+
+    result, error = AuthService.login("usuario-inactivo", "correcta")
+
+    assert result is None
+    assert error == "Credenciales inválidas"
+
+
+def test_existing_token_is_revoked_when_user_is_inactive(client, monkeypatch):
+    from middleware.auth_middleware import generate_token
+    from models.user import UserModel
+
+    monkeypatch.setattr(
+        UserModel,
+        "find_by_id",
+        lambda _user_id: {"activo": False},
+    )
+    token = generate_token(
+        "507f1f77bcf86cd799439011",
+        "usuario-inactivo",
+        "medico",
+    )
+
+    response = client.get(
+        "/api/v1/auth/me",
+        headers={"Authorization": f"Bearer {token}"},
+    )
+
+    assert response.status_code == 401
+    assert response.get_json() == {"error": "Token inválido o expirado"}
