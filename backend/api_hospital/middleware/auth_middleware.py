@@ -5,7 +5,35 @@ from datetime import datetime, timedelta
 import os
 from utils.database import get_collection
 
-SECRET_KEY = os.getenv('SECRET_KEY', 'tu-clave-secreta')
+INSECURE_SECRET_KEYS = {
+    '',
+    'tu-clave-secreta',
+    'tu-clave-secreta-muy-segura-cambiar-en-produccion',
+    'jwt-secret-key-cambiar',
+}
+
+
+def _get_secret_key():
+    """Obtiene una clave JWT fuerte o detiene la aplicación de forma segura."""
+    secret_key = os.getenv('SECRET_KEY', '').strip()
+
+    # SEGURIDAD (Zahid): una clave corta o predeterminada permite que un
+    # atacante fabrique tokens válidos. Se exige un secreto real de 32
+    # caracteres como mínimo y configurado mediante variable de entorno.
+    if (
+        secret_key in INSECURE_SECRET_KEYS
+        or len(secret_key) < 32
+    ):
+        raise RuntimeError(
+            'SECRET_KEY debe configurarse con al menos 32 caracteres seguros'
+        )
+
+    return secret_key
+
+
+def validate_jwt_configuration():
+    """Valida la configuración JWT durante el arranque de la API."""
+    _get_secret_key()
 
 def generate_token(user_id, username, role):
     """Genera un token JWT"""
@@ -16,12 +44,12 @@ def generate_token(user_id, username, role):
         'exp': datetime.utcnow() + timedelta(hours=8),
         'iat': datetime.utcnow()
     }
-    return jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+    return jwt.encode(payload, _get_secret_key(), algorithm='HS256')
 
 def verify_token(token):
     """Verifica el token JWT"""
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+        payload = jwt.decode(token, _get_secret_key(), algorithms=['HS256'])
         return payload
     except jwt.ExpiredSignatureError:
         return None
