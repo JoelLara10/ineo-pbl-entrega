@@ -1,3 +1,5 @@
+import bcrypt
+
 def test_health_endpoint_reports_api_available(client):
     response = client.get("/health")
 
@@ -91,3 +93,31 @@ def test_login_normalizes_username(client, monkeypatch):
 
     assert response.status_code == 200
     assert received == {"username": "admin", "password": "secreto"}
+
+
+def test_password_verification_does_not_print_hash(capsys):
+    from models.user import UserModel
+
+    password_hash = bcrypt.hashpw(b"secreto-seguro", bcrypt.gensalt())
+    user = {"password": password_hash}
+
+    assert UserModel.verify_password(user, "secreto-seguro") is True
+
+    captured = capsys.readouterr()
+    assert captured.out == ""
+    assert captured.err == ""
+
+
+def test_malformed_password_hash_is_rejected_without_leaking_value(capsys):
+    from models.user import UserModel
+
+    sensitive_value = "hash-invalido-no-exponer"
+
+    assert UserModel.verify_password(
+        {"password": sensitive_value},
+        "secreto",
+    ) is False
+
+    captured = capsys.readouterr()
+    assert sensitive_value not in captured.out
+    assert sensitive_value not in captured.err
