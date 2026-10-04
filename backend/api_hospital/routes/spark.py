@@ -57,8 +57,12 @@ def run_analysis(analysis_type):
         return _error(str(exc), 'invalid_type', 400)
     except SparkNotImplemented as exc:
         return _error(str(exc), 'not_implemented', 400)
-    except SparkJobConflict as exc:
-        return _error(str(exc), 'conflict', 409)
+    except SparkJobConflict:
+        status = SparkService.get_status(analysis_type)
+        return jsonify(
+            contract_version=SparkService.VERSION,
+            status=status,
+        ), 200    
     except Exception:
         return _error('No se pudo ejecutar el análisis clínico',
                       'run_failed', 500)
