@@ -7,20 +7,18 @@ import bcrypt
 class AuthService:
     @staticmethod
     def login(username, password):
-        """Autentica un usuario y retorna token"""
+        """Autentica sin revelar si el usuario o la contraseña fallaron."""
         user = UserModel.find_by_username(username)
-        
-        if not user:
-            print(f"❌ Usuario no encontrado: {username}")
-            return None, 'Usuario no encontrado'
-        
-        # Verificación más robusta de contraseña
-        if not UserModel.verify_password(user, password):
-            print(f"❌ Contraseña incorrecta para usuario: {username}")
-            return None, 'Contraseña incorrecta'
-        
-        print(f"✅ Login exitoso para usuario: {username} - Rol: {user.get('role')}")
-        
+
+        # SEGURIDAD (Jesús): un usuario desactivado no puede obtener un
+        # token nuevo, aunque conserve una contraseña correcta en la base.
+        if (
+            not user
+            or not user.get('activo', True)
+            or not UserModel.verify_password(user, password)
+        ):
+            return None, 'Credenciales inválidas'
+
         token = generate_token(
             user['_id'],
             user['username'],

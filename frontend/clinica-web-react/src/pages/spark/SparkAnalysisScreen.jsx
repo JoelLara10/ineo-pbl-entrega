@@ -3,48 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { FiArrowLeft, FiPlay, FiRefreshCw } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import { sparkService } from '../../services/sparkService';
-import { formatRegionalDate, formatRegionalNumber } from '../../i18n/regional';
 import './Spark.css';
-
-const isSimple = (value) => value === null || ['string', 'number', 'boolean'].includes(typeof value);
-const prettyKey = (key) => key.replaceAll('_', ' ').replace(/\b\w/g, (letter) => letter.toUpperCase());
-const hasContent = (value) => {
-  if (value === null || value === undefined) return false;
-  if (Array.isArray(value)) return value.length > 0;
-  if (typeof value === 'object') return Object.keys(value).length > 0;
-  return value !== '';
-};
-
-function DataValue({ value }) {
-  const { t, i18n } = useTranslation();
-  if (typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value)) {
-    return <span>{formatRegionalDate(value, i18n.language)}</span>;
-  }
-  if (isSimple(value)) return <span>{value === null ? '—' : typeof value === 'number'
-    ? formatRegionalNumber(value, i18n.language, { maximumFractionDigits: 4 })
-    : t(`spark.values.${value}`, String(value))}</span>;
-  if (Array.isArray(value)) {
-    if (!value.length) return <span>—</span>;
-    if (value.every(isSimple)) return <ul>{value.slice(0, 20).map((item, index) => <li key={index}><DataValue value={item} /></li>)}</ul>;
-    return <div className="spark-array">{value.slice(0, 12).map((item, index) => <DataObject key={index} data={item} />)}</div>;
-  }
-  return <DataObject data={value} />;
-}
-
-export function DataObject({ data }) {
-  const { t } = useTranslation();
-  if (!data || typeof data !== 'object') return <DataValue value={data} />;
-  return (
-    <div className="spark-data-grid">
-      {Object.entries(data).map(([key, value]) => (
-        <div className={isSimple(value) ? 'spark-datum' : 'spark-nested'} key={key}>
-          <strong>{t(`spark.fields.${key}`, prettyKey(key))}</strong>
-          <DataValue value={value} />
-        </div>
-      ))}
-    </div>
-  );
-}
+import MetOperationalPanel from './MetOperationalPanel';
+import { DataValue, hasContent, prettyKey } from './SparkDataViews';
 
 function VisualGallery({ images }) {
   const [sources, setSources] = useState({});
@@ -107,16 +68,11 @@ export default function SparkAnalysisScreen({ type }) {
     const timer = window.setInterval(async () => {
       try {
         const next = await sparkService.getStatus(type);
-
         if (!active) return;
         setStatus(next);
         if (!next.running) load();
-      } catch (requestError) {
-        if (!active) return;
-        window.clearInterval(timer);
-        setErrorKind(requestError.response ? 'error' : 'offline');
-        setError(requestError.response?.data?.error || t('spark.loadError'));
-
+      } catch {
+        /* polling silencioso */
       }
     }, 3000);
     return () => { active = false; window.clearInterval(timer); };
@@ -125,9 +81,7 @@ export default function SparkAnalysisScreen({ type }) {
   const sections = useMemo(
     () => Object.entries(data || {}).filter(
       ([key, value]) =>
-
         !['available', 'timestamp', 'visualizations', 'contract_version'].includes(key) &&
-
         hasContent(value)
     ),
     [data]
@@ -140,7 +94,6 @@ export default function SparkAnalysisScreen({ type }) {
       setStatus(response.status);
     } catch (requestError) {
       const kind = mapHttpError(requestError);
-      // 409: el job ya corre; refrescar estado en vez de bloquear.
       if (requestError.response?.status === 409) {
         setErrorKind('conflict');
         setError(requestError.response?.data?.error || t('spark.states.conflict.hint'));
@@ -222,6 +175,11 @@ export default function SparkAnalysisScreen({ type }) {
         <p>{t('spark.states.empty.hint')}</p>
         <button type="button" onClick={load}>{t('spark.states.empty.action')}</button>
       </div>
+    ) : type === 'met' ? (
+      <>
+        <MetOperationalPanel data={data} />
+        <VisualGallery images={data?.visualizations} />
+      </>
     ) : (
       <>
         {sections.map(([key, value]) => (
@@ -241,3 +199,5 @@ export default function SparkAnalysisScreen({ type }) {
     )}
   </main>;
 }
+
+export { DataObject, DataValue } from './SparkDataViews';

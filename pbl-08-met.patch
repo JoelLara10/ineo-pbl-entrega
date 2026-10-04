@@ -1,0 +1,1509 @@
+From f6008028837caa85f3273e09d6bb95675176333e Mon Sep 17 00:00:00 2001
+From: Jaime Diaz <jaime@ineo.local>
+Date: Sun, 4 Oct 2026 22:52:10 +0000
+Subject: [PATCH] =?UTF-8?q?feat(pbl-08):=20redise=C3=B1ar=20vista=20MET=20?=
+ =?UTF-8?q?en=20lenguaje=20operativo?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ .../api_hospital/services/spark_service.py    |   2 +-
+ .../sprint-7/pbl-08-t1-analisis-vista-met.md  |  29 +++
+ .../sprint-7/pbl-08-t2-diseno-vista-met.md    |  13 +
+ .../sprint-7/pbl-08-t3-implementacion.md      |   8 +
+ .../sprints/sprint-7/pbl-08-t4-integracion.md |   3 +
+ docs/sprints/sprint-7/pbl-08-t5-validacion.md |   8 +
+ evidence/jaime/pbl-08/evidence-resultados.md  |   4 +
+ .../src/i18n/locales/en.json                  | 222 ++++++++---------
+ .../src/i18n/locales/es.json                  | 230 +++++++++---------
+ .../src/pages/spark/MetOperationalPanel.jsx   | 132 ++++++++++
+ .../src/pages/spark/Spark.css                 |  17 ++
+ .../src/pages/spark/SparkAnalysisScreen.jsx   |  52 +---
+ .../src/pages/spark/SparkDataViews.jsx        |  42 ++++
+ .../src/spark/MetOperationalPanel.jsx         | 132 ++++++++++
+ .../clinica-web-react/src/spark/Spark.css     |  19 +-
+ .../src/spark/SparkAnalysisScreen.jsx         | 201 ++++++++++-----
+ .../src/spark/SparkDataViews.jsx              |  42 ++++
+ .../src/tests/pbl08-met.test.js               |  46 ++++
+ 18 files changed, 875 insertions(+), 327 deletions(-)
+ create mode 100644 docs/sprints/sprint-7/pbl-08-t1-analisis-vista-met.md
+ create mode 100644 docs/sprints/sprint-7/pbl-08-t2-diseno-vista-met.md
+ create mode 100644 docs/sprints/sprint-7/pbl-08-t3-implementacion.md
+ create mode 100644 docs/sprints/sprint-7/pbl-08-t4-integracion.md
+ create mode 100644 docs/sprints/sprint-7/pbl-08-t5-validacion.md
+ create mode 100644 evidence/jaime/pbl-08/evidence-resultados.md
+ create mode 100644 frontend/clinica-web-react/src/pages/spark/MetOperationalPanel.jsx
+ create mode 100644 frontend/clinica-web-react/src/pages/spark/SparkDataViews.jsx
+ create mode 100644 frontend/clinica-web-react/src/spark/MetOperationalPanel.jsx
+ create mode 100644 frontend/clinica-web-react/src/spark/SparkDataViews.jsx
+ create mode 100644 frontend/clinica-web-react/src/tests/pbl08-met.test.js
+
+diff --git a/backend/api_hospital/services/spark_service.py b/backend/api_hospital/services/spark_service.py
+index 97f93ab..fa2adac 100644
+--- a/backend/api_hospital/services/spark_service.py
++++ b/backend/api_hospital/services/spark_service.py
+@@ -38,7 +38,7 @@ class SparkNotImplemented(ValueError):
+ class SparkService:
+     VERSION = '1.0'
+     ALLOWED_TYPES = ('analytics', 'met', 'clinical', 'unsupervised')
+-    IMPLEMENTED_TYPES = ('clinical',)
++    IMPLEMENTED_TYPES = ('clinical', 'met')
+     COLLECTION = 'spark_jobs'
+     JOB_TIMEOUT_SECONDS = 180
+     MAX_ROWS = 20000
+diff --git a/docs/sprints/sprint-7/pbl-08-t1-analisis-vista-met.md b/docs/sprints/sprint-7/pbl-08-t1-analisis-vista-met.md
+new file mode 100644
+index 0000000..7386214
+--- /dev/null
++++ b/docs/sprints/sprint-7/pbl-08-t1-analisis-vista-met.md
+@@ -0,0 +1,29 @@
++# PBL-08-T1 — Análisis: rediseño de la vista MET y traducción a lenguaje operativo
++
++**Sistema:** Sistema de Gestión Clínica INEO  
++**Rama:** `sprints/jaime-sprint-7`  
++**Historia:** PBL-08  
++**Tarea:** T1 — Analizar antes de programar  
++**Fecha:** 2026-10-04  
++**Responsable:** Jaime Díaz González  
++
++## Objetivo
++Traducir métricas MET a lenguaje operativo, relacionar indicadores con decisiones y mantener acceso al dato detallado.
++
++## Situación actual
++- `MetAnalyticsScreen` solo hace `<SparkAnalysisScreen type="met" />`.
++- La UI es una grilla genérica de claves JSON (poco legible para un responsable de hospital).
++- Backend: motor PySpark ya calcula MET (`groupBy day`), pero `IMPLEMENTED_TYPES` solo tenía `clinical`.
++
++## Alcance
++- Panel de KPIs operativos + pistas de decisión + detalle expandible.
++- i18n ES/EN.
++- Habilitar `met` en backend.
++- Docs T1–T5 y test estático.
++
++## Archivos afectados
++- `MetOperationalPanel.jsx`, `SparkDataViews.jsx`, `SparkAnalysisScreen.jsx`, `Spark.css`
++- `es.json` / `en.json`
++- `spark_service.py`
++- `pbl08-met.test.js`
++- Docs en `docs/sprints/sprint-7/pbl-08-*`
+diff --git a/docs/sprints/sprint-7/pbl-08-t2-diseno-vista-met.md b/docs/sprints/sprint-7/pbl-08-t2-diseno-vista-met.md
+new file mode 100644
+index 0000000..bbd85bf
+--- /dev/null
++++ b/docs/sprints/sprint-7/pbl-08-t2-diseno-vista-met.md
+@@ -0,0 +1,13 @@
++# PBL-08-T2 — Diseño técnico vista MET operativa
++
++KPIs derivados en frontend a partir de `summary` + `metrics` + `quality` del contrato Spark v1 (sin cambiar el JSON).
++
++| KPI | Fuente |
++|-----|--------|
++| Total de atenciones | `summary.total` |
++| Días con actividad | metrics con count > 0 |
++| Día de mayor carga | argmax count |
++| Promedio diario | total / días activos |
++
++Estados pending/processing/empty/failed: reutilizan `SparkAnalysisScreen`.
++Panel MET solo cuando `type === 'met' && available`.
+diff --git a/docs/sprints/sprint-7/pbl-08-t3-implementacion.md b/docs/sprints/sprint-7/pbl-08-t3-implementacion.md
+new file mode 100644
+index 0000000..94d582c
+--- /dev/null
++++ b/docs/sprints/sprint-7/pbl-08-t3-implementacion.md
+@@ -0,0 +1,8 @@
++# PBL-08-T3 — Implementación
++
++- `MetOperationalPanel.jsx`: KPIs + decisiones + detalle técnico
++- `SparkAnalysisScreen.jsx`: rama `type === 'met'`
++- `SparkDataViews.jsx`: DataObject/DataValue compartidos
++- i18n `spark.met.*` ES/EN
++- `IMPLEMENTED_TYPES = ('clinical', 'met')`
++- Test `pbl08-met.test.js`
+diff --git a/docs/sprints/sprint-7/pbl-08-t4-integracion.md b/docs/sprints/sprint-7/pbl-08-t4-integracion.md
+new file mode 100644
+index 0000000..c777777
+--- /dev/null
++++ b/docs/sprints/sprint-7/pbl-08-t4-integracion.md
+@@ -0,0 +1,3 @@
++# PBL-08-T4 — Integración
++
++Permisos admin/administrativo sin cambio. Estados heredados. Clinical/unsupervised sin regresión de presentación.
+diff --git a/docs/sprints/sprint-7/pbl-08-t5-validacion.md b/docs/sprints/sprint-7/pbl-08-t5-validacion.md
+new file mode 100644
+index 0000000..1929b99
+--- /dev/null
++++ b/docs/sprints/sprint-7/pbl-08-t5-validacion.md
+@@ -0,0 +1,8 @@
++# PBL-08-T5 — Validación
++
++Criterio: indicadores ligados a decisiones + acceso al detalle → KPIs con hints + `<details>` con DataObject.
++
++```bash
++cd frontend/clinica-web-react
++npm test -- --run src/tests/pbl08-met.test.js
++```
+diff --git a/evidence/jaime/pbl-08/evidence-resultados.md b/evidence/jaime/pbl-08/evidence-resultados.md
+new file mode 100644
+index 0000000..e527670
+--- /dev/null
++++ b/evidence/jaime/pbl-08/evidence-resultados.md
+@@ -0,0 +1,4 @@
++# Evidencia PBL-08
++
++Rama: sprints/jaime-sprint-7  
++Adjuntar capturas: pending, KPIs, detalle expandido, clinical intacto.
+diff --git a/frontend/clinica-web-react/src/i18n/locales/en.json b/frontend/clinica-web-react/src/i18n/locales/en.json
+index 51ee4e5..4a1ffce 100644
+--- a/frontend/clinica-web-react/src/i18n/locales/en.json
++++ b/frontend/clinica-web-react/src/i18n/locales/en.json
+@@ -117,35 +117,93 @@
+     "footer": "INEO v2.0 - Hospital Management System"
+   },
+   "studies": {
+-    "headerTitle": "Studies Module",
++    "module": "Studies",
++    "management": "Study Management",
+     "labRequests": "Lab Requests",
+     "imagingRequests": "Imaging Requests",
+     "labResults": "Lab Results",
+     "imagingResults": "Imaging Results",
+-    "laboratory": "Laboratory",
+-    "imaging": "Imaging",
+-    "totalPending": "Total Pending",
++    "patient": "Patient",
++    "doctor": "Doctor",
++    "user": "User",
++    "room": "Room",
++    "noStudies": "No studies",
++    "invalidSection": "Invalid section",
++    "loadError": "Error loading data",
++    "laboratory": "laboratory",
++    "imaging": "imaging",
++    "deleteConfirm": "Are you sure you want to delete this {{type}} result?",
++    "deleteSuccess": "{{type}} result deleted successfully",
++    "deleteError": "Error deleting result",
++    "requested": "Requested:",
++    "completed": "Completed:",
++    "performed": "Performed:",
++    "dateUnavailable": "Date not available",
+     "upload": "Upload",
+     "view": "View",
+     "edit": "Edit",
+     "delete": "Delete",
+     "noPendingRequests": "No pending requests",
+-    "noResults": "No results registered",
+-    "allCompleted": "All studies are completed",
++    "noResults": "No results",
++    "allRequestsCompleted": "All requests have been completed",
+     "noResultsUploaded": "No results have been uploaded yet",
+-    "loading": "Loading studies...",
+-    "invalidSection": "Invalid section",
+-    "errorLoading": "Could not load studies.",
+-    "requested": "Requested:",
+-    "dateNotAvailable": "Date not available",
+-    "completed": "Completed:",
+-    "confirmDelete": "Are you sure you want to delete this {{tipo}} result?",
+-    "deleteSuccess": "{{tipo}} result deleted successfully.",
+-    "deleteError": "Error deleting result. Please try again.",
+-    "patient": "Patient",
+-    "noDoctor": "Not assigned",
+-    "noStudies": "No studies",
+-    "noInfo": "No information"
++    "welcomeBack": "Welcome back, {{user}}",
++    "helloDoctor": "Hello, Dr. {{user}}",
++    "totalPending": "Total Pending",
++    "total": "Total",
++    "loading": "Loading...",
++    "loadingStudies": "Loading studies...",
++    "secureFooter": "Secure data • All rights reserved",
++    "hospitalFooter": "INEO v2.0 - Hospital Management System",
++    "missingExamId": "Missing exam ID",
++    "loadInfoError": "Could not load information: {{error}}",
++    "couldNotLoadInfo": "Could not load information.",
++    "unknownError": "Unknown error",
++    "selectAtLeastOneFile": "You must select at least one file.",
++    "fileTooLarge": "File \"{{file}}\" exceeds 25 MB.",
++    "invalidFileFormat": "File \"{{file}}\" has an invalid format.",
++    "uploadSuccess": "Results uploaded successfully.",
++    "uploadError": "Error uploading results.",
++    "loadingData": "Loading data...",
++    "goBack": "Go Back",
++    "results": "Results",
++    "uploadResults": "Upload Results",
++    "patientDetails": "Patient Details",
++    "selectFiles": "Select Files",
++    "chooseFiles": "Choose Files",
++    "formatsHint": "Formats: PDF, PNG, JPG, JPEG (max 25 MB)",
++    "observations": "Observations",
++    "observationsPlaceholder": "Relevant observations...",
++    "keepOneFile": "You must keep at least one file or add a new one.",
++    "changesSaved": "Changes saved successfully.",
++    "updateError": "Error updating results.",
++    "editResults": "Edit Results",
++    "existingFiles": "Existing Files",
++    "noFilesRegistered": "No files registered.",
++    "addNewFiles": "Add New Files",
++    "saveChanges": "Save Changes",
++    "couldNotLoadFiles": "Could not load files.",
++    "selectAFile": "Select a file",
++    "clickFileToPreview": "Click a file from the list to preview it",
++    "tapFileToPreview": "Tap a file from the list to preview it",
++    "previewAvailable": "Preview available for viewing",
++    "unsupportedFormat": "Unsupported format",
++    "cannotPreview": "Preview not available for this file type.",
++    "loadingFiles": "Loading files...",
++    "viewResults": "View Results",
++    "availableFiles": "Available Files",
++    "preview": "Preview",
++    "confirmDeletion": "Confirm deletion",
++    "deleteWarning": "Are you sure you want to delete this result from {{type}}? This action cannot be undone.",
++    "cancel": "Cancel",
++    "notice": "Notice",
++    "error": "Error",
++    "success": "Success",
++    "downloadOrShare": "Download or Share",
++    "downloadPdf": "Download PDF",
++    "downloadFile": "Download file",
++    "fileAvailable": "{{count}} file available",
++    "filesAvailable": "{{count}} files available"
+   },
+   "config": {
+     "title": "System Settings",
+@@ -417,95 +475,6 @@
+     "saveSettings": "Save settings",
+     "generalSaved": "General settings saved in cache."
+   },
+-  "studies": {
+-    "module": "Studies",
+-    "management": "Study Management",
+-    "labRequests": "Lab Requests",
+-    "imagingRequests": "Imaging Requests",
+-    "labResults": "Lab Results",
+-    "imagingResults": "Imaging Results",
+-    "patient": "Patient",
+-    "doctor": "Doctor",
+-    "user": "User",
+-    "room": "Room",
+-    "noStudies": "No studies",
+-    "invalidSection": "Invalid section",
+-    "loadError": "Error loading data",
+-    "laboratory": "laboratory",
+-    "imaging": "imaging",
+-    "deleteConfirm": "Are you sure you want to delete this {{type}} result?",
+-    "deleteSuccess": "{{type}} result deleted successfully",
+-    "deleteError": "Error deleting result",
+-    "requested": "Requested:",
+-    "completed": "Completed:",
+-    "performed": "Performed:",
+-    "dateUnavailable": "Date not available",
+-    "upload": "Upload",
+-    "view": "View",
+-    "edit": "Edit",
+-    "delete": "Delete",
+-    "noPendingRequests": "No pending requests",
+-    "noResults": "No results",
+-    "allRequestsCompleted": "All requests have been completed",
+-    "noResultsUploaded": "No results have been uploaded yet",
+-    "welcomeBack": "Welcome back, {{user}}",
+-    "helloDoctor": "Hello, Dr. {{user}}",
+-    "totalPending": "Total Pending",
+-    "total": "Total",
+-    "loading": "Loading...",
+-    "loadingStudies": "Loading studies...",
+-    "secureFooter": "Secure data • All rights reserved",
+-    "hospitalFooter": "INEO v2.0 - Hospital Management System",
+-    "missingExamId": "Missing exam ID",
+-    "loadInfoError": "Could not load information: {{error}}",
+-    "couldNotLoadInfo": "Could not load information.",
+-    "unknownError": "Unknown error",
+-    "selectAtLeastOneFile": "You must select at least one file.",
+-    "fileTooLarge": "File \"{{file}}\" exceeds 25 MB.",
+-    "invalidFileFormat": "File \"{{file}}\" has an invalid format.",
+-    "uploadSuccess": "Results uploaded successfully.",
+-    "uploadError": "Error uploading results.",
+-    "loadingData": "Loading data...",
+-    "goBack": "Go Back",
+-    "results": "Results",
+-    "uploadResults": "Upload Results",
+-    "patientDetails": "Patient Details",
+-    "selectFiles": "Select Files",
+-    "chooseFiles": "Choose Files",
+-    "formatsHint": "Formats: PDF, PNG, JPG, JPEG (max 25 MB)",
+-    "observations": "Observations",
+-    "observationsPlaceholder": "Relevant observations...",
+-    "keepOneFile": "You must keep at least one file or add a new one.",
+-    "changesSaved": "Changes saved successfully.",
+-    "updateError": "Error updating results.",
+-    "editResults": "Edit Results",
+-    "existingFiles": "Existing Files",
+-    "noFilesRegistered": "No files registered.",
+-    "addNewFiles": "Add New Files",
+-    "saveChanges": "Save Changes",
+-    "couldNotLoadFiles": "Could not load files.",
+-    "selectAFile": "Select a file",
+-    "clickFileToPreview": "Click a file from the list to preview it",
+-    "tapFileToPreview": "Tap a file from the list to preview it",
+-    "previewAvailable": "Preview available for viewing",
+-    "unsupportedFormat": "Unsupported format",
+-    "cannotPreview": "Preview not available for this file type.",
+-    "loadingFiles": "Loading files...",
+-    "viewResults": "View Results",
+-    "availableFiles": "Available Files",
+-    "preview": "Preview",
+-    "confirmDeletion": "Confirm deletion",
+-    "deleteWarning": "Are you sure you want to delete this result from {{type}}? This action cannot be undone.",
+-    "cancel": "Cancel",
+-    "notice": "Notice",
+-    "error": "Error",
+-    "success": "Success",
+-    "downloadOrShare": "Download or Share",
+-    "downloadPdf": "Download PDF",
+-    "downloadFile": "Download file",
+-    "fileAvailable": "{{count}} file available",
+-    "filesAvailable": "{{count}} files available"
+-  },
+   "common": {
+     "loading": "Loading...",
+     "saving": "Saving...",
+@@ -968,8 +937,8 @@
+         "description": "General indicators and operational trends."
+       },
+       "met": {
+-        "title": "MET metrics",
+-        "description": "Performance metrics and changes over time."
++        "title": "Activity metrics (MET)",
++        "description": "Workload and daily activity indicators to support hospital operational decisions."
+       },
+       "clinical": {
+         "title": "Clinical analytics",
+@@ -1042,7 +1011,6 @@
+       "error": {
+         "title": "The request could not be completed"
+       }
+-
+     },
+     "fields": {
+       "total": "Total",
+@@ -1086,6 +1054,38 @@
+       "true": "Yes",
+       "false": "No",
+       "insufficient_complete_distinct_rows": "At least four complete rows and three distinct values are required."
++    },
++    "met": {
++      "kpiSection": "Operational indicators",
++      "kpis": {
++        "total": {
++          "title": "Total encounters",
++          "hint": "Historical volume for the analysed period. Helps size capacity."
++        },
++        "activeDays": {
++          "title": "Days with activity",
++          "hint": "How many days had at least one recorded encounter."
++        },
++        "peakDay": {
++          "title": "Highest-load day",
++          "hint": "Day with the most encounters. Useful for staffing and shift planning."
++        },
++        "dailyAverage": {
++          "title": "Daily average",
++          "hint": "Typical demand baseline to compare current days against."
++        }
++      },
++      "activityByDay": "Activity by day",
++      "atenciones": "encounters",
++      "noPeak": "No peak identified",
++      "noActivity": "No daily activity to display.",
++      "unknownDay": "Date unavailable",
++      "detailTitle": "View technical data detail",
++      "decision": {
++        "highLoad": "High load on that day: consider extra staff or redistributing appointments on similar days.",
++        "stableLoad": "No marked peak: demand looks relatively stable.",
++        "improveCapture": "Some records lack a usable date. Better capture of admission date improves indicator reliability."
++      }
+     }
+   },
+   "administrative": {
+diff --git a/frontend/clinica-web-react/src/i18n/locales/es.json b/frontend/clinica-web-react/src/i18n/locales/es.json
+index 4faf8d6..cf47c51 100644
+--- a/frontend/clinica-web-react/src/i18n/locales/es.json
++++ b/frontend/clinica-web-react/src/i18n/locales/es.json
+@@ -117,35 +117,93 @@
+     "footer": "INEO v2.0 - Sistema de Gestión Hospitalaria"
+   },
+   "studies": {
+-    "headerTitle": "Módulo de Estudios",
+-    "labRequests": "Solicitudes Lab",
+-    "imagingRequests": "Solicitudes Gab",
+-    "labResults": "Resultados Lab",
+-    "imagingResults": "Resultados Gab",
+-    "laboratory": "Laboratorio",
+-    "imaging": "Gabinete",
+-    "totalPending": "Total Pendientes",
++    "module": "Estudios",
++    "management": "Gestión de estudios",
++    "labRequests": "Solicitudes de laboratorio",
++    "imagingRequests": "Solicitudes de gabinete",
++    "labResults": "Resultados de laboratorio",
++    "imagingResults": "Resultados de gabinete",
++    "patient": "Paciente",
++    "doctor": "Médico",
++    "user": "Usuario",
++    "room": "Habitación",
++    "noStudies": "Sin estudios",
++    "invalidSection": "Sección no válida",
++    "loadError": "Error al cargar los datos",
++    "laboratory": "laboratorio",
++    "imaging": "gabinete",
++    "deleteConfirm": "¿Seguro que deseas eliminar este resultado de {{type}}?",
++    "deleteSuccess": "Resultado de {{type}} eliminado correctamente",
++    "deleteError": "No se pudo eliminar el resultado",
++    "requested": "Solicitado:",
++    "completed": "Realizado:",
++    "performed": "Realizado:",
++    "dateUnavailable": "Fecha no disponible",
+     "upload": "Subir",
+     "view": "Ver",
+     "edit": "Editar",
+     "delete": "Eliminar",
+     "noPendingRequests": "No hay solicitudes pendientes",
+-    "noResults": "No hay resultados registrados",
+-    "allCompleted": "Todos los estudios están completados",
++    "noResults": "No hay resultados",
++    "allRequestsCompleted": "Todas las solicitudes han sido completadas",
+     "noResultsUploaded": "Aún no se han subido resultados",
+-    "loading": "Cargando estudios...",
+-    "invalidSection": "Sección inválida",
+-    "errorLoading": "No se pudieron cargar los estudios.",
+-    "requested": "Solicitado:",
+-    "dateNotAvailable": "Fecha no disponible",
+-    "completed": "Realizado:",
+-    "confirmDelete": "¿Estás seguro de eliminar este resultado de {{tipo}}?",
+-    "deleteSuccess": "Resultado de {{tipo}} eliminado correctamente.",
+-    "deleteError": "Error al eliminar el resultado. Intenta de nuevo.",
+-    "patient": "Paciente",
+-    "noDoctor": "No asignado",
+-    "noStudies": "Sin estudios",
+-    "noInfo": "Sin información"
++    "welcomeBack": "Bienvenido, {{user}}",
++    "helloDoctor": "Hola, Dr. {{user}}",
++    "totalPending": "Total pendientes",
++    "total": "Total",
++    "loading": "Cargando...",
++    "loadingStudies": "Cargando estudios...",
++    "secureFooter": "Datos seguros • Todos los derechos reservados",
++    "hospitalFooter": "INEO v2.0 - Sistema de Gestión Hospitalaria",
++    "missingExamId": "Falta el ID del examen",
++    "loadInfoError": "No se pudo cargar la información: {{error}}",
++    "couldNotLoadInfo": "No se pudo cargar la información.",
++    "unknownError": "Error desconocido",
++    "selectAtLeastOneFile": "Debes seleccionar al menos un archivo.",
++    "fileTooLarge": "El archivo \"{{file}}\" supera los 25 MB.",
++    "invalidFileFormat": "El archivo \"{{file}}\" tiene un formato no válido.",
++    "uploadSuccess": "Resultados subidos correctamente.",
++    "uploadError": "Error al subir los resultados.",
++    "loadingData": "Cargando datos...",
++    "goBack": "Regresar",
++    "results": "Resultados",
++    "uploadResults": "Subir resultados",
++    "patientDetails": "Datos del paciente",
++    "selectFiles": "Seleccionar archivos",
++    "chooseFiles": "Elegir archivos",
++    "formatsHint": "Formatos: PDF, PNG, JPG, JPEG (máx. 25 MB)",
++    "observations": "Observaciones",
++    "observationsPlaceholder": "Observaciones relevantes...",
++    "keepOneFile": "Debes conservar al menos un archivo o agregar uno nuevo.",
++    "changesSaved": "Cambios guardados correctamente.",
++    "updateError": "Error al actualizar los resultados.",
++    "editResults": "Editar resultados",
++    "existingFiles": "Archivos existentes",
++    "noFilesRegistered": "No hay archivos registrados.",
++    "addNewFiles": "Agregar archivos nuevos",
++    "saveChanges": "Guardar cambios",
++    "couldNotLoadFiles": "No se pudieron cargar los archivos.",
++    "selectAFile": "Selecciona un archivo",
++    "clickFileToPreview": "Haz clic en un archivo de la lista para previsualizarlo",
++    "tapFileToPreview": "Toca un archivo de la lista para previsualizarlo",
++    "previewAvailable": "Vista previa disponible",
++    "unsupportedFormat": "Formato no compatible",
++    "cannotPreview": "No se puede previsualizar este tipo de archivo.",
++    "loadingFiles": "Cargando archivos...",
++    "viewResults": "Ver resultados",
++    "availableFiles": "Archivos disponibles",
++    "preview": "Vista previa",
++    "confirmDeletion": "Confirmar eliminación",
++    "deleteWarning": "¿Seguro que deseas eliminar este resultado de {{type}}? Esta acción no se puede deshacer.",
++    "cancel": "Cancelar",
++    "notice": "Aviso",
++    "error": "Error",
++    "success": "Éxito",
++    "downloadOrShare": "Descargar o compartir",
++    "downloadPdf": "Descargar PDF",
++    "downloadFile": "Descargar archivo",
++    "fileAvailable": "{{count}} archivo disponible",
++    "filesAvailable": "{{count}} archivos disponibles"
+   },
+   "config": {
+     "title": "Configuración del Sistema",
+@@ -417,95 +475,6 @@
+     "saveSettings": "Guardar configuración",
+     "generalSaved": "Configuración general guardada en caché."
+   },
+-  "studies": {
+-    "module": "Estudios",
+-    "management": "Gestión de estudios",
+-    "labRequests": "Solicitudes de laboratorio",
+-    "imagingRequests": "Solicitudes de gabinete",
+-    "labResults": "Resultados de laboratorio",
+-    "imagingResults": "Resultados de gabinete",
+-    "patient": "Paciente",
+-    "doctor": "Médico",
+-    "user": "Usuario",
+-    "room": "Habitación",
+-    "noStudies": "Sin estudios",
+-    "invalidSection": "Sección no válida",
+-    "loadError": "Error al cargar los datos",
+-    "laboratory": "laboratorio",
+-    "imaging": "gabinete",
+-    "deleteConfirm": "¿Seguro que deseas eliminar este resultado de {{type}}?",
+-    "deleteSuccess": "Resultado de {{type}} eliminado correctamente",
+-    "deleteError": "No se pudo eliminar el resultado",
+-    "requested": "Solicitado:",
+-    "completed": "Realizado:",
+-    "performed": "Realizado:",
+-    "dateUnavailable": "Fecha no disponible",
+-    "upload": "Subir",
+-    "view": "Ver",
+-    "edit": "Editar",
+-    "delete": "Eliminar",
+-    "noPendingRequests": "No hay solicitudes pendientes",
+-    "noResults": "No hay resultados",
+-    "allRequestsCompleted": "Todas las solicitudes han sido completadas",
+-    "noResultsUploaded": "Aún no se han subido resultados",
+-    "welcomeBack": "Bienvenido, {{user}}",
+-    "helloDoctor": "Hola, Dr. {{user}}",
+-    "totalPending": "Total pendientes",
+-    "total": "Total",
+-    "loading": "Cargando...",
+-    "loadingStudies": "Cargando estudios...",
+-    "secureFooter": "Datos seguros • Todos los derechos reservados",
+-    "hospitalFooter": "INEO v2.0 - Sistema de Gestión Hospitalaria",
+-    "missingExamId": "Falta el ID del examen",
+-    "loadInfoError": "No se pudo cargar la información: {{error}}",
+-    "couldNotLoadInfo": "No se pudo cargar la información.",
+-    "unknownError": "Error desconocido",
+-    "selectAtLeastOneFile": "Debes seleccionar al menos un archivo.",
+-    "fileTooLarge": "El archivo \"{{file}}\" supera los 25 MB.",
+-    "invalidFileFormat": "El archivo \"{{file}}\" tiene un formato no válido.",
+-    "uploadSuccess": "Resultados subidos correctamente.",
+-    "uploadError": "Error al subir los resultados.",
+-    "loadingData": "Cargando datos...",
+-    "goBack": "Regresar",
+-    "results": "Resultados",
+-    "uploadResults": "Subir resultados",
+-    "patientDetails": "Datos del paciente",
+-    "selectFiles": "Seleccionar archivos",
+-    "chooseFiles": "Elegir archivos",
+-    "formatsHint": "Formatos: PDF, PNG, JPG, JPEG (máx. 25 MB)",
+-    "observations": "Observaciones",
+-    "observationsPlaceholder": "Observaciones relevantes...",
+-    "keepOneFile": "Debes conservar al menos un archivo o agregar uno nuevo.",
+-    "changesSaved": "Cambios guardados correctamente.",
+-    "updateError": "Error al actualizar los resultados.",
+-    "editResults": "Editar resultados",
+-    "existingFiles": "Archivos existentes",
+-    "noFilesRegistered": "No hay archivos registrados.",
+-    "addNewFiles": "Agregar archivos nuevos",
+-    "saveChanges": "Guardar cambios",
+-    "couldNotLoadFiles": "No se pudieron cargar los archivos.",
+-    "selectAFile": "Selecciona un archivo",
+-    "clickFileToPreview": "Haz clic en un archivo de la lista para previsualizarlo",
+-    "tapFileToPreview": "Toca un archivo de la lista para previsualizarlo",
+-    "previewAvailable": "Vista previa disponible",
+-    "unsupportedFormat": "Formato no compatible",
+-    "cannotPreview": "No se puede previsualizar este tipo de archivo.",
+-    "loadingFiles": "Cargando archivos...",
+-    "viewResults": "Ver resultados",
+-    "availableFiles": "Archivos disponibles",
+-    "preview": "Vista previa",
+-    "confirmDeletion": "Confirmar eliminación",
+-    "deleteWarning": "¿Seguro que deseas eliminar este resultado de {{type}}? Esta acción no se puede deshacer.",
+-    "cancel": "Cancelar",
+-    "notice": "Aviso",
+-    "error": "Error",
+-    "success": "Éxito",
+-    "downloadOrShare": "Descargar o compartir",
+-    "downloadPdf": "Descargar PDF",
+-    "downloadFile": "Descargar archivo",
+-    "fileAvailable": "{{count}} archivo disponible",
+-    "filesAvailable": "{{count}} archivos disponibles"
+-  },
+   "common": {
+     "loading": "Cargando...",
+     "saving": "Guardando...",
+@@ -968,8 +937,8 @@
+         "description": "Indicadores generales y tendencias operativas."
+       },
+       "met": {
+-        "title": "Métricas MET",
+-        "description": "Métricas de desempeño y evolución temporal."
++        "title": "Métricas de actividad (MET)",
++        "description": "Indicadores de carga y actividad diaria para apoyar decisiones operativas del hospital."
+       },
+       "clinical": {
+         "title": "Analítica clínica",
+@@ -1042,7 +1011,6 @@
+       "error": {
+         "title": "No se pudo completar la consulta"
+       }
+-
+     },
+     "fields": {
+       "total": "Total",
+@@ -1086,6 +1054,38 @@
+       "true": "Sí",
+       "false": "No",
+       "insufficient_complete_distinct_rows": "Se requieren al menos cuatro registros completos y tres valores distintos."
++    },
++    "met": {
++      "kpiSection": "Indicadores operativos",
++      "kpis": {
++        "total": {
++          "title": "Total de atenciones",
++          "hint": "Volumen histórico del periodo analizado. Sirve para dimensionar capacidad."
++        },
++        "activeDays": {
++          "title": "Días con actividad",
++          "hint": "Cuántos días tuvieron al menos una atención registrada."
++        },
++        "peakDay": {
++          "title": "Día de mayor carga",
++          "hint": "Jornada con más atenciones. Útil para planificar turnos y refuerzos."
++        },
++        "dailyAverage": {
++          "title": "Promedio diario",
++          "hint": "Referencia de demanda típica para comparar jornadas actuales."
++        }
++      },
++      "activityByDay": "Actividad por día",
++      "atenciones": "atenciones",
++      "noPeak": "Sin pico identificado",
++      "noActivity": "No hay actividad diaria para mostrar.",
++      "unknownDay": "Fecha no disponible",
++      "detailTitle": "Ver detalle técnico de los datos",
++      "decision": {
++        "highLoad": "Carga elevada en ese día: valorar refuerzo de personal o redistribución de citas en jornadas equivalentes.",
++        "stableLoad": "No se observa un pico marcado: la demanda se mantiene relativamente estable.",
++        "improveCapture": "Hay registros sin fecha usable. Mejorar la captura de fecha de ingreso mejora la confiabilidad de estos indicadores."
++      }
+     }
+   },
+   "administrative": {
+diff --git a/frontend/clinica-web-react/src/pages/spark/MetOperationalPanel.jsx b/frontend/clinica-web-react/src/pages/spark/MetOperationalPanel.jsx
+new file mode 100644
+index 0000000..e2fd914
+--- /dev/null
++++ b/frontend/clinica-web-react/src/pages/spark/MetOperationalPanel.jsx
+@@ -0,0 +1,132 @@
++import { useMemo, useState } from 'react';
++import { useTranslation } from 'react-i18next';
++import { formatRegionalDate, formatRegionalNumber } from '../../i18n/regional';
++import { DataObject } from './SparkDataViews';
++
++/**
++ * Presenta resultados MET en lenguaje operativo para el responsable del hospital.
++ * Conserva acceso al detalle técnico en un bloque expandible.
++ */
++export default function MetOperationalPanel({ data }) {
++  const { t, i18n } = useTranslation();
++  const [showDetail, setShowDetail] = useState(false);
++
++  const kpis = useMemo(() => {
++    const metrics = Array.isArray(data?.metrics) ? data.metrics : [];
++    const total = Number(data?.summary?.total) || 0;
++    const activeDays = metrics.filter((row) => Number(row?.count) > 0).length;
++
++    let peak = null;
++    metrics.forEach((row) => {
++      const count = Number(row?.count) || 0;
++      if (!peak || count > peak.count) {
++        peak = { day: row?.day, count };
++      }
++    });
++
++    const dailyAverage = activeDays > 0 ? total / activeDays : 0;
++    const excluded = Number(data?.quality?.excluded_rows) || 0;
++    const sourceRows = Number(data?.quality?.source_rows) || 0;
++
++    return { total, activeDays, peak, dailyAverage, excluded, sourceRows, metrics };
++  }, [data]);
++
++  const peakLabel = kpis.peak?.day
++    ? formatRegionalDate(kpis.peak.day, i18n.language)
++    : t('spark.met.noPeak');
++
++  const decisionPeak = kpis.peak && kpis.peak.count > 0
++    ? t('spark.met.decision.highLoad')
++    : t('spark.met.decision.stableLoad');
++
++  const decisionQuality = kpis.excluded > 0
++    ? t('spark.met.decision.improveCapture')
++    : null;
++
++  return (
++    <div className="spark-met-panel">
++      <section className="spark-kpi-grid" aria-label={t('spark.met.kpiSection')}>
++        <article className="spark-kpi-card">
++          <h3>{t('spark.met.kpis.total.title')}</h3>
++          <p className="spark-kpi-value">
++            {formatRegionalNumber(kpis.total, i18n.language, { maximumFractionDigits: 0 })}
++          </p>
++          <p className="spark-decision">{t('spark.met.kpis.total.hint')}</p>
++        </article>
++
++        <article className="spark-kpi-card">
++          <h3>{t('spark.met.kpis.activeDays.title')}</h3>
++          <p className="spark-kpi-value">
++            {formatRegionalNumber(kpis.activeDays, i18n.language, { maximumFractionDigits: 0 })}
++          </p>
++          <p className="spark-decision">{t('spark.met.kpis.activeDays.hint')}</p>
++        </article>
++
++        <article className="spark-kpi-card">
++          <h3>{t('spark.met.kpis.peakDay.title')}</h3>
++          <p className="spark-kpi-value">
++            {peakLabel}
++            {kpis.peak?.count != null && (
++              <span className="spark-kpi-sub">
++                {' · '}
++                {formatRegionalNumber(kpis.peak.count, i18n.language, { maximumFractionDigits: 0 })}
++                {' '}
++                {t('spark.met.atenciones')}
++              </span>
++            )}
++          </p>
++          <p className="spark-decision">{decisionPeak}</p>
++        </article>
++
++        <article className="spark-kpi-card">
++          <h3>{t('spark.met.kpis.dailyAverage.title')}</h3>
++          <p className="spark-kpi-value">
++            {formatRegionalNumber(kpis.dailyAverage, i18n.language, { maximumFractionDigits: 1 })}
++          </p>
++          <p className="spark-decision">{t('spark.met.kpis.dailyAverage.hint')}</p>
++        </article>
++      </section>
++
++      {decisionQuality && (
++        <p className="spark-decision spark-decision-banner" role="status">
++          {decisionQuality}
++        </p>
++      )}
++
++      <section className="spark-panel">
++        <h2>{t('spark.met.activityByDay')}</h2>
++        {kpis.metrics.length === 0 ? (
++          <p>{t('spark.met.noActivity')}</p>
++        ) : (
++          <ul className="spark-met-day-list">
++            {kpis.metrics.map((row) => (
++              <li key={String(row.day)}>
++                <strong>
++                  {row.day
++                    ? formatRegionalDate(row.day, i18n.language)
++                    : t('spark.met.unknownDay')}
++                </strong>
++                <span>
++                  {formatRegionalNumber(Number(row.count) || 0, i18n.language, {
++                    maximumFractionDigits: 0,
++                  })}
++                  {' '}
++                  {t('spark.met.atenciones')}
++                </span>
++              </li>
++            ))}
++          </ul>
++        )}
++      </section>
++
++      <details
++        className="spark-met-detail"
++        open={showDetail}
++        onToggle={(event) => setShowDetail(event.target.open)}
++      >
++        <summary>{t('spark.met.detailTitle')}</summary>
++        <DataObject data={data} />
++      </details>
++    </div>
++  );
++}
+diff --git a/frontend/clinica-web-react/src/pages/spark/Spark.css b/frontend/clinica-web-react/src/pages/spark/Spark.css
+index 27e868e..93721c6 100644
+--- a/frontend/clinica-web-react/src/pages/spark/Spark.css
++++ b/frontend/clinica-web-react/src/pages/spark/Spark.css
+@@ -1 +1,18 @@
+ .spark-page{padding:32px;max-width:1400px;margin:0 auto;color:#24324a}.spark-header{margin-bottom:26px}.spark-header span{color:#667eea;font-weight:800;letter-spacing:.12em}.spark-header h1{font-size:2rem;margin:6px 0}.spark-header p{color:#64748b}.spark-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}.spark-module-card{background:#fff;border:1px solid #e3e8f2;border-radius:18px;padding:24px;text-align:left;color:#24324a;box-shadow:0 8px 24px #2538580d;cursor:pointer}.spark-module-card:hover{transform:translateY(-2px);border-color:#667eea}.spark-module-card svg{color:#667eea}.spark-module-card h2{font-size:1.1rem}.spark-module-card p{min-height:48px;color:#64748b}.spark-ready,.spark-pending{font-size:.8rem;font-weight:700}.spark-ready{color:#16805c}.spark-pending{color:#9a6a16}.spark-toolbar{display:flex;justify-content:space-between;gap:12px;margin-bottom:20px}.spark-toolbar button{display:inline-flex;align-items:center;gap:7px;border:1px solid #d8deea;background:#fff;border-radius:10px;padding:10px 14px;margin-left:8px;cursor:pointer}.spark-toolbar .spark-primary{background:#667eea;color:white;border-color:#667eea}.spark-panel{background:white;border:1px solid #e5eaf2;border-radius:16px;padding:22px;margin-bottom:18px;overflow:auto}.spark-panel>h2{text-transform:capitalize;font-size:1.15rem;margin-top:0}.spark-data-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}.spark-datum{background:#f7f9fc;border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:6px}.spark-datum strong,.spark-nested>strong{color:#56637a;font-size:.82rem}.spark-nested{grid-column:1/-1;border-top:1px solid #edf0f5;padding-top:12px}.spark-array{display:grid;gap:8px}.spark-array>.spark-data-grid{border:1px solid #edf0f5;border-radius:10px;padding:10px}.spark-gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}.spark-gallery figure{background:#fff;border-radius:14px;padding:12px;margin:0}.spark-gallery img{width:100%;height:auto}.spark-gallery figcaption{text-align:center;color:#64748b}.spark-empty,.spark-status,.spark-error,.spark-state{padding:24px;border-radius:14px;background:#fff;margin:16px 0}.spark-status,.spark-state-processing{background:#eef2ff;color:#4f5fc7}.spark-error,.spark-state-error{background:#fff0f0;color:#b42318}.spark-state h2{margin:0 0 8px;font-size:1.08rem}.spark-state p{margin:0 0 14px}.spark-state button{border:1px solid currentColor;background:#fff;border-radius:9px;padding:9px 13px;cursor:pointer}.spark-state .spark-primary{background:#667eea;color:#fff;border-color:#667eea}.spark-log pre{white-space:pre-wrap;background:#172033;color:#e5e7eb;padding:16px;border-radius:10px}@media(max-width:700px){.spark-page{padding:18px}.spark-toolbar{align-items:flex-start}.spark-toolbar>div{display:flex;flex-direction:column;gap:8px}.spark-toolbar button{margin:0}.spark-data-grid{grid-template-columns:1fr}}
++
++
++/* PBL-08: vista MET operativa */
++.spark-met-panel{display:flex;flex-direction:column;gap:20px;margin-top:8px}
++.spark-kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
++.spark-kpi-card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 18px;box-shadow:0 1px 2px rgba(15,23,42,.04)}
++.spark-kpi-card h3{margin:0 0 8px;font-size:.85rem;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.03em}
++.spark-kpi-value{margin:0;font-size:1.55rem;font-weight:700;color:#1e293b;line-height:1.25}
++.spark-kpi-sub{font-size:.95rem;font-weight:500;color:#475569}
++.spark-decision{margin:10px 0 0;font-size:.88rem;color:#334155;line-height:1.4}
++.spark-decision-banner{background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:12px 14px;color:#1e3a8a}
++.spark-met-day-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
++.spark-met-day-list li{display:flex;justify-content:space-between;gap:12px;padding:10px 12px;background:#f8fafc;border-radius:8px;border:1px solid #e2e8f0}
++.spark-met-detail{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 16px}
++.spark-met-detail summary{cursor:pointer;font-weight:600;color:#334155;padding:4px 0}
++.spark-met-detail[open] summary{margin-bottom:12px}
++@media(max-width:700px){.spark-kpi-grid{grid-template-columns:1fr}.spark-met-day-list li{flex-direction:column}}
+diff --git a/frontend/clinica-web-react/src/pages/spark/SparkAnalysisScreen.jsx b/frontend/clinica-web-react/src/pages/spark/SparkAnalysisScreen.jsx
+index cabcec7..fed3729 100644
+--- a/frontend/clinica-web-react/src/pages/spark/SparkAnalysisScreen.jsx
++++ b/frontend/clinica-web-react/src/pages/spark/SparkAnalysisScreen.jsx
+@@ -3,48 +3,9 @@ import { useTranslation } from 'react-i18next';
+ import { FiArrowLeft, FiPlay, FiRefreshCw } from 'react-icons/fi';
+ import { useNavigate } from 'react-router-dom';
+ import { sparkService } from '../../services/sparkService';
+-import { formatRegionalDate, formatRegionalNumber } from '../../i18n/regional';
+ import './Spark.css';
+-
+-const isSimple = (value) => value === null || ['string', 'number', 'boolean'].includes(typeof value);
+-const prettyKey = (key) => key.replaceAll('_', ' ').replace(/\b\w/g, (letter) => letter.toUpperCase());
+-const hasContent = (value) => {
+-  if (value === null || value === undefined) return false;
+-  if (Array.isArray(value)) return value.length > 0;
+-  if (typeof value === 'object') return Object.keys(value).length > 0;
+-  return value !== '';
+-};
+-
+-function DataValue({ value }) {
+-  const { t, i18n } = useTranslation();
+-  if (typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value)) {
+-    return <span>{formatRegionalDate(value, i18n.language)}</span>;
+-  }
+-  if (isSimple(value)) return <span>{value === null ? '—' : typeof value === 'number'
+-    ? formatRegionalNumber(value, i18n.language, { maximumFractionDigits: 4 })
+-    : t(`spark.values.${value}`, String(value))}</span>;
+-  if (Array.isArray(value)) {
+-    if (!value.length) return <span>—</span>;
+-    if (value.every(isSimple)) return <ul>{value.slice(0, 20).map((item, index) => <li key={index}><DataValue value={item} /></li>)}</ul>;
+-    return <div className="spark-array">{value.slice(0, 12).map((item, index) => <DataObject key={index} data={item} />)}</div>;
+-  }
+-  return <DataObject data={value} />;
+-}
+-
+-export function DataObject({ data }) {
+-  const { t } = useTranslation();
+-  if (!data || typeof data !== 'object') return <DataValue value={data} />;
+-  return (
+-    <div className="spark-data-grid">
+-      {Object.entries(data).map(([key, value]) => (
+-        <div className={isSimple(value) ? 'spark-datum' : 'spark-nested'} key={key}>
+-          <strong>{t(`spark.fields.${key}`, prettyKey(key))}</strong>
+-          <DataValue value={value} />
+-        </div>
+-      ))}
+-    </div>
+-  );
+-}
++import MetOperationalPanel from './MetOperationalPanel';
++import { DataValue, hasContent, prettyKey } from './SparkDataViews';
+ 
+ function VisualGallery({ images }) {
+   const [sources, setSources] = useState({});
+@@ -222,6 +183,11 @@ export default function SparkAnalysisScreen({ type }) {
+         <p>{t('spark.states.empty.hint')}</p>
+         <button type="button" onClick={load}>{t('spark.states.empty.action')}</button>
+       </div>
++    ) : type === 'met' ? (
++      <>
++        <MetOperationalPanel data={data} />
++        <VisualGallery images={data?.visualizations} />
++      </>
+     ) : (
+       <>
+         {sections.map(([key, value]) => (
+@@ -240,4 +206,6 @@ export default function SparkAnalysisScreen({ type }) {
+       </details>
+     )}
+   </main>;
+-}
+\ No newline at end of file
++}
++
++export { DataObject, DataValue } from './SparkDataViews';
+diff --git a/frontend/clinica-web-react/src/pages/spark/SparkDataViews.jsx b/frontend/clinica-web-react/src/pages/spark/SparkDataViews.jsx
+new file mode 100644
+index 0000000..cc1396f
+--- /dev/null
++++ b/frontend/clinica-web-react/src/pages/spark/SparkDataViews.jsx
+@@ -0,0 +1,42 @@
++import { useTranslation } from 'react-i18next';
++import { formatRegionalDate, formatRegionalNumber } from '../../i18n/regional';
++
++export const isSimple = (value) => value === null || ['string', 'number', 'boolean'].includes(typeof value);
++export const prettyKey = (key) => key.replaceAll('_', ' ').replace(/\b\w/g, (letter) => letter.toUpperCase());
++export const hasContent = (value) => {
++  if (value === null || value === undefined) return false;
++  if (Array.isArray(value)) return value.length > 0;
++  if (typeof value === 'object') return Object.keys(value).length > 0;
++  return value !== '';
++};
++
++export function DataValue({ value }) {
++  const { t, i18n } = useTranslation();
++  if (typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value)) {
++    return <span>{formatRegionalDate(value, i18n.language)}</span>;
++  }
++  if (isSimple(value)) return <span>{value === null ? '—' : typeof value === 'number'
++    ? formatRegionalNumber(value, i18n.language, { maximumFractionDigits: 4 })
++    : t(`spark.values.${value}`, String(value))}</span>;
++  if (Array.isArray(value)) {
++    if (!value.length) return <span>—</span>;
++    if (value.every(isSimple)) return <ul>{value.slice(0, 20).map((item, index) => <li key={index}><DataValue value={item} /></li>)}</ul>;
++    return <div className="spark-array">{value.slice(0, 12).map((item, index) => <DataObject key={index} data={item} />)}</div>;
++  }
++  return <DataObject data={value} />;
++}
++
++export function DataObject({ data }) {
++  const { t } = useTranslation();
++  if (!data || typeof data !== 'object') return <DataValue value={data} />;
++  return (
++    <div className="spark-data-grid">
++      {Object.entries(data).map(([key, value]) => (
++        <div className={isSimple(value) ? 'spark-datum' : 'spark-nested'} key={key}>
++          <strong>{t(`spark.fields.${key}`, prettyKey(key))}</strong>
++          <DataValue value={value} />
++        </div>
++      ))}
++    </div>
++  );
++}
+diff --git a/frontend/clinica-web-react/src/spark/MetOperationalPanel.jsx b/frontend/clinica-web-react/src/spark/MetOperationalPanel.jsx
+new file mode 100644
+index 0000000..e2fd914
+--- /dev/null
++++ b/frontend/clinica-web-react/src/spark/MetOperationalPanel.jsx
+@@ -0,0 +1,132 @@
++import { useMemo, useState } from 'react';
++import { useTranslation } from 'react-i18next';
++import { formatRegionalDate, formatRegionalNumber } from '../../i18n/regional';
++import { DataObject } from './SparkDataViews';
++
++/**
++ * Presenta resultados MET en lenguaje operativo para el responsable del hospital.
++ * Conserva acceso al detalle técnico en un bloque expandible.
++ */
++export default function MetOperationalPanel({ data }) {
++  const { t, i18n } = useTranslation();
++  const [showDetail, setShowDetail] = useState(false);
++
++  const kpis = useMemo(() => {
++    const metrics = Array.isArray(data?.metrics) ? data.metrics : [];
++    const total = Number(data?.summary?.total) || 0;
++    const activeDays = metrics.filter((row) => Number(row?.count) > 0).length;
++
++    let peak = null;
++    metrics.forEach((row) => {
++      const count = Number(row?.count) || 0;
++      if (!peak || count > peak.count) {
++        peak = { day: row?.day, count };
++      }
++    });
++
++    const dailyAverage = activeDays > 0 ? total / activeDays : 0;
++    const excluded = Number(data?.quality?.excluded_rows) || 0;
++    const sourceRows = Number(data?.quality?.source_rows) || 0;
++
++    return { total, activeDays, peak, dailyAverage, excluded, sourceRows, metrics };
++  }, [data]);
++
++  const peakLabel = kpis.peak?.day
++    ? formatRegionalDate(kpis.peak.day, i18n.language)
++    : t('spark.met.noPeak');
++
++  const decisionPeak = kpis.peak && kpis.peak.count > 0
++    ? t('spark.met.decision.highLoad')
++    : t('spark.met.decision.stableLoad');
++
++  const decisionQuality = kpis.excluded > 0
++    ? t('spark.met.decision.improveCapture')
++    : null;
++
++  return (
++    <div className="spark-met-panel">
++      <section className="spark-kpi-grid" aria-label={t('spark.met.kpiSection')}>
++        <article className="spark-kpi-card">
++          <h3>{t('spark.met.kpis.total.title')}</h3>
++          <p className="spark-kpi-value">
++            {formatRegionalNumber(kpis.total, i18n.language, { maximumFractionDigits: 0 })}
++          </p>
++          <p className="spark-decision">{t('spark.met.kpis.total.hint')}</p>
++        </article>
++
++        <article className="spark-kpi-card">
++          <h3>{t('spark.met.kpis.activeDays.title')}</h3>
++          <p className="spark-kpi-value">
++            {formatRegionalNumber(kpis.activeDays, i18n.language, { maximumFractionDigits: 0 })}
++          </p>
++          <p className="spark-decision">{t('spark.met.kpis.activeDays.hint')}</p>
++        </article>
++
++        <article className="spark-kpi-card">
++          <h3>{t('spark.met.kpis.peakDay.title')}</h3>
++          <p className="spark-kpi-value">
++            {peakLabel}
++            {kpis.peak?.count != null && (
++              <span className="spark-kpi-sub">
++                {' · '}
++                {formatRegionalNumber(kpis.peak.count, i18n.language, { maximumFractionDigits: 0 })}
++                {' '}
++                {t('spark.met.atenciones')}
++              </span>
++            )}
++          </p>
++          <p className="spark-decision">{decisionPeak}</p>
++        </article>
++
++        <article className="spark-kpi-card">
++          <h3>{t('spark.met.kpis.dailyAverage.title')}</h3>
++          <p className="spark-kpi-value">
++            {formatRegionalNumber(kpis.dailyAverage, i18n.language, { maximumFractionDigits: 1 })}
++          </p>
++          <p className="spark-decision">{t('spark.met.kpis.dailyAverage.hint')}</p>
++        </article>
++      </section>
++
++      {decisionQuality && (
++        <p className="spark-decision spark-decision-banner" role="status">
++          {decisionQuality}
++        </p>
++      )}
++
++      <section className="spark-panel">
++        <h2>{t('spark.met.activityByDay')}</h2>
++        {kpis.metrics.length === 0 ? (
++          <p>{t('spark.met.noActivity')}</p>
++        ) : (
++          <ul className="spark-met-day-list">
++            {kpis.metrics.map((row) => (
++              <li key={String(row.day)}>
++                <strong>
++                  {row.day
++                    ? formatRegionalDate(row.day, i18n.language)
++                    : t('spark.met.unknownDay')}
++                </strong>
++                <span>
++                  {formatRegionalNumber(Number(row.count) || 0, i18n.language, {
++                    maximumFractionDigits: 0,
++                  })}
++                  {' '}
++                  {t('spark.met.atenciones')}
++                </span>
++              </li>
++            ))}
++          </ul>
++        )}
++      </section>
++
++      <details
++        className="spark-met-detail"
++        open={showDetail}
++        onToggle={(event) => setShowDetail(event.target.open)}
++      >
++        <summary>{t('spark.met.detailTitle')}</summary>
++        <DataObject data={data} />
++      </details>
++    </div>
++  );
++}
+diff --git a/frontend/clinica-web-react/src/spark/Spark.css b/frontend/clinica-web-react/src/spark/Spark.css
+index 1b33548..93721c6 100644
+--- a/frontend/clinica-web-react/src/spark/Spark.css
++++ b/frontend/clinica-web-react/src/spark/Spark.css
+@@ -1 +1,18 @@
+-.spark-page{padding:32px;max-width:1400px;margin:0 auto;color:#24324a}.spark-header{margin-bottom:26px}.spark-header span{color:#667eea;font-weight:800;letter-spacing:.12em}.spark-header h1{font-size:2rem;margin:6px 0}.spark-header p{color:#64748b}.spark-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}.spark-module-card{background:#fff;border:1px solid #e3e8f2;border-radius:18px;padding:24px;text-align:left;color:#24324a;box-shadow:0 8px 24px #2538580d;cursor:pointer}.spark-module-card:hover{transform:translateY(-2px);border-color:#667eea}.spark-module-card svg{color:#667eea}.spark-module-card h2{font-size:1.1rem}.spark-module-card p{min-height:48px;color:#64748b}.spark-ready,.spark-pending{font-size:.8rem;font-weight:700}.spark-ready{color:#16805c}.spark-pending{color:#9a6a16}.spark-toolbar{display:flex;justify-content:space-between;gap:12px;margin-bottom:20px}.spark-toolbar button{display:inline-flex;align-items:center;gap:7px;border:1px solid #d8deea;background:#fff;border-radius:10px;padding:10px 14px;margin-left:8px;cursor:pointer}.spark-toolbar .spark-primary{background:#667eea;color:white;border-color:#667eea}.spark-panel{background:white;border:1px solid #e5eaf2;border-radius:16px;padding:22px;margin-bottom:18px;overflow:auto}.spark-panel>h2{text-transform:capitalize;font-size:1.15rem;margin-top:0}.spark-data-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}.spark-datum{background:#f7f9fc;border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:6px}.spark-datum strong,.spark-nested>strong{color:#56637a;font-size:.82rem}.spark-nested{grid-column:1/-1;border-top:1px solid #edf0f5;padding-top:12px}.spark-array{display:grid;gap:8px}.spark-array>.spark-data-grid{border:1px solid #edf0f5;border-radius:10px;padding:10px}.spark-gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}.spark-gallery figure{background:#fff;border-radius:14px;padding:12px;margin:0}.spark-gallery img{width:100%;height:auto}.spark-gallery figcaption{text-align:center;color:#64748b}.spark-empty,.spark-status,.spark-error{padding:24px;border-radius:14px;background:#fff;margin:16px 0}.spark-status{background:#eef2ff;color:#4f5fc7}.spark-error{background:#fff0f0;color:#b42318}.spark-log pre{white-space:pre-wrap;background:#172033;color:#e5e7eb;padding:16px;border-radius:10px}@media(max-width:700px){.spark-page{padding:18px}.spark-toolbar{align-items:flex-start}.spark-toolbar>div{display:flex;flex-direction:column;gap:8px}.spark-toolbar button{margin:0}.spark-data-grid{grid-template-columns:1fr}}
++.spark-page{padding:32px;max-width:1400px;margin:0 auto;color:#24324a}.spark-header{margin-bottom:26px}.spark-header span{color:#667eea;font-weight:800;letter-spacing:.12em}.spark-header h1{font-size:2rem;margin:6px 0}.spark-header p{color:#64748b}.spark-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}.spark-module-card{background:#fff;border:1px solid #e3e8f2;border-radius:18px;padding:24px;text-align:left;color:#24324a;box-shadow:0 8px 24px #2538580d;cursor:pointer}.spark-module-card:hover{transform:translateY(-2px);border-color:#667eea}.spark-module-card svg{color:#667eea}.spark-module-card h2{font-size:1.1rem}.spark-module-card p{min-height:48px;color:#64748b}.spark-ready,.spark-pending{font-size:.8rem;font-weight:700}.spark-ready{color:#16805c}.spark-pending{color:#9a6a16}.spark-toolbar{display:flex;justify-content:space-between;gap:12px;margin-bottom:20px}.spark-toolbar button{display:inline-flex;align-items:center;gap:7px;border:1px solid #d8deea;background:#fff;border-radius:10px;padding:10px 14px;margin-left:8px;cursor:pointer}.spark-toolbar .spark-primary{background:#667eea;color:white;border-color:#667eea}.spark-panel{background:white;border:1px solid #e5eaf2;border-radius:16px;padding:22px;margin-bottom:18px;overflow:auto}.spark-panel>h2{text-transform:capitalize;font-size:1.15rem;margin-top:0}.spark-data-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}.spark-datum{background:#f7f9fc;border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:6px}.spark-datum strong,.spark-nested>strong{color:#56637a;font-size:.82rem}.spark-nested{grid-column:1/-1;border-top:1px solid #edf0f5;padding-top:12px}.spark-array{display:grid;gap:8px}.spark-array>.spark-data-grid{border:1px solid #edf0f5;border-radius:10px;padding:10px}.spark-gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}.spark-gallery figure{background:#fff;border-radius:14px;padding:12px;margin:0}.spark-gallery img{width:100%;height:auto}.spark-gallery figcaption{text-align:center;color:#64748b}.spark-empty,.spark-status,.spark-error,.spark-state{padding:24px;border-radius:14px;background:#fff;margin:16px 0}.spark-status,.spark-state-processing{background:#eef2ff;color:#4f5fc7}.spark-error,.spark-state-error{background:#fff0f0;color:#b42318}.spark-state h2{margin:0 0 8px;font-size:1.08rem}.spark-state p{margin:0 0 14px}.spark-state button{border:1px solid currentColor;background:#fff;border-radius:9px;padding:9px 13px;cursor:pointer}.spark-state .spark-primary{background:#667eea;color:#fff;border-color:#667eea}.spark-log pre{white-space:pre-wrap;background:#172033;color:#e5e7eb;padding:16px;border-radius:10px}@media(max-width:700px){.spark-page{padding:18px}.spark-toolbar{align-items:flex-start}.spark-toolbar>div{display:flex;flex-direction:column;gap:8px}.spark-toolbar button{margin:0}.spark-data-grid{grid-template-columns:1fr}}
++
++
++/* PBL-08: vista MET operativa */
++.spark-met-panel{display:flex;flex-direction:column;gap:20px;margin-top:8px}
++.spark-kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
++.spark-kpi-card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 18px;box-shadow:0 1px 2px rgba(15,23,42,.04)}
++.spark-kpi-card h3{margin:0 0 8px;font-size:.85rem;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.03em}
++.spark-kpi-value{margin:0;font-size:1.55rem;font-weight:700;color:#1e293b;line-height:1.25}
++.spark-kpi-sub{font-size:.95rem;font-weight:500;color:#475569}
++.spark-decision{margin:10px 0 0;font-size:.88rem;color:#334155;line-height:1.4}
++.spark-decision-banner{background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:12px 14px;color:#1e3a8a}
++.spark-met-day-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
++.spark-met-day-list li{display:flex;justify-content:space-between;gap:12px;padding:10px 12px;background:#f8fafc;border-radius:8px;border:1px solid #e2e8f0}
++.spark-met-detail{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 16px}
++.spark-met-detail summary{cursor:pointer;font-weight:600;color:#334155;padding:4px 0}
++.spark-met-detail[open] summary{margin-bottom:12px}
++@media(max-width:700px){.spark-kpi-grid{grid-template-columns:1fr}.spark-met-day-list li{flex-direction:column}}
+diff --git a/frontend/clinica-web-react/src/spark/SparkAnalysisScreen.jsx b/frontend/clinica-web-react/src/spark/SparkAnalysisScreen.jsx
+index 040a4f8..fed3729 100644
+--- a/frontend/clinica-web-react/src/spark/SparkAnalysisScreen.jsx
++++ b/frontend/clinica-web-react/src/spark/SparkAnalysisScreen.jsx
+@@ -4,39 +4,8 @@ import { FiArrowLeft, FiPlay, FiRefreshCw } from 'react-icons/fi';
+ import { useNavigate } from 'react-router-dom';
+ import { sparkService } from '../../services/sparkService';
+ import './Spark.css';
+-
+-const isSimple = (value) => value === null || ['string', 'number', 'boolean'].includes(typeof value);
+-const prettyKey = (key) => key.replaceAll('_', ' ').replace(/\b\w/g, (letter) => letter.toUpperCase());
+-const hasContent = (value) => {
+-  if (value === null || value === undefined) return false;
+-  if (Array.isArray(value)) return value.length > 0;
+-  if (typeof value === 'object') return Object.keys(value).length > 0;
+-  return value !== '';
+-};
+-
+-function DataValue({ value }) {
+-  if (isSimple(value)) return <span>{value === null ? '—' : String(value)}</span>;
+-  if (Array.isArray(value)) {
+-    if (!value.length) return <span>—</span>;
+-    if (value.every(isSimple)) return <ul>{value.slice(0, 20).map((item, index) => <li key={index}>{String(item)}</li>)}</ul>;
+-    return <div className="spark-array">{value.slice(0, 12).map((item, index) => <DataObject key={index} data={item} />)}</div>;
+-  }
+-  return <DataObject data={value} />;
+-}
+-
+-function DataObject({ data }) {
+-  if (!data || typeof data !== 'object') return <DataValue value={data} />;
+-  return (
+-    <div className="spark-data-grid">
+-      {Object.entries(data).map(([key, value]) => (
+-        <div className={isSimple(value) ? 'spark-datum' : 'spark-nested'} key={key}>
+-          <strong>{prettyKey(key)}</strong>
+-          <DataValue value={value} />
+-        </div>
+-      ))}
+-    </div>
+-  );
+-}
++import MetOperationalPanel from './MetOperationalPanel';
++import { DataValue, hasContent, prettyKey } from './SparkDataViews';
+ 
+ function VisualGallery({ images }) {
+   const [sources, setSources] = useState({});
+@@ -56,6 +25,16 @@ function VisualGallery({ images }) {
+   ))}</div>;
+ }
+ 
++/** Mapea status HTTP del API a una clave de estado de UI. */
++function mapHttpError(requestError) {
++  if (!requestError.response) return 'offline';
++  const code = requestError.response.status;
++  if (code === 401) return 'unauthorized';
++  if (code === 403) return 'forbidden';
++  if (code === 409) return 'conflict';
++  return 'error';
++}
++
+ export default function SparkAnalysisScreen({ type }) {
+   const { t } = useTranslation();
+   const navigate = useNavigate();
+@@ -63,62 +42,170 @@ export default function SparkAnalysisScreen({ type }) {
+   const [status, setStatus] = useState({ state: 'idle', running: false });
+   const [loading, setLoading] = useState(true);
+   const [error, setError] = useState('');
++  const [errorKind, setErrorKind] = useState('error');
+ 
+   const load = useCallback(async () => {
+-    setLoading(true); setError('');
++    setLoading(true); setError(''); setErrorKind('error');
+     try {
+       const [results, currentStatus] = await Promise.all([
+         sparkService.getResults(type), sparkService.getStatus(type),
+       ]);
+       setData(results); setStatus(currentStatus);
+     } catch (requestError) {
+-      setError(requestError.response?.data?.error || t('spark.loadError'));
++      const kind = mapHttpError(requestError);
++      setErrorKind(kind);
++      setError(
++        requestError.response?.data?.error
++        || t(`spark.states.${kind}.hint`, { defaultValue: t('spark.loadError') }),
++      );
+     } finally { setLoading(false); }
+   }, [t, type]);
+ 
+   useEffect(() => { load(); }, [load]);
+   useEffect(() => {
+     if (!status.running) return undefined;
++    let active = true;
+     const timer = window.setInterval(async () => {
+-      const next = await sparkService.getStatus(type);
+-      setStatus(next);
+-      if (!next.running) load();
++      try {
++        const next = await sparkService.getStatus(type);
++
++        if (!active) return;
++        setStatus(next);
++        if (!next.running) load();
++      } catch (requestError) {
++        if (!active) return;
++        window.clearInterval(timer);
++        setErrorKind(requestError.response ? 'error' : 'offline');
++        setError(requestError.response?.data?.error || t('spark.loadError'));
++
++      }
+     }, 3000);
+-    return () => window.clearInterval(timer);
+-  }, [load, status.running, type]);
++    return () => { active = false; window.clearInterval(timer); };
++  }, [load, status.running, t, type]);
+ 
+   const sections = useMemo(
+     () => Object.entries(data || {}).filter(
+       ([key, value]) =>
+-        !['available', 'timestamp', 'visualizations'].includes(key) &&
++
++        !['available', 'timestamp', 'visualizations', 'contract_version'].includes(key) &&
++
+         hasContent(value)
+     ),
+     [data]
+   );
+ 
+   const run = async () => {
+-    setError('');
+-    try { const response = await sparkService.run(type); setStatus(response.status); }
+-    catch (requestError) { setError(requestError.response?.data?.error || t('spark.runError')); }
++    setError(''); setErrorKind('error');
++    try {
++      const response = await sparkService.run(type);
++      setStatus(response.status);
++    } catch (requestError) {
++      const kind = mapHttpError(requestError);
++      // 409: el job ya corre; refrescar estado en vez de bloquear.
++      if (requestError.response?.status === 409) {
++        setErrorKind('conflict');
++        setError(requestError.response?.data?.error || t('spark.states.conflict.hint'));
++        load();
++        return;
++      }
++      setErrorKind(kind);
++      setError(
++        requestError.response?.data?.error
++        || t(`spark.states.${kind}.hint`, { defaultValue: t('spark.runError') }),
++      );
++    }
+   };
+ 
++  const isProcessing = status.running || status.state === 'processing';
++  const isPending = !data?.available && (status.state === 'idle' || status.state === 'pending');
++  const isCompleted = data?.available && (status.state === 'completed' || status.state === 'idle' || !status.running);
++
+   return <main className="spark-page">
+     <div className="spark-toolbar">
+-      <button onClick={() => navigate('/admin/spark')}><FiArrowLeft /> {t('common.back', 'Volver')}</button>
++      <button type="button" onClick={() => navigate('/admin/spark')}><FiArrowLeft /> {t('common.back', 'Volver')}</button>
+       <div>
+-        <button onClick={load} disabled={loading}><FiRefreshCw /> {t('spark.refresh')}</button>
+-        <button className="spark-primary" onClick={run} disabled={status.running}><FiPlay /> {status.running ? t('spark.running') : t('spark.run')}</button>
++        <button type="button" onClick={load} disabled={loading}><FiRefreshCw /> {t('spark.refresh')}</button>
++        <button type="button" className="spark-primary" onClick={run} disabled={status.running}>
++          <FiPlay /> {status.running ? t('spark.running') : t('spark.run')}
++        </button>
+       </div>
+     </div>
+-    <header className="spark-header"><span>{t('spark.eyebrow')}</span><h1>{t(`spark.types.${type}.title`)}</h1><p>{t(`spark.types.${type}.description`)}</p></header>
+-    {error && <div className="spark-error">{error}</div>}
+-    {status.running && <div className="spark-status">{t('spark.runningHint')}</div>}
+-    {loading ? <div className="spark-empty">{t('common.loading')}</div> : !data?.available ? (
+-      <div className="spark-empty"><h2>{t('spark.noResults')}</h2><p>{t('spark.noResultsHint')}</p></div>
+-    ) : <>
+-      {sections.map(([key, value]) => <section className="spark-panel" key={key}><h2>{t(`spark.sections.${key}`, prettyKey(key))}</h2><DataValue value={value} /></section>)}
+-      <VisualGallery images={data.visualizations} />
+-    </>}
+-    {status.state === 'failed' && <details className="spark-log"><summary>{t('spark.executionFailed')}</summary><pre>{status.log}</pre></details>}
++    <header className="spark-header">
++      <span>{t('spark.eyebrow')}</span>
++      <h1>{t(`spark.types.${type}.title`)}</h1>
++      <p>{t(`spark.types.${type}.description`)}</p>
++      {isCompleted && !error && !loading && (
++        <p className="spark-status-badge" role="status">{t('spark.states.completed.title')}</p>
++      )}
++    </header>
++    {error && (
++      <div className="spark-state spark-state-error" role="alert">
++        <h2>{t(`spark.states.${errorKind}.title`, { defaultValue: t('spark.states.error.title') })}</h2>
++        <p>
++          {['offline', 'forbidden', 'unauthorized', 'conflict'].includes(errorKind)
++            ? t(`spark.states.${errorKind}.hint`)
++            : error}
++        </p>
++        <button type="button" onClick={errorKind === 'forbidden' || errorKind === 'unauthorized' ? () => navigate('/') : load}>
++          {errorKind === 'forbidden' || errorKind === 'unauthorized'
++            ? t('common.back', 'Volver')
++            : t('common.retry')}
++        </button>
++      </div>
++    )}
++    {!error && loading ? (
++      <div className="spark-state" role="status">
++        <h2>{t('spark.states.loading.title')}</h2>
++        <p>{t('spark.states.loading.hint')}</p>
++        <button type="button" onClick={load}>{t('spark.refresh')}</button>
++      </div>
++    ) : !error && isProcessing ? (
++      <div className="spark-state spark-state-processing" role="status">
++        <h2>{t('spark.states.processing.title')}</h2>
++        <p>{t('spark.states.processing.hint')}</p>
++        <button type="button" onClick={load}>{t('spark.refresh')}</button>
++      </div>
++    ) : !error && status.state === 'failed' ? (
++      <div className="spark-state spark-state-error" role="alert">
++        <h2>{t('spark.states.failed.title')}</h2>
++        <p>{t('spark.states.failed.hint')}</p>
++        <button type="button" onClick={run}>{t('spark.states.failed.action')}</button>
++      </div>
++    ) : !error && isPending ? (
++      <div className="spark-state">
++        <h2>{t('spark.states.pending.title')}</h2>
++        <p>{t('spark.states.pending.hint')}</p>
++        <button type="button" className="spark-primary" onClick={run}>{t('spark.states.pending.action')}</button>
++      </div>
++    ) : !error && !data?.available ? (
++      <div className="spark-state">
++        <h2>{t('spark.states.empty.title')}</h2>
++        <p>{t('spark.states.empty.hint')}</p>
++        <button type="button" onClick={load}>{t('spark.states.empty.action')}</button>
++      </div>
++    ) : type === 'met' ? (
++      <>
++        <MetOperationalPanel data={data} />
++        <VisualGallery images={data?.visualizations} />
++      </>
++    ) : (
++      <>
++        {sections.map(([key, value]) => (
++          <section className="spark-panel" key={key}>
++            <h2>{t(`spark.sections.${key}`, prettyKey(key))}</h2>
++            <DataValue value={value} />
++          </section>
++        ))}
++        <VisualGallery images={data?.visualizations} />
++      </>
++    )}
++    {status.state === 'failed' && status.log && (
++      <details className="spark-log">
++        <summary>{t('spark.executionFailed')}</summary>
++        <pre>{status.log}</pre>
++      </details>
++    )}
+   </main>;
+ }
++
++export { DataObject, DataValue } from './SparkDataViews';
+diff --git a/frontend/clinica-web-react/src/spark/SparkDataViews.jsx b/frontend/clinica-web-react/src/spark/SparkDataViews.jsx
+new file mode 100644
+index 0000000..cc1396f
+--- /dev/null
++++ b/frontend/clinica-web-react/src/spark/SparkDataViews.jsx
+@@ -0,0 +1,42 @@
++import { useTranslation } from 'react-i18next';
++import { formatRegionalDate, formatRegionalNumber } from '../../i18n/regional';
++
++export const isSimple = (value) => value === null || ['string', 'number', 'boolean'].includes(typeof value);
++export const prettyKey = (key) => key.replaceAll('_', ' ').replace(/\b\w/g, (letter) => letter.toUpperCase());
++export const hasContent = (value) => {
++  if (value === null || value === undefined) return false;
++  if (Array.isArray(value)) return value.length > 0;
++  if (typeof value === 'object') return Object.keys(value).length > 0;
++  return value !== '';
++};
++
++export function DataValue({ value }) {
++  const { t, i18n } = useTranslation();
++  if (typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value)) {
++    return <span>{formatRegionalDate(value, i18n.language)}</span>;
++  }
++  if (isSimple(value)) return <span>{value === null ? '—' : typeof value === 'number'
++    ? formatRegionalNumber(value, i18n.language, { maximumFractionDigits: 4 })
++    : t(`spark.values.${value}`, String(value))}</span>;
++  if (Array.isArray(value)) {
++    if (!value.length) return <span>—</span>;
++    if (value.every(isSimple)) return <ul>{value.slice(0, 20).map((item, index) => <li key={index}><DataValue value={item} /></li>)}</ul>;
++    return <div className="spark-array">{value.slice(0, 12).map((item, index) => <DataObject key={index} data={item} />)}</div>;
++  }
++  return <DataObject data={value} />;
++}
++
++export function DataObject({ data }) {
++  const { t } = useTranslation();
++  if (!data || typeof data !== 'object') return <DataValue value={data} />;
++  return (
++    <div className="spark-data-grid">
++      {Object.entries(data).map(([key, value]) => (
++        <div className={isSimple(value) ? 'spark-datum' : 'spark-nested'} key={key}>
++          <strong>{t(`spark.fields.${key}`, prettyKey(key))}</strong>
++          <DataValue value={value} />
++        </div>
++      ))}
++    </div>
++  );
++}
+diff --git a/frontend/clinica-web-react/src/tests/pbl08-met.test.js b/frontend/clinica-web-react/src/tests/pbl08-met.test.js
+new file mode 100644
+index 0000000..ea1e2a0
+--- /dev/null
++++ b/frontend/clinica-web-react/src/tests/pbl08-met.test.js
+@@ -0,0 +1,46 @@
++import { describe, expect, it } from 'vitest';
++import { readFileSync } from 'node:fs';
++import { resolve } from 'node:path';
++
++const read = (path) => readFileSync(resolve(process.cwd(), path), 'utf8');
++
++describe('PBL-08 vista MET operativa', () => {
++  it('MetAnalyticsScreen sigue delegando en SparkAnalysisScreen con type met', () => {
++    const screen = read('src/pages/spark/MetAnalyticsScreen.jsx');
++    expect(screen).toContain('type="met"');
++  });
++
++  it('SparkAnalysisScreen usa el panel operativo solo para met', () => {
++    const analysis = read('src/pages/spark/SparkAnalysisScreen.jsx');
++    expect(analysis).toContain("import MetOperationalPanel from './MetOperationalPanel'");
++    expect(analysis).toContain("type === 'met'");
++    expect(analysis).toContain('<MetOperationalPanel data={data} />');
++  });
++
++  it('MetOperationalPanel expone KPIs, pistas de decisión y detalle técnico', () => {
++    const panel = read('src/pages/spark/MetOperationalPanel.jsx');
++    expect(panel).toContain('spark.met.kpis.total.title');
++    expect(panel).toContain('spark.met.kpis.peakDay.title');
++    expect(panel).toContain('spark.met.kpis.dailyAverage.title');
++    expect(panel).toContain('spark.met.decision.highLoad');
++    expect(panel).toContain('spark.met.detailTitle');
++    expect(panel).toContain('<details');
++    expect(panel).toContain('DataObject');
++  });
++
++  it('i18n ES e EN incluyen claves operativas MET', () => {
++    const es = JSON.parse(read('src/i18n/locales/es.json'));
++    const en = JSON.parse(read('src/i18n/locales/en.json'));
++    for (const locale of [es, en]) {
++      expect(locale.spark.met.kpis.total.title).toBeTruthy();
++      expect(locale.spark.met.decision.highLoad).toBeTruthy();
++      expect(locale.spark.met.detailTitle).toBeTruthy();
++      expect(locale.spark.types.met.description).toBeTruthy();
++    }
++  });
++
++  it('backend habilita la ejecución MET junto a clinical', () => {
++    const service = read('../../backend/api_hospital/services/spark_service.py');
++    expect(service).toMatch(/IMPLEMENTED_TYPES\s*=\s*\([^)]*'met'[^)]*\)/);
++  });
++});
+-- 
+2.43.0
+

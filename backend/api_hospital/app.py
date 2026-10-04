@@ -23,13 +23,17 @@ from routes.administrative import admin_bp, mobile_admin_bp
 from routes.backup import backup_bp
 from routes.performance import performance_bp
 from routes.spark import spark_bp
-from middleware.auth_middleware import token_required
+from middleware.auth_middleware import token_required, validate_jwt_configuration
 from scheduler.jobs import init_scheduler
 
 def create_app():
     
     app = Flask(__name__)
     app.config['SECRET_KEY'] = config.SECRET_KEY
+
+    # SEGURIDAD (Zahid): la API valida la clave JWT al arrancar para evitar
+    # operar accidentalmente con un secreto conocido, vacío o demasiado corto.
+    validate_jwt_configuration()
     
     # Configurar CORS
     #CORS(app, origins=config.CORS_ORIGINS, supports_credentials=True)

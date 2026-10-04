@@ -15,20 +15,49 @@ def user_options(user_id):
     return '', 204
 
 
-@auth_bp.route('/login', methods=['POST'])
-def login():
-    data = request.get_json()
+MAX_USERNAME_LENGTH = 80
+MAX_PASSWORD_BYTES = 72
+
+
+def _validated_login_payload():
+    """Retorna credenciales normalizadas o None sin procesar entradas inseguras."""
+    data = request.get_json(silent=True)
+
+    if not isinstance(data, dict):
+        return None
 
     username = data.get('username')
     password = data.get('password')
 
-    if not username or not password:
-        return jsonify({'error': 'Usuario y contraseña son requeridos'}), 400
+    if not isinstance(username, str) or not isinstance(password, str):
+        return None
 
+    username = username.strip()
+
+    if (
+        not username
+        or not password
+        or len(username) > MAX_USERNAME_LENGTH
+        or len(password.encode('utf-8')) > MAX_PASSWORD_BYTES
+    ):
+        return None
+
+    return username, password
+
+
+@auth_bp.route('/login', methods=['POST'])
+def login():
+    credentials = _validated_login_payload()
+
+    if credentials is None:
+        return jsonify({'error': 'Solicitud de inicio de sesión inválida'}), 400
+
+    username, password = credentials
     result, error = AuthService.login(username, password)
 
     if error:
-        return jsonify({'error': error}), 401
+        # Respuesta deliberadamente genérica para impedir enumeración de usuarios.
+        return jsonify({'error': 'Credenciales inválidas'}), 401
 
     return jsonify(result), 200
 
