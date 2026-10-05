@@ -1,0 +1,30 @@
+.nursing-care-page { min-height: 100%; padding: 24px; background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%); color: #1e293b; }
+.nursing-care-header { display: grid; grid-template-columns: 44px 1fr 44px; align-items: center; gap: 16px; padding: 20px 24px; border-radius: 20px; background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%); color: #fff; text-align: center; }
+.nursing-care-header h1 { margin: 6px 0 0; font-size: 26px; }
+.nursing-care-eyebrow { font-size: 12px; letter-spacing: 1.2px; opacity: .85; }
+.nursing-care-back { width: 44px; height: 44px; border-radius: 12px; border: 1px solid rgba(255,255,255,.25); background: rgba(255,255,255,.12); color: #fff; display: grid; place-items: center; cursor: pointer; }
+.nursing-care-patient, .nursing-care-card, .nursing-care-history { margin-top: 18px; background: #fff; border-radius: 18px; padding: 18px; box-shadow: 0 12px 24px rgba(15,23,42,.08); }
+.nursing-care-patient { display: flex; gap: 12px; align-items: center; }
+.nursing-care-patient h2, .nursing-care-card h2, .nursing-care-history h2 { margin: 0; font-size: 18px; }
+.nursing-care-patient p { margin: 4px 0 0; color: #64748b; }
+.nursing-care-avatar { width: 52px; height: 52px; flex: 0 0 52px; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%); }
+.nursing-care-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 16px; }
+.nursing-care-grid label, .nursing-care-field { display: grid; gap: 7px; color: #334155; font-size: 14px; font-weight: 600; }
+.nursing-care-field { margin-top: 14px; }
+.nursing-care-grid textarea, .nursing-care-field textarea, .nursing-care-field select { width: 100%; border: 1px solid #cbd5e1; border-radius: 10px; padding: 12px; font: inherit; font-weight: 400; color: #1e293b; background: #fff; }
+.nursing-care-grid textarea:focus, .nursing-care-field textarea:focus, .nursing-care-field select:focus { outline: 3px solid rgba(37,99,235,.18); border-color: #2563eb; }
+.nursing-care-actions { margin-top: 16px; display: flex; justify-content: space-between; gap: 10px; }
+.nursing-care-actions button, .nursing-care-error button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; border-radius: 10px; padding: 10px 14px; cursor: pointer; font-weight: 600; }
+.nursing-care-secondary { border: 1px solid #cbd5e1; background: #f8fafc; color: #334155; }
+.nursing-care-primary { border: 0; background: #2563eb; color: #fff; }
+.nursing-care-actions button:disabled { opacity: .55; cursor: not-allowed; }
+.nursing-care-history-header { display: flex; align-items: center; gap: 8px; color: #334155; }
+.nursing-care-history-header span { margin-left: auto; color: #64748b; font-size: 13px; }
+.nursing-care-status { margin-top: 12px; padding: 14px; border-radius: 10px; background: #f8fafc; color: #64748b; }
+.nursing-care-error { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: #fff1f2; color: #9f1239; }
+.nursing-care-error button { border: 1px solid #fda4af; background: #fff; color: #9f1239; }
+.nursing-care-history-item { margin-top: 12px; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; display: grid; gap: 5px; }
+.nursing-care-history-date { margin-bottom: 4px; color: #475569; font-size: 13px; }
+.nursing-care-footer { margin-top: 18px; display: flex; align-items: center; justify-content: center; gap: 8px; color: #64748b; font-size: 12px; }
+@media (max-width: 720px) { .nursing-care-page { padding: 12px; } .nursing-care-header { padding: 16px 12px; } .nursing-care-header h1 { font-size: 21px; } .nursing-care-grid { grid-template-columns: 1fr; } .nursing-care-actions { flex-direction: column-reverse; } .nursing-care-actions button { width: 100%; } }
+@media (max-width: 420px) { .nursing-care-header-spacer { display: none; } .nursing-care-header { grid-template-columns: 40px 1fr; } .nursing-care-patient { align-items: flex-start; } .nursing-care-error { align-items: stretch; flex-direction: column; } }
