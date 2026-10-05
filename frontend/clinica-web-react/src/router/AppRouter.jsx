@@ -130,11 +130,6 @@ export default function AppRouter() {
                         <Route path="censo" element={<CensoScreen />} />
                         <Route path="corte-caja" element={<CorteCajaScreen />} />
                         <Route path="camas" element={<Navigate to="/config/camas" replace />} />
-                        <Route path="admin/spark" element={<SparkDashboard />} />
-                        <Route path="admin/spark/analytics" element={<AnalyticsScreen />} />
-                        <Route path="admin/spark/met" element={<MetAnalyticsScreen />} />
-                        <Route path="admin/spark/clinical" element={<ClinicalAnalyticsScreen />} />
-                        <Route path="admin/spark/unsupervised" element={<UnsupervisedAnalyticsScreen />} />
                       </>
                     )}
 
@@ -189,6 +184,11 @@ export default function AppRouter() {
 
                     {isAdmin && (
                       <>
+                        <Route path="admin/spark" element={<SparkDashboard />} />
+                        <Route path="admin/spark/analytics" element={<AnalyticsScreen />} />
+                        <Route path="admin/spark/met" element={<MetAnalyticsScreen />} />
+                        <Route path="admin/spark/clinical" element={<ClinicalAnalyticsScreen />} />
+                        <Route path="admin/spark/unsupervised" element={<UnsupervisedAnalyticsScreen />} />
                         <Route path="config" element={<ConfigScreen />} />
                         <Route path="config/general" element={<GeneralSettingsScreen />} />
                         <Route path="config/usuarios" element={<UsuariosConfigScreen />} />
