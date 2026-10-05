@@ -634,6 +634,7 @@
   "nursingCare": {
     "eyebrow": "NURSING",
     "title": "Nursing Care",
+    "formTitle": "Register care plan",
     "selectedPatient": "Selected Patient",
     "nursingDiagnosisPlaceholder": "Nursing diagnosis",
     "objectivesPlaceholder": "Objectives",
@@ -646,6 +647,7 @@
     "history": "History",
     "loading": "Loading...",
     "noRecords": "No records",
+    "historyError": "The care history could not be loaded",
     "saveSuccess": "Nursing care saved successfully",
     "saveError": "Could not save the nursing care",
     "footer": "INEO v2.0 - Nursing care",
@@ -654,6 +656,11 @@
     "interventionsLabel": "Interventions:",
     "evaluationLabel": "Evaluation:",
     "stateLabel": "State:",
+    "states": {
+      "EN_PROCESO": "In progress",
+      "PENDIENTE": "Pending",
+      "COMPLETADO": "Completed"
+    },
     "observationsLabel": "Observations:",
     "noObservations": "No observations",
     "notSpecified": "Not specified"
