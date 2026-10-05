@@ -629,7 +629,11 @@
     "uprRiskLabel": "Riesgo UPP:",
     "observationsLabel": "Observaciones:",
     "noObservations": "Sin observaciones",
-    "notSpecified": "No especificado"
+    "notSpecified": "No especificado",
+    "newRecord": "Nueva valoración",
+    "selectPatientFirst": "Selecciona un paciente primero",
+    "records": "{{count}} registro(s)",
+    "loadingHistory": "Cargando historial..."
   },
   "nursingCare": {
     "eyebrow": "ENFERMERÍA",
@@ -988,8 +992,8 @@
         "description": "Indicadores generales y tendencias operativas."
       },
       "met": {
-        "title": "Métricas MET",
-        "description": "Métricas de desempeño y evolución temporal."
+        "title": "Métricas de actividad (MET)",
+        "description": "Indicadores de carga y actividad diaria para apoyar decisiones operativas del hospital."
       },
       "clinical": {
         "title": "Analítica clínica",
@@ -1084,6 +1088,26 @@
       "true": "Sí",
       "false": "No",
       "insufficient_complete_distinct_rows": "Se requieren al menos cuatro registros completos y tres valores distintos."
+    },
+    "met": {
+      "kpiSection": "Indicadores operativos",
+      "kpis": {
+        "total": { "title": "Total de atenciones", "hint": "Volumen histórico del periodo analizado. Sirve para dimensionar capacidad." },
+        "activeDays": { "title": "Días con actividad", "hint": "Cuántos días tuvieron al menos una atención registrada." },
+        "peakDay": { "title": "Día de mayor carga", "hint": "Jornada con más atenciones. Útil para planificar turnos y refuerzos." },
+        "dailyAverage": { "title": "Promedio diario", "hint": "Referencia de demanda típica para comparar jornadas actuales." }
+      },
+      "activityByDay": "Actividad por día",
+      "atenciones": "atenciones",
+      "noPeak": "Sin pico identificado",
+      "noActivity": "No hay actividad diaria para mostrar.",
+      "unknownDay": "Fecha no disponible",
+      "detailTitle": "Ver detalle técnico de los datos",
+      "decision": {
+        "highLoad": "Carga elevada en ese día: valorar refuerzo de personal o redistribución de citas en jornadas equivalentes.",
+        "stableLoad": "No se observa un pico marcado: la demanda se mantiene relativamente estable.",
+        "improveCapture": "Hay registros sin fecha usable. Mejorar la captura de fecha de ingreso mejora la confiabilidad de estos indicadores."
+      }
     }
   },
   "administrative": {

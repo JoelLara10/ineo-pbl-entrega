@@ -629,7 +629,11 @@
     "uprRiskLabel": "PU risk:",
     "observationsLabel": "Observations:",
     "noObservations": "No observations",
-    "notSpecified": "Not specified"
+    "notSpecified": "Not specified",
+    "newRecord": "New assessment",
+    "selectPatientFirst": "Select a patient first",
+    "records": "{{count}} record(s)",
+    "loadingHistory": "Loading history..."
   },
   "nursingCare": {
     "eyebrow": "NURSING",
@@ -988,8 +992,8 @@
         "description": "General indicators and operational trends."
       },
       "met": {
-        "title": "MET metrics",
-        "description": "Performance metrics and changes over time."
+        "title": "Activity metrics (MET)",
+        "description": "Workload and daily activity indicators to support hospital operational decisions."
       },
       "clinical": {
         "title": "Clinical analytics",
@@ -1084,6 +1088,26 @@
       "true": "Yes",
       "false": "No",
       "insufficient_complete_distinct_rows": "At least four complete rows and three distinct values are required."
+    },
+    "met": {
+      "kpiSection": "Operational indicators",
+      "kpis": {
+        "total": { "title": "Total encounters", "hint": "Historical volume for the analysed period. Helps size capacity." },
+        "activeDays": { "title": "Days with activity", "hint": "How many days had at least one recorded encounter." },
+        "peakDay": { "title": "Highest-load day", "hint": "Day with the most encounters. Useful for staffing and shift planning." },
+        "dailyAverage": { "title": "Daily average", "hint": "Typical demand baseline to compare current days against." }
+      },
+      "activityByDay": "Activity by day",
+      "atenciones": "encounters",
+      "noPeak": "No peak identified",
+      "noActivity": "No daily activity to display.",
+      "unknownDay": "Date unavailable",
+      "detailTitle": "View technical data detail",
+      "decision": {
+        "highLoad": "High load on that day: consider extra staff or redistributing appointments on similar days.",
+        "stableLoad": "No marked peak: demand looks relatively stable.",
+        "improveCapture": "Some records lack a usable date. Better capture of admission date improves indicator reliability."
+      }
     }
   },
   "administrative": {
