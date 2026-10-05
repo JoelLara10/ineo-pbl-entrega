@@ -11,7 +11,8 @@ from services.spark_service import (
 
 spark_bp = Blueprint('spark', __name__)
 
-SPARK_ROLES = ('admin', 'administrativo', 'medico')
+# Contrato: medico / enfermería / estudios → 403
+SPARK_ROLES = ('admin', 'administrativo')
 
 
 def _error(message, code, http_status):
@@ -24,8 +25,11 @@ def _error(message, code, http_status):
 
 @spark_bp.errorhandler(PyMongoError)
 def unavailable(_error):
-    return _error('Servicio de análisis temporalmente no disponible.',
-                  'unavailable', 503)
+    return _error(
+        'Servicio de análisis temporalmente no disponible.',
+        'unavailable',
+        503,
+    )
 
 
 @spark_bp.route('/overview', methods=['GET'])
@@ -34,9 +38,18 @@ def unavailable(_error):
 def get_overview():
     try:
         return jsonify(SparkService.get_overview()), 200
+    except PyMongoError:
+        return _error(
+            'Servicio de análisis temporalmente no disponible.',
+            'unavailable',
+            503,
+        )
     except Exception:
-        return _error('No se pudo consultar el resumen de análisis',
-                      'overview_failed', 500)
+        return _error(
+            'No se pudo consultar el resumen de análisis',
+            'unavailable',
+            503,
+        )
 
 
 @spark_bp.route('/run/<analysis_type>', methods=['POST'])
@@ -44,8 +57,11 @@ def get_overview():
 @role_required(*SPARK_ROLES)
 def run_analysis(analysis_type):
     if request.get_data():
-        return _error('Esta versión no acepta parámetros de ejecución.',
-                      'invalid_request', 400)
+        return _error(
+            'Esta versión no acepta parámetros de ejecución.',
+            'invalid_request',
+            400,
+        )
     try:
         payload = SparkService.run(
             analysis_type,
@@ -56,16 +72,25 @@ def run_analysis(analysis_type):
     except SparkTypeError as exc:
         return _error(str(exc), 'invalid_type', 400)
     except SparkNotImplemented as exc:
-        return _error(str(exc), 'not_implemented', 400)
+        return _error(str(exc), 'invalid_type', 400)
     except SparkJobConflict:
         status = SparkService.get_status(analysis_type)
         return jsonify(
             contract_version=SparkService.VERSION,
             status=status,
-        ), 200    
+        ), 200
+    except PyMongoError:
+        return _error(
+            'Servicio de análisis temporalmente no disponible.',
+            'unavailable',
+            503,
+        )
     except Exception:
-        return _error('No se pudo ejecutar el análisis clínico',
-                      'run_failed', 500)
+        return _error(
+            'No se pudo ejecutar el análisis',
+            'unavailable',
+            503,
+        )
 
 
 @spark_bp.route('/status/<analysis_type>', methods=['GET'])
@@ -76,9 +101,18 @@ def get_status(analysis_type):
         return jsonify(SparkService.get_status(analysis_type)), 200
     except SparkTypeError as exc:
         return _error(str(exc), 'invalid_type', 400)
+    except PyMongoError:
+        return _error(
+            'Servicio de análisis temporalmente no disponible.',
+            'unavailable',
+            503,
+        )
     except Exception:
-        return _error('No se pudo consultar el estado del análisis',
-                      'status_failed', 500)
+        return _error(
+            'No se pudo consultar el estado del análisis',
+            'unavailable',
+            503,
+        )
 
 
 @spark_bp.route('/<analysis_type>', methods=['GET'])
@@ -89,6 +123,15 @@ def get_result(analysis_type):
         return jsonify(SparkService.get_result(analysis_type)), 200
     except SparkTypeError as exc:
         return _error(str(exc), 'invalid_type', 400)
+    except PyMongoError:
+        return _error(
+            'Servicio de análisis temporalmente no disponible.',
+            'unavailable',
+            503,
+        )
     except Exception:
-        return _error('No se pudo cargar el resultado clínico',
-                      'result_failed', 500)
+        return _error(
+            'No se pudo cargar el resultado',
+            'unavailable',
+            503,
+        )

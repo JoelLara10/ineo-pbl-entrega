@@ -35,6 +35,7 @@ def validate_jwt_configuration():
     """Valida la configuración JWT durante el arranque de la API."""
     _get_secret_key()
 
+
 def generate_token(user_id, username, role):
     """Genera un token JWT"""
     payload = {
@@ -46,6 +47,7 @@ def generate_token(user_id, username, role):
     }
     return jwt.encode(payload, _get_secret_key(), algorithm='HS256')
 
+
 def verify_token(token):
     """Verifica el token JWT"""
     try:
@@ -56,23 +58,32 @@ def verify_token(token):
     except jwt.InvalidTokenError:
         return None
 
+
 def token_required(f):
     """Decorador para requerir autenticación"""
     @wraps(f)
     def decorated(*args, **kwargs):
         token = None
-        
+
         # Buscar token en headers
         auth_header = request.headers.get('Authorization')
         if auth_header and auth_header.startswith('Bearer '):
             token = auth_header.split(' ')[1]
-        
+
         if not token:
-            return jsonify({'error': 'Token no proporcionado'}), 401
-        
+            return jsonify({
+                'contract_version': '1.0',
+                'error': 'Token no proporcionado',
+                'code': 'unauthorized',
+            }), 401
+
         payload = verify_token(token)
         if not payload:
-            return jsonify({'error': 'Token inválido o expirado'}), 401
+            return jsonify({
+                'contract_version': '1.0',
+                'error': 'Token inválido o expirado',
+                'code': 'unauthorized',
+            }), 401
 
         # SEGURIDAD (Jesús): el JWT por sí solo no garantiza que la cuenta siga
         # autorizada. Se consulta el estado actual para revocar inmediatamente
@@ -81,12 +92,17 @@ def token_required(f):
         current_user = UserModel.find_by_id(payload.get('user_id'))
 
         if not current_user or not current_user.get('activo', True):
-            return jsonify({'error': 'Token inválido o expirado'}), 401
+            return jsonify({
+                'contract_version': '1.0',
+                'error': 'Token inválido o expirado',
+                'code': 'unauthorized',
+            }), 401
 
         g.user = payload
         return f(*args, **kwargs)
-    
+
     return decorated
+
 
 def role_required(*roles):
     """Decorador para requerir roles específicos"""
@@ -94,7 +110,11 @@ def role_required(*roles):
         @wraps(f)
         def decorated(*args, **kwargs):
             if not hasattr(g, 'user') or g.user.get('role') not in roles:
-                return jsonify({'error': 'Permisos insuficientes'}), 403
+                return jsonify({
+                    'contract_version': '1.0',
+                    'error': 'Permisos insuficientes',
+                    'code': 'forbidden',
+                }), 403
             return f(*args, **kwargs)
         return decorated
     return decorator
