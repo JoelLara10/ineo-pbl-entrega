@@ -353,7 +353,7 @@ class SparkService:
 
     VERSION = VERSION
     ALLOWED_TYPES = TYPES
-    IMPLEMENTED_TYPES = TYPES  # analytics, met, clinical, unsupervised
+    IMPLEMENTED_TYPES = ('clinical', 'met', 'analytics', 'unsupervised')
     COLLECTION = COLLECTION
     JOB_TIMEOUT_SECONDS = TIMEOUT
     MAX_ROWS = MAX_ROWS
@@ -365,12 +365,10 @@ class SparkService:
         overview = {}
         for analysis_type in cls.ALLOWED_TYPES:
             job = read_job(analysis_type)
-            status = status_of(job)
             result = (job or {}).get('result') or empty_result()
             overview[analysis_type] = {
-                'contract_version': cls.VERSION,
                 'available': bool(result.get('available')),
-                'state': status['state'],
+                'status': status_of(job),
             }
         return overview
 
