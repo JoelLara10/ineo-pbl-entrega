@@ -1,2 +1,6 @@
 import SparkAnalysisScreen from './SparkAnalysisScreen';
-export default function MetAnalyticsScreen() { return <SparkAnalysisScreen type="met" />; }
+import MetOperationalPanel from './MetOperationalPanel';
+
+export default function MetAnalyticsScreen() {
+  return <SparkAnalysisScreen type="met" ResultsComponent={MetOperationalPanel} />;
+}
