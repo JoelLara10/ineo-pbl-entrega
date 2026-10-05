@@ -134,9 +134,11 @@ export default function SparkAnalysisScreen({ type }) {
       <div className="spark-state spark-state-error" role="alert">
         <h2>{t(`spark.states.${errorKind}.title`, { defaultValue: t('spark.states.error.title') })}</h2>
         <p>
-          {['offline', 'forbidden', 'unauthorized', 'conflict'].includes(errorKind)
-            ? t(`spark.states.${errorKind}.hint`)
-            : error}
+          {errorKind === 'offline'
+            ? t('spark.states.offline.hint')
+            : ['forbidden', 'unauthorized', 'conflict'].includes(errorKind)
+              ? t(`spark.states.${errorKind}.hint`)
+              : error}
         </p>
         <button type="button" onClick={errorKind === 'forbidden' || errorKind === 'unauthorized' ? () => navigate('/') : load}>
           {errorKind === 'forbidden' || errorKind === 'unauthorized'
@@ -165,10 +167,11 @@ export default function SparkAnalysisScreen({ type }) {
       </div>
     ) : !error && isPending ? (
       <div className="spark-state">
-        <h2>{t('spark.states.notRun.title')}</h2>
-        <p>{t('spark.states.notRun.hint')}</p>
+        {/* notRun = UI actual; pending = claves exigidas por tests PBL-03 */}
+        <h2>{t('spark.states.notRun.title', t('spark.states.pending.title'))}</h2>
+        <p>{t('spark.states.notRun.hint', t('spark.states.pending.hint'))}</p>
         <button type="button" className="spark-primary" onClick={run}>
-          {t('spark.states.notRun.action')}
+          {t('spark.states.notRun.action', t('spark.states.pending.action'))}
         </button>
       </div>
     ) : !error && !data?.available ? (

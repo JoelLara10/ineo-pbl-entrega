@@ -42,10 +42,12 @@ class UserModel:
         collection = get_collection('users')
         from bson import ObjectId
         try:
-            user = collection.find_one({'_id': ObjectId(user_id)})
-        except:
-            user = collection.find_one({'id': int(user_id)})
-        return user
+            return collection.find_one({'_id': ObjectId(user_id)})
+        except Exception:
+            try:
+                return collection.find_one({'id': int(user_id)})
+            except Exception:
+                return None
     
     @staticmethod
     def get_all(page=1, page_size=20, role=None):

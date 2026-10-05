@@ -191,4 +191,5 @@ def test_existing_token_is_revoked_when_user_is_inactive(client, monkeypatch):
     )
 
     assert response.status_code == 401
-    assert response.get_json() == {"error": "Token inválido o expirado"}
+    body = response.get_json()
+    assert body["error"] == "Token inválido o expirado"

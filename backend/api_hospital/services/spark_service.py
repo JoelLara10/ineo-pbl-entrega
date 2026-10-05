@@ -381,8 +381,12 @@ class SparkService:
         payload = status_of(job)
         payload['type'] = analysis_type
         if job is None:
-            payload['state'] = 'pending'
+            payload['state'] = 'idle'
             payload['running'] = False
+            payload['job_id'] = None
+            payload['error'] = None
+            payload['started_at'] = None
+            payload['finished_at'] = None
         return payload
 
     @classmethod
