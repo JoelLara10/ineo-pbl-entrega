@@ -101,7 +101,7 @@ describe('PBL-05-T4 — pantalla Spark completa en español e inglés', () => {
       expect(host.textContent).toContain(i18n.t('spark.sections.metrics'));
       expect(host.textContent).toContain(i18n.t('spark.fields.fc'));
       expect(host.textContent).toContain(i18n.t('spark.fields.mean'));
-      expect(i18n.t('sidebar.spark')).toBe('Spark');
+      expect(i18n.t('sidebar.spark')).toBe(lang === 'es' ? 'Análisis de datos' : 'Spark');
       expect(i18n.t('sidebar.sparkSection')).not.toBe('sidebar.sparkSection');
       expect(host.textContent).not.toMatch(/spark\.(states|sections|fields|types)\./);
     }

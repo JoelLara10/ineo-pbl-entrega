@@ -9,6 +9,7 @@
     "lint": "oxlint",
     "preview": "vite preview",
     "test": "vitest run",
+    "check:i18n": "node scripts/check-i18n-keys.mjs",
     "test:watch": "vitest"
   },
   "dependencies": {
