@@ -629,7 +629,11 @@
     "uprRiskLabel": "Riesgo UPP:",
     "observationsLabel": "Observaciones:",
     "noObservations": "Sin observaciones",
-    "notSpecified": "No especificado"
+    "notSpecified": "No especificado",
+    "newRecord": "Nueva valoración",
+    "selectPatientFirst": "Selecciona un paciente primero",
+    "records": "{{count}} registro(s)",
+    "loadingHistory": "Cargando historial..."
   },
   "nursingCare": {
     "eyebrow": "ENFERMERÍA",

@@ -629,7 +629,11 @@
     "uprRiskLabel": "PU risk:",
     "observationsLabel": "Observations:",
     "noObservations": "No observations",
-    "notSpecified": "Not specified"
+    "notSpecified": "Not specified",
+    "newRecord": "New assessment",
+    "selectPatientFirst": "Select a patient first",
+    "records": "{{count}} record(s)",
+    "loadingHistory": "Loading history..."
   },
   "nursingCare": {
     "eyebrow": "NURSING",
