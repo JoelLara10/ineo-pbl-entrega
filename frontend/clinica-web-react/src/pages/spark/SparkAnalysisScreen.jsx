@@ -64,7 +64,7 @@ function VisualGallery({ images }) {
   ))}</div>;
 }
 
-export default function SparkAnalysisScreen({ type }) {
+export default function SparkAnalysisScreen({ type, ResultsComponent }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [data, setData] = useState(null);
@@ -140,10 +140,10 @@ export default function SparkAnalysisScreen({ type }) {
       : !error && !data?.available && status.state === 'idle' ? <div className="spark-state"><h2>{t('spark.states.notRun.title')}</h2><p>{t('spark.states.notRun.hint')}</p><button className="spark-primary" onClick={run}>{t('spark.states.notRun.action')}</button></div>
       : !error && !data?.available ? (
       <div className="spark-state"><h2>{t('spark.states.empty.title')}</h2><p>{t('spark.states.empty.hint')}</p><button onClick={load}>{t('spark.states.empty.action')}</button></div>
-    ) : !error && <>
+    ) : !error && (ResultsComponent ? <ResultsComponent data={data} /> : <>
       {sections.map(([key, value]) => <section className="spark-panel" key={key}><h2>{t(`spark.sections.${key}`, prettyKey(key))}</h2><DataValue value={value} /></section>)}
       <VisualGallery images={data?.visualizations} />
-    </>}
+    </>)}
     {status.state === 'failed' && status.log && <details className="spark-log"><summary>{t('spark.executionFailed')}</summary><pre>{status.log}</pre></details>}
   </main>;
 }

@@ -971,6 +971,17 @@
     "loadError": "The analysis could not be loaded.",
     "runError": "The analysis could not be started.",
     "executionFailed": "Analysis execution failed",
+    "analyticsGeneral": {
+      "summaryTitle": "Main indicators",
+      "cardExplanation": "Indicator calculated with data from the selected period.",
+      "chartTitle": "Operational activity for the period",
+      "periodLabel": "Period",
+      "currentPeriod": "Latest available run",
+      "unit": "Records",
+      "legend": "Count by category",
+      "chartAria": "Operational activity bar chart",
+      "chartExplanation": "Bars compare the count recorded in each category; a longer bar represents greater activity."
+    },
     "types": {
       "analytics": {
         "title": "General analytics",

@@ -971,6 +971,17 @@
     "loadError": "No fue posible consultar el análisis.",
     "runError": "No fue posible iniciar el análisis.",
     "executionFailed": "La ejecución del análisis falló",
+    "analyticsGeneral": {
+      "summaryTitle": "Indicadores principales",
+      "cardExplanation": "Indicador calculado con los datos del periodo seleccionado.",
+      "chartTitle": "Actividad operativa del periodo",
+      "periodLabel": "Periodo",
+      "currentPeriod": "Última ejecución disponible",
+      "unit": "Registros",
+      "legend": "Cantidad por categoría",
+      "chartAria": "Gráfica de barras de actividad operativa",
+      "chartExplanation": "Las barras comparan la cantidad registrada en cada categoría; una barra más larga representa mayor actividad."
+    },
     "types": {
       "analytics": {
         "title": "Analítica general",
