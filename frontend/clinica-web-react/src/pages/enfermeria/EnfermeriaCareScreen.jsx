@@ -5,7 +5,7 @@ import { FiArrowLeft, FiClock, FiRefreshCw, FiSave, FiShield, FiUser } from 'rea
 import { usePatient } from '../../context/PatientContext';
 import api from '../../services/api';
 import { useTranslation } from 'react-i18next';
-
+import './NursingCare.css';
 
 const CARE_STATES = ['EN_PROCESO', 'PENDIENTE', 'COMPLETADO'];
 
@@ -19,6 +19,7 @@ export default function EnfermeriaCareScreen() {
   const idExp = selectedPatient?.Id_exp || location.state?.Id_exp;
   const [loading, setLoading] = useState(false);
   const [loadingHistory, setLoadingHistory] = useState(false);
+  const [historyError, setHistoryError] = useState('');
   const [history, setHistory] = useState([]);
   const [formData, setFormData] = useState({
     diagnostico_enfermeria: '',
@@ -37,15 +38,17 @@ export default function EnfermeriaCareScreen() {
   const loadHistory = useCallback(async () => {
     if (!idAtencion) return;
     setLoadingHistory(true);
+    setHistoryError('');
     try {
       const response = await api.get(`/appointments/${idAtencion}/nursing-care`);
       setHistory(response.data || []);
     } catch (error) {
       console.error('Error loading nursing care history:', error);
+      setHistoryError(t('nursingCare.historyError'));
     } finally {
       setLoadingHistory(false);
     }
-  }, [idAtencion]);
+  }, [idAtencion, t]);
 
   useEffect(() => {
     loadHistory();
@@ -77,102 +80,81 @@ export default function EnfermeriaCareScreen() {
   };
 
   return (
-    <div style={styles.page}>
-      <div style={styles.header}>
-        <button type="button" onClick={() => navigate(-1)} style={styles.headerButton}>
+    <main className="nursing-care-page">
+      <header className="nursing-care-header">
+        <button type="button" onClick={() => navigate(-1)} className="nursing-care-back" aria-label={t('common.back')}>
           <FiArrowLeft size={20} />
         </button>
         <div>
-          <div style={styles.headerEyebrow}>{t('nursingCare.eyebrow')}</div>
-          <h1 style={styles.headerTitle}>{t('nursingCare.title')}</h1>
+          <div className="nursing-care-eyebrow">{t('nursingCare.eyebrow')}</div>
+          <h1>{t('nursingCare.title')}</h1>
         </div>
-        <div style={styles.headerSpacer} />
-      </div>
+        <div className="nursing-care-header-spacer" />
+      </header>
 
-      <section style={styles.patientCard}>
-        <div style={styles.patientAvatar}><FiUser size={30} color="#fff" /></div>
+      <section className="nursing-care-patient" aria-labelledby="nursing-care-patient-title">
+        <div className="nursing-care-avatar"><FiUser size={30} color="#fff" /></div>
         <div>
-          <h2 style={styles.patientName}>{t('nursingCare.selectedPatient')}</h2>
-          <p style={styles.patientMeta}>{patientLabel}</p>
+          <h2 id="nursing-care-patient-title">{t('nursingCare.selectedPatient')}</h2>
+          <p>{patientLabel}</p>
         </div>
       </section>
 
-      <section style={styles.mainCard}>
-        <div style={styles.formGrid}>
-          <textarea style={styles.textArea} rows={3} placeholder={t('nursingCare.nursingDiagnosisPlaceholder')} value={formData.diagnostico_enfermeria} onChange={(e) => handleChange('diagnostico_enfermeria', e.target.value)} />
-          <textarea style={styles.textArea} rows={3} placeholder={t('nursingCare.objectivesPlaceholder')} value={formData.objetivos} onChange={(e) => handleChange('objetivos', e.target.value)} />
-          <textarea style={styles.textArea} rows={3} placeholder={t('nursingCare.interventionsPlaceholder')} value={formData.intervenciones} onChange={(e) => handleChange('intervenciones', e.target.value)} />
-          <textarea style={styles.textArea} rows={3} placeholder={t('nursingCare.evaluationPlaceholder')} value={formData.evaluacion} onChange={(e) => handleChange('evaluacion', e.target.value)} />
+      <section className="nursing-care-card" aria-labelledby="nursing-care-form-title">
+        <h2 id="nursing-care-form-title">{t('nursingCare.formTitle')}</h2>
+        <div className="nursing-care-grid">
+          <label>{t('nursingCare.nursingDiagnosisPlaceholder')}<textarea rows={3} value={formData.diagnostico_enfermeria} onChange={(e) => handleChange('diagnostico_enfermeria', e.target.value)} /></label>
+          <label>{t('nursingCare.objectivesPlaceholder')}<textarea rows={3} value={formData.objetivos} onChange={(e) => handleChange('objetivos', e.target.value)} /></label>
+          <label>{t('nursingCare.interventionsPlaceholder')}<textarea rows={3} value={formData.intervenciones} onChange={(e) => handleChange('intervenciones', e.target.value)} /></label>
+          <label>{t('nursingCare.evaluationPlaceholder')}<textarea rows={3} value={formData.evaluacion} onChange={(e) => handleChange('evaluacion', e.target.value)} /></label>
         </div>
-        <select style={styles.input} value={formData.estado} onChange={(e) => handleChange('estado', e.target.value)}>
-          {CARE_STATES.map((state) => <option key={state} value={state}>{state.replace('_', ' ')}</option>)}
-        </select>
-        <textarea style={styles.textArea} rows={3} placeholder={t('nursingCare.observationsPlaceholder')} value={formData.observaciones} onChange={(e) => handleChange('observaciones', e.target.value)} />
-        <div style={styles.buttonRow}>
-          <button type="button" style={styles.secondaryButton} onClick={loadHistory} disabled={loadingHistory}>
+        <label className="nursing-care-field">{t('nursingCare.stateLabel')}
+          <select value={formData.estado} onChange={(e) => handleChange('estado', e.target.value)}>
+            {CARE_STATES.map((state) => <option key={state} value={state}>{t(`nursingCare.states.${state}`)}</option>)}
+          </select>
+        </label>
+        <label className="nursing-care-field">{t('nursingCare.observationsPlaceholder')}
+          <textarea rows={3} value={formData.observaciones} onChange={(e) => handleChange('observaciones', e.target.value)} />
+        </label>
+        <div className="nursing-care-actions">
+          <button type="button" className="nursing-care-secondary" onClick={loadHistory} disabled={loadingHistory}>
             <FiRefreshCw size={16} /> {t('nursingCare.reload')}
           </button>
-          <button type="button" style={styles.primaryButton} onClick={handleSubmit} disabled={!idAtencion || loading}>
+          <button type="button" className="nursing-care-primary" onClick={handleSubmit} disabled={!idAtencion || loading}>
             <FiSave size={16} /> {loading ? t('nursingCare.saving') : t('nursingCare.save')}
           </button>
         </div>
       </section>
 
-      <section style={styles.historyCard}>
-        <div style={styles.historyHeader}>
+      <section className="nursing-care-history" aria-labelledby="nursing-care-history-title">
+        <div className="nursing-care-history-header">
           <FiClock size={16} />
-          <strong>{t('nursingCare.history')}</strong>
-          <span style={styles.count}>{history.length}</span>
+          <h2 id="nursing-care-history-title">{t('nursingCare.history')}</h2>
+          <span>{history.length}</span>
         </div>
-        {loadingHistory ? <div style={styles.status}>{t('nursingCare.loading')}</div> : history.length === 0 ? (
-          <div style={styles.status}>{t('nursingCare.noRecords')}</div>
+        {loadingHistory ? <div className="nursing-care-status" role="status">{t('nursingCare.loading')}</div>
+          : historyError ? <div className="nursing-care-status nursing-care-error" role="alert"><span>{historyError}</span><button type="button" onClick={loadHistory}>{t('common.retry')}</button></div>
+          : history.length === 0 ? (
+          <div className="nursing-care-status">{t('nursingCare.noRecords')}</div>
         ) : (
           history.map((item, index) => (
-            <article key={item.id_cuidado || index} style={styles.historyItem}>
-              <div style={styles.historyDate}>{formatRegionalDate(item.fecha_registro, i18n.language, 'dateTime')} - Enf. {item.enfermero_nombre || t('nursingCare.notSpecified')}</div>
-              <div style={styles.historyText}>Estado: {item.estado || 'EN_PROCESO'}</div>
-              <div style={styles.historyText}>{t('nursingCare.diagnosisLabel') + ' '}{item.diagnostico_enfermeria || 'N/A'}</div>
-              <div style={styles.historyText}>{t('nursingCare.objectivesLabel') + ' '}{item.objetivos || 'N/A'}</div>
-              <div style={styles.historyText}>{t('nursingCare.interventionsLabel') + ' '}{item.intervenciones || 'N/A'}</div>
-              <div style={styles.historyText}>{t('nursingCare.evaluationLabel') + ' '}{item.evaluacion || 'N/A'}</div>
-              <div style={styles.historyText}>{t('nursingCare.observationsLabel') + ' '}{item.observaciones || t('nursingCare.noObservations')}</div>
+            <article key={item.id_cuidado || index} className="nursing-care-history-item">
+              <div className="nursing-care-history-date">{formatRegionalDate(item.fecha_registro, i18n.language, 'dateTime')} - Enf. {item.enfermero_nombre || t('nursingCare.notSpecified')}</div>
+              <div>{t('nursingCare.stateLabel')} {t(`nursingCare.states.${item.estado || 'EN_PROCESO'}`)}</div>
+              <div>{t('nursingCare.diagnosisLabel')} {item.diagnostico_enfermeria || t('nursingCare.notSpecified')}</div>
+              <div>{t('nursingCare.objectivesLabel')} {item.objetivos || t('nursingCare.notSpecified')}</div>
+              <div>{t('nursingCare.interventionsLabel')} {item.intervenciones || t('nursingCare.notSpecified')}</div>
+              <div>{t('nursingCare.evaluationLabel')} {item.evaluacion || t('nursingCare.notSpecified')}</div>
+              <div>{t('nursingCare.observationsLabel')} {item.observaciones || t('nursingCare.noObservations')}</div>
             </article>
           ))
         )}
       </section>
 
-      <footer style={styles.footer}>
+      <footer className="nursing-care-footer">
         <FiShield size={14} />
         <span>{t('nursingCare.footer')}</span>
       </footer>
-    </div>
+    </main>
   );
 }
-
-const styles = {
-  page: { minHeight: '100%', padding: '24px', background: 'linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%)' },
-  header: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', padding: '20px 24px', borderRadius: '20px', background: 'linear-gradient(135deg, #2563eb 0%, #7c3aed 100%)', color: '#fff' },
-  headerButton: { width: 44, height: 44, borderRadius: 12, border: '1px solid rgba(255,255,255,0.25)', background: 'rgba(255,255,255,0.12)', color: '#fff', display: 'grid', placeItems: 'center', cursor: 'pointer' },
-  headerEyebrow: { fontSize: 12, letterSpacing: 1.2, opacity: 0.85 },
-  headerTitle: { margin: '6px 0 0', fontSize: 26 },
-  headerSpacer: { width: 44, height: 44 },
-  patientCard: { marginTop: 18, background: '#fff', borderRadius: 18, padding: 18, display: 'flex', gap: 12, alignItems: 'center', boxShadow: '0 12px 24px rgba(15, 23, 42, 0.08)' },
-  patientAvatar: { width: 52, height: 52, borderRadius: '50%', display: 'grid', placeItems: 'center', background: 'linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%)' },
-  patientName: { margin: 0, fontSize: 18, color: '#1f2937' },
-  patientMeta: { margin: '4px 0 0', color: '#64748b' },
-  mainCard: { marginTop: 18, background: '#fff', borderRadius: 18, padding: 18, boxShadow: '0 12px 24px rgba(15, 23, 42, 0.08)' },
-  formGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 12 },
-  input: { marginTop: 12, border: '1px solid #cbd5e1', borderRadius: 10, padding: '10px 12px', fontSize: 14 },
-  textArea: { width: '100%', border: '1px solid #cbd5e1', borderRadius: 10, padding: 12, fontSize: 14, resize: 'vertical' },
-  buttonRow: { marginTop: 14, display: 'flex', justifyContent: 'space-between', gap: 10 },
-  secondaryButton: { display: 'inline-flex', alignItems: 'center', gap: 6, border: '1px solid #cbd5e1', borderRadius: 10, padding: '10px 14px', background: '#f8fafc', cursor: 'pointer' },
-  primaryButton: { display: 'inline-flex', alignItems: 'center', gap: 6, border: 'none', borderRadius: 10, padding: '10px 14px', background: '#2563eb', color: '#fff', cursor: 'pointer' },
-  historyCard: { marginTop: 18, background: '#fff', borderRadius: 18, padding: 18, boxShadow: '0 12px 24px rgba(15, 23, 42, 0.08)' },
-  historyHeader: { display: 'flex', alignItems: 'center', gap: 8, color: '#334155' },
-  count: { marginLeft: 'auto', fontSize: 12, color: '#64748b' },
-  status: { marginTop: 12, color: '#64748b' },
-  historyItem: { marginTop: 12, border: '1px solid #e2e8f0', borderRadius: 12, padding: 12 },
-  historyDate: { fontSize: 13, color: '#475569', marginBottom: 6 },
-  historyText: { fontSize: 14, color: '#1e293b', margin: '2px 0' },
-  footer: { marginTop: 18, display: 'flex', alignItems: 'center', gap: 8, color: '#64748b', fontSize: 12 },
-};
