@@ -634,6 +634,7 @@
   "nursingCare": {
     "eyebrow": "ENFERMERÍA",
     "title": "Cuidados de Enfermería",
+    "formTitle": "Registrar plan de cuidados",
     "selectedPatient": "Paciente seleccionado",
     "nursingDiagnosisPlaceholder": "Diagnóstico de enfermería",
     "objectivesPlaceholder": "Objetivos",
@@ -646,6 +647,7 @@
     "history": "Historial",
     "loading": "Cargando...",
     "noRecords": "Sin registros",
+    "historyError": "No se pudo cargar el historial de cuidados",
     "saveSuccess": "Cuidados de enfermería guardados correctamente",
     "saveError": "No se pudo guardar el cuidado de enfermería",
     "footer": "INEO v2.0 - Cuidados de enfermería",
@@ -654,6 +656,11 @@
     "interventionsLabel": "Intervenciones:",
     "evaluationLabel": "Evaluación:",
     "stateLabel": "Estado:",
+    "states": {
+      "EN_PROCESO": "En proceso",
+      "PENDIENTE": "Pendiente",
+      "COMPLETADO": "Completado"
+    },
     "observationsLabel": "Observaciones:",
     "noObservations": "Sin observaciones",
     "notSpecified": "No especificado"
