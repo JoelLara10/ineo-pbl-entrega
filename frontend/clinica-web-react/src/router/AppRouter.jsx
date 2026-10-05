@@ -104,7 +104,7 @@ export default function AppRouter() {
   const isMedico = role === 'medico';
   const isEnfermeria = role === 'enfermero' || role === 'enfermeria';
   const isEstudios = role === 'estudios';
-  const canSparkClinical = isAdminOrAdministrativo || isMedico;
+  const canSparkClinical = isAdminOrAdministrativo; // solo admin/administrativo
 
   return (
     <Suspense fallback={<PageLoader />}>

@@ -160,14 +160,16 @@ export default function SparkAnalysisScreen({ type }) {
     ) : !error && status.state === 'failed' ? (
       <div className="spark-state spark-state-error" role="alert">
         <h2>{t('spark.states.failed.title')}</h2>
-        <p>{t('spark.states.failed.hint')}</p>
+        <p>{status.error || t('spark.states.failed.hint')}</p>
         <button type="button" onClick={run}>{t('spark.states.failed.action')}</button>
       </div>
     ) : !error && isPending ? (
       <div className="spark-state">
-        <h2>{t('spark.states.pending.title')}</h2>
-        <p>{t('spark.states.pending.hint')}</p>
-        <button type="button" className="spark-primary" onClick={run}>{t('spark.states.pending.action')}</button>
+        <h2>{t('spark.states.notRun.title')}</h2>
+        <p>{t('spark.states.notRun.hint')}</p>
+        <button type="button" className="spark-primary" onClick={run}>
+          {t('spark.states.notRun.action')}
+        </button>
       </div>
     ) : !error && !data?.available ? (
       <div className="spark-state">

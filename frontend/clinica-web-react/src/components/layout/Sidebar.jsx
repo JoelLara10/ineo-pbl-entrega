@@ -112,7 +112,7 @@ export default function Sidebar({ isOpen, onClose }) {
     });
   }*/
  const isAdminOrAdministrativo = isAdmin || role === 'administrativo';
-  const canSparkClinical = isAdminOrAdministrativo || isMedico;
+  const canSparkClinical = isAdminOrAdministrativo; // solo admin/administrativo
 
   if (canSparkClinical && currentModule === 'spark') {
     const sparkItems = isAdminOrAdministrativo
