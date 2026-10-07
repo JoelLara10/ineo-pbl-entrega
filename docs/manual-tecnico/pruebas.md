@@ -1,9 +1,9 @@
 # Manual técnico — Estrategia de pruebas
 
 **Sistema:** INEO — React y API Hospital  
-**Sprint:** 5 — Calidad, Seguridad y Spark  
+**Sprint:** 2 / Azure Sprint 8 — Calidad, Seguridad y análisis de datos
 **Responsable:** Jesús  
-**Fecha de revisión:** 14 de agosto de 2026
+**Fecha de revisión:** 7 de octubre de 2026
 
 ## 1. Objetivo
 
@@ -11,7 +11,7 @@ Definir una estrategia reproducible para verificar la API Flask, el frontend Rea
 
 ## 2. Alcance comprobado
 
-La revisión cubre los repositorios `api_hospital` y `clinica-web-react`. En el estado analizado no existen directorios de pruebas automatizadas ni flujos CI incorporados. Por ello, este documento distingue entre verificaciones estáticas ejecutadas y pruebas funcionales que deben realizarse cuando estén disponibles MongoDB, la API y el frontend.
+La revisión cubre `api_hospital` y `clinica-web-react`. Ambos módulos cuentan con pruebas automatizadas y el repositorio ejecuta validaciones de integración continua. Las pruebas funcionales con MongoDB usan datos sintéticos.
 
 ## 3. Pirámide de pruebas propuesta
 
@@ -85,12 +85,14 @@ Las herramientas listadas constituyen una recomendación de implementación; no 
 
 Ejecutar, cuando las dependencias estén instaladas:
 
-```powershell
+```bash
+npm run check:i18n
+npm test
 npm run lint
 npm run build
 ```
 
-El `package.json` actual no contiene un script `test`. Para validar manualmente:
+Además de la automatización, validar manualmente:
 
 1. Recorrer cada ruta protegida con un rol permitido y otro denegado.
 2. Probar carga, error, vacío y datos disponibles.
