@@ -9,10 +9,10 @@
     "errorCredentials": "Invalid credentials"
   },
   "sidebar": {
-    "spark": "Spark",
-    "sparkSection": "SPARK ANALYSIS",
+    "spark": "Data analysis",
+    "sparkSection": "DATA ANALYSIS",
     "principal": "MAIN",
-    "dashboard": "Dashboard",
+    "dashboard": "Home",
     "medicalPanel": "Medical Panel",
     "nursingPanel": "Nursing Panel",
     "studiesPanel": "Studies Panel",
@@ -20,7 +20,7 @@
     "clinicalHistoryItem": "Clinical History",
     "medicalNotes": "MEDICAL NOTES",
     "vitalSigns": "Vital Signs",
-    "medicalNote": "Medical Note (SOAP)",
+    "medicalNote": "Medical note",
     "diagnosis": "Diagnosis",
     "prescription": "Prescription",
     "labExams": "Laboratory Exams",
@@ -35,10 +35,10 @@
     "fluidBalance": "Fluid Balance",
     "nursingCare": "Nursing Care",
     "studies": "STUDIES",
-    "labRequests": "Lab Requests",
-    "imagingRequests": "Imaging Requests",
-    "labResults": "Lab Results",
-    "imagingResults": "Imaging Results",
+    "labRequests": "Laboratory requests",
+    "imagingRequests": "Imaging requests",
+    "labResults": "Laboratory results",
+    "imagingResults": "Imaging results",
     "modules": "MODULES",
     "administration": "Administration",
     "medical": "Medical",
@@ -50,7 +50,7 @@
     "configBeds": "Beds",
     "configServices": "Services",
     "configAutomation": "Automation",
-    "configBackup": "Backup",
+    "configBackup": "Backup copies",
     "configProfile": "My Profile",
     "logout": "Sign Out",
     "confirmLogout": "Are you sure you want to sign out?",
@@ -962,8 +962,8 @@
     "footer": "INEO v2.0 - Medical diagnosis"
   },
   "spark": {
-    "eyebrow": "SPARK ANALYTICS",
-    "title": "Spark analytics dashboard",
+    "eyebrow": "DATA ANALYSIS",
+    "title": "Data analysis panel",
     "description": "Review and run available analyses to support clinical and administrative decisions.",
     "refresh": "Refresh",
     "run": "Run analysis",
@@ -992,7 +992,7 @@
         "description": "General indicators and operational trends."
       },
       "met": {
-        "title": "Activity metrics (MET)",
+        "title": "Daily activity",
         "description": "Workload and daily activity indicators to support hospital operational decisions."
       },
       "clinical": {
@@ -1000,7 +1000,7 @@
         "description": "Clinical indicators derived from hospital information."
       },
       "unsupervised": {
-        "title": "Unsupervised analysis",
+        "title": "Data patterns",
         "description": "Groups and patterns detected in the data."
       }
     },
@@ -1012,7 +1012,7 @@
       "clusters": "Exploratory clusters",
       "recommendations": "Recommendations",
       "quality": "Data quality",
-      "pca": "Exploratory PCA"
+      "pca": "Main variable summary"
     },
     "states": {
       "loading": {
@@ -1034,7 +1034,7 @@
         "action": "Refresh results"
       },
       "offline": {
-        "title": "Spark is unavailable",
+        "title": "The analysis service is unavailable",
         "hint": "Check the API connection and try again."
       },
       "failed": {
