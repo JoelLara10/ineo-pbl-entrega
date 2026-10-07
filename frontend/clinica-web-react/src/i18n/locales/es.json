@@ -9,10 +9,10 @@
     "errorCredentials": "Credenciales incorrectas"
   },
   "sidebar": {
-    "spark": "Spark",
-    "sparkSection": "ANÁLISIS SPARK",
+    "spark": "Análisis de datos",
+    "sparkSection": "ANÁLISIS DE DATOS",
     "principal": "PRINCIPAL",
-    "dashboard": "Dashboard",
+    "dashboard": "Inicio",
     "medicalPanel": "Panel Médico",
     "nursingPanel": "Panel Enfermería",
     "studiesPanel": "Panel Estudios",
@@ -20,7 +20,7 @@
     "clinicalHistoryItem": "Historia Clínica",
     "medicalNotes": "NOTAS MÉDICAS",
     "vitalSigns": "Signos Vitales",
-    "medicalNote": "Nota Médica (SOAP)",
+    "medicalNote": "Nota médica",
     "diagnosis": "Diagnóstico",
     "prescription": "Receta",
     "labExams": "Exámenes de Laboratorio",
@@ -35,10 +35,10 @@
     "fluidBalance": "Balance Hídrico",
     "nursingCare": "Cuidados de Enfermería",
     "studies": "ESTUDIOS",
-    "labRequests": "Solicitudes Lab",
-    "imagingRequests": "Solicitudes Gabinete",
-    "labResults": "Resultados Lab",
-    "imagingResults": "Resultados Gabinete",
+    "labRequests": "Solicitudes de laboratorio",
+    "imagingRequests": "Solicitudes de imagen",
+    "labResults": "Resultados de laboratorio",
+    "imagingResults": "Resultados de imagen",
     "modules": "MÓDULOS",
     "administration": "Administración",
     "medical": "Médico",
@@ -50,7 +50,7 @@
     "configBeds": "Camas",
     "configServices": "Servicios",
     "configAutomation": "Automatización",
-    "configBackup": "Backup",
+    "configBackup": "Copias de seguridad",
     "configProfile": "Mi Perfil",
     "logout": "Cerrar sesión",
     "confirmLogout": "¿Estás seguro de que deseas cerrar sesión?",
@@ -962,8 +962,8 @@
     "footer": "INEO v2.0 - Diagnóstico médico"
   },
   "spark": {
-    "eyebrow": "ANALÍTICA SPARK",
-    "title": "Panel de análisis Spark",
+    "eyebrow": "ANÁLISIS DE DATOS",
+    "title": "Panel de análisis de datos",
     "description": "Consulta y ejecuta los análisis disponibles para apoyar decisiones clínicas y administrativas.",
     "refresh": "Actualizar",
     "run": "Ejecutar análisis",
@@ -992,7 +992,7 @@
         "description": "Indicadores generales y tendencias operativas."
       },
       "met": {
-        "title": "Métricas de actividad (MET)",
+        "title": "Actividad diaria",
         "description": "Indicadores de carga y actividad diaria para apoyar decisiones operativas del hospital."
       },
       "clinical": {
@@ -1000,7 +1000,7 @@
         "description": "Indicadores clínicos derivados de la información hospitalaria."
       },
       "unsupervised": {
-        "title": "Análisis no supervisado",
+        "title": "Patrones en los datos",
         "description": "Agrupaciones y patrones detectados en los datos."
       }
     },
@@ -1012,7 +1012,7 @@
       "clusters": "Grupos exploratorios",
       "recommendations": "Recomendaciones",
       "quality": "Calidad de los datos",
-      "pca": "PCA exploratorio"
+      "pca": "Resumen de variables principales"
     },
     "states": {
       "loading": {
@@ -1034,7 +1034,7 @@
         "action": "Actualizar resultados"
       },
       "offline": {
-        "title": "Sin conexión con Spark",
+        "title": "Sin conexión con el servicio de análisis",
         "hint": "Revisa la conexión con la API y vuelve a intentarlo."
       },
       "failed": {
