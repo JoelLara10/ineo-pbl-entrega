@@ -53,10 +53,14 @@ function VisualGallery({ images }) {
     const urls = [];
     Promise.all((images || []).map(async (image) => {
       const url = await sparkService.getImage(image.url);
+      if (!active) {
+        URL.revokeObjectURL(url);
+        return null;
+      }
       urls.push(url);
       return [image.filename, url];
     })).then((entries) => active && setSources(Object.fromEntries(entries))).catch(() => {});
-    return () => { active = false; urls.forEach(URL.revokeObjectURL); };
+    return () => { active = false; urls.forEach((url) => URL.revokeObjectURL(url)); };
   }, [images]);
   if (!images?.length) return null;
   return <div className="spark-gallery">{images.map((image) => sources[image.filename] && (

@@ -1,4 +1,4 @@
-# Contratos INEO v1 — Sprint 7
+# Contratos INEO v1 — Sprints 7 y 8
 
 Fuente ejecutable: `api.schema.json` (JSON Schema 2020-12). Versión Spark `1.0`.
 Campos nuevos compatibles son aditivos; eliminar requeridos o cambiar tipos exige
@@ -16,6 +16,8 @@ una nueva versión y actualización conjunta de proveedor/consumidor.
 | GET `/spark/status/{type}` | spark_status | 200 |
 
 Spark exige token Bearer y rol `admin` en todas sus rutas (OPTIONS permite CORS).
+También consulta la cuenta vigente: eliminada/desactivada → 401; rol actual
+distinto de administrador → 403. Fallos de esa consulta → 503 JSON.
 Los tipos son `analytics`, `met`, `clinical`, `unsupervised`. Errores Spark:
 401 `unauthorized`, 403 `forbidden`, 400 `invalid_type`/`invalid_request`,
 503 `unavailable`. Cuerpo: `contract_version`, `error` (texto), `code` (estable).
@@ -26,6 +28,10 @@ El POST no acepta parámetros. Nunca se reciben comandos, rutas ni código del c
 `idle → pending → running → completed | failed`.
 La web consume `status` en el POST y el objeto de estado directo en GET.
 `running=true` tanto en pending como running. Se devuelve `job_id` y fechas UTC.
+Las fechas no nulas cumplen `date-time` (RFC 3339) y se serializan en UTC.
+Un rechazo del ejecutor registra `failed` y `finished_at`, sin borrar el resultado
+previo; el siguiente POST puede reintentar. Overview usa un mismo documento
+para disponibilidad y estado de cada tipo.
 Un segundo POST durante un trabajo devuelve el mismo ID y no encola otro.
 Los resultados de la última ejecución correcta permanecen disponibles durante
 reintentos y errores. La pantalla muestra primero el estado actual del trabajo.
@@ -75,3 +81,12 @@ y datos Mongo sintéticos. `tests/test_spark_engine.py` ejecuta PySpark real y u
 recorrido HTTP → trabajador → resultado. CI ejecuta ambas suites y publica JUnit.
 La prueba consumidor de React verifica rutas, formatos y propagación de errores.
 La integración de base de datos en pytest usa mongomock; no sustituye SIT con Mongo real.
+
+## Cierre de Sprint 8
+
+La planificación corregida asigna PBL-02/PBL-13 a Zahid. Véase
+[la entrega y trazabilidad](../../docs/sprints/sprint-8/entrega-zahid.md).
+`tests/test_sprint8_zahid.py` amplía la regresión con revocación de cuentas,
+rol vigente, fallo de ejecutor, snapshot de overview, CORS y casos inválidos
+de fechas/imágenes. La validación de esquemas habilita `FormatChecker`;
+las salidas reales de los cuatro motores se comprueban contra `spark_result`.

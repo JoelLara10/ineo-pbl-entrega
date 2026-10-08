@@ -129,3 +129,29 @@ describe('PBL-13-T5 — imagen sintética del contrato', () => {
     expect(figure.querySelector('img').getAttribute('alt')).toBe(image.name);
   });
 });
+
+// PBL-13, cierre Sprint 8: la descarga puede terminar después del desmontaje.
+describe('Sprint 8 — ciclo de vida de las imágenes del contrato', () => {
+  it('libera una imagen cuya descarga termina después de salir de la pantalla', async () => {
+    let finishDownload;
+    sparkService.getImage.mockReturnValue(new Promise((resolve) => { finishDownload = resolve; }));
+    await mount({ available: true, visualizations: [
+      { filename: 'chart.png', name: 'Gráfica', url: '/spark/images/chart.png' },
+    ] }, { state: 'completed', running: false });
+    await act(async () => root.unmount());
+    root = null;
+    await act(async () => finishDownload('blob:late-chart'));
+    expect(URL.revokeObjectURL).toHaveBeenCalledWith('blob:late-chart');
+  });
+
+  it('libera las imágenes ya cargadas al salir de la pantalla', async () => {
+    sparkService.getImage.mockResolvedValue('blob:loaded-chart');
+    await mount({ available: true, visualizations: [
+      { filename: 'chart.png', name: 'Gráfica', url: '/spark/images/chart.png' },
+    ] }, { state: 'completed', running: false });
+    expect(host.querySelector('img')).not.toBeNull();
+    await act(async () => root.unmount());
+    root = null;
+    expect(URL.revokeObjectURL).toHaveBeenCalledWith('blob:loaded-chart');
+  });
+});

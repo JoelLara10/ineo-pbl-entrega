@@ -66,13 +66,15 @@
           "type": [
             "string",
             "null"
-          ]
+          ],
+          "format": "date-time"
         },
         "finished_at": {
           "type": [
             "string",
             "null"
-          ]
+          ],
+          "format": "date-time"
         },
         "error": {
           "type": [
@@ -155,7 +157,8 @@
           "type": [
             "string",
             "null"
-          ]
+          ],
+          "format": "date-time"
         },
         "visualizations": {
           "type": "array",
