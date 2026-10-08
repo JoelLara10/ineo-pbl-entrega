@@ -1,0 +1,6 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> ineo-web@0.0.0 check:i18n
+> node scripts/check-i18n-keys.mjs
+
+i18n OK: todas las claves estáticas usadas existen en es.json y en.json.

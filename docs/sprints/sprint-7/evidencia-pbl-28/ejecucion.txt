@@ -1,0 +1,117 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> ineo-web@0.0.0 test:coverage
+> vitest run --coverage --reporter=json --outputFile=coverage/test-results.json
+
+JSON report written to frontend/clinica-web-react/coverage/test-results.json
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   10.09 |     6.66 |    9.07 |   10.25 |                   
+ src               |       0 |      100 |       0 |       0 |                   
+  App.jsx          |       0 |      100 |       0 |       0 | 7                 
+  main.jsx         |       0 |      100 |     100 |       0 | 7                 
+ src/components    |       0 |        0 |       0 |       0 |                   
+  ...esultForm.jsx |       0 |        0 |       0 |       0 | 8-328             
+  Pagination.jsx   |       0 |        0 |       0 |       0 | 6-68              
+  ...esultForm.jsx |       0 |        0 |       0 |       0 | 8-280             
+  ...esultForm.jsx |       0 |        0 |       0 |       0 | 8-200             
+ ...ponents/layout |       0 |        0 |       0 |       0 |                   
+  MainLayout.jsx   |       0 |        0 |       0 |       0 | 6-17              
+  Sidebar.jsx      |       0 |        0 |       0 |       0 | 11-244            
+ src/context       |   34.78 |    21.05 |   38.46 |   36.36 |                   
+  AuthContext.jsx  |   61.53 |    66.66 |   71.42 |   61.53 | 26,33-47,59-60    
+  ...ntContext.jsx |       0 |        0 |       0 |       0 | 4-57              
+ src/i18n          |   96.77 |     92.1 |     100 |      96 |                   
+  index.js         |       0 |      100 |     100 |       0 | 3                 
+  regional.js      |     100 |    93.75 |     100 |     100 | 1,21              
+  setup.js         |     100 |    83.33 |     100 |     100 | 19                
+ ...administrativo |       0 |        0 |       0 |       0 |                   
+  AdminLayout.jsx  |       0 |        0 |       0 |       0 | 8-13              
+  AdminScreen.jsx  |       0 |      100 |       0 |       0 | 8-22              
+  CensoScreen.jsx  |       0 |        0 |       0 |       0 | 8-26              
+  ...ajaScreen.jsx |       0 |        0 |       0 |       0 | 10-35             
+  ...nteScreen.jsx |       0 |        0 |       0 |       0 | 7-129             
+  ...ailScreen.jsx |       0 |        0 |       0 |       0 | 10-86             
+  ...tesScreen.jsx |       0 |        0 |       0 |       0 | 9-69              
+  useAdminData.js  |       0 |        0 |       0 |       0 | 5-36              
+ src/pages/auth    |   51.72 |    34.61 |      40 |   53.57 |                   
+  LoginScreen.jsx  |   51.72 |    34.61 |      40 |   53.57 | 22-30,72-91       
+ src/pages/config  |       0 |        0 |       0 |       0 |                   
+  ...figScreen.jsx |       0 |        0 |       0 |       0 | 9-56              
+  ...figScreen.jsx |       0 |        0 |       0 |       0 | 9-114             
+  ...figScreen.jsx |       0 |        0 |       0 |       0 | 9-124             
+  ConfigHeader.jsx |       0 |        0 |       0 |       0 | 7-14              
+  ConfigScreen.jsx |       0 |      100 |       0 |       0 | 8-32              
+  ...figScreen.jsx |       0 |        0 |       0 |       0 | 9-86              
+  ...ngsScreen.jsx |       0 |        0 |       0 |       0 | 8-66              
+  ...figScreen.jsx |       0 |        0 |       0 |       0 | 7-10              
+  ...figScreen.jsx |       0 |        0 |       0 |       0 | 9-143             
+  ...figScreen.jsx |       0 |        0 |       0 |       0 | 9-166             
+  configCache.js   |       0 |        0 |       0 |       0 | 1-52              
+ ...ages/dashboard |       0 |        0 |       0 |       0 |                   
+  ...ardScreen.jsx |       0 |        0 |       0 |       0 | 14-132            
+ ...ges/enfermeria |   13.04 |     7.37 |   14.81 |   13.52 |                   
+  ...entScreen.jsx |   82.69 |       44 |   84.61 |   85.71 | ...20-121,130,218 
+  ...areScreen.jsx |   78.84 |    38.09 |   56.25 |   81.25 | ...07-112,117-141 
+  ...nceScreen.jsx |       0 |        0 |       0 |       0 | 11-149            
+  ...onsScreen.jsx |       0 |        0 |       0 |       0 | 10-334            
+  ...oteScreen.jsx |       0 |        0 |       0 |       0 | 9-237             
+  ...riaScreen.jsx |       0 |        0 |       0 |       0 | 12-311            
+  ...gnsScreen.jsx |       0 |        0 |       0 |       0 | 10-276            
+  ...ailScreen.jsx |       0 |        0 |       0 |       0 | 22-339            
+ ...pages/estudios |       0 |        0 |       0 |       0 |                   
+  ...GabScreen.jsx |       0 |      100 |       0 |       0 | 5                 
+  ...LabScreen.jsx |       0 |      100 |       0 |       0 | 5                 
+  ...iosScreen.jsx |       0 |        0 |       0 |       0 | 24-418            
+  ...GabScreen.jsx |       0 |      100 |       0 |       0 | 5                 
+  ...LabScreen.jsx |       0 |      100 |       0 |       0 | 5                 
+  ...adoScreen.jsx |       0 |      100 |       0 |       0 | 5                 
+  ...GabScreen.jsx |       0 |      100 |       0 |       0 | 5                 
+  ...LabScreen.jsx |       0 |      100 |       0 |       0 | 5                 
+ src/pages/medico  |       0 |        0 |       0 |       0 |                   
+  ...sisScreen.jsx |       0 |        0 |       0 |       0 | 9-237             
+  ...icaScreen.jsx |       0 |        0 |       0 |       0 | 8-234             
+  ...amsScreen.jsx |       0 |        0 |       0 |       0 | 10-264            
+  ...amsScreen.jsx |       0 |        0 |       0 |       0 | 10-264            
+  ...oteScreen.jsx |       0 |        0 |       0 |       0 | 9-200             
+  MedicoScreen.jsx |       0 |        0 |       0 |       0 | 20-288            
+  ...ailScreen.jsx |       0 |        0 |       0 |       0 | 11-240            
+  ...ionScreen.jsx |       0 |        0 |       0 |       0 | 10-263            
+  ...ocsScreen.jsx |       0 |        0 |       0 |       0 | 11-253            
+  ...ltsScreen.jsx |       0 |        0 |       0 |       0 | 12-191            
+  ...istScreen.jsx |       0 |        0 |       0 |       0 | 10-120            
+  ...gnsScreen.jsx |       0 |        0 |       0 |       0 | 9-219             
+ src/pages/spark   |   61.02 |     46.3 |   66.12 |   63.69 |                   
+  ...eralPanel.jsx |     100 |    48.14 |     100 |     100 | 5-14,17-27        
+  ...onalPanel.jsx |       0 |        0 |       0 |       0 | 12-126            
+  ...sisScreen.jsx |   78.43 |     74.5 |   85.18 |   80.82 | ...03,122-123,129 
+  ...Dashboard.jsx |   82.35 |     62.5 |   66.66 |   93.33 | 26                
+  ...DataViews.jsx |    9.37 |        0 |       0 |      15 | 7-35              
+ src/router        |    64.7 |     92.3 |   21.15 |     100 |                   
+  AppRouter.jsx    |    64.7 |     92.3 |   21.15 |     100 | 92-94             
+ src/services      |     2.5 |        0 |    5.26 |    2.63 |                   
+  EstudiosCache.js |       0 |        0 |       0 |       0 | 1-38              
+  adminCache.js    |       0 |        0 |       0 |       0 | 1-29              
+  adminService.js  |       0 |        0 |       0 |       0 | 3-63              
+  api.js           |       0 |        0 |       0 |       0 | 3-48              
+  backupService.js |       0 |        0 |       0 |       0 | 3-20              
+  cacheService.js  |       0 |        0 |       0 |       0 | 4-120             
+  configService.js |       0 |        0 |       0 |       0 | 1-163             
+  sparkService.js  |      75 |      100 |      80 |      75 | 16-17             
+ src/spark         |       0 |        0 |       0 |       0 |                   
+  ...icsScreen.jsx |       0 |      100 |       0 |       0 | 2                 
+  ...icsScreen.jsx |       0 |      100 |       0 |       0 | 2                 
+  ...icsScreen.jsx |       0 |      100 |       0 |       0 | 2                 
+  ...sisScreen.jsx |       0 |        0 |       0 |       0 | 8-119             
+  ...Dashboard.jsx |       0 |        0 |       0 |       0 | 9-32              
+  ...icsScreen.jsx |       0 |      100 |       0 |       0 | 2                 
+-------------------|---------|----------|---------|---------|-------------------
+
+=============================== Coverage summary ===============================
+Statements   : 10.09% ( 407/4033 )
+Branches     : 6.66% ( 204/3061 )
+Functions    : 9.07% ( 91/1003 )
+Lines        : 10.25% ( 364/3549 )
+================================================================================
