@@ -4,7 +4,7 @@ from pathlib import Path
 from unittest.mock import Mock
 
 import pytest
-from jsonschema import Draft202012Validator
+from jsonschema import Draft202012Validator, FormatChecker
 from middleware.auth_middleware import generate_token
 from services import spark_service as service
 
@@ -12,7 +12,8 @@ CONTRACT = json.loads((Path(__file__).parents[3] / 'contracts/v1/api.schema.json
 
 
 def validate(name, value):
-    Draft202012Validator({**CONTRACT, '$ref': '#/$defs/' + name}).validate(value)
+    Draft202012Validator({**CONTRACT, '$ref': '#/$defs/' + name},
+                        format_checker=FormatChecker()).validate(value)
 
 
 def headers(role='admin'):

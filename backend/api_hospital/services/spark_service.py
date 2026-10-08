@@ -41,7 +41,12 @@ def now():
 
 
 def stamp(value):
-    return value.replace(tzinfo=timezone.utc).isoformat() if value else None
+    if value is None:
+        return None
+    # PyMongo defaults to naive UTC; aware values must preserve their instant.
+    if value.tzinfo is None:
+        value = value.replace(tzinfo=timezone.utc)
+    return value.astimezone(timezone.utc).isoformat()
 
 
 def empty_result():
@@ -177,7 +182,8 @@ def start(kind):
     try:
         EXECUTOR.submit(execute, kind, job_id)
     except RuntimeError:
-        collection.update_one({'_id': kind, 'job_id': job_id},
-                              {'$set': {'state': 'failed', 'error': 'Ejecutor no disponible.'}})
+        collection.update_one({'_id': kind, 'job_id': job_id, 'state': 'pending'},
+                              {'$set': {'state': 'failed', 'finished_at': now(),
+                                        'error': 'Ejecutor no disponible.'}})
         raise
     return status_of(doc), True

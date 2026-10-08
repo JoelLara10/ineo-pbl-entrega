@@ -20,6 +20,10 @@ def spark():
 @pytest.mark.parametrize('kind', service.TYPES)
 def test_real_spark_outputs(spark, kind):
     result = analyze(spark, kind, service.collect_source(kind))
+    from tests.test_spark_contract import validate
+    # The worker adds these envelope fields before exposing the engine result.
+    validate('spark_result', {**result, 'contract_version': service.VERSION,
+                             'timestamp': service.stamp(service.now()), 'visualizations': []})
     assert result['available']
     assert result['summary']['total'] == 8
     if kind == 'analytics':

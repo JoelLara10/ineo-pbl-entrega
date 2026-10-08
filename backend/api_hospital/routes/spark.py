@@ -2,6 +2,9 @@ from flask import Blueprint, jsonify, request
 from middleware.auth_middleware import verify_token
 from services import spark_service as service
 from pymongo.errors import PyMongoError
+from bson import ObjectId
+from bson.errors import InvalidId
+from utils.database import get_collection
 
 spark_bp = Blueprint('spark', __name__)
 
@@ -20,6 +23,22 @@ def authorize():
         return error('Token no proporcionado, inválido o expirado.', 'unauthorized', 401)
     if user.get('role') != 'admin':
         return error('Permisos insuficientes.', 'forbidden', 403)
+    user_id = user.get('user_id')
+    if not isinstance(user_id, str) or not user_id:
+        return error('Token no proporcionado, inválido o expirado.', 'unauthorized', 401)
+    try:
+        query = {'_id': ObjectId(user_id)}
+    except InvalidId:
+        try:
+            query = {'id': int(user_id)}
+        except ValueError:
+            return error('Token no proporcionado, inválido o expirado.', 'unauthorized', 401)
+    # Match account revocation in the shared middleware, retaining Spark's JSON envelope.
+    account = get_collection('users').find_one(query, {'activo': 1, 'role': 1})
+    if not account or not account.get('activo', True):
+        return error('Token no proporcionado, inválido o expirado.', 'unauthorized', 401)
+    if account.get('role') != 'admin':
+        return error('Permisos insuficientes.', 'forbidden', 403)
 
 
 @spark_bp.errorhandler(PyMongoError)
@@ -29,8 +48,13 @@ def unavailable(_error):
 
 @spark_bp.route('/overview')
 def overview():
-    return jsonify({kind: {'available': service.results(kind)['available'],
-                           'status': service.status_of(service.read_job(kind))} for kind in service.TYPES})
+    entries = {}
+    for kind in service.TYPES:
+        # One snapshot per analysis: a worker may finish between database reads.
+        job = service.read_job(kind)
+        result = (job or {}).get('result') or service.empty_result()
+        entries[kind] = {'available': result['available'], 'status': service.status_of(job)}
+    return jsonify(entries)
 
 
 @spark_bp.route('/<kind>')
