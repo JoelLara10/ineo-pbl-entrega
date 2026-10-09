@@ -54,3 +54,9 @@ fecha y resultado real.
 El equipo debe adjuntar el registro firmado o una captura de esta revisión para
 cerrar formalmente la evidencia humana solicitada por el PBL. Las verificaciones
 automáticas evitan regresiones, pero no sustituyen esa prueba con una persona.
+
+## Revisión de la evidencia recibida el 8 de octubre de 2026
+
+Jesús añadió un registro de una prueba con una persona externa al desarrollo. Los documentos corregidos conservan ese dato como declaración recibida y distinguen las verificaciones automáticas de la aceptación humana. Las capturas originales conservan Dashboard/Backup y muestran un fallo de check:i18n y un rechazo 403; no acreditan todas las actividades como aprobadas.
+
+La ejecución automática actual está en [evidencia-automatica-jesus-20261008.md](evidencia-automatica-jesus-20261008.md): 76 pruebas del frontend aprobadas, idiomas, lint y build aprobados. La aceptación de PBL-17-T3 y PBL-19-T5 permanece pendiente de un registro coherente por actividad y la versión probada. No marcar estas tareas ni el Sprint 8 como cerrado por esta actualización documental.
