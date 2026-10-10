@@ -98,7 +98,6 @@ export default function UsuariosConfigScreen() {
       role: canonicalRole(user.role) || '',
     });
     setMsg('');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const save = async (event) => {
