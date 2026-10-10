@@ -29,9 +29,9 @@ const adminService = {
   searchPatients: (q = '', limit = 10) => api.get('/patients/search', {
     params: clean({ q, limit }),
   }).then(data),
-  getPatient: (idExp) => api.get(`/patients/${idExp}`).then(data),
+  getPatient: (idExp) => api.get(`/gestion-pacientes/${idExp}`).then(data),
   createPatient: (payload) => api.post('/patients', payload).then(data),
-  updatePatient: (idExp, payload) => api.put(`/patients/${idExp}`, payload).then(data),
+  updatePatient: (idExp, payload) => api.put(`/gestion-pacientes/${idExp}`, payload).then(data),
   getCensus: (search = '') => api.get('/censo', {
     params: clean({ search, all: true }),
   }).then(data),
