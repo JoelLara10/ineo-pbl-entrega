@@ -24,6 +24,7 @@ class UserModel:
             'sapell': data.get('sapell', ''),
             'email': data.get('email', ''),
             'telefono': data.get('telefono', ''),
+            'fecnac': data.get('fecnac', ''),
             'activo': True
         }
         
