@@ -220,7 +220,7 @@ export default function UsuariosConfigScreen() {
               <label className="config-label">{t('config.securityQuestion')}</label>
               <input className="config-input" value={form.pregunta_seguridad} onChange={(e) => setForm({ ...form, pregunta_seguridad: e.target.value })} placeholder={t('config.securityQuestionPlaceholder')} />
               <div className="config-grid-3">
-                <div><label className="config-label">{t('config.username')}</label><input className="config-input" value={form.username} onChange={(e) => setForm({ ...form, username: e.target.value })} placeholder={t('config.usernamePlaceholder')} /></div>
+                <div><label className="config-label">{t('config.username')}</label><input className="config-input" name="account-username" autoComplete="off" value={form.username} onChange={(e) => setForm({ ...form, username: e.target.value })} placeholder={t('config.usernamePlaceholder')} /></div>
                 {editingUser && !changePassword ? (
                   <div>
                     <label className="config-label">{t('config.password')}</label>
