@@ -77,12 +77,28 @@ export default function UsuariosConfigScreen() {
       setMsg(t('config.userRequired'));
       return;
     }
+    const username = form.username.trim();
+    const nombre = form.nombre.trim();
+    if (!username || !nombre || !form.password || !form.role) {
+      setMsg(t('config.userRequired'));
+      return;
+    }
+    if (new TextEncoder().encode(form.password).length > 72) {
+      setMsg(t('config.userPasswordTooLong'));
+      return;
+    }
     try {
-      const payload = { ...form, activo: true };
-      await api.post('/auth/users', payload);
+      const payload = { ...form, nombre, username, activo: true };
+      const response = await api.post('/auth/users', payload);
+      const created = { ...(response.data?.user || response.data || {}) };
+      delete created.password;
+      const nextUsers = [created, ...usuarios.filter((user) => user.username !== created.username)];
+      setUsuarios(nextUsers);
+      setCache(CACHE_KEY, nextUsers);
       setForm(emptyForm);
+      setSearch('');
+      setPage(1);
       setMsg(t('config.userSaved'));
-      await load(true);
     } catch (error) {
       setMsg(error.response?.data?.error || t('config.userSaveError'));
     }
