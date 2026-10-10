@@ -76,7 +76,9 @@
     "medicalDescShort": "Atención médica",
     "studiesDescShort": "Resultados",
     "refresh": "Actualizar",
-    "logout": "Cerrar sesión"
+    "logout": "Cerrar sesión",
+    "analysisModule": "Análisis de datos",
+    "analysisDesc": "Indicadores clínicos y administrativos"
   },
   "medical": {
     "headerEyebrow": "MÉDICO",
@@ -480,7 +482,9 @@
     "editUser": "Editar usuario",
     "updateUser": "Guardar cambios",
     "userUpdated": "Usuario actualizado correctamente.",
-    "passwordOptionalPlaceholder": "Dejar vacío para conservar la contraseña actual"
+    "passwordOptionalPlaceholder": "Dejar vacío para conservar la contraseña actual",
+    "changeUserPassword": "Cambiar contraseña",
+    "cancelPasswordChange": "Conservar contraseña actual"
   },
   "common": {
     "loading": "Cargando...",
