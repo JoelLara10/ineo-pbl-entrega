@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { FiSearch } from 'react-icons/fi';
 import adminService from '../../services/adminService';
+import { clearAdminCache } from '../../services/adminCache';
 import AdminLayout from './AdminLayout';
 
 const defaults = { curp: '', papell: '', sapell: '', nom_pac: '', fecnac: '', tel: '', area: 'Consulta', cama: '', motivo: 'Consulta', especialidad: 'Oftalmologia', alergias: '', fam_nombre: '', fam_parentesco: '', fam_tel: '' };
@@ -52,22 +54,79 @@ export default function NuevoPacienteScreen() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
+  const [patientSearch, setPatientSearch] = useState('');
+  const [patientMatches, setPatientMatches] = useState([]);
+  const [searchingPatients, setSearchingPatients] = useState(false);
+  const [patientSearchError, setPatientSearchError] = useState('');
 
   useEffect(() => {
     Promise.all([adminService.getOptions(source.id_cama), editMode ? adminService.getPatient(id) : null])
       .then(([opts, detail]) => {
-        setOptions(opts || {});
+        const availableOptions = opts || {};
+        setOptions(availableOptions);
         if (detail) {
-          const raw = detail.rawPatient || {};
-          const active = detail.activeAppointment || detail.patient || {};
+          const raw = detail.rawPatient || detail.patient || detail;
+          const active = detail.activeAppointment || {};
           const family = detail.family || {};
-          setForm((current) => ({ ...current, ...active, ...raw, fecnac: raw.fecnac?.slice?.(0, 10) || '', cama: active.bed || active.cama || '', fam_nombre: family.nombre || '', fam_parentesco: family.parentesco || '', fam_tel: family.telefono || '' }));
+          const area = active.area || '';
+          const formArea = Object.keys(availableOptions.areaMap || {}).find(
+            (key) => availableOptions.areaMap[key] === area,
+          ) || area;
+          setForm((current) => ({
+            ...current,
+            curp: raw.curp || '',
+            papell: raw.papell || '',
+            sapell: raw.sapell || '',
+            nom_pac: raw.nom_pac || '',
+            fecnac: raw.fecnac?.slice?.(0, 10) || '',
+            tel: raw.tel || '',
+            area: formArea || (active.id_atencion ? '' : defaults.area),
+            cama: active.id_cama || active.cama || '',
+            motivo: active.motivo || active.reason || (active.id_atencion ? '' : defaults.motivo),
+            especialidad: active.especialidad || active.specialty || (active.id_atencion ? '' : defaults.especialidad),
+            alergias: active.alergias || active.allergies || '',
+            fam_nombre: family.nombre || '',
+            fam_parentesco: family.parentesco || '',
+            fam_tel: family.telefono || '',
+          }));
           setDoctors(active.doctors || []);
         }
       })
       .catch((requestError) => setError(requestError.response?.data?.error || requestError.message))
       .finally(() => setLoading(false));
   }, [editMode, id, source.id_cama]);
+
+  useEffect(() => {
+    const query = patientSearch.trim();
+    if (editMode || query.length < 2) {
+      setPatientMatches([]);
+      setPatientSearchError('');
+      setSearchingPatients(false);
+      return undefined;
+    }
+
+    let cancelled = false;
+    const timer = setTimeout(async () => {
+      setSearchingPatients(true);
+      setPatientSearchError('');
+      try {
+        const results = await adminService.searchPatients(query, 8);
+        if (!cancelled) setPatientMatches(Array.isArray(results) ? results : results?.data || []);
+      } catch (requestError) {
+        if (!cancelled) {
+          setPatientMatches([]);
+          setPatientSearchError(requestError.response?.data?.error || requestError.message);
+        }
+      } finally {
+        if (!cancelled) setSearchingPatients(false);
+      }
+    }, 250);
+
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
+  }, [editMode, patientSearch]);
 
   const doctorOptions = useMemo(() => (options.medicos || []).map((doctor) => ({
     id: optionValue(doctor),
@@ -84,6 +143,7 @@ export default function NuevoPacienteScreen() {
       const payload = { ...form, assignedDoctors: doctors };
       if (editMode) await adminService.updatePatient(id, payload);
       else await adminService.createPatient(payload);
+      clearAdminCache();
       navigate('/pacientes');
     } catch (requestError) {
       setError(requestError.response?.data?.error || requestError.message);
@@ -105,6 +165,21 @@ export default function NuevoPacienteScreen() {
   );
 
   return <AdminLayout title={t(editMode ? 'administrative.editPatient' : 'administrative.registerPatient')} subtitle={t('administrative.patientFormDesc')}>
+    {!editMode && <section className="adm-panel adm-form-section">
+      <h2>{t('administrative.searchPreviousPatients')}</h2>
+      <div className="adm-search"><FiSearch /><input value={patientSearch} onChange={(event) => setPatientSearch(event.target.value)} placeholder={t('administrative.searchPatients')} aria-label={t('administrative.searchPreviousPatients')} /></div>
+      {searchingPatients && <div className="adm-loading">{t('common.loading')}</div>}
+      {patientSearchError && <div className="adm-alert" role="alert">{patientSearchError}</div>}
+      {patientMatches.length > 0 && <div className="adm-actions">{patientMatches.map((patient, index) => {
+        const patientId = patient.Id_exp || patient.id_exp || patient.record;
+        const name = patient.name || patient.patient || [patient.nom_pac, patient.papell, patient.sapell].filter(Boolean).join(' ');
+        const active = Boolean(patient.hasActiveAttention);
+        return <button key={patientId || index} type="button" className="adm-button adm-button-light" disabled={active || !patientId} onClick={() => navigate(`/pacientes/${patientId}/editar`, { state: { patient, reactivation: true } })}>
+          {name} · {patient.record || `INEO-${patientId}`} · {active ? t('administrative.patientAlreadyActive') : t('administrative.reactivatePatient')}
+        </button>;
+      })}</div>}
+      {patientSearch.trim().length >= 2 && !searchingPatients && !patientSearchError && patientMatches.length === 0 && <div className="adm-empty">{t('administrative.noPatients')}</div>}
+    </section>}
     {loading ? <div className="adm-loading">{t('common.loading')}</div> : <form onSubmit={submit}>
       {error && <div className="adm-alert">{error}</div>}
       <section className="adm-panel adm-form-section"><h2>{t('administrative.personalData')}</h2><div className="adm-form-grid">
