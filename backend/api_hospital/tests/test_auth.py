@@ -96,6 +96,47 @@ def test_login_normalizes_username(client, monkeypatch):
     assert received == {"username": "admin", "password": "secreto"}
 
 
+
+@pytest.mark.parametrize(
+    "role",
+    ["admin", "administrativo", "medico", "enfermero", "enfermeria", "estudios"],
+)
+def test_created_user_can_log_in_for_each_configured_role(client, role):
+    from middleware.auth_middleware import generate_token
+
+    admin_token = generate_token(
+        "000000000000000000000001",
+        "admin.test",
+        "admin",
+    )
+    headers = {"Authorization": f"Bearer {admin_token}"}
+    username = f"usuario.{role}.prueba"
+    password = "Prueba-de-usuario-42!"
+
+    created = client.post(
+        "/api/v1/auth/users",
+        headers=headers,
+        json={
+            "username": f"  {username}  ",
+            "password": password,
+            "role": role,
+            "nombre": "Usuario sintético",
+        },
+    )
+
+    assert created.status_code == 201
+    assert created.get_json()["username"] == username
+    assert "password" not in created.get_json()
+
+    login = client.post(
+        "/api/v1/auth/login",
+        json={"username": f"  {username}  ", "password": password},
+    )
+
+    assert login.status_code == 200
+    assert login.get_json()["user"]["username"] == username
+    assert login.get_json()["user"]["role"] == role
+
 def test_password_verification_does_not_print_hash(capsys):
     from models.user import UserModel
 
