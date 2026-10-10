@@ -94,7 +94,7 @@ def get_current_user():
     return jsonify({
         'id': str(user.get('_id') or user.get('id')),
         'username': user.get('username'),
-        'role': user.get('role'),
+        'role': 'enfermero' if user.get('role') == 'enfermeria' else user.get('role'),
         'nombre': user.get('nombre'),
         'papell': user.get('papell'),
         'sapell': user.get('sapell'),
@@ -161,6 +161,9 @@ def get_users():
     try:
         collection = get_collection('users')
         users = list(collection.find({}, {'password': 0}).limit(100))
+        for user in users:
+            if user.get('role') == 'enfermeria':
+                user['role'] = 'enfermero'
 
         return jsonify({
             'total': len(users),
@@ -202,7 +205,7 @@ def create_user():
         return jsonify({'error': 'Usuario o contraseña inválidos'}), 400
 
     role = data.get('role', 'estudios')
-    allowed_roles = {'admin', 'administrativo', 'medico', 'enfermero', 'enfermeria', 'estudios'}
+    allowed_roles = {'admin', 'administrativo', 'medico', 'enfermero', 'estudios'}
     if not isinstance(role, str) or role not in allowed_roles:
         return jsonify({'error': 'Rol inválido'}), 400
 
@@ -261,7 +264,7 @@ def update_user(user_id):
             update_data[field] = data[field]
 
     if 'role' in update_data and update_data['role'] not in {
-        'admin', 'administrativo', 'medico', 'enfermero', 'enfermeria', 'estudios'
+        'admin', 'administrativo', 'medico', 'enfermero', 'estudios'
     }:
         return jsonify({'error': 'Rol inválido'}), 400
 
