@@ -184,34 +184,40 @@ def create_user():
         return jsonify({'error': 'No autorizado'}), 403
 
     data = request.get_json(silent=True)
-
     if not isinstance(data, dict):
         return jsonify({'error': 'Solicitud inválida'}), 400
 
-    if not data.get('username') or not data.get('password'):
+    username = data.get('username')
+    password = data.get('password')
+    if not isinstance(username, str) or not isinstance(password, str):
         return jsonify({'error': 'Usuario y contraseña son requeridos'}), 400
 
-    username = data.get('username')
-    if not isinstance(username, str) or not username.strip() or len(username) > 80:
-        return jsonify({'error': 'Nombre de usuario inválido'}), 400
-    data['username'] = username.strip()
+    username = username.strip()
+    if (
+        not username
+        or not password
+        or len(username) > MAX_USERNAME_LENGTH
+        or len(password.encode('utf-8')) > MAX_PASSWORD_BYTES
+    ):
+        return jsonify({'error': 'Usuario o contraseña inválidos'}), 400
 
-    allowed_roles = {'admin', 'administrativo', 'medico', 'enfermero', 'estudios'}
-    if data.get('role', 'estudios') not in allowed_roles:
+    role = data.get('role', 'estudios')
+    allowed_roles = {'admin', 'administrativo', 'medico', 'enfermero', 'enfermeria', 'estudios'}
+    if not isinstance(role, str) or role not in allowed_roles:
         return jsonify({'error': 'Rol inválido'}), 400
-    data['role'] = data.get('role', 'estudios')
 
-    valid, message = validate_password(data.get('password'), data['username'])
+    data['username'] = username
+    data['role'] = role
+
+    valid, message = validate_password(password, username)
     if not valid:
         return jsonify({'error': message}), 400
 
-    existing = UserModel.find_by_username(data.get('username'))
-
+    existing = UserModel.find_by_username(username)
     if existing:
         return jsonify({'error': 'El usuario ya existe'}), 400
 
     user = UserModel.create(data)
-
     if 'password' in user:
         del user['password']
 
@@ -255,7 +261,7 @@ def update_user(user_id):
             update_data[field] = data[field]
 
     if 'role' in update_data and update_data['role'] not in {
-        'admin', 'administrativo', 'medico', 'enfermero', 'estudios'
+        'admin', 'administrativo', 'medico', 'enfermero', 'enfermeria', 'estudios'
     }:
         return jsonify({'error': 'Rol inválido'}), 400
 
