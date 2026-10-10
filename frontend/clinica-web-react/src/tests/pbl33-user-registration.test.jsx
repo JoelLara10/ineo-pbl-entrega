@@ -27,6 +27,7 @@ async function mount() {
 }
 
 beforeEach(() => {
+  localStorage.clear();
   vi.clearAllMocks();
   api.get.mockResolvedValue({ data: { data: [] } });
 });
@@ -53,7 +54,7 @@ describe('Alta de usuarios', () => {
     }));
     expect(await screen.findByText('Usuario guardado correctamente.')).toBeInTheDocument();
     expect(await screen.findByText(/qa.medico/)).toBeInTheDocument();
-    expect(localStorage.getItem('@ineo_admin_cache:usuarios')).not.toContain('no-debe-guardarse');
+    expect(localStorage.getItem('ineo_config_react_usuarios')).not.toContain('no-debe-guardarse');
   });
 
   it('explica el límite de bcrypt antes de enviar una contraseña demasiado larga', async () => {
