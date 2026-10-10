@@ -4,6 +4,7 @@ import os
 import sys
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
+from urllib.parse import urlparse
 
 BASE = os.getenv('INEO_API_URL', 'https://api-clinica-jx4m.onrender.com').rstrip('/')
 PATHS = ['/overview'] + [f'{prefix}/{kind}' for kind in
@@ -13,12 +14,17 @@ PATHS += ['/run/analytics']
 
 
 def main():
+    parsed = urlparse(BASE)
+    if parsed.scheme not in {'http', 'https'} or not parsed.hostname:
+        print('INEO_API_URL debe ser una URL HTTP(S) válida', file=sys.stderr)
+        return 2
     failures = []
     for path in PATHS:
         method = 'POST' if path.startswith('/run/') else 'GET'
         url = BASE + '/api/v1/spark' + path
         try:
-            with urlopen(Request(url, method=method), timeout=35) as response:
+            # BASE fue restringida arriba a HTTP(S) con hostname válido.
+            with urlopen(Request(url, method=method), timeout=35) as response:  # nosec B310
                 code, body = response.status, response.read()
         except HTTPError as error:
             code, body = error.code, error.read()
