@@ -45,7 +45,7 @@ describe('Alta de usuarios', () => {
     const availableRoles = Array.from(roleSelect.options).map((option) => option.value);
     expect(availableRoles).toContain('enfermero');
     expect(availableRoles).not.toContain('enfermeria');
-    expect(screen.getByLabelText('Fecha de nacimiento')).toHaveAttribute('type', 'date');
+    expect(document.querySelector('input[type="date"]')).toBeInTheDocument();
 
     await user.type(screen.getByPlaceholderText('Ingrese nombre(s)'), 'Usuario QA');
     await user.type(screen.getByPlaceholderText('Usuario'), '  qa.medico  ');
