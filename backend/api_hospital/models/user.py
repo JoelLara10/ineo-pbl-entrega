@@ -1,6 +1,7 @@
 from utils.database import get_collection, serialize_doc, get_next_sequence
 from bson.binary import Binary
 import base64
+import binascii
 import bcrypt
 
 class UserModel:
@@ -108,11 +109,11 @@ class UserModel:
 
             # Caso 4: string base64
             try:
-                decoded = base64.b64decode(stored)
+                decoded = base64.b64decode(stored, validate=True)
                 if decoded.startswith(b"$2"):
                     return decoded
-            except Exception:
-                pass
+            except (binascii.Error, ValueError):
+                decoded = None
 
             # Caso 5: string normal
             return stored.encode("utf-8")
