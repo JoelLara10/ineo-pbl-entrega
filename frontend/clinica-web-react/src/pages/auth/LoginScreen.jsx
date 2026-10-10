@@ -73,6 +73,8 @@ const LoginScreen = () => {
             onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
             name="ineo-login-username"
             autoComplete="off"
+            autoCapitalize="none"
+            spellCheck={false}
             disabled={loading}
           />
         </div>
@@ -88,6 +90,7 @@ const LoginScreen = () => {
             onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
             name="ineo-login-password"
             autoComplete="new-password"
+            spellCheck={false}
             disabled={loading}
           />
           <button className="eye-btn" onClick={() => setShowPassword(!showPassword)} type="button">
