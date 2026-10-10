@@ -99,7 +99,7 @@ def test_login_normalizes_username(client, monkeypatch):
 
 @pytest.mark.parametrize(
     "role",
-    ["admin", "administrativo", "medico", "enfermero", "enfermeria", "estudios"],
+    ["admin", "administrativo", "medico", "enfermero", "estudios"],
 )
 def test_created_user_can_log_in_for_each_configured_role(client, role):
     from middleware.auth_middleware import generate_token
@@ -121,12 +121,14 @@ def test_created_user_can_log_in_for_each_configured_role(client, role):
             "password": password,
             "role": role,
             "nombre": "Usuario sintético",
+            "fecnac": "1995-04-12",
         },
     )
 
     assert created.status_code == 201
     assert created.get_json()["username"] == username
     assert "password" not in created.get_json()
+    assert created.get_json()["fecnac"] == "1995-04-12"
 
     login = client.post(
         "/api/v1/auth/login",
@@ -136,6 +138,25 @@ def test_created_user_can_log_in_for_each_configured_role(client, role):
     assert login.status_code == 200
     assert login.get_json()["user"]["username"] == username
     assert login.get_json()["user"]["role"] == role
+
+def test_user_creation_rejects_legacy_nursing_role(client):
+    from middleware.auth_middleware import generate_token
+
+    admin_token = generate_token("000000000000000000000001", "admin.test", "admin")
+    response = client.post(
+        "/api/v1/auth/users",
+        headers={"Authorization": f"Bearer {admin_token}"},
+        json={
+            "username": "usuario.enfermeria.legacy",
+            "password": "Prueba-de-usuario-42!",
+            "role": "enfermeria",
+            "nombre": "Usuario sintético",
+        },
+    )
+
+    assert response.status_code == 400
+    assert response.get_json()["error"] == "Rol inválido"
+
 
 def test_password_verification_does_not_print_hash(capsys):
     from models.user import UserModel
