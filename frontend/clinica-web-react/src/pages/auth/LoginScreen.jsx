@@ -71,7 +71,8 @@ const LoginScreen = () => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
-            autoComplete="username"
+            name="ineo-login-username"
+            autoComplete="off"
             disabled={loading}
           />
         </div>
@@ -85,7 +86,8 @@ const LoginScreen = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
-            autoComplete="current-password"
+            name="ineo-login-password"
+            autoComplete="new-password"
             disabled={loading}
           />
           <button className="eye-btn" onClick={() => setShowPassword(!showPassword)} type="button">
