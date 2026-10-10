@@ -20,6 +20,7 @@ export default function UsuariosConfigScreen() {
   const [usuarios, setUsuarios] = useState([]);
   const [form, setForm] = useState(emptyForm);
   const [editingUser, setEditingUser] = useState(null);
+  const [changePassword, setChangePassword] = useState(false);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const [msg, setMsg] = useState('');
@@ -77,10 +78,12 @@ export default function UsuariosConfigScreen() {
   const resetForm = () => {
     setForm(emptyForm);
     setEditingUser(null);
+    setChangePassword(false);
   };
 
   const startEdit = (user) => {
     setEditingUser(user);
+    setChangePassword(false);
     setForm({
       ...emptyForm,
       curp: user.curp || '',
@@ -108,7 +111,7 @@ export default function UsuariosConfigScreen() {
       setMsg(t('config.userRequired'));
       return;
     }
-    if (form.password && new TextEncoder().encode(form.password).length > 72) {
+    if ((!editingUser || changePassword) && form.password && new TextEncoder().encode(form.password).length > 72) {
       setMsg(t('config.userPasswordTooLong'));
       return;
     }
@@ -134,7 +137,7 @@ export default function UsuariosConfigScreen() {
           username,
           role: canonicalRole(form.role),
         };
-        if (form.password) payload.password = form.password;
+        if (changePassword && form.password) payload.password = form.password;
         await api.put(`/auth/users/${id}`, payload);
         resetForm();
         await load(true);
@@ -218,7 +221,26 @@ export default function UsuariosConfigScreen() {
               <input className="config-input" value={form.pregunta_seguridad} onChange={(e) => setForm({ ...form, pregunta_seguridad: e.target.value })} placeholder={t('config.securityQuestionPlaceholder')} />
               <div className="config-grid-3">
                 <div><label className="config-label">{t('config.username')}</label><input className="config-input" value={form.username} onChange={(e) => setForm({ ...form, username: e.target.value })} placeholder={t('config.usernamePlaceholder')} /></div>
-                <div><label className="config-label">{t('config.password')}</label><input className="config-input" type="password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} placeholder={editingUser ? t('config.passwordOptionalPlaceholder') : t('config.passwordPlaceholder')} /></div>
+                {editingUser && !changePassword ? (
+                  <div>
+                    <label className="config-label">{t('config.password')}</label>
+                    <button className="config-btn secondary" type="button" onClick={() => setChangePassword(true)}>{t('config.changeUserPassword')}</button>
+                  </div>
+                ) : (
+                  <div>
+                    <label className="config-label">{t('config.password')}</label>
+                    <input
+                      className="config-input"
+                      type="password"
+                      name={editingUser ? 'new-account-password' : 'new-user-password'}
+                      autoComplete="new-password"
+                      value={form.password}
+                      onChange={(e) => setForm({ ...form, password: e.target.value })}
+                      placeholder={editingUser ? t('config.passwordOptionalPlaceholder') : t('config.passwordPlaceholder')}
+                    />
+                    {editingUser && <button className="config-btn secondary" type="button" onClick={() => { setChangePassword(false); setForm((current) => ({ ...current, password: '' })); }}>{t('config.cancelPasswordChange')}</button>}
+                  </div>
+                )}
                 <div><label className="config-label">{t('config.role')}</label><select className="config-select" value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value })}><option value="">{t('config.selectRole')}</option><option value="admin">{t('config.roleAdmin')}</option><option value="administrativo">{t('config.roleAdministrative')}</option><option value="medico">{t('config.roleMedical')}</option><option value="enfermero">{t('config.roleNurse')}</option><option value="estudios">{t('config.roleStudies')}</option></select></div>
               </div>
             </div>
