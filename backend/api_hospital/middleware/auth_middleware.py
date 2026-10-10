@@ -1,8 +1,9 @@
 from functools import wraps
 from flask import request, jsonify, g
 import jwt
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import os
+from uuid import uuid4
 from utils.database import get_collection
 
 INSECURE_SECRET_KEYS = {
@@ -10,6 +11,8 @@ INSECURE_SECRET_KEYS = {
     'tu-clave-secreta',
     'tu-clave-secreta-muy-segura-cambiar-en-produccion',
     'jwt-secret-key-cambiar',
+    'cambia-esta-clave-en-tu-entorno-local',
+    'cambia-esta-clave-jwt-en-tu-entorno-local',
 }
 
 
@@ -37,19 +40,33 @@ def validate_jwt_configuration():
 
 def generate_token(user_id, username, role):
     """Genera un token JWT"""
+    now = datetime.now(timezone.utc)
     payload = {
         'user_id': str(user_id),
         'username': username,
         'role': role,
-        'exp': datetime.utcnow() + timedelta(hours=8),
-        'iat': datetime.utcnow()
+        'jti': str(uuid4()),
+        'exp': now + timedelta(hours=8),
+        'iat': now,
+        'nbf': now,
+        'iss': 'ineo-api',
+        'aud': 'ineo-clients',
     }
     return jwt.encode(payload, _get_secret_key(), algorithm='HS256')
 
 def verify_token(token):
     """Verifica el token JWT"""
     try:
-        payload = jwt.decode(token, _get_secret_key(), algorithms=['HS256'])
+        payload = jwt.decode(
+            token,
+            _get_secret_key(),
+            algorithms=['HS256'],
+            issuer='ineo-api',
+            audience='ineo-clients',
+            options={'require': ['exp', 'iat', 'nbf', 'jti']},
+        )
+        if get_collection('revoked_tokens').find_one({'jti': payload['jti']}):
+            return None
         return payload
     except jwt.ExpiredSignatureError:
         return None
@@ -63,9 +80,10 @@ def token_required(f):
         token = None
         
         # Buscar token en headers
-        auth_header = request.headers.get('Authorization')
-        if auth_header and auth_header.startswith('Bearer '):
-            token = auth_header.split(' ')[1]
+        auth_header = request.headers.get('Authorization', '')
+        parts = auth_header.split()
+        if len(parts) == 2 and parts[0].lower() == 'bearer':
+            token = parts[1]
         
         if not token:
             return jsonify({'error': 'Token no proporcionado'}), 401
@@ -83,7 +101,11 @@ def token_required(f):
         if not current_user or not current_user.get('activo', True):
             return jsonify({'error': 'Token inválido o expirado'}), 401
 
+        # El rol se toma de la base actual, no del JWT manipulable o desactualizado.
+        payload['role'] = current_user.get('role', 'user')
+        payload['username'] = current_user.get('username', payload.get('username'))
         g.user = payload
+        g.token = token
         return f(*args, **kwargs)
     
     return decorated
@@ -98,3 +120,17 @@ def role_required(*roles):
             return f(*args, **kwargs)
         return decorated
     return decorator
+
+
+def revoke_current_token(payload):
+    """Revoca el jti actual hasta su expiración sin almacenar el JWT completo."""
+    jti = payload.get('jti')
+    exp = payload.get('exp')
+    if not jti or not exp:
+        return False
+    get_collection('revoked_tokens').update_one(
+        {'jti': jti},
+        {'$set': {'expires_at': datetime.fromtimestamp(exp, timezone.utc)}},
+        upsert=True,
+    )
+    return True

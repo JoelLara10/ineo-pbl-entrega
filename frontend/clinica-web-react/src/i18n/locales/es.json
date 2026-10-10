@@ -662,7 +662,8 @@
     "netBalance": "Balance neto:",
     "observationsLabel": "Observaciones:",
     "noObservations": "Sin observaciones",
-    "notSpecified": "No especificado"
+    "notSpecified": "No especificado",
+    "newRecord": "Registrar balance hídrico"
   },
   "historiaClinica": {
     "selectPatientFirst": "Selecciona un paciente antes de abrir historia clínica.",

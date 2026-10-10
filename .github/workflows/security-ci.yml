@@ -1,0 +1,43 @@
+name: INEO Security CI
+
+on:
+  push:
+    branches: [main, qa, develop]
+  pull_request:
+    branches: [main, qa, develop]
+
+permissions:
+  contents: read
+
+jobs:
+  frontend-dependencies:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend/clinica-web-react
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/clinica-web-react/package-lock.json
+      - run: npm ci
+      - run: npm audit --audit-level=high
+
+  backend-security:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend/api_hospital
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: backend/api_hospital/requirements*.txt
+      - run: python -m pip install -r requirements.txt -r requirements-test.txt pip-audit bandit
+      - run: pip-audit -r requirements.txt
+      - name: Static security analysis
+        run: bandit -q -r app.py config.py middleware models routes services utils security scripts -x tests -ll

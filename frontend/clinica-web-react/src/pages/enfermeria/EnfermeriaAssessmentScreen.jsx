@@ -214,7 +214,9 @@ export default function EnfermeriaAssessmentScreen() {
           ) : history.length === 0 ? (
             <div style={styles.statusBox}>{t('nursingAssessment.noRecords')}</div>
           ) : (
-            history.map((item, index) => (
+            history.map((item, index) => {
+              const assessment = item.valoracion || item;
+              return (
               <article
                 key={item.id_valoracion || `${item.fecha_registro || 'va'}-${index}`}
                 style={styles.historyItem}
@@ -225,31 +227,32 @@ export default function EnfermeriaAssessmentScreen() {
                 <div style={styles.historyGrid}>
                   <div style={styles.metricCard}>
                     <span style={styles.metricLabel}>{t('nursingAssessment.generalStateLabel')}</span>
-                    <strong>{item.estado_general || t('nursingAssessment.notSpecified')}</strong>
+                    <strong>{assessment.estado_general || t('nursingAssessment.notSpecified')}</strong>
                   </div>
                   <div style={styles.metricCard}>
                     <span style={styles.metricLabel}>{t('nursingAssessment.painLabel')}</span>
-                    <strong>{item.dolor || t('nursingAssessment.notSpecified')}</strong>
+                    <strong>{assessment.dolor || t('nursingAssessment.notSpecified')}</strong>
                   </div>
                   <div style={styles.metricCard}>
                     <span style={styles.metricLabel}>{t('nursingAssessment.mobilityLabel')}</span>
-                    <strong>{item.movilidad || t('nursingAssessment.notSpecified')}</strong>
+                    <strong>{assessment.movilidad || t('nursingAssessment.notSpecified')}</strong>
                   </div>
                   <div style={styles.metricCard}>
                     <span style={styles.metricLabel}>{t('nursingAssessment.fallRiskLabel')}</span>
-                    <strong>{item.riesgo_caidas || t('nursingAssessment.notSpecified')}</strong>
+                    <strong>{assessment.riesgo_caidas || t('nursingAssessment.notSpecified')}</strong>
                   </div>
                   <div style={styles.metricCard}>
                     <span style={styles.metricLabel}>{t('nursingAssessment.uprRiskLabel')}</span>
-                    <strong>{item.riesgo_upp || t('nursingAssessment.notSpecified')}</strong>
+                    <strong>{assessment.riesgo_upp || t('nursingAssessment.notSpecified')}</strong>
                   </div>
                 </div>
                 <p style={styles.historyText}>
                   <strong>{t('nursingAssessment.observationsLabel')}</strong>{' '}
-                  {item.observaciones || t('nursingAssessment.noObservations')}
+                  {assessment.observaciones || t('nursingAssessment.noObservations')}
                 </p>
               </article>
-            ))
+              );
+            })
           )}
         </div>
       </section>
@@ -339,16 +342,20 @@ const styles = {
   mainCard: {
     marginTop: 18,
     background: '#fff',
-    borderRadius: 18,
+    borderRadius: 24,
     padding: 20,
-    boxShadow: '0 12px 24px rgba(15, 23, 42, 0.08)',
+    boxShadow: '0 14px 36px rgba(15, 23, 42, 0.08)',
+    border: '1px solid #ede9fe',
   },
   cardHeader: {
     display: 'flex',
     alignItems: 'center',
     gap: 10,
-    marginBottom: 16,
-    color: '#1e293b',
+    margin: '-20px -20px 20px',
+    padding: '18px 22px',
+    borderRadius: '24px 24px 0 0',
+    color: '#fff',
+    background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)',
     fontSize: 16,
   },
   formGrid: {
@@ -368,22 +375,22 @@ const styles = {
   },
   fieldInput: {
     border: '1px solid #cbd5e1',
-    borderRadius: 10,
+    borderRadius: 14,
     padding: '11px 12px',
     fontSize: 14,
     width: '100%',
     boxSizing: 'border-box',
-    background: '#f8fafc',
+    background: '#fff',
   },
   textArea: {
     width: '100%',
     border: '1px solid #cbd5e1',
-    borderRadius: 10,
+    borderRadius: 14,
     padding: 12,
     fontSize: 14,
     resize: 'vertical',
     boxSizing: 'border-box',
-    background: '#f8fafc',
+    background: '#fff',
     fontFamily: 'inherit',
   },
   cardFooter: {
@@ -398,7 +405,7 @@ const styles = {
     alignItems: 'center',
     gap: 8,
     border: '1px solid #cbd5e1',
-    borderRadius: 10,
+    borderRadius: 14,
     padding: '11px 16px',
     background: '#f8fafc',
     color: '#334155',
@@ -413,7 +420,7 @@ const styles = {
     border: 'none',
     borderRadius: 10,
     padding: '11px 18px',
-    background: 'linear-gradient(135deg, #2563eb 0%, #7c3aed 100%)',
+    background: '#16a34a',
     color: '#fff',
     cursor: 'pointer',
     fontSize: 14,
@@ -423,15 +430,16 @@ const styles = {
   historyCard: {
     marginTop: 18,
     background: '#fff',
-    borderRadius: 18,
+    borderRadius: 24,
     padding: 20,
-    boxShadow: '0 12px 24px rgba(15, 23, 42, 0.08)',
+    boxShadow: '0 14px 36px rgba(15, 23, 42, 0.08)',
+    border: '1px solid #ede9fe',
   },
   historyHeader: {
     display: 'flex',
     alignItems: 'center',
     gap: 10,
-    color: '#1e293b',
+    color: '#6d28d9',
     marginBottom: 12,
   },
   historyCount: {

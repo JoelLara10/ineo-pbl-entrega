@@ -30,6 +30,7 @@ def create_app():
     
     app = Flask(__name__)
     app.config['SECRET_KEY'] = config.SECRET_KEY
+    app.config['MAX_CONTENT_LENGTH'] = config.MAX_CONTENT_LENGTH
 
     # SEGURIDAD (Zahid): la API valida la clave JWT al arrancar para evitar
     # operar accidentalmente con un secreto conocido, vacío o demasiado corto.
@@ -40,7 +41,7 @@ def create_app():
     CORS(
         app,
         resources={r"/*": {"origins": config.CORS_ORIGINS}},
-        supports_credentials=True,
+        supports_credentials=False,
         allow_headers=["Content-Type", "Authorization"],
         methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"]
     )
@@ -71,10 +72,25 @@ def create_app():
 
     @app.before_request
     def log_request_start():
-        print(
-        f">>> PETICIÓN RECIBIDA: {request.method} {request.full_path}",
-        flush=True
-    )
+        # No registrar query strings: pueden contener filtros o datos sensibles.
+        print(f">>> PETICIÓN: {request.method} {request.path}", flush=True)
+
+    @app.after_request
+    def add_security_headers(response):
+        response.headers.setdefault('X-Content-Type-Options', 'nosniff')
+        response.headers.setdefault('X-Frame-Options', 'DENY')
+        response.headers.setdefault('Referrer-Policy', 'no-referrer')
+        response.headers.setdefault(
+            'Permissions-Policy',
+            'camera=(), microphone=(), geolocation=()'
+        )
+        response.headers.setdefault('Cache-Control', 'no-store')
+        if request.is_secure:
+            response.headers.setdefault(
+                'Strict-Transport-Security',
+                'max-age=31536000; includeSubDomains'
+            )
+        return response
     
 
     @app.route(f'{config.API_PREFIX}/analytics/dashboard', methods=['GET'])
@@ -119,13 +135,18 @@ def create_app():
     @app.errorhandler(500)
     def internal_error(error):
         return jsonify({'error': 'Error interno del servidor'}), 500
+
+    @app.errorhandler(413)
+    def request_too_large(error):
+        return jsonify({'error': 'Solicitud demasiado grande'}), 413
     
 
     return app
 
 if __name__ == '__main__':
     app = create_app()
-    debug = os.getenv('DEBUG', 'True').lower() == 'true'
+    debug = os.getenv('DEBUG', 'False').lower() == 'true'
     port = int(os.getenv('PORT', 5001))
     
-    app.run(debug=debug, host='0.0.0.0', port=port)
+    # Requerido por Render/Docker; el acceso externo lo controla la plataforma.
+    app.run(debug=debug, host='0.0.0.0', port=port)  # nosec B104

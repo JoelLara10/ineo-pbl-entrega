@@ -2,6 +2,8 @@ import axios from 'axios';
 
 const DEFAULT_API_PORT = '5001';
 const DEFAULT_API_PATH = '/api/v1';
+const DEFAULT_QA_API_URL = 'https://ineo-pbl-entrega.onrender.com/api/v1';
+const LOCAL_HOSTNAMES = new Set(['localhost', '127.0.0.1', '::1']);
 
 const resolveApiUrl = () => {
   const envUrl = import.meta.env.VITE_API_URL?.trim();
@@ -10,13 +12,15 @@ const resolveApiUrl = () => {
     return envUrl.replace(/\/+$/, '');
   }
 
-  if (typeof window !== 'undefined') {
+  if (typeof window !== 'undefined' && LOCAL_HOSTNAMES.has(window.location.hostname)) {
     const { protocol, hostname } = window.location;
-    const resolvedHost = hostname || 'localhost';
-    return `${protocol}//${resolvedHost}:${DEFAULT_API_PORT}${DEFAULT_API_PATH}`;
+    return `${protocol}//${hostname}:${DEFAULT_API_PORT}${DEFAULT_API_PATH}`;
   }
 
-  return `http://localhost:${DEFAULT_API_PORT}${DEFAULT_API_PATH}`;
+  // En despliegues de QA nunca se debe reutilizar el dominio de Vercel con
+  // el puerto local 5001. Render expone el servicio mediante HTTPS (443) y
+  // administra internamente el puerto PORT=10000.
+  return DEFAULT_QA_API_URL;
 };
 
 const API_URL = resolveApiUrl();

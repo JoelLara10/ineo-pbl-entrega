@@ -1,7 +1,7 @@
 import { formatRegionalDate } from '../../i18n/regional';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { FiArrowLeft, FiClock, FiRefreshCw, FiSave, FiShield, FiUser } from 'react-icons/fi';
+import { FiArrowLeft, FiClipboard, FiClock, FiRefreshCw, FiSave, FiShield, FiUser } from 'react-icons/fi';
 import { usePatient } from '../../context/PatientContext';
 import api from '../../services/api';
 import { useTranslation } from 'react-i18next';
@@ -101,7 +101,7 @@ export default function EnfermeriaCareScreen() {
       </section>
 
       <section className="nursing-care-card" aria-labelledby="nursing-care-form-title">
-        <h2 id="nursing-care-form-title">{t('nursingCare.formTitle')}</h2>
+        <h2 id="nursing-care-form-title" className="nursing-care-card-header"><FiClipboard size={20} />{t('nursingCare.formTitle')}</h2>
         <div className="nursing-care-grid">
           <label>{t('nursingCare.nursingDiagnosisPlaceholder')}<textarea rows={3} value={formData.diagnostico_enfermeria} onChange={(e) => handleChange('diagnostico_enfermeria', e.target.value)} /></label>
           <label>{t('nursingCare.objectivesPlaceholder')}<textarea rows={3} value={formData.objetivos} onChange={(e) => handleChange('objetivos', e.target.value)} /></label>
