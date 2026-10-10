@@ -62,9 +62,14 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     const token = localStorage.getItem('@ineo_token');
     if (token) {
-      api.post('/auth/logout', {}, {
-        headers: { Authorization: `Bearer ${token}` },
-      }).catch(() => {});
+      try {
+        const logoutRequest = api.post('/auth/logout', {}, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        logoutRequest?.catch?.(() => {});
+      } catch {
+        // La sesión local debe cerrarse aunque el servidor no esté disponible.
+      }
     }
     localStorage.removeItem('@ineo_token');
     localStorage.removeItem('@ineo_user');
