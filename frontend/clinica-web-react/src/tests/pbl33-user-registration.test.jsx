@@ -41,6 +41,12 @@ describe('Alta de usuarios', () => {
     const user = userEvent.setup();
     await mount();
 
+    const roleSelect = screen.getByRole('combobox');
+    const availableRoles = Array.from(roleSelect.options).map((option) => option.value);
+    expect(availableRoles).toContain('enfermero');
+    expect(availableRoles).not.toContain('enfermeria');
+    expect(screen.getByLabelText('Fecha de nacimiento')).toHaveAttribute('type', 'date');
+
     await user.type(screen.getByPlaceholderText('Ingrese nombre(s)'), 'Usuario QA');
     await user.type(screen.getByPlaceholderText('Usuario'), '  qa.medico  ');
     await user.type(screen.getByPlaceholderText('Contraseña'), 'PruebaSegura-42');
