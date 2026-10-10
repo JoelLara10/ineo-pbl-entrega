@@ -77,3 +77,36 @@ describe('Alta de usuarios', () => {
     expect(api.post).not.toHaveBeenCalled();
   });
 });
+
+
+describe('Edición de usuarios', () => {
+  it('carga los datos, actualiza el usuario y conserva su contraseña si se deja vacía', async () => {
+    api.get.mockResolvedValue({
+      data: { data: [{
+        id: 27, username: 'qa.medico', nombre: 'Nombre original',
+        papell: 'Apellido', role: 'medico', fecnac: '1995-04-12',
+        email: 'qa@example.com', activo: true,
+      }] },
+    });
+    api.put.mockResolvedValue({ data: { message: 'Usuario actualizado correctamente' } });
+    const user = userEvent.setup();
+    await mount();
+
+    await user.click(await screen.findByRole('button', { name: 'Editar' }));
+    expect(screen.getByDisplayValue('Nombre original')).toBeInTheDocument();
+    expect(screen.getByDisplayValue('1995-04-12')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Dejar vacío para conservar la contraseña actual')).toBeInTheDocument();
+
+    await user.clear(screen.getByDisplayValue('Nombre original'));
+    await user.type(screen.getByPlaceholderText('Ingrese nombre(s)'), 'Nombre nuevo');
+    await user.click(screen.getByRole('button', { name: 'Guardar cambios' }));
+
+    expect(api.put).toHaveBeenCalledWith('/auth/users/27', expect.objectContaining({
+      username: 'qa.medico',
+      nombre: 'Nombre nuevo',
+      role: 'medico',
+      fecnac: '1995-04-12',
+    }));
+    expect(api.put.mock.calls[0][1]).not.toHaveProperty('password');
+  });
+});
