@@ -27,6 +27,29 @@ const mount = () => {
 };
 
 describe('PBL-21 — Valoración de Enfermería unificada', () => {
+  it('muestra los datos anidados que devuelve la API en el historial', async () => {
+    api.get.mockResolvedValue({
+      data: [{
+        id_valoracion: 3,
+        fecha_registro: '2026-10-10T19:38:00Z',
+        valoracion: {
+          estado_general: 'Estable',
+          dolor: '2/10',
+          movilidad: 'Independiente',
+          riesgo_caidas: 'Bajo',
+          riesgo_upp: 'Sin riesgo',
+          observaciones: 'Paciente orientado',
+        },
+      }],
+    });
+    mount();
+
+    expect(await screen.findByText('Estable')).toBeInTheDocument();
+    expect(screen.getByText('2/10')).toBeInTheDocument();
+    expect(screen.getByText('Independiente')).toBeInTheDocument();
+    expect(screen.getByText('Paciente orientado')).toBeInTheDocument();
+  });
+
   it('conserva consulta, campos, guardado e historial con textos del diseño común', async () => {
     api.get.mockResolvedValue({ data: [] });
     api.post.mockResolvedValue({ data: { ok: true } });
