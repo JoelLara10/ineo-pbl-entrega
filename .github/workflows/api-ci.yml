@@ -4,11 +4,18 @@ on:
   push:
     branches:
       - main
+      - qa
+      - develop
+      - "feature/**"
+      - "fix/**"
+      - "test/**"
       - "sprint-*/**"
       - "sprints/**"
   pull_request:
     branches:
       - main
+      - qa
+      - develop
 
 permissions:
   contents: read
