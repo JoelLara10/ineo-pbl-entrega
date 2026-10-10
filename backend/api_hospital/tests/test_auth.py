@@ -254,3 +254,75 @@ def test_existing_token_is_revoked_when_user_is_inactive(client, monkeypatch):
 
     assert response.status_code == 401
     assert response.get_json() == {"error": "Token inválido o expirado"}
+
+
+def test_admin_can_edit_user_profile_role_and_password(client):
+    from middleware.auth_middleware import generate_token
+
+    headers = {"Authorization": f"Bearer {generate_token('000000000000000000000001', 'admin.test', 'admin')}"}
+    created = client.post(
+        "/api/v1/auth/users",
+        headers=headers,
+        json={
+            "username": "usuario.edicion",
+            "password": "Prueba-de-usuario-42!",
+            "role": "medico",
+            "nombre": "Nombre anterior",
+            "fecnac": "1990-01-01",
+        },
+    )
+    user_id = created.get_json()["id"]
+
+    response = client.put(
+        f"/api/v1/auth/users/{user_id}",
+        headers=headers,
+        json={
+            "username": "usuario.editado",
+            "role": "enfermero",
+            "nombre": "Nombre actualizado",
+            "fecnac": "1995-04-12",
+            "password": "Nueva-clave-segura-43!",
+        },
+    )
+
+    assert response.status_code == 200
+    updated = response.get_json()["user"]
+    assert updated["username"] == "usuario.editado"
+    assert updated["role"] == "enfermero"
+    assert updated["nombre"] == "Nombre actualizado"
+    assert updated["fecnac"] == "1995-04-12"
+    assert "password" not in updated
+
+    login = client.post(
+        "/api/v1/auth/login",
+        json={"username": "usuario.editado", "password": "Nueva-clave-segura-43!"},
+    )
+    assert login.status_code == 200
+
+
+def test_user_update_rejects_duplicate_username_and_invalid_birth_date(client):
+    from middleware.auth_middleware import generate_token
+
+    headers = {"Authorization": f"Bearer {generate_token('000000000000000000000001', 'admin.test', 'admin')}"}
+    ids = []
+    for username in ("usuario.uno", "usuario.dos"):
+        response = client.post(
+            "/api/v1/auth/users",
+            headers=headers,
+            json={"username": username, "password": "Prueba-de-usuario-42!", "role": "medico"},
+        )
+        ids.append(response.get_json()["id"])
+
+    duplicate = client.put(
+        f"/api/v1/auth/users/{ids[1]}",
+        headers=headers,
+        json={"username": "usuario.uno"},
+    )
+    invalid_date = client.put(
+        f"/api/v1/auth/users/{ids[1]}",
+        headers=headers,
+        json={"fecnac": "31/12/1995"},
+    )
+
+    assert duplicate.status_code == 409
+    assert invalid_date.status_code == 400
