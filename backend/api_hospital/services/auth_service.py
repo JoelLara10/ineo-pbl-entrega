@@ -4,19 +4,27 @@ from utils.database import get_collection
 import bcrypt
 
 
+_DUMMY_PASSWORD_HASH = bcrypt.hashpw(
+    b'ineo-dummy-password-not-for-login',
+    bcrypt.gensalt(),
+)
+
+
 class AuthService:
     @staticmethod
     def login(username, password):
         """Autentica sin revelar si el usuario o la contraseña fallaron."""
         user = UserModel.find_by_username(username)
 
+        # Igualar en lo posible el costo temporal cuando el usuario no existe.
+        if not user:
+            bcrypt.checkpw(password.encode('utf-8'), _DUMMY_PASSWORD_HASH)
+            return None, 'Credenciales inválidas'
+
         # SEGURIDAD (Jesús): un usuario desactivado no puede obtener un
         # token nuevo, aunque conserve una contraseña correcta en la base.
-        if (
-            not user
-            or not user.get('activo', True)
-            or not UserModel.verify_password(user, password)
-        ):
+        password_valid = UserModel.verify_password(user, password)
+        if not user.get('activo', True) or not password_valid:
             return None, 'Credenciales inválidas'
 
         token = generate_token(
@@ -62,5 +70,4 @@ class AuthService:
             {'$set': {'password': hashed}}
         )
         
-        print(f"✅ Contraseña actualizada para usuario: {user_id}")
         return True, 'Contraseña actualizada exitosamente'
