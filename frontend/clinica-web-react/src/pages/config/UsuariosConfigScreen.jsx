@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FiChevronLeft, FiChevronRight, FiRefreshCw, FiSave, FiSearch, FiTrash2, FiUserPlus, FiX } from 'react-icons/fi';
+import { FiChevronLeft, FiChevronRight, FiEdit2, FiRefreshCw, FiSave, FiSearch, FiTrash2, FiUserPlus, FiX } from 'react-icons/fi';
 import ConfigHeader from './ConfigHeader';
 import api from '../../services/api';
 import { getCache, setCache, paginate, pages } from './configCache';
@@ -19,6 +19,7 @@ export default function UsuariosConfigScreen() {
   const { t } = useTranslation();
   const [usuarios, setUsuarios] = useState([]);
   const [form, setForm] = useState(emptyForm);
+  const [editingUser, setEditingUser] = useState(null);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const [msg, setMsg] = useState('');
@@ -73,36 +74,87 @@ export default function UsuariosConfigScreen() {
     setRefreshing(false);
   };
 
+  const resetForm = () => {
+    setForm(emptyForm);
+    setEditingUser(null);
+  };
+
+  const startEdit = (user) => {
+    setEditingUser(user);
+    setForm({
+      ...emptyForm,
+      curp: user.curp || '',
+      nombre: user.nombre || '',
+      papell: user.papell || '',
+      sapell: user.sapell || '',
+      fecnac: user.fecnac || '',
+      telefono: user.telefono || '',
+      matricula: user.matricula || '',
+      cedula: user.cedula || '',
+      cargo: user.cargo || '',
+      email: user.email || '',
+      pregunta_seguridad: user.pregunta_seguridad || user.preguntaSeguridad || '',
+      username: user.username || '',
+      role: canonicalRole(user.role) || '',
+    });
+    setMsg('');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const save = async (event) => {
     event.preventDefault();
-    if (!form.nombre || !form.username || !form.password || !form.role) {
-      setMsg(t('config.userRequired'));
-      return;
-    }
     const username = form.username.trim();
     const nombre = form.nombre.trim();
-    if (!username || !nombre || !form.password || !form.role) {
+    if (!username || !nombre || !form.role || (!editingUser && !form.password)) {
       setMsg(t('config.userRequired'));
       return;
     }
-    if (new TextEncoder().encode(form.password).length > 72) {
+    if (form.password && new TextEncoder().encode(form.password).length > 72) {
       setMsg(t('config.userPasswordTooLong'));
       return;
     }
     try {
-      const payload = { ...form, nombre, username, activo: true };
-      const response = await api.post('/auth/users', payload);
-      const created = { ...(response.data?.user || response.data || {}) };
-      delete created.password;
-      const nextUsers = [created, ...usuarios.filter((user) => user.username !== created.username)];
-      setUsuarios(nextUsers);
-      setCache(CACHE_KEY, nextUsers);
-      setForm(emptyForm);
-      setSearch('');
-      setPage(1);
-      setMsg(t('config.userSaved'));
+      if (editingUser) {
+        const id = editingUser.id || editingUser._id;
+        if (!id) {
+          setMsg(t('config.userIdNotFound'));
+          return;
+        }
+        const payload = {
+          curp: form.curp,
+          nombre,
+          papell: form.papell,
+          sapell: form.sapell,
+          fecnac: form.fecnac,
+          telefono: form.telefono,
+          matricula: form.matricula,
+          cedula: form.cedula,
+          cargo: form.cargo,
+          email: form.email,
+          pregunta_seguridad: form.pregunta_seguridad,
+          username,
+          role: canonicalRole(form.role),
+        };
+        if (form.password) payload.password = form.password;
+        await api.put(`/auth/users/${id}`, payload);
+        resetForm();
+        await load(true);
+        setMsg(t('config.userUpdated'));
+      } else {
+        const payload = { ...form, nombre, username, activo: true };
+        const response = await api.post('/auth/users', payload);
+        const created = { ...(response.data?.user || response.data || {}) };
+        delete created.password;
+        const nextUsers = [created, ...usuarios.filter((user) => user.username !== created.username)];
+        setUsuarios(nextUsers);
+        setCache(CACHE_KEY, nextUsers);
+        resetForm();
+        setSearch('');
+        setPage(1);
+        setMsg(t('config.userSaved'));
+      }
     } catch (error) {
-      setMsg(error.response?.data?.error || t('config.userSaveError'));
+      setMsg(error.response?.data?.error || (editingUser ? t('config.userUpdateError') : t('config.userSaveError')));
     }
   };
 
@@ -135,7 +187,7 @@ export default function UsuariosConfigScreen() {
       <ConfigHeader title={t('config.headerUsers')} right={<button className="config-refresh-btn" type="button" onClick={onRefresh}><FiRefreshCw className={refreshing ? 'spin' : ''} /></button>} />
       <section className="config-content">
         <form className="config-card config-main-card" onSubmit={save}>
-          <div className="config-card-header"><FiUserPlus size={28} /><h2>{t('config.registerUser')}</h2></div>
+          <div className="config-card-header"><FiUserPlus size={28} /><h2>{editingUser ? t('config.editUser') : t('config.registerUser')}</h2></div>
           <div className="config-card-body">
             <div className="config-section-box">
               <h3 className="config-subtitle">🪪 {t('config.personalData')}</h3>
@@ -167,11 +219,11 @@ export default function UsuariosConfigScreen() {
               <input className="config-input" value={form.pregunta_seguridad} onChange={(e) => setForm({ ...form, pregunta_seguridad: e.target.value })} placeholder={t('config.securityQuestionPlaceholder')} />
               <div className="config-grid-3">
                 <div><label className="config-label">{t('config.username')}</label><input className="config-input" value={form.username} onChange={(e) => setForm({ ...form, username: e.target.value })} placeholder={t('config.usernamePlaceholder')} /></div>
-                <div><label className="config-label">{t('config.password')}</label><input className="config-input" type="password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} placeholder={t('config.passwordPlaceholder')} /></div>
+                <div><label className="config-label">{t('config.password')}</label><input className="config-input" type="password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} placeholder={editingUser ? t('config.passwordOptionalPlaceholder') : t('config.passwordPlaceholder')} /></div>
                 <div><label className="config-label">{t('config.role')}</label><select className="config-select" value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value })}><option value="">{t('config.selectRole')}</option><option value="admin">{t('config.roleAdmin')}</option><option value="administrativo">{t('config.roleAdministrative')}</option><option value="medico">{t('config.roleMedical')}</option><option value="enfermero">{t('config.roleNurse')}</option><option value="estudios">{t('config.roleStudies')}</option></select></div>
               </div>
             </div>
-            <div className="config-form-footer"><button className="config-btn secondary" type="button" onClick={() => setForm(emptyForm)}><FiX /> {t('config.cancel')}</button><button className="config-btn success" type="submit"><FiSave /> {t('config.saveUser')}</button></div>
+            <div className="config-form-footer"><button className="config-btn secondary" type="button" onClick={resetForm}><FiX /> {t('config.cancel')}</button><button className="config-btn success" type="submit"><FiSave /> {editingUser ? t('config.updateUser') : t('config.saveUser')}</button></div>
             {msg && <div className="config-alert">{msg}</div>}
           </div>
         </form>
@@ -179,7 +231,7 @@ export default function UsuariosConfigScreen() {
         <h2 className="config-section-title">{t('config.usersRegistered')}</h2>
         <div className="config-search"><FiSearch className="config-search-icon" /><input className="config-input" value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }} placeholder={t('config.searchUser')} /></div>
         {loading ? <div className="config-card">{t('config.loadingUsers')}</div> : null}
-        {!loading && list.map((u) => <article className="config-card" key={u.id || u._id || u.username}><div className="config-row"><div><h3>{u.nombre || t('config.noName')} {u.papell || ''} {u.sapell || ''}</h3><p>{t('config.username')}: {u.username || t('config.noUsername')} · {t('config.role')}: {canonicalRole(u.role) || t('config.noRole')}</p>{u.email && <p>{t('config.email')}: {u.email}</p>}</div><label className="config-row"><input className="config-switch" type="checkbox" checked={!!u.activo} onChange={() => toggle(u)} /><span className={`config-badge ${u.activo ? 'success' : 'danger'}`}>{u.activo ? t('config.activeStatus') : t('config.inactiveStatus')}</span></label></div><div className="config-actions"><button className="config-btn danger" type="button" onClick={() => remove(u)}><FiTrash2 /> {t('config.delete')}</button></div></article>)}
+        {!loading && list.map((u) => <article className="config-card" key={u.id || u._id || u.username}><div className="config-row"><div><h3>{u.nombre || t('config.noName')} {u.papell || ''} {u.sapell || ''}</h3><p>{t('config.username')}: {u.username || t('config.noUsername')} · {t('config.role')}: {canonicalRole(u.role) || t('config.noRole')}</p>{u.email && <p>{t('config.email')}: {u.email}</p>}</div><label className="config-row"><input className="config-switch" type="checkbox" checked={!!u.activo} onChange={() => toggle(u)} /><span className={`config-badge ${u.activo ? 'success' : 'danger'}`}>{u.activo ? t('config.activeStatus') : t('config.inactiveStatus')}</span></label></div><div className="config-actions"><button className="config-btn secondary" type="button" onClick={() => startEdit(u)}><FiEdit2 /> {t('config.edit')}</button><button className="config-btn danger" type="button" onClick={() => remove(u)}><FiTrash2 /> {t('config.delete')}</button></div></article>)}
         {!loading && filtered.length === 0 ? <div className="config-card">{t('config.noUsersRegistered')}</div> : null}
         {filtered.length > ITEMS_PER_PAGE && <div className="config-pagination"><button className="config-btn secondary" disabled={page === 1} onClick={() => setPage(page - 1)}><FiChevronLeft /></button><span className="config-page-pill">{page} / {totalPages}</span><button className="config-btn secondary" disabled={page === totalPages} onClick={() => setPage(page + 1)}><FiChevronRight /></button></div>}
       </section>
