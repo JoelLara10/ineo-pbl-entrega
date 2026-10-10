@@ -232,3 +232,30 @@ def test_concurrent_requests_share_one_job(executor):
     assert len({state['job_id'] for state, _ in states}) == 1
     assert sum(created for _, created in states) == 1
     assert executor.submit.call_count == 1
+
+
+def test_administrative_user_can_access_spark_overview(client):
+    created = client.post(
+        '/api/v1/auth/users',
+        headers=headers(),
+        json={
+            'username': 'admin.analisis',
+            'password': 'Analisis-seguro-43!',
+            'role': 'administrativo',
+            'nombre': 'Administrativo de análisis',
+        },
+    )
+    assert created.status_code == 201
+
+    login = client.post(
+        '/api/v1/auth/login',
+        json={'username': 'admin.analisis', 'password': 'Analisis-seguro-43!'},
+    )
+    assert login.status_code == 200
+
+    response = client.get(
+        '/api/v1/spark/overview',
+        headers={'Authorization': 'Bearer ' + login.json['token']},
+    )
+    assert response.status_code == 200
+    validate('spark_overview', response.json)
