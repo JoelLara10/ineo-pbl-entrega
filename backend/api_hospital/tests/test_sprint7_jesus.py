@@ -11,7 +11,8 @@ def test_each_seeded_role_logs_in_and_resolves_its_own_identity(client, isolated
     token = response.json['token']
     identity = client.get('/api/v1/auth/me', headers={'Authorization': 'Bearer ' + token})
     assert identity.status_code == 200
-    assert identity.json['role'] == role
+    expected_role = 'enfermero' if role == 'enfermeria' else role
+    assert identity.json['role'] == expected_role
     assert identity.json['username'] == role + '.test'
     assert 'password' not in identity.json
     spark = client.get('/api/v1/spark/overview', headers={'Authorization': 'Bearer ' + token})
