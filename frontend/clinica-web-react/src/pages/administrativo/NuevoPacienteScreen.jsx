@@ -143,6 +143,7 @@ export default function NuevoPacienteScreen() {
       const payload = { ...form, assignedDoctors: doctors };
       if (editMode) await adminService.updatePatient(id, payload);
       else await adminService.createPatient(payload);
+      clearAdminCache();
       navigate('/pacientes');
     } catch (requestError) {
       setError(requestError.response?.data?.error || requestError.message);
