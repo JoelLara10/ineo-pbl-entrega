@@ -1,6 +1,9 @@
 from flask import Blueprint, request, jsonify, g
 from services.auth_service import AuthService
-from middleware.auth_middleware import token_required
+from middleware.auth_middleware import token_required, revoke_current_token
+from security.login_limiter import login_limiter
+from security.password_policy import validate_password
+from config import config
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -53,12 +56,28 @@ def login():
         return jsonify({'error': 'Solicitud de inicio de sesión inválida'}), 400
 
     username, password = credentials
+    limiter_key = login_limiter.key(username, request.remote_addr)
+    allowed, retry_after = login_limiter.check(
+        limiter_key,
+        config.LOGIN_MAX_ATTEMPTS,
+        config.LOGIN_WINDOW_SECONDS,
+    )
+    if not allowed:
+        response = jsonify({
+            'error': 'Demasiados intentos. Intenta nuevamente más tarde'
+        })
+        response.status_code = 429
+        response.headers['Retry-After'] = str(retry_after)
+        return response
+
     result, error = AuthService.login(username, password)
 
     if error:
+        login_limiter.failure(limiter_key, config.LOGIN_WINDOW_SECONDS)
         # Respuesta deliberadamente genérica para impedir enumeración de usuarios.
         return jsonify({'error': 'Credenciales inválidas'}), 401
 
+    login_limiter.success(limiter_key)
     return jsonify(result), 200
 
 
@@ -88,13 +107,25 @@ def get_current_user():
 @auth_bp.route('/change-password', methods=['POST'])
 @token_required
 def change_password():
-    data = request.get_json()
+    data = request.get_json(silent=True)
+
+    if not isinstance(data, dict):
+        return jsonify({'error': 'Solicitud inválida'}), 400
 
     old_password = data.get('old_password')
     new_password = data.get('new_password')
 
-    if not old_password or not new_password:
+    if (
+        not isinstance(old_password, str)
+        or not isinstance(new_password, str)
+        or not old_password
+        or not new_password
+    ):
         return jsonify({'error': 'Contraseñas requeridas'}), 400
+
+    valid, message = validate_password(new_password, g.user.get('username', ''))
+    if not valid:
+        return jsonify({'error': message}), 400
 
     success, message = AuthService.change_password(
         g.user['user_id'],
@@ -111,6 +142,7 @@ def change_password():
 @auth_bp.route('/logout', methods=['POST'])
 @token_required
 def logout():
+    revoke_current_token(g.user)
     return jsonify({'message': 'Sesión cerrada exitosamente'}), 200
 
 
@@ -139,8 +171,8 @@ def get_users():
         }), 200
 
     except Exception as e:
-        print(f"ERROR GET USERS: {e}", flush=True)
-        return jsonify({'error': str(e)}), 500
+        print("ERROR GET USERS", flush=True)
+        return jsonify({'error': 'Error interno del servidor'}), 500
 
 
 @auth_bp.route('/users', methods=['POST'])
@@ -151,10 +183,27 @@ def create_user():
     if not is_admin():
         return jsonify({'error': 'No autorizado'}), 403
 
-    data = request.get_json()
+    data = request.get_json(silent=True)
+
+    if not isinstance(data, dict):
+        return jsonify({'error': 'Solicitud inválida'}), 400
 
     if not data.get('username') or not data.get('password'):
         return jsonify({'error': 'Usuario y contraseña son requeridos'}), 400
+
+    username = data.get('username')
+    if not isinstance(username, str) or not username.strip() or len(username) > 80:
+        return jsonify({'error': 'Nombre de usuario inválido'}), 400
+    data['username'] = username.strip()
+
+    allowed_roles = {'admin', 'administrativo', 'medico', 'enfermero', 'estudios'}
+    if data.get('role', 'estudios') not in allowed_roles:
+        return jsonify({'error': 'Rol inválido'}), 400
+    data['role'] = data.get('role', 'estudios')
+
+    valid, message = validate_password(data.get('password'), data['username'])
+    if not valid:
+        return jsonify({'error': message}), 400
 
     existing = UserModel.find_by_username(data.get('username'))
 
@@ -178,7 +227,14 @@ def update_user(user_id):
     if not is_admin():
         return jsonify({'error': 'No autorizado'}), 403
 
-    data = request.get_json()
+    if str(g.user.get('user_id')) == str(user_id) and (
+        request.get_json(silent=True) or {}
+    ).get('activo') is False:
+        return jsonify({'error': 'No puedes desactivar tu propia cuenta'}), 409
+
+    data = request.get_json(silent=True)
+    if not isinstance(data, dict):
+        return jsonify({'error': 'Solicitud inválida'}), 400
     collection = get_collection('users')
 
     allowed_fields = [
@@ -197,6 +253,11 @@ def update_user(user_id):
     for field in allowed_fields:
         if field in data:
             update_data[field] = data[field]
+
+    if 'role' in update_data and update_data['role'] not in {
+        'admin', 'administrativo', 'medico', 'enfermero', 'estudios'
+    }:
+        return jsonify({'error': 'Rol inválido'}), 400
 
     if not update_data:
         return jsonify({'error': 'No hay datos para actualizar'}), 400
@@ -232,6 +293,9 @@ def delete_user(user_id):
 
     if not is_admin():
         return jsonify({'error': 'No autorizado'}), 403
+
+    if str(g.user.get('user_id')) == str(user_id):
+        return jsonify({'error': 'No puedes eliminar tu propia cuenta'}), 409
 
     collection = get_collection('users')
 
