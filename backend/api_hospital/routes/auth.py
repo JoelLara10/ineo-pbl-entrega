@@ -151,12 +151,29 @@ def create_user():
     if not is_admin():
         return jsonify({'error': 'No autorizado'}), 403
 
-    data = request.get_json()
+    data = request.get_json(silent=True)
 
-    if not data.get('username') or not data.get('password'):
+    if not isinstance(data, dict):
+        data = {}
+
+    username = data.get('username')
+    password = data.get('password')
+
+    if not isinstance(username, str) or not isinstance(password, str):
         return jsonify({'error': 'Usuario y contraseña son requeridos'}), 400
 
-    existing = UserModel.find_by_username(data.get('username'))
+    username = username.strip()
+
+    if (
+        not username
+        or not password
+        or len(username) > MAX_USERNAME_LENGTH
+        or len(password.encode('utf-8')) > MAX_PASSWORD_BYTES
+    ):
+        return jsonify({'error': 'Usuario o contraseña inválidos'}), 400
+
+    data['username'] = username
+    existing = UserModel.find_by_username(username)
 
     if existing:
         return jsonify({'error': 'El usuario ya existe'}), 400
