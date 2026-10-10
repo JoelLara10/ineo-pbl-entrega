@@ -39,6 +39,8 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (username, password) => {
     setError(null);
+    localStorage.removeItem('@ineo_token');
+    localStorage.removeItem('@ineo_user');
     clearAuthorization();
     try {
       const response = await api.post('/auth/login', { username: username.trim(), password });
