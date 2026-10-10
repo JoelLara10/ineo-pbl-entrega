@@ -48,6 +48,8 @@ api.interceptors.response.use(
     if (error.response?.status === 401) {
       localStorage.removeItem('@ineo_token');
       localStorage.removeItem('@ineo_user');
+      delete api.defaults.headers.Authorization;
+      if (api.defaults.headers.common) delete api.defaults.headers.common.Authorization;
     }
     return Promise.reject(error);
   }
