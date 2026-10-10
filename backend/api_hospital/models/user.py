@@ -23,6 +23,11 @@ class UserModel:
             'papell': data.get('papell', ''),
             'sapell': data.get('sapell', ''),
             'email': data.get('email', ''),
+            'curp': data.get('curp', ''),
+            'matricula': data.get('matricula', ''),
+            'cedula': data.get('cedula', ''),
+            'cargo': data.get('cargo', ''),
+            'pregunta_seguridad': data.get('pregunta_seguridad', data.get('preguntaSeguridad', '')),
             'telefono': data.get('telefono', ''),
             'fecnac': data.get('fecnac', ''),
             'activo': True
