@@ -95,7 +95,8 @@ describe('Edición de usuarios', () => {
     await user.click(await screen.findByRole('button', { name: 'Editar' }));
     expect(screen.getByDisplayValue('Nombre original')).toBeInTheDocument();
     expect(screen.getByDisplayValue('1995-04-12')).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('Dejar vacío para conservar la contraseña actual')).toBeInTheDocument();
+    expect(screen.queryByPlaceholderText('Dejar vacío para conservar la contraseña actual')).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Cambiar contraseña' })).toBeInTheDocument();
 
     await user.clear(screen.getByDisplayValue('Nombre original'));
     await user.type(screen.getByPlaceholderText('Ingrese nombre(s)'), 'Nombre nuevo');
@@ -108,5 +109,26 @@ describe('Edición de usuarios', () => {
       fecnac: '1995-04-12',
     }));
     expect(api.put.mock.calls[0][1]).not.toHaveProperty('password');
+  });
+});
+
+
+describe('Cambio voluntario de contraseña', () => {
+  it('solo incluye contraseña si se activa explícitamente el cambio', async () => {
+    api.get.mockResolvedValue({
+      data: { data: [{ id: 27, username: 'qa.medico', nombre: 'Usuario QA', role: 'medico', activo: true }] },
+    });
+    api.put.mockResolvedValue({ data: { message: 'Usuario actualizado correctamente' } });
+    const user = userEvent.setup();
+    await mount();
+    await user.click(await screen.findByRole('button', { name: 'Editar' }));
+    await user.click(screen.getByRole('button', { name: 'Cambiar contraseña' }));
+    const input = screen.getByPlaceholderText('Dejar vacío para conservar la contraseña actual');
+    await user.type(input, 'Nueva-segura-42!');
+    await user.click(screen.getByRole('button', { name: 'Guardar cambios' }));
+
+    expect(api.put).toHaveBeenCalledWith('/auth/users/27', expect.objectContaining({
+      password: 'Nueva-segura-42!',
+    }));
   });
 });
