@@ -21,7 +21,7 @@ def authorize():
     user = verify_token(header[1]) if len(header) == 2 and header[0] == 'Bearer' else None
     if user is None:
         return error('Token no proporcionado, inválido o expirado.', 'unauthorized', 401)
-    if user.get('role') != 'admin':
+    if user.get('role') not in {'admin', 'administrativo'}:
         return error('Permisos insuficientes.', 'forbidden', 403)
     user_id = user.get('user_id')
     if not isinstance(user_id, str) or not user_id:
@@ -37,7 +37,7 @@ def authorize():
     account = get_collection('users').find_one(query, {'activo': 1, 'role': 1})
     if not account or not account.get('activo', True):
         return error('Token no proporcionado, inválido o expirado.', 'unauthorized', 401)
-    if account.get('role') != 'admin':
+    if account.get('role') not in {'admin', 'administrativo'}:
         return error('Permisos insuficientes.', 'forbidden', 403)
 
 
