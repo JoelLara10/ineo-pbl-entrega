@@ -597,10 +597,16 @@ class AdministrativeService:
             ]
         }
         patients = list(db['pacientes'].find(mongo_query).sort('Id_exp', -1).limit(limit))
-        return serialize_doc([
-            AdministrativeService._patient_record_row(db, patient)
-            for patient in patients
-        ])
+        results = []
+        for patient in patients:
+            row = AdministrativeService._patient_record_row(db, patient)
+            active = db['atencion'].find_one({
+                'Id_exp': patient.get('Id_exp'),
+                'status': 'ABIERTA',
+            })
+            row['hasActiveAttention'] = bool(active)
+            results.append(row)
+        return serialize_doc(results)
 
     @staticmethod
     def get_options(current_id_cama=None):
@@ -836,6 +842,20 @@ class AdministrativeService:
         appointments = list(db['atencion'].find({'Id_exp': id_exp}).sort('fecha_ing', -1))
         family = db['familiares'].find_one({'Id_exp': id_exp})
         active_row = AdministrativeService._appointment_patient_row(db, active, patient) if active else None
+        if active_row:
+            active_row.update({
+                'id_cama': active.get('id_cama'),
+                'cama': active.get('id_cama'),
+                'motivo': active.get('motivo', ''),
+                'especialidad': active.get('especialidad', ''),
+                'alergias': active.get('alergias', ''),
+                'doctors': [
+                    str(link.get('id_medico'))
+                    for link in db['atencion_medicos'].find(
+                        {'id_atencion': active.get('id_atencion')}
+                    )
+                ],
+            })
 
         return serialize_doc({
             'patient': AdministrativeService._patient_record_row(db, patient),
