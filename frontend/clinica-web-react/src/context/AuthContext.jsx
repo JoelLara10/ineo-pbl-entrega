@@ -13,6 +13,11 @@ export const AuthProvider = ({ children }) => {
     loadStoredData();
   }, []);
 
+  const clearAuthorization = () => {
+    delete api.defaults.headers.Authorization;
+    if (api.defaults.headers.common) delete api.defaults.headers.common.Authorization;
+  };
+
   const loadStoredData = () => {
     try {
       const storedUser = localStorage.getItem('@ineo_user');
@@ -23,6 +28,9 @@ export const AuthProvider = ({ children }) => {
         api.defaults.headers.Authorization = `Bearer ${storedToken}`;
       }
     } catch (err) {
+      localStorage.removeItem('@ineo_token');
+      localStorage.removeItem('@ineo_user');
+      clearAuthorization();
       console.error('Error cargando sesión:', err);
     } finally {
       setLoading(false);
@@ -31,8 +39,9 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (username, password) => {
     setError(null);
+    clearAuthorization();
     try {
-      const response = await api.post('/auth/login', { username, password });
+      const response = await api.post('/auth/login', { username: username.trim(), password });
       const { token, user: userData } = response.data;
 
       localStorage.setItem('@ineo_token', token);
@@ -49,10 +58,17 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
+    const token = localStorage.getItem('@ineo_token');
+    if (token) {
+      api.post('/auth/logout', {}, {
+        headers: { Authorization: `Bearer ${token}` },
+      }).catch(() => {});
+    }
     localStorage.removeItem('@ineo_token');
     localStorage.removeItem('@ineo_user');
+    clearAuthorization();
+    setError(null);
     setUser(null);
-    delete api.defaults.headers.Authorization;
   };
 
   const updateUser = (userData) => {
