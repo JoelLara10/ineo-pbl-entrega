@@ -1,3 +1,2 @@
 # Optional worker runtime; Java 17 must also be installed.
-pyspark==3.5.7
-setuptools==70.3.0
+pyspark==3.5.8

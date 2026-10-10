@@ -16,13 +16,16 @@ def isolated_database(monkeypatch):
     import mongomock
     from utils.database import db_instance
     from testing.seed import reset
+    from security.login_limiter import login_limiter
 
     client = mongomock.MongoClient()
     db = client['ineo_test_pytest']
     reset(db)
+    login_limiter.reset()
     monkeypatch.setattr(db_instance, 'db', db)
     monkeypatch.setattr(db_instance, 'client', client)
     yield db
+    login_limiter.reset()
     client.drop_database(db.name)
     client.close()
 
