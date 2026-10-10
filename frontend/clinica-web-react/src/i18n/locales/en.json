@@ -662,7 +662,8 @@
     "netBalance": "Net balance:",
     "observationsLabel": "Observations:",
     "noObservations": "No observations",
-    "notSpecified": "Not specified"
+    "notSpecified": "Not specified",
+    "newRecord": "Register fluid balance"
   },
   "historiaClinica": {
     "selectPatientFirst": "Select a patient before opening clinical history.",
