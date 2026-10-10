@@ -76,7 +76,9 @@
     "medicalDescShort": "Medical care",
     "studiesDescShort": "Results",
     "refresh": "Refresh",
-    "logout": "Sign Out"
+    "logout": "Sign Out",
+    "analysisModule": "Data analysis",
+    "analysisDesc": "Clinical and administrative indicators"
   },
   "medical": {
     "headerEyebrow": "MEDICAL",
@@ -480,7 +482,9 @@
     "editUser": "Edit user",
     "updateUser": "Save changes",
     "userUpdated": "User updated successfully.",
-    "passwordOptionalPlaceholder": "Leave blank to keep the current password"
+    "passwordOptionalPlaceholder": "Leave blank to keep the current password",
+    "changeUserPassword": "Change password",
+    "cancelPasswordChange": "Keep current password"
   },
   "common": {
     "loading": "Loading...",
