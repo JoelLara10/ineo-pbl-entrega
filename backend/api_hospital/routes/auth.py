@@ -234,7 +234,7 @@ def update_user(user_id):
     from datetime import date
     from bson import ObjectId
     from models.user import UserModel
-    from utils.database import get_collection
+    from utils.database import get_collection, serialize_doc
 
     if not is_admin():
         return jsonify({'error': 'No autorizado'}), 403
