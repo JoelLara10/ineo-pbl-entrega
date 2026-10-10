@@ -102,7 +102,8 @@ def token_required(f):
             return jsonify({'error': 'Token inválido o expirado'}), 401
 
         # El rol se toma de la base actual, no del JWT manipulable o desactualizado.
-        payload['role'] = current_user.get('role', 'user')
+        current_role = current_user.get('role', 'user')
+        payload['role'] = 'enfermero' if current_role == 'enfermeria' else current_role
         payload['username'] = current_user.get('username', payload.get('username'))
         g.user = payload
         g.token = token
