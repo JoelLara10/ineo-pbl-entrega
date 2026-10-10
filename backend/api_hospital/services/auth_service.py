@@ -27,10 +27,11 @@ class AuthService:
         if not user.get('activo', True) or not password_valid:
             return None, 'Credenciales inválidas'
 
+        role = 'enfermero' if user.get('role') == 'enfermeria' else user.get('role', 'user')
         token = generate_token(
             user['_id'],
             user['username'],
-            user.get('role', 'user')
+            role
         )
         
         return {
@@ -38,7 +39,7 @@ class AuthService:
             'user': {
                 'id': str(user['_id']),
                 'username': user['username'],
-                'role': user.get('role'),
+                'role': role,
                 'nombre': user.get('nombre'),
                 'papell': user.get('papell')
             }
