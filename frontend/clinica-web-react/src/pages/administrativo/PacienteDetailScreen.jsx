@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FiDownload, FiPlus, FiSearch, FiTrash2 } from 'react-icons/fi';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import adminService from '../../services/adminService';
+import { clearAdminCache } from '../../services/adminCache';
 import AdminLayout from './AdminLayout';
 import useAdminData from './useAdminData';
 import { formatRegionalNumber } from '../../i18n/regional';
@@ -16,6 +17,7 @@ const accountsFrom = (value) => Array.isArray(value) ? value : value?.activeAcco
 export default function PacienteDetailScreen() {
   const { t, i18n } = useTranslation();
   const location = useLocation();
+  const navigate = useNavigate();
   const { id } = useParams();
   const selected = location.state?.patient || {};
   const selectedAttention = selected.id_atencion || selected.idAtencion || selected.attention;
@@ -63,8 +65,19 @@ export default function PacienteDetailScreen() {
     try { const value = await adminService.removeCharge(attention, chargeId); setAccount(value.account || value); } catch (error) { setMessage(error.response?.data?.error || error.message); }
   };
   const closeAccount = async () => {
+    if (!attention || busy === 'close') return;
     if (!window.confirm(t('administrative.confirmCloseAccount'))) return;
-    try { const value = await adminService.closeAccount(attention); setAccount(value.account || value); } catch (error) { setMessage(error.response?.data?.error || error.message); }
+    setBusy('close');
+    setMessage('');
+    try {
+      await adminService.closeAccount(attention);
+      clearAdminCache();
+      navigate('/pacientes', { replace: true });
+    } catch (error) {
+      setMessage(error.response?.data?.error || error.message);
+    } finally {
+      setBusy('');
+    }
   };
   const download = async (file) => {
     setBusy(file.key);
@@ -84,7 +97,7 @@ export default function PacienteDetailScreen() {
       <section className="adm-panel adm-section"><h2>{t('administrative.addCharge')}</h2><div className="adm-form-grid"><div className="adm-field"><label>{t('administrative.chargeType')}</label><select value={charge.type} onChange={(e) => setCharge({ ...charge, type: e.target.value, id: '' })}><option value="service">{t('administrative.service')}</option><option value="medicine">{t('administrative.medicine')}</option></select></div><div className="adm-field"><label>{t('administrative.item')}</label><select value={charge.id} onChange={(e) => setCharge({ ...charge, id: e.target.value })}><option value="">{t('common.select')}</option>{(charge.type === 'service' ? options.servicios : options.medicamentos || []).map((item) => <option key={item.id || item.id_servicio || item.id_medicamento} value={item.id || item.id_servicio || item.id_medicamento}>{item.nombre || item.name || item.descripcion}</option>)}</select></div><div className="adm-field"><label>{t('administrative.quantity')}</label><input type="number" min="1" value={charge.quantity} onChange={(e) => setCharge({ ...charge, quantity: e.target.value })} /></div></div><div className="adm-toolbar"><button className="adm-button adm-button-success" onClick={addCharge} disabled={busy === 'charge'}><FiPlus />{t('administrative.add')}</button></div></section>
       <section className="adm-panel adm-section"><h2>{t('administrative.charges')}</h2><div className="adm-table-wrap"><table className="adm-table"><thead><tr><th>{t('administrative.description')}</th><th>{t('administrative.quantity')}</th><th>{t('administrative.price')}</th><th>{t('administrative.amount')}</th><th>{t('common.actions')}</th></tr></thead><tbody>{charges.map((item, index) => <tr key={item.id || item.charge_id || index}><td>{item.description || item.nombre}</td><td>{item.quantity || 1}</td><td>{currency(item.price)}</td><td>{currency(item.amount ?? Number(item.quantity || 1) * Number(item.price || 0))}</td><td><button className="adm-button adm-button-danger" onClick={() => removeCharge(item.id || item.charge_id)}><FiTrash2 /></button></td></tr>)}</tbody></table></div></section>
       <section className="adm-panel adm-section"><h2>{t('administrative.documents')}</h2><div className="adm-documents">{documents.map((file) => <button className="adm-document" key={file.key || file.endpoint} onClick={() => download(file)} disabled={!file.endpoint || busy === file.key}><FiDownload /> <strong>{file.title || t(`administrative.${file.key}`)}</strong></button>)}</div></section>
-      <div className="adm-toolbar"><button className="adm-button adm-button-danger" onClick={closeAccount}>{t('administrative.closeAccount')}</button></div>
+      <div className="adm-toolbar"><button className="adm-button adm-button-danger" onClick={closeAccount} disabled={busy === 'close'}>{busy === 'close' ? t('common.loading') : t('administrative.closeAccount')}</button></div>
     </>}
   </AdminLayout>;
 }
