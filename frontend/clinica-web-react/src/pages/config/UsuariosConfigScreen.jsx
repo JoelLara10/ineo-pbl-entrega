@@ -6,7 +6,7 @@ import api from '../../services/api';
 import { getCache, setCache, paginate, pages } from './configCache';
 import './ConfigStyles.css';
 
-const CACHE_KEY = 'usuarios';
+const CACHE_KEY = 'usuarios_v2';
 const ITEMS_PER_PAGE = 6;
 const canonicalRole = (role) => role === 'enfermeria' ? 'enfermero' : role;
 const dateForInput = (value) => {
