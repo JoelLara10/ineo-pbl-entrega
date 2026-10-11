@@ -57,6 +57,7 @@ export default function EstudiosScreen() {
     initialSection && SECTION_CONFIG[initialSection] ? initialSection : 'solicitudes_lab'
   );
   const [allItems, setAllItems] = useState([]);
+  const [totalItems, setTotalItems] = useState(0);
   const [hasMore, setHasMore] = useState(false);
   const [hasCachedData, setHasCachedData] = useState(false);
   const [cacheNotice, setCacheNotice] = useState('');
@@ -101,6 +102,7 @@ export default function EstudiosScreen() {
       if (!config) {
         setAllItems([]);
         setHasMore(false);
+        setTotalItems(0);
         setError(t('studies.invalidSection'));
         return;
       }
@@ -110,8 +112,16 @@ export default function EstudiosScreen() {
         config.isPending ? 'pending' : 'completed'
       );
       const cacheScope = encodeURIComponent(`${user?.role || 'user'}_${user?.username || 'anonymous'}`);
-      const cacheKey = `${baseCacheKey}_${cacheScope}_${currentPage}_${encodeURIComponent(debouncedSearch)}_${dateFrom}_${dateTo}_${sortOrder}`;
+      const cacheKey = `${baseCacheKey}_full_v2_${cacheScope}_${encodeURIComponent(debouncedSearch)}_${dateFrom}_${dateTo}_${sortOrder}`;
       let cachedData = null;
+
+      const showPage = (items) => {
+        const start = (currentPage - 1) * PAGE_SIZE;
+        setTotalItems(items.length);
+        setAllItems(items.slice(start, start + PAGE_SIZE).map(normalizeItem));
+        setHasMore(items.length > currentPage * PAGE_SIZE);
+        setHasCachedData(true);
+      };
 
       try {
         setError('');
@@ -120,15 +130,9 @@ export default function EstudiosScreen() {
 
         if (!force) {
           const cachedEntry = await getCacheEntry(cacheKey);
-          if (cachedEntry) {
-            cachedData = Array.isArray(cachedEntry.data)
-              ? { items: cachedEntry.data.slice(0, PAGE_SIZE), hasMore: cachedEntry.data.length > PAGE_SIZE }
-              : cachedEntry.data;
-            const cachedItems = Array.isArray(cachedData?.items) ? cachedData.items : [];
-            setAllItems(cachedItems.map(normalizeItem));
-            setHasMore(Boolean(cachedData?.hasMore));
-            setHasCachedData(true);
-
+          if (cachedEntry && Array.isArray(cachedEntry.data)) {
+            cachedData = cachedEntry.data;
+            showPage(cachedData);
             if (cachedEntry.isFresh) {
               setLoading(false);
               return;
@@ -136,31 +140,34 @@ export default function EstudiosScreen() {
           } else {
             setHasCachedData(false);
             setAllItems([]);
+            setTotalItems(0);
           }
         }
 
-        const response = await api.get(`/exams${config.endpoint}`, {
-          params: {
-            type: config.type,
-            page: currentPage,
-            limit: PAGE_SIZE + 1,
-            q: debouncedSearch,
-            from: dateFrom,
-            to: dateTo,
-            sort: sortOrder,
-          },
-        });
+        const allResults = [];
+        let apiPage = 1;
+        let received;
+        do {
+          const response = await api.get(`/exams${config.endpoint}`, {
+            params: {
+              type: config.type,
+              page: apiPage,
+              limit: 100,
+              q: debouncedSearch,
+              from: dateFrom,
+              to: dateTo,
+              sort: sortOrder,
+            },
+          });
+          if (requestId !== loadRequestRef.current) return;
+          received = Array.isArray(response.data) ? response.data : [];
+          allResults.push(...received);
+          apiPage += 1;
+        } while (received.length === 100);
+
         if (requestId !== loadRequestRef.current) return;
-        const received = Array.isArray(response.data) ? response.data : [];
-        const pageData = {
-          items: received.slice(0, PAGE_SIZE),
-          hasMore: received.length > PAGE_SIZE,
-        };
-        const normalized = pageData.items.map(normalizeItem);
-        setAllItems(normalized);
-        setHasMore(pageData.hasMore);
-        setHasCachedData(true);
-        await setCache(cacheKey, pageData);
+        showPage(allResults);
+        await setCache(cacheKey, allResults);
       } catch (err) {
         if (requestId !== loadRequestRef.current) return;
         if (cachedData) {
@@ -168,6 +175,7 @@ export default function EstudiosScreen() {
         } else {
           setError(err.response?.data?.error || t('studies.loadError'));
           setAllItems([]);
+          setTotalItems(0);
           setHasMore(false);
           setHasCachedData(false);
         }
@@ -393,7 +401,7 @@ export default function EstudiosScreen() {
         <button type="button" onClick={() => navigate(-1)} style={styles.headerButton}>
           <FiArrowLeft size={20} />
         </button>
-        <div>
+        <div style={styles.headerCopy}>
           <div style={styles.headerEyebrow}>{t('studies.module')}</div>
           <h1 style={styles.headerTitle}>{t('studies.management')}</h1>
         </div>
@@ -527,7 +535,7 @@ const styles = {
   searchInput: { width: '100%', border: 'none', outline: 'none', background: 'transparent', color: '#1e293b', font: 'inherit' },
   filterToggle: { minHeight: '44px', padding: '0 14px', border: '1px solid #cbd5e1', borderRadius: '11px', background: '#fff', color: '#334155', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontWeight: 700, cursor: 'pointer' },
   filterCount: { minWidth: '22px', height: '22px', padding: '0 6px', borderRadius: '999px', display: 'inline-grid', placeItems: 'center', background: '#dbeafe', color: '#1d4ed8', fontSize: '12px' },
-  advancedFilters: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '12px', paddingTop: '14px', marginTop: '14px', borderTop: '1px solid #e2e8f0' },
+  advancedFilters: { display: 'flex', flexWrap: 'wrap', gap: '14px', paddingTop: '16px', marginTop: '14px', borderTop: '1px solid #e2e8f0' },
   cacheNotice: { marginBottom: '10px', padding: '10px 14px', borderRadius: '10px', background: '#fffbeb', color: '#92400e', fontSize: '13px' },
   syncStatus: { marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '7px', color: '#64748b', fontSize: '12px' },
   pager: { margin: '22px auto 0', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px' },
@@ -535,7 +543,10 @@ const styles = {
   pageLabel: { color: '#64748b', fontSize: '14px', fontWeight: 600 },
   page: {
     minHeight: '100%',
-    padding: '28px clamp(16px, 3vw, 40px)',
+    width: '100%',
+    minWidth: 0,
+    boxSizing: 'border-box',
+    padding: 'clamp(16px, 2.4vw, 32px)',
     maxWidth: '1500px',
     margin: '0 auto',
     background: '#f8fafc',
@@ -544,8 +555,9 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    gap: '16px',
-    padding: '20px 24px',
+    gap: 'clamp(8px, 2vw, 16px)',
+    minWidth: 0,
+    padding: 'clamp(12px, 2vw, 20px)',
     borderRadius: '20px',
     background: 'linear-gradient(135deg, #2563eb 0%, #7c3aed 100%)',
     color: '#fff',
@@ -562,20 +574,21 @@ const styles = {
     placeItems: 'center',
     cursor: 'pointer',
   },
-  headerEyebrow: { fontSize: '12px', letterSpacing: '0.18em', textTransform: 'uppercase', opacity: 0.8, marginBottom: '4px' },
-  headerTitle: { margin: 0, fontSize: '28px', fontWeight: 800 },
+  headerCopy: { flex: 1, minWidth: 0 },
+  headerEyebrow: { fontSize: '12px', letterSpacing: '0.14em', textTransform: 'uppercase', opacity: 0.8, marginBottom: '4px' },
+  headerTitle: { margin: 0, fontSize: 'clamp(19px, 2.5vw, 28px)', lineHeight: 1.15, fontWeight: 800, overflowWrap: 'anywhere' },
   summaryStrip: { marginTop: '16px', padding: '12px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderRadius: '12px', border: '1px solid #e2e8f0', background: '#fff', color: '#64748b', fontSize: '14px' },
   summaryNumber: { color: '#1d4ed8', fontSize: '20px', fontWeight: 800 },
   alert: { marginTop: '18px', padding: '14px 16px', borderRadius: '14px', backgroundColor: '#fff7ed', border: '1px solid #fdba74', color: '#9a3412' },
   filters: { marginTop: '18px', padding: '16px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '12px', alignItems: 'end', borderRadius: '18px', backgroundColor: '#fff', boxShadow: '0 8px 24px rgba(15, 23, 42, 0.06)' },
-  filterField: { display: 'grid', gap: '6px', minWidth: 0 },
+  filterField: { display: 'grid', gap: '7px', flex: '1 1 220px', minWidth: 'min(100%, 220px)' },
   filterLabel: { color: '#475569', fontSize: '13px', fontWeight: 700 },
-  filterInput: { width: '100%', minHeight: '42px', padding: '9px 11px', borderRadius: '10px', border: '1px solid #cbd5e1', backgroundColor: '#fff', color: '#1e293b', font: 'inherit' },
+  filterInput: { boxSizing: 'border-box', width: '100%', minWidth: 0, minHeight: '44px', padding: '9px 11px', borderRadius: '10px', border: '1px solid #cbd5e1', backgroundColor: '#fff', color: '#1e293b', font: 'inherit' },
   clearFilters: { minHeight: '42px', padding: '9px 14px', borderRadius: '10px', border: '1px solid #cbd5e1', backgroundColor: '#f8fafc', color: '#334155', fontWeight: 700, cursor: 'pointer' },
   tabsWrapper: {
     marginTop: '18px',
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))',
     gap: '10px',
     backgroundColor: 'transparent',
     padding: '0',
@@ -583,7 +596,7 @@ const styles = {
   },
   tab: {
     flex: '1 0 auto',
-    padding: '10px 18px',
+    padding: '10px 12px',
     borderRadius: '12px',
     borderTopWidth: '1px',
     borderTopStyle: 'solid',
@@ -626,17 +639,21 @@ const styles = {
     fontSize: '12px',
     fontWeight: 700,
   },
-  listArea: { marginTop: '18px' },
+  listArea: { marginTop: '18px', minWidth: 0 },
   grid: {
+    width: '100%',
+    minWidth: 0,
     display: 'grid',
     gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 380px), 1fr))',
     gap: '16px',
   },
   card: {
+    minWidth: 0,
+    boxSizing: 'border-box',
     backgroundColor: '#fff',
     borderRadius: '18px',
     boxShadow: '0 8px 24px rgba(15, 23, 42, 0.06)',
-    padding: '20px',
+    padding: 'clamp(14px, 2vw, 20px)',
     border: '1px solid #e5eaf1',
     borderLeftWidth: '4px',
     borderLeftStyle: 'solid',
@@ -662,8 +679,8 @@ const styles = {
     fontSize: '18px',
     color: '#475569',
   },
-  cardInfo: { flex: 1 },
-  patientName: { fontWeight: 700, fontSize: '16px' },
+  cardInfo: { flex: 1, minWidth: 0 },
+  patientName: { fontWeight: 700, fontSize: '16px', overflowWrap: 'anywhere' },
   patientDetail: { fontSize: '14px', color: '#64748b' },
   completedBadge: { fontSize: '20px' },
   cardBody: {
@@ -679,12 +696,13 @@ const styles = {
     color: '#334155',
   },
   infoIcon: { fontSize: '16px', width: '24px', textAlign: 'center' },
-  examsList: { wordBreak: 'break-word' },
+  examsList: { minWidth: 0, overflowWrap: 'anywhere' },
   dateText: { color: '#64748b' },
   actionRow: {
     display: 'flex',
     gap: '8px',
     flexWrap: 'wrap',
+    minWidth: 0,
     borderTop: '1px solid #e2e8f0',
     paddingTop: '14px',
   },
