@@ -10,7 +10,7 @@ const CACHE_KEY = 'usuarios';
 const ITEMS_PER_PAGE = 6;
 const canonicalRole = (role) => role === 'enfermeria' ? 'enfermero' : role;
 const dateForInput = (value) => {
-  const match = String(value || '').match(/^(\\d{4}-\\d{2}-\\d{2})/);
+  const match = String(value || '').match(/^(\d{4}-\d{2}-\d{2})/);
   return match ? match[1] : '';
 };
 
