@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from 'react-i18next';
@@ -45,7 +45,7 @@ export default function EstudiosScreen() {
   };
 
   const queryParams = new URLSearchParams(location.search);
-  const initialSection = queryParams.get('initialSection');
+  const initialSection = queryParams.get('initialSection') || queryParams.get('section');
 
   const [selectedSection, setSelectedSection] = useState(
     initialSection && SECTION_CONFIG[initialSection] ? initialSection : 'solicitudes_lab'
@@ -57,6 +57,10 @@ export default function EstudiosScreen() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [deleting, setDeleting] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [dateFrom, setDateFrom] = useState('');
+  const [dateTo, setDateTo] = useState('');
+  const [sortOrder, setSortOrder] = useState('newest');
 
   const initialLoadDone = useRef(false);
   const skipFocusRefresh = useRef(false);
@@ -248,14 +252,44 @@ export default function EstudiosScreen() {
 
   const isPending = selectedSection.startsWith('solicitudes');
 
-  const getPaginatedItems = () => {
-    const start = (currentPage - 1) * PAGE_SIZE;
-    const end = start + PAGE_SIZE;
-    return allItems.slice(start, end);
-  };
+  const filteredItems = useMemo(() => {
+    const query = searchTerm.trim().toLocaleLowerCase();
+    const from = dateFrom ? new Date(`${dateFrom}T00:00:00`).getTime() : null;
+    const to = dateTo ? new Date(`${dateTo}T23:59:59.999`).getTime() : null;
 
-  const totalPages = Math.ceil(allItems.length / PAGE_SIZE);
-  const paginatedItems = getPaginatedItems();
+    return allItems
+      .filter((item) => {
+        const searchableText = [
+          item.paciente,
+          item.medico,
+          item.estudios,
+          item.habitacion,
+          item.id_examen,
+        ].join(' ').toLocaleLowerCase();
+        if (query && !searchableText.includes(query)) return false;
+
+        const timestamp = item.fecha ? new Date(item.fecha).getTime() : null;
+        if (from !== null && (!Number.isFinite(timestamp) || timestamp < from)) return false;
+        if (to !== null && (!Number.isFinite(timestamp) || timestamp > to)) return false;
+        return true;
+      })
+      .sort((a, b) => {
+        const dateA = a.fecha ? new Date(a.fecha).getTime() : 0;
+        const dateB = b.fecha ? new Date(b.fecha).getTime() : 0;
+        return sortOrder === 'oldest' ? dateA - dateB : dateB - dateA;
+      });
+  }, [allItems, searchTerm, dateFrom, dateTo, sortOrder]);
+
+  const totalPages = Math.ceil(filteredItems.length / PAGE_SIZE);
+  const paginatedItems = filteredItems.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+  const isEnglish = i18n.language?.startsWith('en');
+  const clearFilters = () => {
+    setSearchTerm('');
+    setDateFrom('');
+    setDateTo('');
+    setSortOrder('newest');
+    setCurrentPage(1);
+  };
 
   const renderItem = (item) => {
     const sectionColor = SECTIONS.find(s => s.id === selectedSection)?.color || '#4299e1';
@@ -379,6 +413,37 @@ export default function EstudiosScreen() {
         })}
       </div>
 
+      <section style={styles.filters} aria-label={isEnglish ? 'Request filters' : 'Filtros de solicitudes'}>
+        <label style={styles.filterField}>
+          <span style={styles.filterLabel}>{isEnglish ? 'Search' : 'Buscar paciente o solicitud'}</span>
+          <input
+            type="search"
+            value={searchTerm}
+            onChange={(event) => { setSearchTerm(event.target.value); setCurrentPage(1); }}
+            placeholder={isEnglish ? 'Patient, study, doctor, room or folio' : 'Paciente, estudio, médico, cama o folio'}
+            style={styles.filterInput}
+          />
+        </label>
+        <label style={styles.filterField}>
+          <span style={styles.filterLabel}>{isEnglish ? 'From' : 'Desde'}</span>
+          <input type="date" value={dateFrom} onChange={(event) => { setDateFrom(event.target.value); setCurrentPage(1); }} style={styles.filterInput} />
+        </label>
+        <label style={styles.filterField}>
+          <span style={styles.filterLabel}>{isEnglish ? 'To' : 'Hasta'}</span>
+          <input type="date" value={dateTo} onChange={(event) => { setDateTo(event.target.value); setCurrentPage(1); }} style={styles.filterInput} />
+        </label>
+        <label style={styles.filterField}>
+          <span style={styles.filterLabel}>{isEnglish ? 'Sort by date' : 'Ordenar por fecha'}</span>
+          <select value={sortOrder} onChange={(event) => { setSortOrder(event.target.value); setCurrentPage(1); }} style={styles.filterInput}>
+            <option value="newest">{isEnglish ? 'Newest first' : 'Más recientes'}</option>
+            <option value="oldest">{isEnglish ? 'Oldest first' : 'Más antiguas'}</option>
+          </select>
+        </label>
+        <button type="button" onClick={clearFilters} style={styles.clearFilters}>
+          {isEnglish ? 'Clear filters' : 'Limpiar filtros'}
+        </button>
+      </section>
+
       <div style={styles.listArea}>
         {error ? (
           <div style={styles.emptyCard}>
@@ -389,6 +454,12 @@ export default function EstudiosScreen() {
           <div style={styles.loadingCard}>{t('studies.loading')}</div>
         ) : allItems.length === 0 ? (
           renderEmpty()
+        ) : filteredItems.length === 0 ? (
+          <div style={styles.emptyCard}>
+            <div style={styles.emptyEmoji}>🔎</div>
+            <div style={styles.emptyText}>{isEnglish ? 'No requests match these filters.' : 'No hay solicitudes que coincidan con esos filtros.'}</div>
+            <button type="button" style={styles.clearFilters} onClick={clearFilters}>{isEnglish ? 'Clear filters' : 'Limpiar filtros'}</button>
+          </div>
         ) : (
           <>
             <div style={styles.grid}>
@@ -400,7 +471,7 @@ export default function EstudiosScreen() {
                 totalPages={totalPages}
                 onPageChange={handlePageChange}
                 itemsPerPage={PAGE_SIZE}
-                totalItems={allItems.length}
+                totalItems={filteredItems.length}
               />
             )}
           </>
@@ -460,6 +531,11 @@ const styles = {
   heroDate: { margin: '6px 0 0', color: '#64748b' },
   heroPill: { padding: '10px 16px', borderRadius: '999px', backgroundColor: '#dbeafe', color: '#1d4ed8', fontWeight: 700, whiteSpace: 'nowrap' },
   alert: { marginTop: '18px', padding: '14px 16px', borderRadius: '14px', backgroundColor: '#fff7ed', border: '1px solid #fdba74', color: '#9a3412' },
+  filters: { marginTop: '18px', padding: '16px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '12px', alignItems: 'end', borderRadius: '18px', backgroundColor: '#fff', boxShadow: '0 8px 24px rgba(15, 23, 42, 0.06)' },
+  filterField: { display: 'grid', gap: '6px', minWidth: 0 },
+  filterLabel: { color: '#475569', fontSize: '13px', fontWeight: 700 },
+  filterInput: { width: '100%', minHeight: '42px', padding: '9px 11px', borderRadius: '10px', border: '1px solid #cbd5e1', backgroundColor: '#fff', color: '#1e293b', font: 'inherit' },
+  clearFilters: { minHeight: '42px', padding: '9px 14px', borderRadius: '10px', border: '1px solid #cbd5e1', backgroundColor: '#f8fafc', color: '#334155', fontWeight: 700, cursor: 'pointer' },
   tabsWrapper: {
     marginTop: '22px',
     display: 'flex',
