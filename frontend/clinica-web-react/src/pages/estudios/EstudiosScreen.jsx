@@ -25,6 +25,18 @@ import {
 import { FaFlask, FaChartBar, FaClipboardList, FaFolderOpen } from 'react-icons/fa';
 
 const PAGE_SIZE = 6;
+const inFlightStudyRequests = new Map();
+
+async function fetchAllStudyResults(cacheKey, endpoint, params) {
+  let request = inFlightStudyRequests.get(cacheKey);
+  if (!request) {
+    request = api.get(`/exams${endpoint}`, { params })
+      .then((response) => Array.isArray(response.data) ? response.data : []);
+    inFlightStudyRequests.set(cacheKey, request);
+  }
+  try { return await request; }
+  finally { if (inFlightStudyRequests.get(cacheKey) === request) inFlightStudyRequests.delete(cacheKey); }
+}
 
 export default function EstudiosScreen() {
   const navigate = useNavigate();
@@ -63,6 +75,8 @@ export default function EstudiosScreen() {
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState('');
+  const [preloadingSections, setPreloadingSections] = useState(0);
+  const [preloadWarning, setPreloadWarning] = useState('');
   const [error, setError] = useState('');
   const [deleting, setDeleting] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -74,6 +88,7 @@ export default function EstudiosScreen() {
 
   const skipFocusRefresh = useRef(false);
   const loadRequestRef = useRef(0);
+  const preloadRequestRef = useRef(0);
 
   const normalizeItem = (item = {}) => ({
     id_examen: item.id_examen ?? item._id ?? '',
@@ -144,18 +159,11 @@ export default function EstudiosScreen() {
           }
         }
 
-        const response = await api.get(`/exams${config.endpoint}`, {
-          params: {
-            type: config.type,
-            all: true,
-            q: debouncedSearch,
-            from: dateFrom,
-            to: dateTo,
-            sort: sortOrder,
-          },
+        const allResults = await fetchAllStudyResults(cacheKey, config.endpoint, {
+          type: config.type, all: true, q: debouncedSearch,
+          from: dateFrom, to: dateTo, sort: sortOrder,
         });
         if (requestId !== loadRequestRef.current) return;
-        const allResults = Array.isArray(response.data) ? response.data : [];
         showPage(allResults);
         await setCache(cacheKey, allResults);
       } catch (err) {
@@ -178,6 +186,40 @@ export default function EstudiosScreen() {
     },
     [selectedSection, currentPage, debouncedSearch, dateFrom, dateTo, sortOrder, t, isEnglish, user?.role, user?.username]
   );
+
+  const preloadOtherSections = useCallback(async (force = false) => {
+    const requestId = ++preloadRequestRef.current;
+    const sectionIds = Object.keys(SECTION_CONFIG).filter((id) => id !== selectedSection);
+    setPreloadingSections(sectionIds.length);
+    setPreloadWarning('');
+
+    const outcomes = await Promise.all(sectionIds.map(async (sectionId) => {
+      const config = SECTION_CONFIG[sectionId];
+      const baseKey = CacheKeys.estudiosAll(config.type, config.isPending ? 'pending' : 'completed');
+      const scope = encodeURIComponent(`${user?.role || 'user'}_${user?.username || 'anonymous'}`);
+      const cacheKey = `${baseKey}_full_v2_${scope}_${encodeURIComponent(debouncedSearch)}_${dateFrom}_${dateTo}_${sortOrder}`;
+      try {
+        const cached = force ? null : await getCacheEntry(cacheKey);
+        if (cached?.isFresh && Array.isArray(cached.data)) return true;
+        const results = await fetchAllStudyResults(cacheKey, config.endpoint, {
+          type: config.type, all: true, q: debouncedSearch,
+          from: dateFrom, to: dateTo, sort: sortOrder,
+        });
+        await setCache(cacheKey, results);
+        return true;
+      } catch (error) {
+        console.error(`Error precargando estudios (${sectionId}):`, error);
+        return false;
+      }
+    }));
+
+    if (requestId !== preloadRequestRef.current) return;
+    setPreloadingSections(0);
+    const failed = outcomes.filter((success) => !success).length;
+    if (failed) setPreloadWarning(isEnglish
+      ? `Could not refresh ${failed} section(s). Previously saved data was kept.`
+      : `No se pudieron actualizar ${failed} secciones. Se conservó el caché anterior.`);
+  }, [selectedSection, debouncedSearch, dateFrom, dateTo, sortOrder, user?.role, user?.username, isEnglish]);
 
   const loadCounts = useCallback(
     async (force = false) => {
@@ -227,12 +269,16 @@ export default function EstudiosScreen() {
     loadCounts();
   }, [loadCounts]);
 
+  useEffect(() => {
+    preloadOtherSections();
+  }, [preloadOtherSections]);
+
   const onRefresh = async () => {
     setRefreshing(true);
     skipFocusRefresh.current = true;
     await invalidateCachePrefix('estudios_all_');
     await removeCache(CacheKeys.counts);
-    await Promise.all([loadAllData(true), loadCounts(true)]);
+    await Promise.all([loadAllData(true), loadCounts(true), preloadOtherSections(true)]);
     setRefreshing(false);
     skipFocusRefresh.current = false;
   };
@@ -283,8 +329,9 @@ export default function EstudiosScreen() {
 
         alert(t('studies.deleteSuccess', { type: tipoDisplay }));
 
-        const tipoUpper = tipo.toUpperCase();
-        await invalidateCachePrefix(`estudios_all_${tipoUpper}_`);
+        const config = SECTION_CONFIG[selectedSection];
+        const sectionKey = CacheKeys.estudiosAll(config.type, config.isPending ? 'pending' : 'completed');
+        await invalidateCachePrefix(`${sectionKey}_full_v2_`);
         await removeCache(CacheKeys.counts);
 
         await Promise.all([
@@ -435,6 +482,9 @@ export default function EstudiosScreen() {
           );
         })}
       </div>
+
+      {preloadWarning && <div style={styles.cacheNotice} role="status">{preloadWarning}</div>}
+      {preloadingSections > 0 && <div style={styles.prefetchStatus} role="status"><FiRefreshCw className="spin" size={14} /> {isEnglish ? `Loading ${preloadingSections} other study sections into cache…` : `Cargando ${preloadingSections} secciones de estudios en caché…`}</div>}
 
       <section style={styles.filterPanel} aria-label={isEnglish ? 'Study filters' : 'Filtros de estudios'}>
         <div style={styles.searchRow}>
