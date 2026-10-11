@@ -189,7 +189,7 @@ export default function UsuariosConfigScreen() {
   };
 
   return (
-    <main className="config-page">
+    <main className="config-page config-polished">
       <ConfigHeader title={t('config.headerUsers')} right={<button className="config-refresh-btn" type="button" onClick={onRefresh}><FiRefreshCw className={refreshing ? 'spin' : ''} /></button>} />
       <section className="config-content">
         <form className="config-card config-main-card" onSubmit={save}>
