@@ -127,6 +127,8 @@ def test_created_user_can_log_in_for_each_configured_role(client, role):
 
     assert created.status_code == 201
     assert created.get_json()["username"] == username
+    assert len(created.get_json()["id"]) == 24
+    assert "legacy_id" in created.get_json()
     assert "password" not in created.get_json()
     assert created.get_json()["fecnac"] == "1995-04-12"
 
