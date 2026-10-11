@@ -143,9 +143,11 @@ def test_exams():
 #  NUEVOS ENDPOINTS PARA ESTUDIOS (coinciden con la lógica web)
 # ===================================================================
 def _study_query_params():
+    fetch_all = request.args.get('all', '').strip().lower() in ('1', 'true', 'yes')
     try:
         page = max(1, int(request.args.get('page', 1)))
-        limit = min(100, max(1, int(request.args.get('limit', 5))))
+        requested_limit = max(1, int(request.args.get('limit', 5)))
+        limit = min(100, requested_limit)
     except (TypeError, ValueError):
         return None, jsonify({'error': 'Paginación inválida'}), 400
 
@@ -169,8 +171,8 @@ def _study_query_params():
         'date_from': date_from,
         'date_to': date_to,
         'sort_order': 'oldest' if request.args.get('sort') == 'oldest' else 'newest',
+        'fetch_all': fetch_all,
     }, None, None
-
 
 @exams_bp.route('/pending', methods=['GET'])
 @token_required
