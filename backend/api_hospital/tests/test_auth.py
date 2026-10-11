@@ -361,6 +361,6 @@ def test_user_list_uses_stable_mongo_ids_when_legacy_ids_repeat(client, isolated
 
     assert response.status_code == 200
     users = response.get_json()["data"]
-    listed = [user for user in users if user["username"].startswith("estudios.")]
+    listed = [user for user in users if user["username"] in {"estudios.uno", "estudios.dos"}]
     assert {user["id"] for user in listed} == {str(first_id), str(second_id)}
     assert {user["legacy_id"] for user in listed} == {1}
