@@ -326,3 +326,39 @@ def test_user_update_rejects_duplicate_username_and_invalid_birth_date(client):
 
     assert duplicate.status_code == 409
     assert invalid_date.status_code == 400
+
+
+def test_user_list_uses_stable_mongo_ids_when_legacy_ids_repeat(client, isolated_database):
+    from bson import ObjectId
+    from middleware.auth_middleware import generate_token
+
+    first_id = ObjectId()
+    second_id = ObjectId()
+    isolated_database["users"].insert_many([
+        {
+            "_id": first_id,
+            "id": 1,
+            "username": "estudios.uno",
+            "role": "estudios",
+            "activo": True,
+        },
+        {
+            "_id": second_id,
+            "id": 1,
+            "username": "estudios.dos",
+            "role": "estudios",
+            "activo": True,
+        },
+    ])
+    token = generate_token("000000000000000000000001", "admin.test", "admin")
+
+    response = client.get(
+        "/api/v1/auth/users",
+        headers={"Authorization": f"Bearer {token}"},
+    )
+
+    assert response.status_code == 200
+    users = response.get_json()["data"]
+    listed = [user for user in users if user["username"].startswith("estudios.")]
+    assert {user["id"] for user in listed} == {str(first_id), str(second_id)}
+    assert {user["legacy_id"] for user in listed} == {1}
