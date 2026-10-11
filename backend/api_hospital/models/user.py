@@ -36,9 +36,8 @@ class UserModel:
         result = collection.insert_one(user)
         public_user = serialize_doc(user)
         # Return MongoDB's stable key for APIs that support account editing.
-        if user.get('_id') is not None:
-            public_user['legacy_id'] = public_user.get('id')
-            public_user['id'] = str(user['_id'])
+        public_user['legacy_id'] = user.get('id')
+        public_user['id'] = str(result.inserted_id)
         return public_user
     
     @staticmethod
