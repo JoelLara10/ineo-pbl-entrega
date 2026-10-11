@@ -109,7 +109,8 @@ export default function EstudiosScreen() {
         config.type,
         config.isPending ? 'pending' : 'completed'
       );
-      const cacheKey = `${baseCacheKey}_${currentPage}_${encodeURIComponent(debouncedSearch)}_${dateFrom}_${dateTo}_${sortOrder}`;
+      const cacheScope = encodeURIComponent(`${user?.role || 'user'}_${user?.username || 'anonymous'}`);
+      const cacheKey = `${baseCacheKey}_${cacheScope}_${currentPage}_${encodeURIComponent(debouncedSearch)}_${dateFrom}_${dateTo}_${sortOrder}`;
       let cachedData = null;
 
       try {
@@ -174,7 +175,7 @@ export default function EstudiosScreen() {
         if (requestId === loadRequestRef.current) setLoading(false);
       }
     },
-    [selectedSection, currentPage, debouncedSearch, dateFrom, dateTo, sortOrder, t, isEnglish]
+    [selectedSection, currentPage, debouncedSearch, dateFrom, dateTo, sortOrder, t, isEnglish, user?.role, user?.username]
   );
 
   const loadCounts = useCallback(
@@ -401,12 +402,9 @@ export default function EstudiosScreen() {
         </button>
       </div>
 
-      <div style={styles.heroCard}>
-        <div>
-          <p style={styles.heroGreeting}>{t('studies.welcomeBack', { user: user?.username || t('studies.user') })}</p>
-          <p style={styles.heroDate}>{new Date().toLocaleDateString(i18n.language === 'en' ? 'en-US' : 'es-MX', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
-        </div>
-        <div style={styles.heroPill}>{t('studies.totalPending')}: {counts.total}</div>
+      <div style={styles.summaryStrip}>
+        <span>{t('studies.totalPending')}</span>
+        <strong style={styles.summaryNumber}>{counts.total}</strong>
       </div>
 
       {error ? <div style={styles.alert}>{error}</div> : null}
@@ -566,20 +564,8 @@ const styles = {
   },
   headerEyebrow: { fontSize: '12px', letterSpacing: '0.18em', textTransform: 'uppercase', opacity: 0.8, marginBottom: '4px' },
   headerTitle: { margin: 0, fontSize: '28px', fontWeight: 800 },
-  heroCard: {
-    marginTop: '20px',
-    padding: '20px 24px',
-    backgroundColor: '#fff',
-    borderRadius: '20px',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    gap: '16px',
-    boxShadow: '0 12px 32px rgba(15, 23, 42, 0.08)',
-  },
-  heroGreeting: { margin: 0, fontSize: '22px', fontWeight: 700 },
-  heroDate: { margin: '6px 0 0', color: '#64748b' },
-  heroPill: { padding: '10px 16px', borderRadius: '999px', backgroundColor: '#dbeafe', color: '#1d4ed8', fontWeight: 700, whiteSpace: 'nowrap' },
+  summaryStrip: { marginTop: '16px', padding: '12px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderRadius: '12px', border: '1px solid #e2e8f0', background: '#fff', color: '#64748b', fontSize: '14px' },
+  summaryNumber: { color: '#1d4ed8', fontSize: '20px', fontWeight: 800 },
   alert: { marginTop: '18px', padding: '14px 16px', borderRadius: '14px', backgroundColor: '#fff7ed', border: '1px solid #fdba74', color: '#9a3412' },
   filters: { marginTop: '18px', padding: '16px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '12px', alignItems: 'end', borderRadius: '18px', backgroundColor: '#fff', boxShadow: '0 8px 24px rgba(15, 23, 42, 0.06)' },
   filterField: { display: 'grid', gap: '6px', minWidth: 0 },
