@@ -62,6 +62,7 @@ export default function EstudiosScreen() {
   const [counts, setCounts] = useState({ laboratorio: 0, gabinete: 0, total: 0 });
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState('');
   const [error, setError] = useState('');
   const [deleting, setDeleting] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -124,6 +125,7 @@ export default function EstudiosScreen() {
         setError('');
         setCacheNotice('');
         setLoading(true);
+        setLoadingMessage(isEnglish ? 'Loading all studies…' : 'Cargando todos los estudios…');
 
         if (!force) {
           const cachedEntry = await getCacheEntry(cacheKey);
@@ -132,6 +134,7 @@ export default function EstudiosScreen() {
             showPage(cachedData);
             if (cachedEntry.isFresh) {
               setLoading(false);
+              setLoadingMessage('');
               return;
             }
           } else {
@@ -141,29 +144,18 @@ export default function EstudiosScreen() {
           }
         }
 
-        const allResults = [];
-        let apiPage = 1;
-        let received;
-        do {
-          const response = await api.get(`/exams${config.endpoint}`, {
-            params: {
-              type: config.type,
-              page: apiPage,
-              limit: 100,
-              q: debouncedSearch,
-              from: dateFrom,
-              to: dateTo,
-              sort: sortOrder,
-            },
-          });
-          if (requestId !== loadRequestRef.current) return;
-          received = Array.isArray(response.data) ? response.data : [];
-          allResults.push(...received);
-          showPage(allResults);
-          apiPage += 1;
-        } while (received.length === 100);
-
+        const response = await api.get(`/exams${config.endpoint}`, {
+          params: {
+            type: config.type,
+            all: true,
+            q: debouncedSearch,
+            from: dateFrom,
+            to: dateTo,
+            sort: sortOrder,
+          },
+        });
         if (requestId !== loadRequestRef.current) return;
+        const allResults = Array.isArray(response.data) ? response.data : [];
         showPage(allResults);
         await setCache(cacheKey, allResults);
       } catch (err) {
@@ -178,7 +170,10 @@ export default function EstudiosScreen() {
           setHasCachedData(false);
         }
       } finally {
-        if (requestId === loadRequestRef.current) setLoading(false);
+        if (requestId === loadRequestRef.current) {
+          setLoading(false);
+          setLoadingMessage('');
+        }
       }
     },
     [selectedSection, currentPage, debouncedSearch, dateFrom, dateTo, sortOrder, t, isEnglish, user?.role, user?.username]
@@ -493,7 +488,7 @@ export default function EstudiosScreen() {
             <div style={styles.emptyText}>{error}</div>
           </div>
         ) : loading && !hasCachedData ? (
-          <div style={styles.loadingCard}>{t('studies.loading')}</div>
+          <div style={styles.loadingCard}><span className="spin" aria-hidden="true">⟳</span> {loadingMessage || t('studies.loading')}</div>
         ) : allItems.length === 0 ? (
           renderEmpty()
         ) : (
