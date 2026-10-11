@@ -34,7 +34,12 @@ class UserModel:
         }
         
         result = collection.insert_one(user)
-        return serialize_doc(user)
+        public_user = serialize_doc(user)
+        # Return MongoDB's stable key for APIs that support account editing.
+        if user.get('_id') is not None:
+            public_user['legacy_id'] = public_user.get('id')
+            public_user['id'] = str(user['_id'])
+        return public_user
     
     @staticmethod
     def find_by_username(username):
