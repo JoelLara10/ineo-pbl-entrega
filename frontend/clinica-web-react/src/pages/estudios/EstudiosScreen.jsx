@@ -142,21 +142,19 @@ export default function EstudiosScreen() {
         setLoading(true);
         setLoadingMessage(isEnglish ? 'Loading all studies…' : 'Cargando todos los estudios…');
 
-        if (!force) {
-          const cachedEntry = await getCacheEntry(cacheKey);
-          if (cachedEntry && Array.isArray(cachedEntry.data)) {
-            cachedData = cachedEntry.data;
-            showPage(cachedData);
-            if (cachedEntry.isFresh) {
-              setLoading(false);
-              setLoadingMessage('');
-              return;
-            }
-          } else {
-            setHasCachedData(false);
-            setAllItems([]);
-            setTotalItems(0);
+        const cachedEntry = await getCacheEntry(cacheKey);
+        if (cachedEntry && Array.isArray(cachedEntry.data)) {
+          cachedData = cachedEntry.data;
+          showPage(cachedData);
+          if (cachedEntry.isFresh && !force) {
+            setLoading(false);
+            setLoadingMessage('');
+            return;
           }
+        } else if (!force) {
+          setHasCachedData(false);
+          setAllItems([]);
+          setTotalItems(0);
         }
 
         const allResults = await fetchAllStudyResults(cacheKey, config.endpoint, {
@@ -193,25 +191,34 @@ export default function EstudiosScreen() {
     setPreloadingSections(sectionIds.length);
     setPreloadWarning('');
 
-    const outcomes = await Promise.all(sectionIds.map(async (sectionId) => {
+    const outcomes = [];
+    for (const sectionId of sectionIds) {
+      if (requestId !== preloadRequestRef.current) return;
       const config = SECTION_CONFIG[sectionId];
       const baseKey = CacheKeys.estudiosAll(config.type, config.isPending ? 'pending' : 'completed');
       const scope = encodeURIComponent(`${user?.role || 'user'}_${user?.username || 'anonymous'}`);
       const cacheKey = `${baseKey}_full_v2_${scope}_${encodeURIComponent(debouncedSearch)}_${dateFrom}_${dateTo}_${sortOrder}`;
+      let success = false;
       try {
         const cached = force ? null : await getCacheEntry(cacheKey);
-        if (cached?.isFresh && Array.isArray(cached.data)) return true;
-        const results = await fetchAllStudyResults(cacheKey, config.endpoint, {
-          type: config.type, all: true, q: debouncedSearch,
-          from: dateFrom, to: dateTo, sort: sortOrder,
-        });
-        await setCache(cacheKey, results);
-        return true;
+        if (cached?.isFresh && Array.isArray(cached.data)) {
+          success = true;
+        } else {
+          const results = await fetchAllStudyResults(cacheKey, config.endpoint, {
+            type: config.type, all: true, q: debouncedSearch,
+            from: dateFrom, to: dateTo, sort: sortOrder,
+          });
+          await setCache(cacheKey, results);
+          success = true;
+        }
       } catch (error) {
         console.error(`Error precargando estudios (${sectionId}):`, error);
-        return false;
       }
-    }));
+      outcomes.push(success);
+      if (requestId === preloadRequestRef.current) {
+        setPreloadingSections(sectionIds.length - outcomes.length);
+      }
+    }
 
     if (requestId !== preloadRequestRef.current) return;
     setPreloadingSections(0);
@@ -276,8 +283,6 @@ export default function EstudiosScreen() {
   const onRefresh = async () => {
     setRefreshing(true);
     skipFocusRefresh.current = true;
-    await invalidateCachePrefix('estudios_all_');
-    await removeCache(CacheKeys.counts);
     await Promise.all([loadAllData(true), loadCounts(true), preloadOtherSections(true)]);
     setRefreshing(false);
     skipFocusRefresh.current = false;
