@@ -205,7 +205,16 @@ export default function Sidebar({ isOpen, onClose }) {
   if (isAdmin)
     moduleItems.push({ name: t('sidebar.config'),  icon: 'options-outline',  path: '/config',      requiresPatient: false });
 
-  if (moduleItems.length) menuSections.push({ title: t('sidebar.modules'), items: moduleItems });
+  const currentModulePath = {
+    administrativo: '/admin',
+    spark: '/admin/spark',
+    medico: '/medico',
+    enfermeria: '/enfermeria',
+    estudios: '/estudios',
+    config: '/config',
+  }[currentModule];
+  const otherModuleItems = moduleItems.filter((item) => item.path !== currentModulePath);
+  if (otherModuleItems.length) menuSections.push({ title: t('sidebar.modules'), items: otherModuleItems });
 
   const userPrefix = isEnfermeria ? 'Enf.' : 'Dr.';
   const roleLabel = rl[role] || 'USER';
