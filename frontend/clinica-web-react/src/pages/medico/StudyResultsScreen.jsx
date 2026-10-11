@@ -8,6 +8,8 @@ import api from '../../services/api';
 import { useTranslation } from 'react-i18next';
 
 
+const PAGE_SIZE = 5;
+
 function buildAssetUrl(path) {
   if (!path) return null;
   if (/^https?:\/\//i.test(path)) return path;
@@ -33,6 +35,10 @@ export default function StudyResultsScreen() {
   const [labResults, setLabResults] = useState([]);
   const [imagingResults, setImagingResults] = useState([]);
   const [selectedExam, setSelectedExam] = useState(null);
+  const [labPage, setLabPage] = useState(1);
+  const [imagingPage, setImagingPage] = useState(1);
+  const [openingAttachment, setOpeningAttachment] = useState(false);
+  const [attachmentError, setAttachmentError] = useState('');
 
   const patientLabel = useMemo(() => `Exp: ${idExp || 'N/A'} | Atención: ${idAtencion || 'N/A'}`, [idAtencion, idExp]);
 
@@ -68,9 +74,70 @@ export default function StudyResultsScreen() {
     loadData();
   }, [idAtencion, idExp]);
 
+  useEffect(() => {
+    setLabPage(1);
+    setImagingPage(1);
+    setSelectedExam(null);
+  }, [idAtencion, idExp]);
+
+  useEffect(() => {
+    setLabPage((page) => Math.min(page, Math.max(1, Math.ceil(labResults.length / PAGE_SIZE))));
+  }, [labResults.length]);
+
+  useEffect(() => {
+    setImagingPage((page) => Math.min(page, Math.max(1, Math.ceil(imagingResults.length / PAGE_SIZE))));
+  }, [imagingResults.length]);
+
+  const openAttachment = async (item) => {
+    const firstDetail = (Array.isArray(item.detalles) ? item.detalles : [])
+      .find((detail) => detail.archivo_resultado);
+    const storedPath = firstDetail?.archivo_resultado;
+    const filePath = Array.isArray(storedPath)
+      ? storedPath[0]
+      : String(storedPath || '').split(',')[0].trim();
+
+    if (!filePath) {
+      setAttachmentError('Este resultado no tiene un archivo adjunto.');
+      return;
+    }
+
+    setAttachmentError('');
+    if (/^https?:\/\//i.test(filePath)) {
+      window.open(filePath, '_blank', 'noopener,noreferrer');
+      return;
+    }
+
+    const popup = window.open('about:blank', '_blank');
+    if (popup) popup.opener = null;
+    setOpeningAttachment(true);
+    try {
+      const response = await api.get(`/exams/${item.id_examen}/results/file`, {
+        params: { filename: filePath },
+        responseType: 'blob',
+      });
+      const objectUrl = URL.createObjectURL(response.data);
+      if (popup && !popup.closed) {
+        popup.location.href = objectUrl;
+      } else {
+        const link = document.createElement('a');
+        link.href = objectUrl;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.click();
+      }
+      window.setTimeout(() => URL.revokeObjectURL(objectUrl), 60_000);
+    } catch (error) {
+      if (popup && !popup.closed) popup.close();
+      console.error('Error opening study attachment:', error);
+      setAttachmentError(error.response?.data?.error || 'No se pudo abrir el archivo adjunto.');
+    } finally {
+      setOpeningAttachment(false);
+    }
+  };
+
   const sections = [
-    { key: 'lab', title: t('studyResults.labResults'), icon: FiActivity, color: '#0ea5e9', items: labResults },
-    { key: 'imaging', title: t('studyResults.imagingResults'), icon: MdOutlineScreenshotMonitor, color: '#f59e0b', items: imagingResults },
+    { key: 'lab', title: t('studyResults.labResults'), icon: FiActivity, color: '#0ea5e9', items: labResults, page: labPage, setPage: setLabPage },
+    { key: 'imaging', title: t('studyResults.imagingResults'), icon: MdOutlineScreenshotMonitor, color: '#f59e0b', items: imagingResults, page: imagingPage, setPage: setImagingPage },
   ];
 
   const renderResultCard = (item, color) => {
@@ -106,11 +173,7 @@ export default function StudyResultsScreen() {
 
         <div style={styles.resultActions}>
           <button type="button" style={styles.secondaryButton} onClick={() => setSelectedExam(item)}><FiFileText size={16} /> {t('studyResults.viewDetail')}</button>
-          {hasAttachment ? <button type="button" style={styles.primaryButton} onClick={() => {
-            const detailWithFile = details.find((detail) => detail.archivo_resultado);
-            const url = buildAssetUrl(detailWithFile?.archivo_resultado);
-            if (url) window.open(url, '_blank', 'noopener,noreferrer');
-          }}><FiDownload size={16} /> {t('studyResults.openAttachment')}</button> : null}
+          {hasAttachment ? <button type="button" style={styles.primaryButton} disabled={openingAttachment} onClick={() => openAttachment(item)}><FiDownload size={16} /> {openingAttachment ? 'Abriendo…' : t('studyResults.openAttachment')}</button> : null}
         </div>
       </article>
     );
@@ -141,6 +204,8 @@ export default function StudyResultsScreen() {
         <button type="button" style={styles.shortcutButtonPrimary} onClick={() => navigate('/medico/imprimir', { state: { id_atencion: idAtencion, Id_exp: idExp } })}><FiPrinter size={16} /> {t('studyResults.printDocs')}</button>
       </section>
 
+      {attachmentError ? <div style={styles.errorCard} role="alert">{attachmentError}</div> : null}
+
       {loading ? <div style={styles.loadingCard}>{t('studyResults.loading')}</div> : errorMessage ? <div style={styles.errorCard}>{errorMessage}</div> : (
         <>
           {sections.map((section) => {
@@ -153,7 +218,18 @@ export default function StudyResultsScreen() {
                   <span style={styles.sectionCount}>{section.items.length} registros</span>
                 </div>
                 <div style={styles.sectionBody}>
-                  {section.items.length === 0 ? <div style={styles.statusBox}>{t('studyResults.noResults')}</div> : section.items.map((item) => renderResultCard(item, section.color))}
+                  {section.items.length === 0 ? <div style={styles.statusBox}>{t('studyResults.noResults')}</div> : (
+                    <>
+                      {section.items.slice((section.page - 1) * PAGE_SIZE, section.page * PAGE_SIZE).map((item) => renderResultCard(item, section.color))}
+                      {section.items.length > PAGE_SIZE ? (
+                        <div style={styles.pagination} aria-label={section.title}>
+                          <button type="button" style={styles.pageButton} disabled={section.page <= 1} onClick={() => section.setPage((page) => Math.max(1, page - 1))}>Anterior</button>
+                          <span style={styles.pageLabel}>Página {section.page} de {Math.ceil(section.items.length / PAGE_SIZE)}</span>
+                          <button type="button" style={styles.pageButton} disabled={section.page >= Math.ceil(section.items.length / PAGE_SIZE)} onClick={() => section.setPage((page) => Math.min(Math.ceil(section.items.length / PAGE_SIZE), page + 1))}>Siguiente</button>
+                        </div>
+                      ) : null}
+                    </>
+                  )}
                 </div>
               </section>
             );
@@ -208,6 +284,9 @@ const styles = {
   sectionHeader: { display: 'flex', alignItems: 'center', gap: '10px', padding: '18px 22px', color: '#fff' },
   sectionCount: { marginLeft: 'auto', padding: '4px 10px', borderRadius: '999px', backgroundColor: 'rgba(255,255,255,0.18)', fontSize: '12px' },
   sectionBody: { padding: '18px' },
+  pagination: { display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '14px', flexWrap: 'wrap', padding: '10px 0 2px' },
+  pageButton: { padding: '9px 14px', borderRadius: '10px', border: '1px solid #c4b5fd', backgroundColor: '#fff', color: '#5b21b6', fontWeight: 700 },
+  pageLabel: { color: '#475569', fontSize: '14px' },
   statusBox: { padding: '28px', borderRadius: '18px', textAlign: 'center', backgroundColor: '#f8fafc', color: '#64748b' },
   resultCard: { padding: '18px', borderRadius: '18px', border: '1px solid #e9d5ff', backgroundColor: '#faf5ff', marginBottom: '14px' },
   resultHeader: { display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px', flexWrap: 'wrap' },
