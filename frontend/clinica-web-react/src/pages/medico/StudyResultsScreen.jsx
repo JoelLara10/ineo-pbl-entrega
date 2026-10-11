@@ -10,13 +10,6 @@ import { useTranslation } from 'react-i18next';
 
 const PAGE_SIZE = 5;
 
-function buildAssetUrl(path) {
-  if (!path) return null;
-  if (/^https?:\/\//i.test(path)) return path;
-  const baseUrl = api.defaults.baseURL || '';
-  return `${baseUrl.replace('/api/v1', '')}${path.startsWith('/') ? path : `/${path}`}`;
-}
-
 function getPatientName(paciente) {
   if (!paciente) return 'Paciente';
   return [paciente.papell, paciente.sapell, paciente.nom_pac].filter(Boolean).join(' ') || 'Paciente';
