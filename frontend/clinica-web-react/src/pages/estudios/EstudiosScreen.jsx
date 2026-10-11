@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from 'react-i18next';
@@ -10,7 +10,6 @@ import {
   invalidateCachePrefix,
   CacheKeys,
 } from '../../services/EstudiosCache';
-import Pagination from '../../components/Pagination';
 import {
   FiArrowLeft,
   FiRefreshCw,
@@ -35,6 +34,7 @@ export default function EstudiosScreen() {
   const location = useLocation();
   const { user } = useAuth();
   const { t, i18n } = useTranslation();
+  const isEnglish = i18n.language?.startsWith('en');
 
   const SECTIONS = [
     { id: 'solicitudes_lab', label: t('studies.labRequests'), icon: <FaFlask />, color: '#4299e1' },
@@ -73,8 +73,8 @@ export default function EstudiosScreen() {
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [showFilters, setShowFilters] = useState(false);
 
-  const initialLoadDone = useRef(false);
   const skipFocusRefresh = useRef(false);
+  const loadRequestRef = useRef(0);
 
   const normalizeItem = (item = {}) => ({
     id_examen: item.id_examen ?? item._id ?? '',
@@ -96,6 +96,7 @@ export default function EstudiosScreen() {
 
   const loadAllData = useCallback(
     async (force = false) => {
+      const requestId = ++loadRequestRef.current;
       const config = SECTION_CONFIG[selectedSection];
       if (!config) {
         setAllItems([]);
@@ -131,6 +132,9 @@ export default function EstudiosScreen() {
               setLoading(false);
               return;
             }
+          } else {
+            setHasCachedData(false);
+            setAllItems([]);
           }
         }
 
@@ -145,6 +149,7 @@ export default function EstudiosScreen() {
             sort: sortOrder,
           },
         });
+        if (requestId !== loadRequestRef.current) return;
         const received = Array.isArray(response.data) ? response.data : [];
         const pageData = {
           items: received.slice(0, PAGE_SIZE),
@@ -156,6 +161,7 @@ export default function EstudiosScreen() {
         setHasCachedData(true);
         await setCache(cacheKey, pageData);
       } catch (err) {
+        if (requestId !== loadRequestRef.current) return;
         if (cachedData) {
           setCacheNotice(isEnglish ? 'Showing saved results; refresh failed.' : 'Se muestran datos guardados; no se pudieron actualizar.');
         } else {
@@ -165,10 +171,10 @@ export default function EstudiosScreen() {
           setHasCachedData(false);
         }
       } finally {
-        setLoading(false);
+        if (requestId === loadRequestRef.current) setLoading(false);
       }
     },
-    [selectedSection, currentPage, debouncedSearch, dateFrom, dateTo, sortOrder, t]
+    [selectedSection, currentPage, debouncedSearch, dateFrom, dateTo, sortOrder, t, isEnglish]
   );
 
   const loadCounts = useCallback(
@@ -213,9 +219,11 @@ export default function EstudiosScreen() {
   useEffect(() => {
     skipFocusRefresh.current = false;
     loadAllData();
+  }, [selectedSection, loadAllData]);
+
+  useEffect(() => {
     loadCounts();
-    initialLoadDone.current = true;
-  }, [selectedSection, loadAllData, loadCounts]);
+  }, [loadCounts]);
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -295,7 +303,7 @@ export default function EstudiosScreen() {
   };
 
   const isPending = selectedSection.startsWith('solicitudes');
-  const isEnglish = i18n.language?.startsWith('en');
+  const activeFilterCount = Number(Boolean(debouncedSearch)) + Number(Boolean(dateFrom)) + Number(Boolean(dateTo)) + Number(sortOrder !== 'newest');
   const clearFilters = () => {
     setSearchTerm('');
     setDebouncedSearch('');
@@ -422,41 +430,56 @@ export default function EstudiosScreen() {
             >
               <span style={styles.tabIcon}>{section.icon}</span>
               <span style={styles.tabLabel}>{section.label}</span>
-              {isActive && <span style={{ ...styles.tabBadge, backgroundColor: section.color }}>{allItems.length}</span>}
+              {isActive && section.id === 'solicitudes_lab' && <span style={{ ...styles.tabBadge, backgroundColor: section.color }}>{counts.laboratorio}</span>}
+              {isActive && section.id === 'solicitudes_gab' && <span style={{ ...styles.tabBadge, backgroundColor: section.color }}>{counts.gabinete}</span>}
             </button>
           );
         })}
       </div>
 
-      <section style={styles.filters} aria-label={isEnglish ? 'Request filters' : 'Filtros de solicitudes'}>
-        <label style={styles.filterField}>
-          <span style={styles.filterLabel}>{isEnglish ? 'Search' : 'Buscar paciente o solicitud'}</span>
-          <input
-            type="search"
-            value={searchTerm}
-            onChange={(event) => { setSearchTerm(event.target.value); setCurrentPage(1); }}
-            placeholder={isEnglish ? 'Patient, study, doctor, room or folio' : 'Paciente, estudio, médico, cama o folio'}
-            style={styles.filterInput}
-          />
-        </label>
-        <label style={styles.filterField}>
-          <span style={styles.filterLabel}>{isEnglish ? 'From' : 'Desde'}</span>
-          <input type="date" value={dateFrom} onChange={(event) => { setDateFrom(event.target.value); setCurrentPage(1); }} style={styles.filterInput} />
-        </label>
-        <label style={styles.filterField}>
-          <span style={styles.filterLabel}>{isEnglish ? 'To' : 'Hasta'}</span>
-          <input type="date" value={dateTo} onChange={(event) => { setDateTo(event.target.value); setCurrentPage(1); }} style={styles.filterInput} />
-        </label>
-        <label style={styles.filterField}>
-          <span style={styles.filterLabel}>{isEnglish ? 'Sort by date' : 'Ordenar por fecha'}</span>
-          <select value={sortOrder} onChange={(event) => { setSortOrder(event.target.value); setCurrentPage(1); }} style={styles.filterInput}>
-            <option value="newest">{isEnglish ? 'Newest first' : 'Más recientes'}</option>
-            <option value="oldest">{isEnglish ? 'Oldest first' : 'Más antiguas'}</option>
-          </select>
-        </label>
-        <button type="button" onClick={clearFilters} style={styles.clearFilters}>
-          {isEnglish ? 'Clear filters' : 'Limpiar filtros'}
-        </button>
+      <section style={styles.filterPanel} aria-label={isEnglish ? 'Study filters' : 'Filtros de estudios'}>
+        <div style={styles.searchRow}>
+          <label style={styles.searchBox}>
+            <FiSearch size={18} color="#64748b" />
+            <input
+              type="search"
+              value={searchTerm}
+              onChange={(event) => { setSearchTerm(event.target.value); setCurrentPage(1); }}
+              placeholder={isEnglish ? 'Search patient, study, doctor or folio' : 'Buscar paciente, estudio, médico o folio'}
+              style={styles.searchInput}
+              aria-label={isEnglish ? 'Search studies' : 'Buscar estudios'}
+            />
+          </label>
+          <button type="button" onClick={() => setShowFilters((visible) => !visible)} style={styles.filterToggle} aria-expanded={showFilters}>
+            <FiFilter size={17} />
+            {isEnglish ? 'Filters' : 'Filtros'}
+            {activeFilterCount > 0 && <span style={styles.filterCount}>{activeFilterCount}</span>}
+          </button>
+          {activeFilterCount > 0 && (
+            <button type="button" onClick={clearFilters} style={styles.clearFilters}>
+              {isEnglish ? 'Clear' : 'Limpiar'}
+            </button>
+          )}
+        </div>
+        {showFilters && (
+          <div style={styles.advancedFilters}>
+            <label style={styles.filterField}>
+              <span style={styles.filterLabel}>{isEnglish ? 'From' : 'Desde'}</span>
+              <input type="date" value={dateFrom} onChange={(event) => { setDateFrom(event.target.value); setCurrentPage(1); }} style={styles.filterInput} />
+            </label>
+            <label style={styles.filterField}>
+              <span style={styles.filterLabel}>{isEnglish ? 'To' : 'Hasta'}</span>
+              <input type="date" value={dateTo} onChange={(event) => { setDateTo(event.target.value); setCurrentPage(1); }} style={styles.filterInput} />
+            </label>
+            <label style={styles.filterField}>
+              <span style={styles.filterLabel}>{isEnglish ? 'Sort by date' : 'Ordenar por fecha'}</span>
+              <select value={sortOrder} onChange={(event) => { setSortOrder(event.target.value); setCurrentPage(1); }} style={styles.filterInput}>
+                <option value="newest">{isEnglish ? 'Newest first' : 'Más recientes'}</option>
+                <option value="oldest">{isEnglish ? 'Oldest first' : 'Más antiguas'}</option>
+              </select>
+            </label>
+          </div>
+        )}
       </section>
 
       <div style={styles.listArea}>
@@ -465,29 +488,27 @@ export default function EstudiosScreen() {
             <div style={styles.emptyEmoji}>⚠️</div>
             <div style={styles.emptyText}>{error}</div>
           </div>
-        ) : loading && allItems.length === 0 ? (
+        ) : loading && !hasCachedData ? (
           <div style={styles.loadingCard}>{t('studies.loading')}</div>
         ) : allItems.length === 0 ? (
           renderEmpty()
-        ) : filteredItems.length === 0 ? (
-          <div style={styles.emptyCard}>
-            <div style={styles.emptyEmoji}>🔎</div>
-            <div style={styles.emptyText}>{isEnglish ? 'No requests match these filters.' : 'No hay solicitudes que coincidan con esos filtros.'}</div>
-            <button type="button" style={styles.clearFilters} onClick={clearFilters}>{isEnglish ? 'Clear filters' : 'Limpiar filtros'}</button>
-          </div>
         ) : (
           <>
+            {cacheNotice && <div style={styles.cacheNotice} role="status">{cacheNotice}</div>}
+            {loading && hasCachedData && <div style={styles.syncStatus} role="status"><FiRefreshCw className="spin" size={14} /> {isEnglish ? 'Updating saved results…' : 'Actualizando resultados guardados…'}</div>}
             <div style={styles.grid}>
-              {paginatedItems.map((item) => renderItem(item))}
+              {allItems.map((item) => renderItem(item))}
             </div>
-            {totalPages > 1 && (
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-                itemsPerPage={PAGE_SIZE}
-                totalItems={filteredItems.length}
-              />
+            {(currentPage > 1 || hasMore) && (
+              <div style={styles.pager}>
+                <button type="button" style={styles.pageButton} onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage <= 1 || loading}>
+                  <FiChevronLeft size={17} /> {isEnglish ? 'Previous' : 'Anterior'}
+                </button>
+                <span style={styles.pageLabel}>{isEnglish ? 'Page' : 'Página'} {currentPage}</span>
+                <button type="button" style={styles.pageButton} onClick={() => handlePageChange(currentPage + 1)} disabled={!hasMore || loading}>
+                  {isEnglish ? 'Next' : 'Siguiente'} <FiChevronRight size={17} />
+                </button>
+              </div>
             )}
           </>
         )}
@@ -502,10 +523,24 @@ export default function EstudiosScreen() {
 }
 
 const styles = {
+  filterPanel: { marginTop: '20px', padding: '14px 16px', borderRadius: '16px', background: '#fff', border: '1px solid #e2e8f0', boxShadow: '0 6px 20px rgba(15, 23, 42, 0.04)' },
+  searchRow: { display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' },
+  searchBox: { flex: '1 1 360px', minWidth: 0, minHeight: '46px', display: 'flex', alignItems: 'center', gap: '10px', padding: '0 14px', border: '1px solid #dbe3ef', borderRadius: '12px', background: '#f8fafc' },
+  searchInput: { width: '100%', border: 'none', outline: 'none', background: 'transparent', color: '#1e293b', font: 'inherit' },
+  filterToggle: { minHeight: '44px', padding: '0 14px', border: '1px solid #cbd5e1', borderRadius: '11px', background: '#fff', color: '#334155', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontWeight: 700, cursor: 'pointer' },
+  filterCount: { minWidth: '22px', height: '22px', padding: '0 6px', borderRadius: '999px', display: 'inline-grid', placeItems: 'center', background: '#dbeafe', color: '#1d4ed8', fontSize: '12px' },
+  advancedFilters: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '12px', paddingTop: '14px', marginTop: '14px', borderTop: '1px solid #e2e8f0' },
+  cacheNotice: { marginBottom: '10px', padding: '10px 14px', borderRadius: '10px', background: '#fffbeb', color: '#92400e', fontSize: '13px' },
+  syncStatus: { marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '7px', color: '#64748b', fontSize: '12px' },
+  pager: { margin: '22px auto 0', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px' },
+  pageButton: { minHeight: '40px', padding: '0 13px', display: 'inline-flex', alignItems: 'center', gap: '6px', border: '1px solid #cbd5e1', borderRadius: '10px', background: '#fff', color: '#334155', fontWeight: 650, cursor: 'pointer' },
+  pageLabel: { color: '#64748b', fontSize: '14px', fontWeight: 600 },
   page: {
     minHeight: '100%',
-    padding: '24px',
-    background: 'linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%)',
+    padding: '28px clamp(16px, 3vw, 40px)',
+    maxWidth: '1500px',
+    margin: '0 auto',
+    background: '#f8fafc',
   },
   header: {
     display: 'flex',
@@ -552,9 +587,10 @@ const styles = {
   filterInput: { width: '100%', minHeight: '42px', padding: '9px 11px', borderRadius: '10px', border: '1px solid #cbd5e1', backgroundColor: '#fff', color: '#1e293b', font: 'inherit' },
   clearFilters: { minHeight: '42px', padding: '9px 14px', borderRadius: '10px', border: '1px solid #cbd5e1', backgroundColor: '#f8fafc', color: '#334155', fontWeight: 700, cursor: 'pointer' },
   tabsWrapper: {
-    marginTop: '22px',
-    display: 'flex',
-    gap: '8px',
+    marginTop: '18px',
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+    gap: '10px',
     backgroundColor: 'transparent',
     padding: '0',
     overflowX: 'auto',
@@ -607,15 +643,16 @@ const styles = {
   listArea: { marginTop: '18px' },
   grid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
-    gap: '18px',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 380px), 1fr))',
+    gap: '16px',
   },
   card: {
     backgroundColor: '#fff',
     borderRadius: '18px',
     boxShadow: '0 8px 24px rgba(15, 23, 42, 0.06)',
-    padding: '18px',
-    borderLeftWidth: '6px',
+    padding: '20px',
+    border: '1px solid #e5eaf1',
+    borderLeftWidth: '4px',
     borderLeftStyle: 'solid',
     borderLeftColor: '#4299e1',
     transition: 'transform 0.2s, box-shadow 0.2s',
