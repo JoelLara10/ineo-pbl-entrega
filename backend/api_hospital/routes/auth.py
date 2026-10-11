@@ -166,12 +166,22 @@ def get_users():
             if user.get('role') == 'enfermeria':
                 user['role'] = 'enfermero'
 
+        public_users = []
+        for user in users:
+            public_user = serialize_doc(user)
+            # A document may have both MongoDB's _id and a legacy numeric id.
+            # Always expose the stable MongoDB key as "id" for account actions.
+            if user.get('_id') is not None:
+                public_user['legacy_id'] = public_user.get('id')
+                public_user['id'] = str(user['_id'])
+            public_users.append(public_user)
+
         return jsonify({
-            'total': len(users),
+            'total': len(public_users),
             'page': 1,
             'page_size': 100,
             'total_pages': 1,
-            'data': [serialize_doc(user) for user in users]
+            'data': public_users
         }), 200
 
     except Exception as e:
