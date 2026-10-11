@@ -79,7 +79,7 @@ export default function CamasConfigScreen() {
   };
 
   return (
-    <main className="config-page">
+    <main className="config-page config-polished">
       <ConfigHeader title={t('config.headerBeds')} />
       <section className="config-content">
         <form className="config-card config-main-card" onSubmit={save}>
