@@ -37,7 +37,6 @@ export const getDashboardMenuOptions = (role, t, pendingStudiesTotal = 0) => {
   ];
   if (normalizedRole === 'medico') return [
     { name: t('dashboard.medicalModule'), icon: 'pulse-outline', path: '/medico', color: '#48bb78', description: t('dashboard.medicalDescShort') },
-    { ...studies, description: t('dashboard.studiesDescShort') },
   ];
   if (normalizedRole === 'estudios') return [{ ...studies }];
   return [];
