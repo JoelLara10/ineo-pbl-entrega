@@ -9,6 +9,10 @@ import './ConfigStyles.css';
 const CACHE_KEY = 'usuarios';
 const ITEMS_PER_PAGE = 6;
 const canonicalRole = (role) => role === 'enfermeria' ? 'enfermero' : role;
+const dateForInput = (value) => {
+  const match = String(value || '').match(/^(\\d{4}-\\d{2}-\\d{2})/);
+  return match ? match[1] : '';
+};
 
 const emptyForm = {
   curp: '', nombre: '', papell: '', sapell: '', fecnac: '', telefono: '', matricula: '', cedula: '',
@@ -90,7 +94,7 @@ export default function UsuariosConfigScreen() {
       nombre: user.nombre || '',
       papell: user.papell || '',
       sapell: user.sapell || '',
-      fecnac: user.fecnac || '',
+      fecnac: dateForInput(user.fecnac),
       telefono: user.telefono || '',
       matricula: user.matricula || '',
       cedula: user.cedula || '',
@@ -127,7 +131,6 @@ export default function UsuariosConfigScreen() {
           nombre,
           papell: form.papell,
           sapell: form.sapell,
-          fecnac: form.fecnac,
           telefono: form.telefono,
           matricula: form.matricula,
           cedula: form.cedula,
@@ -137,6 +140,7 @@ export default function UsuariosConfigScreen() {
           username,
           role: canonicalRole(form.role),
         };
+        if (form.fecnac || !editingUser.fecnac) payload.fecnac = form.fecnac;
         if (changePassword && form.password) payload.password = form.password;
         await api.put(`/auth/users/${id}`, payload);
         resetForm();
@@ -144,15 +148,11 @@ export default function UsuariosConfigScreen() {
         setMsg(t('config.userUpdated'));
       } else {
         const payload = { ...form, nombre, username, activo: true };
-        const response = await api.post('/auth/users', payload);
-        const created = { ...(response.data?.user || response.data || {}) };
-        delete created.password;
-        const nextUsers = [created, ...usuarios.filter((user) => user.username !== created.username)];
-        setUsuarios(nextUsers);
-        setCache(CACHE_KEY, nextUsers);
+        await api.post('/auth/users', payload);
         resetForm();
         setSearch('');
         setPage(1);
+        await load(true);
         setMsg(t('config.userSaved'));
       }
     } catch (error) {
@@ -252,7 +252,7 @@ export default function UsuariosConfigScreen() {
         <h2 className="config-section-title">{t('config.usersRegistered')}</h2>
         <div className="config-search"><FiSearch className="config-search-icon" /><input className="config-input" value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }} placeholder={t('config.searchUser')} /></div>
         {loading ? <div className="config-card">{t('config.loadingUsers')}</div> : null}
-        {!loading && list.map((u) => <article className="config-card" key={u.id || u._id || u.username}><div className="config-row"><div><h3>{u.nombre || t('config.noName')} {u.papell || ''} {u.sapell || ''}</h3><p>{t('config.username')}: {u.username || t('config.noUsername')} · {t('config.role')}: {canonicalRole(u.role) || t('config.noRole')}</p>{u.email && <p>{t('config.email')}: {u.email}</p>}</div><label className="config-row"><input className="config-switch" type="checkbox" checked={!!u.activo} onChange={() => toggle(u)} /><span className={`config-badge ${u.activo ? 'success' : 'danger'}`}>{u.activo ? t('config.activeStatus') : t('config.inactiveStatus')}</span></label></div><div className="config-actions"><button className="config-btn secondary" type="button" onClick={() => startEdit(u)}><FiEdit2 /> {t('config.edit')}</button><button className="config-btn danger" type="button" onClick={() => remove(u)}><FiTrash2 /> {t('config.delete')}</button></div></article>)}
+        {!loading && list.map((u, index) => <article className="config-card" key={u.id || u._id || u.username || `user-${index}`}><div className="config-row"><div><h3>{u.nombre || t('config.noName')} {u.papell || ''} {u.sapell || ''}</h3><p>{t('config.username')}: {u.username || t('config.noUsername')} · {t('config.role')}: {canonicalRole(u.role) || t('config.noRole')}</p>{u.email && <p>{t('config.email')}: {u.email}</p>}</div><label className="config-row"><input className="config-switch" type="checkbox" checked={!!u.activo} onChange={() => toggle(u)} /><span className={`config-badge ${u.activo ? 'success' : 'danger'}`}>{u.activo ? t('config.activeStatus') : t('config.inactiveStatus')}</span></label></div><div className="config-actions"><button className="config-btn secondary" type="button" onClick={() => startEdit(u)}><FiEdit2 /> {t('config.edit')}</button><button className="config-btn danger" type="button" onClick={() => remove(u)}><FiTrash2 /> {t('config.delete')}</button></div></article>)}
         {!loading && filtered.length === 0 ? <div className="config-card">{t('config.noUsersRegistered')}</div> : null}
         {filtered.length > ITEMS_PER_PAGE && <div className="config-pagination"><button className="config-btn secondary" disabled={page === 1} onClick={() => setPage(page - 1)}><FiChevronLeft /></button><span className="config-page-pill">{page} / {totalPages}</span><button className="config-btn secondary" disabled={page === totalPages} onClick={() => setPage(page + 1)}><FiChevronRight /></button></div>}
       </section>
