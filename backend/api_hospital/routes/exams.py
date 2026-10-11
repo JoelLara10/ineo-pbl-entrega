@@ -234,6 +234,56 @@ def get_patient_exams(id_atencion):
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+@exams_bp.route('/<int:id_examen>/results/file', methods=['GET'])
+@token_required
+@role_required('admin', 'medico')
+def get_exam_result_file(id_examen):
+    """Entrega un adjunto solo si está asociado al examen solicitado."""
+    requested = request.args.get('filename', '').strip()
+    if not requested:
+        return jsonify({'error': 'Se requiere el nombre del archivo'}), 400
+
+    db = get_db()
+    stored_docs = db['examenes_det'].find(
+        {'id_examen': id_examen, 'archivo_resultado': {'$exists': True, '$ne': ''}},
+        {'archivo_resultado': 1}
+    )
+    stored_paths = []
+    for document in stored_docs:
+        value = document.get('archivo_resultado')
+        if isinstance(value, list):
+            stored_paths.extend(str(item) for item in value if item)
+        elif isinstance(value, str):
+            stored_paths.extend(item.strip() for item in value.split(',') if item.strip())
+
+    requested_basename = os.path.basename(requested.replace('\\', '/'))
+    allowed_roots = [
+        os.path.realpath(os.path.join(os.getcwd(), 'uploads', 'exams')),
+        os.path.realpath(os.path.join(os.getcwd(), 'static', 'resultados', 'laboratorio')),
+        os.path.realpath(os.path.join(os.getcwd(), 'static', 'resultados', 'gabinete')),
+    ]
+
+    for stored_path in stored_paths:
+        stored_basename = os.path.basename(stored_path.replace('\\', '/'))
+        if requested not in (stored_path, stored_basename) and requested_basename != stored_basename:
+            continue
+
+        candidate = os.path.realpath(
+            stored_path if os.path.isabs(stored_path) else os.path.join(os.getcwd(), stored_path)
+        )
+        try:
+            is_allowed = any(os.path.commonpath([candidate, root]) == root for root in allowed_roots)
+        except ValueError:
+            is_allowed = False
+        if is_allowed and os.path.isfile(candidate):
+            return send_from_directory(
+                os.path.dirname(candidate),
+                os.path.basename(candidate),
+                as_attachment=False
+            )
+
+    return jsonify({'error': 'Archivo adjunto no encontrado'}), 404
+
 @exams_bp.route('/<int:id_examen>/results/file', methods=['POST'])
 @token_required
 @role_required('admin', 'estudios')
