@@ -148,11 +148,15 @@ export default function UsuariosConfigScreen() {
         setMsg(t('config.userUpdated'));
       } else {
         const payload = { ...form, nombre, username, activo: true };
-        await api.post('/auth/users', payload);
+        const response = await api.post('/auth/users', payload);
+        const created = { ...(response.data?.user || response.data || {}) };
+        delete created.password;
+        const nextUsers = [created, ...usuarios.filter((user) => user.username !== created.username)];
+        setUsuarios(nextUsers);
+        setCache(CACHE_KEY, nextUsers);
         resetForm();
         setSearch('');
         setPage(1);
-        await load(true);
         setMsg(t('config.userSaved'));
       }
     } catch (error) {
