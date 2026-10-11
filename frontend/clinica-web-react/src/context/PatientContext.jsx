@@ -1,5 +1,6 @@
 // src/context/PatientContext.js
 import React, { createContext, useCallback, useEffect, useMemo, useState, useContext } from 'react';
+import { useAuth } from './AuthContext';
 
 const PatientContext = createContext();
 const STORAGE_KEY = 'ineo_selected_patient';
@@ -28,7 +29,14 @@ export const usePatient = () => {
 };
 
 export const PatientProvider = ({ children }) => {
+  const { isAuthenticated, loading: authLoading } = useAuth();
   const [selectedPatient, setSelectedPatient] = useState(getInitialPatient);
+
+  useEffect(() => {
+    if (!authLoading && !isAuthenticated) {
+      setSelectedPatient({ id_atencion: null, Id_exp: null });
+    }
+  }, [authLoading, isAuthenticated]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
