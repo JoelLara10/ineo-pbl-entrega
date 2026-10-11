@@ -21,9 +21,6 @@ import {
   FiFilter,
   FiChevronLeft,
   FiChevronRight,
-  FiUser,
-  FiHome,
-  FiCalendar,
 } from 'react-icons/fi';
 import { FaFlask, FaChartBar, FaClipboardList, FaFolderOpen } from 'react-icons/fa';
 
@@ -162,6 +159,7 @@ export default function EstudiosScreen() {
           if (requestId !== loadRequestRef.current) return;
           received = Array.isArray(response.data) ? response.data : [];
           allResults.push(...received);
+          showPage(allResults);
           apiPage += 1;
         } while (received.length === 100);
 
@@ -510,7 +508,7 @@ export default function EstudiosScreen() {
                 <button type="button" style={styles.pageButton} onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage <= 1 || loading}>
                   <FiChevronLeft size={17} /> {isEnglish ? 'Previous' : 'Anterior'}
                 </button>
-                <span style={styles.pageLabel}>{isEnglish ? 'Page' : 'Página'} {currentPage}</span>
+                <span style={styles.pageLabel}>{isEnglish ? 'Page' : 'Página'} {currentPage} / {Math.max(1, Math.ceil(totalItems / PAGE_SIZE))} · {totalItems} {isEnglish ? 'studies' : 'estudios'}</span>
                 <button type="button" style={styles.pageButton} onClick={() => handlePageChange(currentPage + 1)} disabled={!hasMore || loading}>
                   {isEnglish ? 'Next' : 'Siguiente'} <FiChevronRight size={17} />
                 </button>
@@ -540,7 +538,7 @@ const styles = {
   syncStatus: { marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '7px', color: '#64748b', fontSize: '12px' },
   pager: { margin: '22px auto 0', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px' },
   pageButton: { minHeight: '40px', padding: '0 13px', display: 'inline-flex', alignItems: 'center', gap: '6px', border: '1px solid #cbd5e1', borderRadius: '10px', background: '#fff', color: '#334155', fontWeight: 650, cursor: 'pointer' },
-  pageLabel: { color: '#64748b', fontSize: '14px', fontWeight: 600 },
+  pageLabel: { color: '#64748b', fontSize: '14px', fontWeight: 600, textAlign: 'center' },
   page: {
     minHeight: '100%',
     width: '100%',
