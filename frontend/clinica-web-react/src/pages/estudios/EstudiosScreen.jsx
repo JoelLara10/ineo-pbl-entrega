@@ -4,7 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import api from '../../services/api';
 import {
-  getCache,
+  getCacheEntry,
   setCache,
   removeCache,
   invalidateCachePrefix,
@@ -18,11 +18,17 @@ import {
   FiEye,
   FiEdit,
   FiTrash2,
+  FiSearch,
+  FiFilter,
+  FiChevronLeft,
+  FiChevronRight,
+  FiUser,
+  FiHome,
+  FiCalendar,
 } from 'react-icons/fi';
 import { FaFlask, FaChartBar, FaClipboardList, FaFolderOpen } from 'react-icons/fa';
 
 const PAGE_SIZE = 6;
-const FETCH_ALL_LIMIT = 9999;
 
 export default function EstudiosScreen() {
   const navigate = useNavigate();
@@ -51,6 +57,9 @@ export default function EstudiosScreen() {
     initialSection && SECTION_CONFIG[initialSection] ? initialSection : 'solicitudes_lab'
   );
   const [allItems, setAllItems] = useState([]);
+  const [hasMore, setHasMore] = useState(false);
+  const [hasCachedData, setHasCachedData] = useState(false);
+  const [cacheNotice, setCacheNotice] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [counts, setCounts] = useState({ laboratorio: 0, gabinete: 0, total: 0 });
   const [refreshing, setRefreshing] = useState(false);
@@ -61,6 +70,8 @@ export default function EstudiosScreen() {
   const [dateFrom, setDateFrom] = useState('');
   const [dateTo, setDateTo] = useState('');
   const [sortOrder, setSortOrder] = useState('newest');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
+  const [showFilters, setShowFilters] = useState(false);
 
   const initialLoadDone = useRef(false);
   const skipFocusRefresh = useRef(false);
@@ -88,83 +99,116 @@ export default function EstudiosScreen() {
       const config = SECTION_CONFIG[selectedSection];
       if (!config) {
         setAllItems([]);
+        setHasMore(false);
         setError(t('studies.invalidSection'));
         return;
       }
 
-      const cacheKey = CacheKeys.estudiosAll(
+      const baseCacheKey = CacheKeys.estudiosAll(
         config.type,
         config.isPending ? 'pending' : 'completed'
       );
+      const cacheKey = `${baseCacheKey}_${currentPage}_${encodeURIComponent(debouncedSearch)}_${dateFrom}_${dateTo}_${sortOrder}`;
+      let cachedData = null;
 
       try {
-        setLoading(true);
         setError('');
+        setCacheNotice('');
+        setLoading(true);
 
-        let data = null;
         if (!force) {
-          const cached = await getCache(cacheKey);
-          if (cached) {
-            data = cached;
+          const cachedEntry = await getCacheEntry(cacheKey);
+          if (cachedEntry) {
+            cachedData = Array.isArray(cachedEntry.data)
+              ? { items: cachedEntry.data.slice(0, PAGE_SIZE), hasMore: cachedEntry.data.length > PAGE_SIZE }
+              : cachedEntry.data;
+            const cachedItems = Array.isArray(cachedData?.items) ? cachedData.items : [];
+            setAllItems(cachedItems.map(normalizeItem));
+            setHasMore(Boolean(cachedData?.hasMore));
+            setHasCachedData(true);
+
+            if (cachedEntry.isFresh) {
+              setLoading(false);
+              return;
+            }
           }
         }
 
-        if (!data) {
-          const response = await api.get(`/exams${config.endpoint}`, {
-            params: {
-              type: config.type,
-              page: 1,
-              limit: FETCH_ALL_LIMIT,
-            },
-          });
-          data = Array.isArray(response.data) ? response.data : [];
-          await setCache(cacheKey, data);
-        }
-
-        let normalized = data.map(normalizeItem);
-        normalized.sort((a, b) => {
-          const dateA = a.fecha ? new Date(a.fecha).getTime() : 0;
-          const dateB = b.fecha ? new Date(b.fecha).getTime() : 0;
-          return dateB - dateA;
+        const response = await api.get(`/exams${config.endpoint}`, {
+          params: {
+            type: config.type,
+            page: currentPage,
+            limit: PAGE_SIZE + 1,
+            q: debouncedSearch,
+            from: dateFrom,
+            to: dateTo,
+            sort: sortOrder,
+          },
         });
-
+        const received = Array.isArray(response.data) ? response.data : [];
+        const pageData = {
+          items: received.slice(0, PAGE_SIZE),
+          hasMore: received.length > PAGE_SIZE,
+        };
+        const normalized = pageData.items.map(normalizeItem);
         setAllItems(normalized);
-        setCurrentPage(1);
+        setHasMore(pageData.hasMore);
+        setHasCachedData(true);
+        await setCache(cacheKey, pageData);
       } catch (err) {
-        const errorMsg = err.response?.data?.error || t('studies.loadError');
-        setError(errorMsg);
-        setAllItems([]);
+        if (cachedData) {
+          setCacheNotice(isEnglish ? 'Showing saved results; refresh failed.' : 'Se muestran datos guardados; no se pudieron actualizar.');
+        } else {
+          setError(err.response?.data?.error || t('studies.loadError'));
+          setAllItems([]);
+          setHasMore(false);
+          setHasCachedData(false);
+        }
       } finally {
         setLoading(false);
       }
     },
-    [selectedSection, t]
+    [selectedSection, currentPage, debouncedSearch, dateFrom, dateTo, sortOrder, t]
   );
 
   const loadCounts = useCallback(
     async (force = false) => {
       try {
         if (!force) {
-          const cached = await getCache(CacheKeys.counts);
-          if (cached) {
-            setCounts(cached);
-            return;
+          const cachedEntry = await getCacheEntry(CacheKeys.counts);
+          if (cachedEntry) {
+            setCounts(cachedEntry.data);
+            if (cachedEntry.isFresh) return;
           }
         }
         const response = await api.get('/exams/counts');
-        const counts = {
+        const nextCounts = {
           laboratorio: response.data?.laboratorio ?? 0,
           gabinete: response.data?.gabinete ?? 0,
           total: response.data?.total ?? 0,
         };
-        setCounts(counts);
-        await setCache(CacheKeys.counts, counts);
+        setCounts(nextCounts);
+        await setCache(CacheKeys.counts, nextCounts);
       } catch (error) {
         console.error('Error loading counts:', error);
       }
     },
     []
   );
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => setDebouncedSearch(searchTerm.trim()), 300);
+    return () => window.clearTimeout(timer);
+  }, [searchTerm]);
+
+  useEffect(() => {
+    const querySection = new URLSearchParams(location.search).get('initialSection')
+      || new URLSearchParams(location.search).get('section');
+    if (querySection && SECTION_CONFIG[querySection]) {
+      setSelectedSection(querySection);
+      setCurrentPage(1);
+    }
+  }, [location.search]);
 
   useEffect(() => {
     skipFocusRefresh.current = false;
@@ -251,40 +295,10 @@ export default function EstudiosScreen() {
   };
 
   const isPending = selectedSection.startsWith('solicitudes');
-
-  const filteredItems = useMemo(() => {
-    const query = searchTerm.trim().toLocaleLowerCase();
-    const from = dateFrom ? new Date(`${dateFrom}T00:00:00`).getTime() : null;
-    const to = dateTo ? new Date(`${dateTo}T23:59:59.999`).getTime() : null;
-
-    return allItems
-      .filter((item) => {
-        const searchableText = [
-          item.paciente,
-          item.medico,
-          item.estudios,
-          item.habitacion,
-          item.id_examen,
-        ].join(' ').toLocaleLowerCase();
-        if (query && !searchableText.includes(query)) return false;
-
-        const timestamp = item.fecha ? new Date(item.fecha).getTime() : null;
-        if (from !== null && (!Number.isFinite(timestamp) || timestamp < from)) return false;
-        if (to !== null && (!Number.isFinite(timestamp) || timestamp > to)) return false;
-        return true;
-      })
-      .sort((a, b) => {
-        const dateA = a.fecha ? new Date(a.fecha).getTime() : 0;
-        const dateB = b.fecha ? new Date(b.fecha).getTime() : 0;
-        return sortOrder === 'oldest' ? dateA - dateB : dateB - dateA;
-      });
-  }, [allItems, searchTerm, dateFrom, dateTo, sortOrder]);
-
-  const totalPages = Math.ceil(filteredItems.length / PAGE_SIZE);
-  const paginatedItems = filteredItems.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
   const isEnglish = i18n.language?.startsWith('en');
   const clearFilters = () => {
     setSearchTerm('');
+    setDebouncedSearch('');
     setDateFrom('');
     setDateTo('');
     setSortOrder('newest');
@@ -402,6 +416,7 @@ export default function EstudiosScreen() {
               }}
               onClick={() => {
                 setSelectedSection(section.id);
+                setCurrentPage(1);
                 skipFocusRefresh.current = true;
               }}
             >
