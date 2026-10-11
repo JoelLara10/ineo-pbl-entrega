@@ -50,9 +50,9 @@ export const PatientProvider = ({ children }) => {
 
   const selectPatient = useCallback((patientData) => {
     setSelectedPatient({
-      id_atencion: patientData?.id_atencion || patientData?.id,
-      Id_exp: patientData?.Id_exp || patientData?.id_exp || patientData?.exp,
-      ...patientData, // por si quieres guardar todo el objeto
+      ...patientData,
+      id_atencion: patientData?.id_atencion ?? patientData?.id,
+      Id_exp: patientData?.Id_exp ?? patientData?.id_exp ?? patientData?.exp,
     });
   }, []);
 
