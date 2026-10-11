@@ -60,7 +60,7 @@ describe('Alta de usuarios', () => {
     }));
     expect(await screen.findByText('Usuario guardado correctamente.')).toBeInTheDocument();
     expect(await screen.findByText(/qa.medico/)).toBeInTheDocument();
-    expect(localStorage.getItem('ineo_config_react_usuarios')).not.toContain('no-debe-guardarse');
+    expect(localStorage.getItem('ineo_config_react_usuarios_v2')).not.toContain('no-debe-guardarse');
   });
 
   it('explica el límite de bcrypt antes de enviar una contraseña demasiado larga', async () => {
