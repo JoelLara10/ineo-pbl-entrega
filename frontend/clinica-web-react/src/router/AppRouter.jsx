@@ -165,7 +165,7 @@ export default function AppRouter() {
                       </>
                     )}
 
-                    {(isAdmin || isMedico || isEstudios) && (
+                    {(isAdmin || isEstudios) && (
                       <>
                         <Route path="estudios" element={<EstudiosScreen />} />
                         <Route path="subir-resultado" element={<SubirResultadoScreen />} />
