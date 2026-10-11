@@ -53,7 +53,7 @@ class ExamService:
             pipeline.append({'$match': {'$and': filters}})
 
     @staticmethod
-    def get_pending_exams(exam_type=None, page=1, limit=5, search=None, date_from=None, date_to=None, sort_order='newest'):
+    def get_pending_exams(exam_type=None, page=1, limit=5, search=None, date_from=None, date_to=None, sort_order='newest', fetch_all=False):
         db = get_collection('examenes_det').database
         skip = (page - 1) * limit
 
@@ -117,18 +117,19 @@ class ExamService:
             }},
         ])
         ExamService._apply_result_filters(pipeline, search, date_from, date_to)
-        pipeline.extend([
-            {"$sort": {"fecha": 1 if sort_order == 'oldest' else -1}},
-            {"$skip": skip},
-            {"$limit": limit}
-        ])
+        pipeline.append({"$sort": {"fecha": 1 if sort_order == 'oldest' else -1}})
+        if not fetch_all:
+            pipeline.extend([
+                {"$skip": skip},
+                {"$limit": limit}
+            ])
 
         results = list(db['examenes'].aggregate(pipeline))
         return [serialize_doc(r) for r in results]
 
 
     @staticmethod
-    def get_completed_exams(exam_type=None, page=1, limit=5, search=None, date_from=None, date_to=None, sort_order='newest'):
+    def get_completed_exams(exam_type=None, page=1, limit=5, search=None, date_from=None, date_to=None, sort_order='newest', fetch_all=False):
         db = get_collection('examenes_det').database
         skip = (page - 1) * limit
 
@@ -194,11 +195,12 @@ class ExamService:
             }},
         ])
         ExamService._apply_result_filters(pipeline, search, date_from, date_to)
-        pipeline.extend([
-            {"$sort": {"fecha": 1 if sort_order == 'oldest' else -1}},
-            {"$skip": skip},
-            {"$limit": limit}
-        ])
+        pipeline.append({"$sort": {"fecha": 1 if sort_order == 'oldest' else -1}})
+        if not fetch_all:
+            pipeline.extend([
+                {"$skip": skip},
+                {"$limit": limit}
+            ])
 
         results = list(db['examenes'].aggregate(pipeline))
         return [serialize_doc(r) for r in results]
