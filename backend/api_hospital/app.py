@@ -7,6 +7,8 @@ from datetime import datetime
 from config import config
 
 # Blueprints
+from routes.monitoring import monitoring_bp
+from services.monitoring_socket import socketio
 from routes.auth import auth_bp
 from routes.patients import patients_bp
 from routes.medical import medical_bp
@@ -42,10 +44,13 @@ def create_app():
         app,
         resources={r"/*": {"origins": config.CORS_ORIGINS}},
         supports_credentials=False,
-        allow_headers=["Content-Type", "Authorization"],
-        methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+        allow_headers=["Content-Type", "Authorization", "X-Device-Token"],
+        methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
     )
     
+    socketio.init_app(app, cors_allowed_origins=config.CORS_ORIGINS)
+    app.register_blueprint(monitoring_bp, url_prefix=config.API_PREFIX)
+
     # Registrar blueprints
     app.register_blueprint(auth_bp, url_prefix=f'{config.API_PREFIX}/auth')
     app.register_blueprint(mobile_admin_bp, url_prefix=f'{config.API_PREFIX}')
@@ -149,4 +154,4 @@ if __name__ == '__main__':
     port = int(os.getenv('PORT', 5001))
     
     # Requerido por Render/Docker; el acceso externo lo controla la plataforma.
-    app.run(debug=debug, host='0.0.0.0', port=port)  # nosec B104
+    socketio.run(app, debug=debug, host='0.0.0.0', port=port, allow_unsafe_werkzeug=True)  # nosec B104

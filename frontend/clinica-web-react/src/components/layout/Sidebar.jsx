@@ -192,6 +192,7 @@ export default function Sidebar({ isOpen, onClose }) {
   }
 
   const moduleItems = [];
+  if (isAdmin || isMedico || isEnfermeria) moduleItems.push({ name: 'Monitoreo de pacientes', icon: 'pulse-outline', path: '/monitoreo', requiresPatient: false });
   if (isAdmin || role === 'administrativo')
     moduleItems.push({ name: t('sidebar.administration'), icon: 'settings-outline', path: '/admin',       requiresPatient: false });
   if (isAdmin || role === 'administrativo')
