@@ -1,5 +1,5 @@
 # routes/exams.py
-from flask import Blueprint, request, jsonify, g, send_from_directory, abort
+from flask import Blueprint, request, jsonify, g, send_from_directory, abort, current_app
 from middleware.auth_middleware import token_required, role_required
 from utils.database import get_db, serialize_doc, get_next_sequence
 from datetime import datetime
@@ -252,35 +252,50 @@ def get_exam_result_file(id_examen):
     for document in stored_docs:
         value = document.get('archivo_resultado')
         if isinstance(value, list):
-            stored_paths.extend(str(item) for item in value if item)
+            stored_paths.extend(str(item).strip() for item in value if item)
         elif isinstance(value, str):
             stored_paths.extend(item.strip() for item in value.split(',') if item.strip())
 
-    requested_basename = os.path.basename(requested.replace('\\', '/'))
+    requested_normalized = requested.replace('\\\\', '/')
+    requested_basename = os.path.basename(requested_normalized)
+    app_root = current_app.root_path
+    static_root = current_app.static_folder or os.path.join(app_root, 'static')
     allowed_roots = [
-        os.path.realpath(os.path.join(os.getcwd(), 'uploads', 'exams')),
-        os.path.realpath(os.path.join(os.getcwd(), 'static', 'resultados', 'laboratorio')),
-        os.path.realpath(os.path.join(os.getcwd(), 'static', 'resultados', 'gabinete')),
+        os.path.realpath(os.path.join(app_root, 'uploads', 'exams')),
+        os.path.realpath(os.path.join(static_root, 'resultados', 'laboratorio')),
+        os.path.realpath(os.path.join(static_root, 'resultados', 'gabinete')),
     ]
 
     for stored_path in stored_paths:
-        stored_basename = os.path.basename(stored_path.replace('\\', '/'))
+        normalized_stored = stored_path.replace('\\\\', '/')
+        stored_basename = os.path.basename(normalized_stored)
         if requested not in (stored_path, stored_basename) and requested_basename != stored_basename:
             continue
 
-        candidate = os.path.realpath(
-            stored_path if os.path.isabs(stored_path) else os.path.join(os.getcwd(), stored_path)
-        )
-        try:
-            is_allowed = any(os.path.commonpath([candidate, root]) == root for root in allowed_roots)
-        except ValueError:
-            is_allowed = False
-        if is_allowed and os.path.isfile(candidate):
-            return send_from_directory(
-                os.path.dirname(candidate),
-                os.path.basename(candidate),
-                as_attachment=False
-            )
+        candidates = []
+        if os.path.isabs(stored_path):
+            candidates.append(stored_path)
+        else:
+            candidates.extend([
+                os.path.join(app_root, stored_path),
+                os.path.join(os.getcwd(), stored_path),
+            ])
+        # UploadResultForm stores only the filename in archivo_resultado.
+        # Resolve that name inside the allowed upload directories.
+        candidates.extend(os.path.join(root, stored_basename) for root in allowed_roots)
+
+        for candidate_path in candidates:
+            candidate = os.path.realpath(candidate_path)
+            try:
+                is_allowed = any(os.path.commonpath([candidate, root]) == root for root in allowed_roots)
+            except ValueError:
+                is_allowed = False
+            if is_allowed and os.path.isfile(candidate):
+                return send_from_directory(
+                    os.path.dirname(candidate),
+                    os.path.basename(candidate),
+                    as_attachment=False
+                )
 
     return jsonify({'error': 'Archivo adjunto no encontrado'}), 404
 
