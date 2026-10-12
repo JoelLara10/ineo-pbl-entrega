@@ -9,6 +9,7 @@ import MainLayout from '../components/layout/MainLayout';
 // --- CARGA DIFERIDA (LAZY LOADING) DE PÁGINAS ---
 
 // Auth & Dashboard
+const MonitoringScreen = lazy(() => import('../pages/monitoring/MonitoringScreen'));
 const LoginScreen = lazy(() => import('../pages/auth/LoginScreen'));
 const DashboardScreen = lazy(() => import('../pages/dashboard/DashboardScreen'));
 
@@ -201,6 +202,7 @@ export default function AppRouter() {
                       </>
                     )}
 
+                    {(isAdmin || isMedico || isEnfermeria) && <><Route path="monitoreo" element={<MonitoringScreen />} /><Route path="monitoreo/:patientId" element={<MonitoringScreen />} /></>}
                     <Route path="*" element={<Navigate to="/" replace />} />
                   </Routes>
                 </Suspense>

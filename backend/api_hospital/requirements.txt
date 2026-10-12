@@ -37,3 +37,6 @@ typing_extensions==4.15.0
 tzdata==2026.2
 tzlocal==5.3.1
 Werkzeug==3.1.9
+
+Flask-SocketIO==5.6.1
+simple-websocket==1.1.0
