@@ -4,13 +4,12 @@ import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import api from '../../services/api';
 import {
-  getCache,
+  getCacheEntry,
   setCache,
   removeCache,
   invalidateCachePrefix,
   CacheKeys,
 } from '../../services/EstudiosCache';
-import Pagination from '../../components/Pagination';
 import {
   FiArrowLeft,
   FiRefreshCw,
@@ -18,17 +17,33 @@ import {
   FiEye,
   FiEdit,
   FiTrash2,
+  FiSearch,
+  FiFilter,
+  FiChevronLeft,
+  FiChevronRight,
 } from 'react-icons/fi';
 import { FaFlask, FaChartBar, FaClipboardList, FaFolderOpen } from 'react-icons/fa';
 
 const PAGE_SIZE = 6;
-const FETCH_ALL_LIMIT = 9999;
+const inFlightStudyRequests = new Map();
+
+async function fetchAllStudyResults(cacheKey, endpoint, params) {
+  let request = inFlightStudyRequests.get(cacheKey);
+  if (!request) {
+    request = api.get(`/exams${endpoint}`, { params })
+      .then((response) => Array.isArray(response.data) ? response.data : []);
+    inFlightStudyRequests.set(cacheKey, request);
+  }
+  try { return await request; }
+  finally { if (inFlightStudyRequests.get(cacheKey) === request) inFlightStudyRequests.delete(cacheKey); }
+}
 
 export default function EstudiosScreen() {
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useAuth();
   const { t, i18n } = useTranslation();
+  const isEnglish = i18n.language?.startsWith('en');
 
   const SECTIONS = [
     { id: 'solicitudes_lab', label: t('studies.labRequests'), icon: <FaFlask />, color: '#4299e1' },
@@ -45,21 +60,35 @@ export default function EstudiosScreen() {
   };
 
   const queryParams = new URLSearchParams(location.search);
-  const initialSection = queryParams.get('initialSection');
+  const initialSection = queryParams.get('initialSection') || queryParams.get('section');
 
   const [selectedSection, setSelectedSection] = useState(
     initialSection && SECTION_CONFIG[initialSection] ? initialSection : 'solicitudes_lab'
   );
   const [allItems, setAllItems] = useState([]);
+  const [totalItems, setTotalItems] = useState(0);
+  const [hasMore, setHasMore] = useState(false);
+  const [hasCachedData, setHasCachedData] = useState(false);
+  const [cacheNotice, setCacheNotice] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [counts, setCounts] = useState({ laboratorio: 0, gabinete: 0, total: 0 });
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState('');
+  const [preloadingSections, setPreloadingSections] = useState(0);
+  const [preloadWarning, setPreloadWarning] = useState('');
   const [error, setError] = useState('');
   const [deleting, setDeleting] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [dateFrom, setDateFrom] = useState('');
+  const [dateTo, setDateTo] = useState('');
+  const [sortOrder, setSortOrder] = useState('newest');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
+  const [showFilters, setShowFilters] = useState(false);
 
-  const initialLoadDone = useRef(false);
   const skipFocusRefresh = useRef(false);
+  const loadRequestRef = useRef(0);
+  const preloadRequestRef = useRef(0);
 
   const normalizeItem = (item = {}) => ({
     id_examen: item.id_examen ?? item._id ?? '',
@@ -81,80 +110,142 @@ export default function EstudiosScreen() {
 
   const loadAllData = useCallback(
     async (force = false) => {
+      const requestId = ++loadRequestRef.current;
       const config = SECTION_CONFIG[selectedSection];
       if (!config) {
         setAllItems([]);
+        setHasMore(false);
+        setTotalItems(0);
         setError(t('studies.invalidSection'));
         return;
       }
 
-      const cacheKey = CacheKeys.estudiosAll(
+      const baseCacheKey = CacheKeys.estudiosAll(
         config.type,
         config.isPending ? 'pending' : 'completed'
       );
+      const cacheScope = encodeURIComponent(`${user?.role || 'user'}_${user?.username || 'anonymous'}`);
+      const cacheKey = `${baseCacheKey}_full_v2_${cacheScope}_${encodeURIComponent(debouncedSearch)}_${dateFrom}_${dateTo}_${sortOrder}`;
+      let cachedData = null;
+
+      const showPage = (items) => {
+        const start = (currentPage - 1) * PAGE_SIZE;
+        setTotalItems(items.length);
+        setAllItems(items.slice(start, start + PAGE_SIZE).map(normalizeItem));
+        setHasMore(items.length > currentPage * PAGE_SIZE);
+        setHasCachedData(true);
+      };
 
       try {
-        setLoading(true);
         setError('');
+        setCacheNotice('');
+        setLoading(true);
+        setLoadingMessage(isEnglish ? 'Loading all studies…' : 'Cargando todos los estudios…');
 
-        let data = null;
-        if (!force) {
-          const cached = await getCache(cacheKey);
-          if (cached) {
-            data = cached;
+        const cachedEntry = await getCacheEntry(cacheKey);
+        if (cachedEntry && Array.isArray(cachedEntry.data)) {
+          cachedData = cachedEntry.data;
+          showPage(cachedData);
+          if (cachedEntry.isFresh && !force) {
+            setLoading(false);
+            setLoadingMessage('');
+            return;
           }
+        } else if (!force) {
+          setHasCachedData(false);
+          setAllItems([]);
+          setTotalItems(0);
         }
 
-        if (!data) {
-          const response = await api.get(`/exams${config.endpoint}`, {
-            params: {
-              type: config.type,
-              page: 1,
-              limit: FETCH_ALL_LIMIT,
-            },
-          });
-          data = Array.isArray(response.data) ? response.data : [];
-          await setCache(cacheKey, data);
-        }
-
-        let normalized = data.map(normalizeItem);
-        normalized.sort((a, b) => {
-          const dateA = a.fecha ? new Date(a.fecha).getTime() : 0;
-          const dateB = b.fecha ? new Date(b.fecha).getTime() : 0;
-          return dateB - dateA;
+        const allResults = await fetchAllStudyResults(cacheKey, config.endpoint, {
+          type: config.type, all: true, q: debouncedSearch,
+          from: dateFrom, to: dateTo, sort: sortOrder,
         });
-
-        setAllItems(normalized);
-        setCurrentPage(1);
+        if (requestId !== loadRequestRef.current) return;
+        showPage(allResults);
+        await setCache(cacheKey, allResults);
       } catch (err) {
-        const errorMsg = err.response?.data?.error || t('studies.loadError');
-        setError(errorMsg);
-        setAllItems([]);
+        if (requestId !== loadRequestRef.current) return;
+        if (cachedData) {
+          setCacheNotice(isEnglish ? 'Showing saved results; refresh failed.' : 'Se muestran datos guardados; no se pudieron actualizar.');
+        } else {
+          setError(err.response?.data?.error || t('studies.loadError'));
+          setAllItems([]);
+          setTotalItems(0);
+          setHasMore(false);
+          setHasCachedData(false);
+        }
       } finally {
-        setLoading(false);
+        if (requestId === loadRequestRef.current) {
+          setLoading(false);
+          setLoadingMessage('');
+        }
       }
     },
-    [selectedSection, t]
+    [selectedSection, currentPage, debouncedSearch, dateFrom, dateTo, sortOrder, t, isEnglish, user?.role, user?.username]
   );
+
+  const preloadOtherSections = useCallback(async (force = false) => {
+    const requestId = ++preloadRequestRef.current;
+    const sectionIds = Object.keys(SECTION_CONFIG).filter((id) => id !== selectedSection);
+    setPreloadingSections(sectionIds.length);
+    setPreloadWarning('');
+
+    const outcomes = [];
+    for (const sectionId of sectionIds) {
+      if (requestId !== preloadRequestRef.current) return;
+      const config = SECTION_CONFIG[sectionId];
+      const baseKey = CacheKeys.estudiosAll(config.type, config.isPending ? 'pending' : 'completed');
+      const scope = encodeURIComponent(`${user?.role || 'user'}_${user?.username || 'anonymous'}`);
+      const cacheKey = `${baseKey}_full_v2_${scope}_${encodeURIComponent(debouncedSearch)}_${dateFrom}_${dateTo}_${sortOrder}`;
+      let success = false;
+      try {
+        const cached = force ? null : await getCacheEntry(cacheKey);
+        if (cached?.isFresh && Array.isArray(cached.data)) {
+          success = true;
+        } else {
+          const results = await fetchAllStudyResults(cacheKey, config.endpoint, {
+            type: config.type, all: true, q: debouncedSearch,
+            from: dateFrom, to: dateTo, sort: sortOrder,
+          });
+          await setCache(cacheKey, results);
+          success = true;
+        }
+      } catch (error) {
+        console.error(`Error precargando estudios (${sectionId}):`, error);
+      }
+      outcomes.push(success);
+      if (requestId === preloadRequestRef.current) {
+        setPreloadingSections(sectionIds.length - outcomes.length);
+      }
+    }
+
+    if (requestId !== preloadRequestRef.current) return;
+    setPreloadingSections(0);
+    const failed = outcomes.filter((success) => !success).length;
+    if (failed) setPreloadWarning(isEnglish
+      ? `Could not refresh ${failed} section(s). Previously saved data was kept.`
+      : `No se pudieron actualizar ${failed} secciones. Se conservó el caché anterior.`);
+  }, [selectedSection, debouncedSearch, dateFrom, dateTo, sortOrder, user?.role, user?.username, isEnglish]);
 
   const loadCounts = useCallback(
     async (force = false) => {
       try {
         if (!force) {
-          const cached = await getCache(CacheKeys.counts);
-          if (cached) {
-            setCounts(cached);
-            return;
+          const cachedEntry = await getCacheEntry(CacheKeys.counts);
+          if (cachedEntry) {
+            setCounts(cachedEntry.data);
+            if (cachedEntry.isFresh) return;
           }
         }
         const response = await api.get('/exams/counts');
-        const counts = {
+        const nextCounts = {
           laboratorio: response.data?.laboratorio ?? 0,
           gabinete: response.data?.gabinete ?? 0,
           total: response.data?.total ?? 0,
         };
-        setCounts(counts);
-        await setCache(CacheKeys.counts, counts);
+        setCounts(nextCounts);
+        await setCache(CacheKeys.counts, nextCounts);
       } catch (error) {
         console.error('Error loading counts:', error);
       }
@@ -163,18 +254,36 @@ export default function EstudiosScreen() {
   );
 
   useEffect(() => {
+    const timer = window.setTimeout(() => setDebouncedSearch(searchTerm.trim()), 300);
+    return () => window.clearTimeout(timer);
+  }, [searchTerm]);
+
+  useEffect(() => {
+    const querySection = new URLSearchParams(location.search).get('initialSection')
+      || new URLSearchParams(location.search).get('section');
+    if (querySection && SECTION_CONFIG[querySection]) {
+      setSelectedSection(querySection);
+      setCurrentPage(1);
+    }
+  }, [location.search]);
+
+  useEffect(() => {
     skipFocusRefresh.current = false;
     loadAllData();
+  }, [selectedSection, loadAllData]);
+
+  useEffect(() => {
     loadCounts();
-    initialLoadDone.current = true;
-  }, [selectedSection, loadAllData, loadCounts]);
+  }, [loadCounts]);
+
+  useEffect(() => {
+    preloadOtherSections();
+  }, [preloadOtherSections]);
 
   const onRefresh = async () => {
     setRefreshing(true);
     skipFocusRefresh.current = true;
-    await invalidateCachePrefix('estudios_all_');
-    await removeCache(CacheKeys.counts);
-    await Promise.all([loadAllData(true), loadCounts(true)]);
+    await Promise.all([loadAllData(true), loadCounts(true), preloadOtherSections(true)]);
     setRefreshing(false);
     skipFocusRefresh.current = false;
   };
@@ -225,8 +334,9 @@ export default function EstudiosScreen() {
 
         alert(t('studies.deleteSuccess', { type: tipoDisplay }));
 
-        const tipoUpper = tipo.toUpperCase();
-        await invalidateCachePrefix(`estudios_all_${tipoUpper}_`);
+        const config = SECTION_CONFIG[selectedSection];
+        const sectionKey = CacheKeys.estudiosAll(config.type, config.isPending ? 'pending' : 'completed');
+        await invalidateCachePrefix(`${sectionKey}_full_v2_`);
         await removeCache(CacheKeys.counts);
 
         await Promise.all([
@@ -247,15 +357,15 @@ export default function EstudiosScreen() {
   };
 
   const isPending = selectedSection.startsWith('solicitudes');
-
-  const getPaginatedItems = () => {
-    const start = (currentPage - 1) * PAGE_SIZE;
-    const end = start + PAGE_SIZE;
-    return allItems.slice(start, end);
+  const activeFilterCount = Number(Boolean(debouncedSearch)) + Number(Boolean(dateFrom)) + Number(Boolean(dateTo)) + Number(sortOrder !== 'newest');
+  const clearFilters = () => {
+    setSearchTerm('');
+    setDebouncedSearch('');
+    setDateFrom('');
+    setDateTo('');
+    setSortOrder('newest');
+    setCurrentPage(1);
   };
-
-  const totalPages = Math.ceil(allItems.length / PAGE_SIZE);
-  const paginatedItems = getPaginatedItems();
 
   const renderItem = (item) => {
     const sectionColor = SECTIONS.find(s => s.id === selectedSection)?.color || '#4299e1';
@@ -336,7 +446,7 @@ export default function EstudiosScreen() {
         <button type="button" onClick={() => navigate(-1)} style={styles.headerButton}>
           <FiArrowLeft size={20} />
         </button>
-        <div>
+        <div style={styles.headerCopy}>
           <div style={styles.headerEyebrow}>{t('studies.module')}</div>
           <h1 style={styles.headerTitle}>{t('studies.management')}</h1>
         </div>
@@ -345,12 +455,9 @@ export default function EstudiosScreen() {
         </button>
       </div>
 
-      <div style={styles.heroCard}>
-        <div>
-          <p style={styles.heroGreeting}>{t('studies.welcomeBack', { user: user?.username || t('studies.user') })}</p>
-          <p style={styles.heroDate}>{new Date().toLocaleDateString(i18n.language === 'en' ? 'en-US' : 'es-MX', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
-        </div>
-        <div style={styles.heroPill}>{t('studies.totalPending')}: {counts.total}</div>
+      <div style={styles.summaryStrip}>
+        <span>{t('studies.totalPending')}</span>
+        <strong style={styles.summaryNumber}>{counts.total}</strong>
       </div>
 
       {error ? <div style={styles.alert}>{error}</div> : null}
@@ -368,16 +475,66 @@ export default function EstudiosScreen() {
               }}
               onClick={() => {
                 setSelectedSection(section.id);
+                setCurrentPage(1);
                 skipFocusRefresh.current = true;
               }}
             >
               <span style={styles.tabIcon}>{section.icon}</span>
               <span style={styles.tabLabel}>{section.label}</span>
-              {isActive && <span style={{ ...styles.tabBadge, backgroundColor: section.color }}>{allItems.length}</span>}
+              {isActive && section.id === 'solicitudes_lab' && <span style={{ ...styles.tabBadge, backgroundColor: section.color }}>{counts.laboratorio}</span>}
+              {isActive && section.id === 'solicitudes_gab' && <span style={{ ...styles.tabBadge, backgroundColor: section.color }}>{counts.gabinete}</span>}
             </button>
           );
         })}
       </div>
+
+      {preloadWarning && <div style={styles.cacheNotice} role="status">{preloadWarning}</div>}
+      {preloadingSections > 0 && <div style={styles.prefetchStatus} role="status"><FiRefreshCw className="spin" size={14} /> {isEnglish ? `Loading ${preloadingSections} other study sections into cache…` : `Cargando ${preloadingSections} secciones de estudios en caché…`}</div>}
+
+      <section style={styles.filterPanel} aria-label={isEnglish ? 'Study filters' : 'Filtros de estudios'}>
+        <div style={styles.searchRow}>
+          <label style={styles.searchBox}>
+            <FiSearch size={18} color="#64748b" />
+            <input
+              type="search"
+              value={searchTerm}
+              onChange={(event) => { setSearchTerm(event.target.value); setCurrentPage(1); }}
+              placeholder={isEnglish ? 'Search patient, study, doctor or folio' : 'Buscar paciente, estudio, médico o folio'}
+              style={styles.searchInput}
+              aria-label={isEnglish ? 'Search studies' : 'Buscar estudios'}
+            />
+          </label>
+          <button type="button" onClick={() => setShowFilters((visible) => !visible)} style={styles.filterToggle} aria-expanded={showFilters}>
+            <FiFilter size={17} />
+            {isEnglish ? 'Filters' : 'Filtros'}
+            {activeFilterCount > 0 && <span style={styles.filterCount}>{activeFilterCount}</span>}
+          </button>
+          {activeFilterCount > 0 && (
+            <button type="button" onClick={clearFilters} style={styles.clearFilters}>
+              {isEnglish ? 'Clear' : 'Limpiar'}
+            </button>
+          )}
+        </div>
+        {showFilters && (
+          <div style={styles.advancedFilters}>
+            <label style={styles.filterField}>
+              <span style={styles.filterLabel}>{isEnglish ? 'From' : 'Desde'}</span>
+              <input type="date" value={dateFrom} onChange={(event) => { setDateFrom(event.target.value); setCurrentPage(1); }} style={styles.filterInput} />
+            </label>
+            <label style={styles.filterField}>
+              <span style={styles.filterLabel}>{isEnglish ? 'To' : 'Hasta'}</span>
+              <input type="date" value={dateTo} onChange={(event) => { setDateTo(event.target.value); setCurrentPage(1); }} style={styles.filterInput} />
+            </label>
+            <label style={styles.filterField}>
+              <span style={styles.filterLabel}>{isEnglish ? 'Sort by date' : 'Ordenar por fecha'}</span>
+              <select value={sortOrder} onChange={(event) => { setSortOrder(event.target.value); setCurrentPage(1); }} style={styles.filterInput}>
+                <option value="newest">{isEnglish ? 'Newest first' : 'Más recientes'}</option>
+                <option value="oldest">{isEnglish ? 'Oldest first' : 'Más antiguas'}</option>
+              </select>
+            </label>
+          </div>
+        )}
+      </section>
 
       <div style={styles.listArea}>
         {error ? (
@@ -385,23 +542,27 @@ export default function EstudiosScreen() {
             <div style={styles.emptyEmoji}>⚠️</div>
             <div style={styles.emptyText}>{error}</div>
           </div>
-        ) : loading && allItems.length === 0 ? (
-          <div style={styles.loadingCard}>{t('studies.loading')}</div>
+        ) : loading && !hasCachedData ? (
+          <div style={styles.loadingCard}><span className="spin" aria-hidden="true">⟳</span> {loadingMessage || t('studies.loading')}</div>
         ) : allItems.length === 0 ? (
           renderEmpty()
         ) : (
           <>
+            {cacheNotice && <div style={styles.cacheNotice} role="status">{cacheNotice}</div>}
+            {loading && hasCachedData && <div style={styles.syncStatus} role="status"><FiRefreshCw className="spin" size={14} /> {isEnglish ? 'Updating saved results…' : 'Actualizando resultados guardados…'}</div>}
             <div style={styles.grid}>
-              {paginatedItems.map((item) => renderItem(item))}
+              {allItems.map((item) => renderItem(item))}
             </div>
-            {totalPages > 1 && (
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-                itemsPerPage={PAGE_SIZE}
-                totalItems={allItems.length}
-              />
+            {(currentPage > 1 || hasMore) && (
+              <div style={styles.pager}>
+                <button type="button" style={styles.pageButton} onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage <= 1 || loading}>
+                  <FiChevronLeft size={17} /> {isEnglish ? 'Previous' : 'Anterior'}
+                </button>
+                <span style={styles.pageLabel}>{isEnglish ? 'Page' : 'Página'} {currentPage} / {Math.max(1, Math.ceil(totalItems / PAGE_SIZE))} · {totalItems} {isEnglish ? 'studies' : 'estudios'}</span>
+                <button type="button" style={styles.pageButton} onClick={() => handlePageChange(currentPage + 1)} disabled={!hasMore || loading}>
+                  {isEnglish ? 'Next' : 'Siguiente'} <FiChevronRight size={17} />
+                </button>
+              </div>
             )}
           </>
         )}
@@ -416,17 +577,35 @@ export default function EstudiosScreen() {
 }
 
 const styles = {
+  filterPanel: { marginTop: '20px', padding: '14px 16px', borderRadius: '16px', background: '#fff', border: '1px solid #e2e8f0', boxShadow: '0 6px 20px rgba(15, 23, 42, 0.04)' },
+  searchRow: { display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' },
+  searchBox: { flex: '1 1 360px', minWidth: 0, minHeight: '46px', display: 'flex', alignItems: 'center', gap: '10px', padding: '0 14px', border: '1px solid #dbe3ef', borderRadius: '12px', background: '#f8fafc' },
+  searchInput: { width: '100%', border: 'none', outline: 'none', background: 'transparent', color: '#1e293b', font: 'inherit' },
+  filterToggle: { minHeight: '44px', padding: '0 14px', border: '1px solid #cbd5e1', borderRadius: '11px', background: '#fff', color: '#334155', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontWeight: 700, cursor: 'pointer' },
+  filterCount: { minWidth: '22px', height: '22px', padding: '0 6px', borderRadius: '999px', display: 'inline-grid', placeItems: 'center', background: '#dbeafe', color: '#1d4ed8', fontSize: '12px' },
+  advancedFilters: { display: 'flex', flexWrap: 'wrap', gap: '14px', paddingTop: '16px', marginTop: '14px', borderTop: '1px solid #e2e8f0' },
+  cacheNotice: { marginBottom: '10px', padding: '10px 14px', borderRadius: '10px', background: '#fffbeb', color: '#92400e', fontSize: '13px' },
+  syncStatus: { marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '7px', color: '#64748b', fontSize: '12px' },
+  pager: { margin: '22px auto 0', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px' },
+  pageButton: { minHeight: '40px', padding: '0 13px', display: 'inline-flex', alignItems: 'center', gap: '6px', border: '1px solid #cbd5e1', borderRadius: '10px', background: '#fff', color: '#334155', fontWeight: 650, cursor: 'pointer' },
+  pageLabel: { color: '#64748b', fontSize: '14px', fontWeight: 600, textAlign: 'center' },
   page: {
     minHeight: '100%',
-    padding: '24px',
-    background: 'linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%)',
+    width: '100%',
+    minWidth: 0,
+    boxSizing: 'border-box',
+    padding: 'clamp(16px, 2.4vw, 32px)',
+    maxWidth: '1500px',
+    margin: '0 auto',
+    background: '#f8fafc',
   },
   header: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    gap: '16px',
-    padding: '20px 24px',
+    gap: 'clamp(8px, 2vw, 16px)',
+    minWidth: 0,
+    padding: 'clamp(12px, 2vw, 20px)',
     borderRadius: '20px',
     background: 'linear-gradient(135deg, #2563eb 0%, #7c3aed 100%)',
     color: '#fff',
@@ -443,36 +622,42 @@ const styles = {
     placeItems: 'center',
     cursor: 'pointer',
   },
-  headerEyebrow: { fontSize: '12px', letterSpacing: '0.18em', textTransform: 'uppercase', opacity: 0.8, marginBottom: '4px' },
-  headerTitle: { margin: 0, fontSize: '28px', fontWeight: 800 },
-  heroCard: {
-    marginTop: '20px',
-    padding: '20px 24px',
-    backgroundColor: '#fff',
-    borderRadius: '20px',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    gap: '16px',
-    boxShadow: '0 12px 32px rgba(15, 23, 42, 0.08)',
-  },
-  heroGreeting: { margin: 0, fontSize: '22px', fontWeight: 700 },
-  heroDate: { margin: '6px 0 0', color: '#64748b' },
-  heroPill: { padding: '10px 16px', borderRadius: '999px', backgroundColor: '#dbeafe', color: '#1d4ed8', fontWeight: 700, whiteSpace: 'nowrap' },
+  headerCopy: { flex: 1, minWidth: 0 },
+  headerEyebrow: { fontSize: '12px', letterSpacing: '0.14em', textTransform: 'uppercase', opacity: 0.8, marginBottom: '4px' },
+  headerTitle: { margin: 0, fontSize: 'clamp(19px, 2.5vw, 28px)', lineHeight: 1.15, fontWeight: 800, overflowWrap: 'anywhere' },
+  summaryStrip: { marginTop: '16px', padding: '12px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderRadius: '12px', border: '1px solid #e2e8f0', background: '#fff', color: '#64748b', fontSize: '14px' },
+  summaryNumber: { color: '#1d4ed8', fontSize: '20px', fontWeight: 800 },
   alert: { marginTop: '18px', padding: '14px 16px', borderRadius: '14px', backgroundColor: '#fff7ed', border: '1px solid #fdba74', color: '#9a3412' },
+  filters: { marginTop: '18px', padding: '16px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '12px', alignItems: 'end', borderRadius: '18px', backgroundColor: '#fff', boxShadow: '0 8px 24px rgba(15, 23, 42, 0.06)' },
+  filterField: { display: 'grid', gap: '7px', flex: '1 1 220px', minWidth: 'min(100%, 220px)' },
+  filterLabel: { color: '#475569', fontSize: '13px', fontWeight: 700 },
+  filterInput: { boxSizing: 'border-box', width: '100%', minWidth: 0, minHeight: '44px', padding: '9px 11px', borderRadius: '10px', border: '1px solid #cbd5e1', backgroundColor: '#fff', color: '#1e293b', font: 'inherit' },
+  clearFilters: { minHeight: '42px', padding: '9px 14px', borderRadius: '10px', border: '1px solid #cbd5e1', backgroundColor: '#f8fafc', color: '#334155', fontWeight: 700, cursor: 'pointer' },
   tabsWrapper: {
-    marginTop: '22px',
-    display: 'flex',
-    gap: '8px',
+    marginTop: '18px',
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))',
+    gap: '10px',
     backgroundColor: 'transparent',
     padding: '0',
     overflowX: 'auto',
   },
   tab: {
     flex: '1 0 auto',
-    padding: '10px 18px',
+    padding: '10px 12px',
     borderRadius: '12px',
-    border: '1px solid #e2e8f0',
+    borderTopWidth: '1px',
+    borderTopStyle: 'solid',
+    borderTopColor: '#e2e8f0',
+    borderRightWidth: '1px',
+    borderRightStyle: 'solid',
+    borderRightColor: '#e2e8f0',
+    borderBottomWidth: '3px',
+    borderBottomStyle: 'solid',
+    borderBottomColor: 'transparent',
+    borderLeftWidth: '1px',
+    borderLeftStyle: 'solid',
+    borderLeftColor: '#e2e8f0',
     background: '#ffffff',
     display: 'flex',
     alignItems: 'center',
@@ -482,12 +667,13 @@ const styles = {
     cursor: 'pointer',
     transition: 'all 0.2s',
     position: 'relative',
-    borderBottom: '3px solid transparent',
     boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
   },
   tabActive: {
     background: '#f1f5f9',
-    borderColor: '#cbd5e1',
+    borderTopColor: '#cbd5e1',
+    borderRightColor: '#cbd5e1',
+    borderLeftColor: '#cbd5e1',
     borderBottomWidth: '3px',
     boxShadow: '0 4px 8px rgba(0,0,0,0.05)',
   },
@@ -501,18 +687,25 @@ const styles = {
     fontSize: '12px',
     fontWeight: 700,
   },
-  listArea: { marginTop: '18px' },
+  listArea: { marginTop: '18px', minWidth: 0 },
   grid: {
+    width: '100%',
+    minWidth: 0,
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
-    gap: '18px',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 380px), 1fr))',
+    gap: '16px',
   },
   card: {
+    minWidth: 0,
+    boxSizing: 'border-box',
     backgroundColor: '#fff',
     borderRadius: '18px',
     boxShadow: '0 8px 24px rgba(15, 23, 42, 0.06)',
-    padding: '18px',
-    borderLeft: '6px solid',
+    padding: 'clamp(14px, 2vw, 20px)',
+    border: '1px solid #e5eaf1',
+    borderLeftWidth: '4px',
+    borderLeftStyle: 'solid',
+    borderLeftColor: '#4299e1',
     transition: 'transform 0.2s, box-shadow 0.2s',
     display: 'flex',
     flexDirection: 'column',
@@ -534,8 +727,8 @@ const styles = {
     fontSize: '18px',
     color: '#475569',
   },
-  cardInfo: { flex: 1 },
-  patientName: { fontWeight: 700, fontSize: '16px' },
+  cardInfo: { flex: 1, minWidth: 0 },
+  patientName: { fontWeight: 700, fontSize: '16px', overflowWrap: 'anywhere' },
   patientDetail: { fontSize: '14px', color: '#64748b' },
   completedBadge: { fontSize: '20px' },
   cardBody: {
@@ -551,12 +744,13 @@ const styles = {
     color: '#334155',
   },
   infoIcon: { fontSize: '16px', width: '24px', textAlign: 'center' },
-  examsList: { wordBreak: 'break-word' },
+  examsList: { minWidth: 0, overflowWrap: 'anywhere' },
   dateText: { color: '#64748b' },
   actionRow: {
     display: 'flex',
     gap: '8px',
     flexWrap: 'wrap',
+    minWidth: 0,
     borderTop: '1px solid #e2e8f0',
     paddingTop: '14px',
   },

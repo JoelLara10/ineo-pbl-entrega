@@ -41,6 +41,12 @@ describe('Alta de usuarios', () => {
     const user = userEvent.setup();
     await mount();
 
+    const roleSelect = screen.getByRole('combobox');
+    const availableRoles = Array.from(roleSelect.options).map((option) => option.value);
+    expect(availableRoles).toContain('enfermero');
+    expect(availableRoles).not.toContain('enfermeria');
+    expect(document.querySelector('input[type="date"]')).toBeInTheDocument();
+
     await user.type(screen.getByPlaceholderText('Ingrese nombre(s)'), 'Usuario QA');
     await user.type(screen.getByPlaceholderText('Usuario'), '  qa.medico  ');
     await user.type(screen.getByPlaceholderText('Contraseña'), 'PruebaSegura-42');
@@ -54,7 +60,7 @@ describe('Alta de usuarios', () => {
     }));
     expect(await screen.findByText('Usuario guardado correctamente.')).toBeInTheDocument();
     expect(await screen.findByText(/qa.medico/)).toBeInTheDocument();
-    expect(localStorage.getItem('ineo_config_react_usuarios')).not.toContain('no-debe-guardarse');
+    expect(localStorage.getItem('ineo_config_react_usuarios_v2')).not.toContain('no-debe-guardarse');
   });
 
   it('explica el límite de bcrypt antes de enviar una contraseña demasiado larga', async () => {
@@ -69,5 +75,60 @@ describe('Alta de usuarios', () => {
 
     expect(await screen.findByText('La contraseña no puede superar 72 bytes.')).toBeInTheDocument();
     expect(api.post).not.toHaveBeenCalled();
+  });
+});
+
+
+describe('Edición de usuarios', () => {
+  it('carga los datos, actualiza el usuario y conserva su contraseña si se deja vacía', async () => {
+    api.get.mockResolvedValue({
+      data: { data: [{
+        id: 27, username: 'qa.medico', nombre: 'Nombre original',
+        papell: 'Apellido', role: 'medico', fecnac: '1995-04-12',
+        email: 'qa@example.com', activo: true,
+      }] },
+    });
+    api.put.mockResolvedValue({ data: { message: 'Usuario actualizado correctamente' } });
+    const user = userEvent.setup();
+    await mount();
+
+    await user.click(await screen.findByRole('button', { name: 'Editar' }));
+    expect(screen.getByDisplayValue('Nombre original')).toBeInTheDocument();
+    expect(screen.getByDisplayValue('1995-04-12')).toBeInTheDocument();
+    expect(screen.queryByPlaceholderText('Dejar vacío para conservar la contraseña actual')).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Cambiar contraseña' })).toBeInTheDocument();
+
+    await user.clear(screen.getByDisplayValue('Nombre original'));
+    await user.type(screen.getByPlaceholderText('Ingrese nombre(s)'), 'Nombre nuevo');
+    await user.click(screen.getByRole('button', { name: 'Guardar cambios' }));
+
+    expect(api.put).toHaveBeenCalledWith('/auth/users/27', expect.objectContaining({
+      username: 'qa.medico',
+      nombre: 'Nombre nuevo',
+      role: 'medico',
+      fecnac: '1995-04-12',
+    }));
+    expect(api.put.mock.calls[0][1]).not.toHaveProperty('password');
+  });
+});
+
+
+describe('Cambio voluntario de contraseña', () => {
+  it('solo incluye contraseña si se activa explícitamente el cambio', async () => {
+    api.get.mockResolvedValue({
+      data: { data: [{ id: 27, username: 'qa.medico', nombre: 'Usuario QA', role: 'medico', activo: true }] },
+    });
+    api.put.mockResolvedValue({ data: { message: 'Usuario actualizado correctamente' } });
+    const user = userEvent.setup();
+    await mount();
+    await user.click(await screen.findByRole('button', { name: 'Editar' }));
+    await user.click(screen.getByRole('button', { name: 'Cambiar contraseña' }));
+    const input = screen.getByPlaceholderText('Dejar vacío para conservar la contraseña actual');
+    await user.type(input, 'Nueva-segura-42!');
+    await user.click(screen.getByRole('button', { name: 'Guardar cambios' }));
+
+    expect(api.put).toHaveBeenCalledWith('/auth/users/27', expect.objectContaining({
+      password: 'Nueva-segura-42!',
+    }));
   });
 });

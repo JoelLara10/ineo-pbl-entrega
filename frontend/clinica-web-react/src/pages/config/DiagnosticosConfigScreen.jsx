@@ -72,7 +72,7 @@ export default function DiagnosticosConfigScreen() {
     }
   };
 
-  return <main className="config-page"><ConfigHeader title={t('config.headerDiagnoses')} /><section className="config-content">
+  return <main className="config-page config-polished"><ConfigHeader title={t('config.headerDiagnoses')} /><section className="config-content">
     <form className="config-card config-main-card" onSubmit={save}><div className="config-card-header"><h2>{editId === null ? t('config.diagnosticRegister') : t('config.diagnosticEdit')}</h2></div><div className="config-card-body">
       <div className="config-section-box"><div className="config-grid-2"><div><label className="config-label">{t('config.diagnosticCode')}</label><input className="config-input" value={form.id_cie10} onChange={(e) => setForm({ ...form, id_cie10: e.target.value.toUpperCase() })} placeholder="H57.9" required /></div><div><label className="config-label">{t('config.diagnosticName')}</label><input className="config-input" value={form.diag} onChange={(e) => setForm({ ...form, diag: e.target.value })} required /></div></div></div>
       <div className="config-form-footer"><button className="config-btn secondary" type="button" onClick={reset}><FiX /> {t('config.cancel')}</button><button className="config-btn success" type="submit"><FiSave /> {editId === null ? t('config.saveDiagnostic') : t('config.updateDiagnostic')}</button></div>

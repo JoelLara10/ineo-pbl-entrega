@@ -2,6 +2,7 @@ from utils.database import get_collection, serialize_doc, get_next_sequence
 from datetime import datetime
 from bson import ObjectId
 import os
+import re
 from werkzeug.utils import secure_filename
 
 class ExamService:
@@ -21,7 +22,38 @@ class ExamService:
 # o agrega los parámetros.
 
     @staticmethod
-    def get_pending_exams(exam_type=None, page=1, limit=5):
+    def _apply_result_filters(pipeline, search=None, date_from=None, date_to=None):
+        filters = []
+        search = (search or '').strip()
+        if search:
+            escaped = re.escape(search)
+            filters.append({
+                '$or': [
+                    {'paciente': {'$regex': escaped, '$options': 'i'}},
+                    {'medico': {'$regex': escaped, '$options': 'i'}},
+                    {'estudios': {'$regex': escaped, '$options': 'i'}},
+                    {'habitacion': {'$regex': escaped, '$options': 'i'}},
+                    {'$expr': {'$regexMatch': {
+                        'input': {'$toString': '$id_examen'},
+                        'regex': escaped,
+                        'options': 'i'
+                    }}}
+                ]
+            })
+
+        date_filter = {}
+        if date_from:
+            date_filter['$gte'] = datetime.fromisoformat(f'{date_from}T00:00:00')
+        if date_to:
+            date_filter['$lte'] = datetime.fromisoformat(f'{date_to}T23:59:59.999999')
+        if date_filter:
+            filters.append({'fecha': date_filter})
+
+        if filters:
+            pipeline.append({'$match': {'$and': filters}})
+
+    @staticmethod
+    def get_pending_exams(exam_type=None, page=1, limit=5, search=None, date_from=None, date_to=None, sort_order='newest', fetch_all=False):
         db = get_collection('examenes_det').database
         skip = (page - 1) * limit
 
@@ -83,17 +115,21 @@ class ExamService:
                     }
                 }
             }},
-            {"$sort": {"fecha": -1}},
-            {"$skip": skip},
-            {"$limit": limit}
         ])
+        ExamService._apply_result_filters(pipeline, search, date_from, date_to)
+        pipeline.append({"$sort": {"fecha": 1 if sort_order == 'oldest' else -1}})
+        if not fetch_all:
+            pipeline.extend([
+                {"$skip": skip},
+                {"$limit": limit}
+            ])
 
         results = list(db['examenes'].aggregate(pipeline))
         return [serialize_doc(r) for r in results]
 
 
     @staticmethod
-    def get_completed_exams(exam_type=None, page=1, limit=5):
+    def get_completed_exams(exam_type=None, page=1, limit=5, search=None, date_from=None, date_to=None, sort_order='newest', fetch_all=False):
         db = get_collection('examenes_det').database
         skip = (page - 1) * limit
 
@@ -157,10 +193,14 @@ class ExamService:
                     }
                 }
             }},
-            {"$sort": {"fecha": -1}},              # ordenar por fecha de solicitud
-            {"$skip": skip},
-            {"$limit": limit}
         ])
+        ExamService._apply_result_filters(pipeline, search, date_from, date_to)
+        pipeline.append({"$sort": {"fecha": 1 if sort_order == 'oldest' else -1}})
+        if not fetch_all:
+            pipeline.extend([
+                {"$skip": skip},
+                {"$limit": limit}
+            ])
 
         results = list(db['examenes'].aggregate(pipeline))
         return [serialize_doc(r) for r in results]

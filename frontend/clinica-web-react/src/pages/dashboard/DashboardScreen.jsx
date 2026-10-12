@@ -5,11 +5,12 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
 import api from '../../services/api';
 import {
-  FiUsers, FiActivity, FiLogOut, FiSettings, FiRefreshCw,
+  FiUsers, FiActivity, FiLogOut, FiSettings, FiRefreshCw, FiBarChart2,
 } from 'react-icons/fi';
 import { MdOutlineBed } from 'react-icons/md';
 import { GiMedicinePills, GiChemicalDrop } from 'react-icons/gi';
 import './DashboardScreen.css';
+import { getDashboardMenuOptions } from './dashboardMenu';
 
 const iconMap = {
   'business-outline': FiSettings,
@@ -17,6 +18,7 @@ const iconMap = {
   'pulse-outline':    FiActivity,
   'flask-outline':    GiChemicalDrop,
   'settings-outline': FiSettings,
+  'bar-chart-outline': FiBarChart2,
 };
 
 const Icon = ({ name, size = 36, color = '#667eea' }) => {
@@ -58,29 +60,7 @@ export default function DashboardScreen() {
     setRefreshing(false);
   };
 
-  const getMenuOptions = () => {
-    const role = user?.role?.toLowerCase();
-    const studies = { name: t('dashboard.studiesModule'), icon: 'flask-outline', path: '../estudios/', color: '#ed8936', description: t('dashboard.studiesDesc'), badge: pendingStudies.total };
-
-    if (role === 'admin' || role === 'administrativo') return [
-      { name: t('dashboard.adminModule'), icon: 'business-outline', path: '/admin',      color: '#667eea', description: t('dashboard.adminDesc') },
-      { name: t('dashboard.nursingModule'),     icon: 'medkit-outline',   path: '/enfermeria', color: '#f56565', description: t('dashboard.nursingDesc') },
-      { name: t('dashboard.medicalModule'),         icon: 'pulse-outline',    path: '/medico',     color: '#48bb78', description: t('dashboard.medicalDesc') },
-      { ...studies },
-      { name: t('dashboard.configModule'),  icon: 'settings-outline', path: '/config',     color: '#718096', description: t('dashboard.configDesc') },
-    ];
-    if (role === 'enfermero' || role === 'enfermeria') return [
-      { name: t('dashboard.nursingModule'), icon: 'medkit-outline', path: '/enfermeria', color: '#9f7aea', description: t('dashboard.nursingDescShort') },
-    ];
-    if (role === 'medico') return [
-      { name: t('dashboard.medicalModule'),  icon: 'pulse-outline', path: '/medico',   color: '#48bb78', description: t('dashboard.medicalDescShort') },
-      { ...studies, description: t('dashboard.studiesDescShort') },
-    ];
-    if (role === 'estudios') return [{ ...studies }];
-    return [];
-  };
-
-  const menuOptions = getMenuOptions();
+  const menuOptions = getDashboardMenuOptions(user?.role, t, pendingStudies.total);
 
   return (
     <div className="dashboard">

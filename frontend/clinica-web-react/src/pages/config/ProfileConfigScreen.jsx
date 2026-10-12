@@ -7,7 +7,7 @@ export default function ProfileConfigScreen() {
   const { user } = useAuth();
   const { t } = useTranslation();
   const unavailable = t('config.profileNoData');
-  return <main className="config-page">
+  return <main className="config-page config-polished">
     <ConfigHeader title={t('config.headerProfile')} />
     <section className="config-content">
       <div className="config-card config-profile">

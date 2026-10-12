@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FiArrowLeft, FiCheckCircle, FiClipboard, FiRefreshCw, FiSave, FiShield, FiUser } from 'react-icons/fi';
 import { usePatient } from '../../context/PatientContext';
@@ -54,54 +54,64 @@ export default function HistoriaClinicaScreen() {
 
   const patientLabel = useMemo(() => `Paciente: ${idExp || 'N/A'}`, [idExp]);
 
-  useEffect(() => {
+  const reloadData = useCallback(async ({ forceRefresh = false } = {}) => {
     if (!idAtencion || !idExp) {
       setErrorMessage(t('historiaClinica.selectPatientFirst'));
+      setLoadingData(false);
       return;
     }
-    setErrorMessage('');
 
-    const loadExistingData = async () => {
-      setLoadingData(true);
-      const cacheKey = `${idAtencion}_${idExp}`;
+    setErrorMessage('');
+    setLoadingData(true);
+    const cacheKey = `${idAtencion}_${idExp}`;
+
+    if (!forceRefresh) {
       const cachedData = getCachedValue(cacheKey);
       if (cachedData) {
         setFormData(cachedData);
         setLoadingData(false);
         return;
       }
-      try {
-        const response = await api.get(`/historia-clinica/${idAtencion}/${idExp}`);
-        if (response.data && Object.keys(response.data).length > 0) {
-          const data = response.data;
-          const parsedData = {
-            motivo_consulta: data.motivo_consulta || '',
-            sintomatologia: data.sintomatologia ? data.sintomatologia.split(',') : [],
-            sintomatologia_otros: data.sintomatologia_otros || '',
-            heredo: data.heredo ? data.heredo.split(',') : [],
-            heredo_otros: data.heredo_otros || '',
-            nopat: data.nopat ? data.nopat.split(',') : [],
-            nopat_otros: data.nopat_otros || '',
-            pat_enfermedades: data.pat_enfermedades || '',
-            pat_medicamentos: data.pat_medicamentos || '',
-            pat_alergias: data.pat_alergias || '',
-            pat_oculares: data.pat_oculares || '',
-            pat_cirugias: data.pat_cirugias || '',
-          };
-          setCachedValue(cacheKey, parsedData);
-          setFormData(parsedData);
-        }
-      } catch (error) {
-        console.error('Error loading historia clinica:', error);
-        const fallback = getCachedValue(cacheKey);
-        if (fallback) setFormData(fallback);
-      } finally {
-        setLoadingData(false);
-      }
-    };
+    }
 
-    loadExistingData();
-  }, [idAtencion, idExp]);
+    try {
+      const response = await api.get(`/historia-clinica/${idAtencion}/${idExp}`);
+      const data = response.data || {};
+      const parsedData = {
+        motivo_consulta: data.motivo_consulta || '',
+        sintomatologia: Array.isArray(data.sintomatologia)
+          ? data.sintomatologia
+          : (data.sintomatologia || '').split(',').filter(Boolean),
+        sintomatologia_otros: data.sintomatologia_otros || '',
+        heredo: Array.isArray(data.heredo)
+          ? data.heredo
+          : (data.heredo || '').split(',').filter(Boolean),
+        heredo_otros: data.heredo_otros || '',
+        nopat: Array.isArray(data.nopat)
+          ? data.nopat
+          : (data.nopat || '').split(',').filter(Boolean),
+        nopat_otros: data.nopat_otros || '',
+        pat_enfermedades: data.pat_enfermedades || '',
+        pat_medicamentos: data.pat_medicamentos || '',
+        pat_alergias: data.pat_alergias || '',
+        pat_oculares: data.pat_oculares || '',
+        pat_cirugias: data.pat_cirugias || '',
+      };
+      setCachedValue(cacheKey, parsedData);
+      setFormData(parsedData);
+    } catch (error) {
+      console.error('Error loading historia clinica:', error);
+      const fallback = getCachedValue(cacheKey);
+      if (fallback) setFormData(fallback);
+      setErrorMessage(error.response?.data?.error || 'No se pudo cargar la historia clínica.');
+    } finally {
+      setLoadingData(false);
+    }
+  }, [idAtencion, idExp, t]);
+
+  useEffect(() => {
+    reloadData();
+  }, [reloadData]);
 
   const toggleCheckbox = (field, value) => {
     setFormData((current) => {
@@ -197,7 +207,7 @@ export default function HistoriaClinicaScreen() {
           <div style={styles.headerEyebrow}>MÉDICO</div>
           <h1 style={styles.headerTitle}>{t('historiaClinica.title')}</h1>
         </div>
-        <button type="button" onClick={reloadData} style={styles.headerActionButton} disabled={!idAtencion || !idExp || loadingData}><FiRefreshCw size={18} /></button>
+        <button type="button" onClick={() => reloadData({ forceRefresh: true })} style={styles.headerActionButton} disabled={!idAtencion || !idExp || loadingData}><FiRefreshCw size={18} /></button>
       </div>
 
       {errorMessage ? <div style={styles.errorCard}>{errorMessage}</div> : null}

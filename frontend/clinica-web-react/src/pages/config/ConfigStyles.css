@@ -7,3 +7,57 @@
 .config-nav-title{margin:0 0 8px;font-size:18px;font-weight:800;color:#1e293b}
 .config-nav-desc{margin:0;font-size:14px;line-height:1.55;color:#64748b}
 @media(max-width:850px){.config-grid-2,.config-grid-3{grid-template-columns:1fr}.config-header-modern{border-radius:18px}.config-row{align-items:flex-start;flex-direction:column}.config-form-footer{flex-direction:column}.config-btn{width:100%}.config-cards-grid{grid-template-columns:1fr}}
+
+/* Aislamiento de mejoras visuales: solo pantallas marcadas como config-polished. */
+.config-page.config-polished,.config-page.config-polished *,.config-page.config-polished *::before,.config-page.config-polished *::after{box-sizing:border-box}
+.config-polished .config-content{width:100%}
+.config-polished .config-header-modern{width:100%}
+.config-polished .config-header-left{min-width:0}
+.config-polished .config-back-btn,.config-polished .config-refresh-btn{flex:0 0 46px}
+.config-polished .config-card,.config-polished .config-section-box,.config-polished .config-card-body{min-width:0}
+.config-polished .config-card-body{padding:24px}
+.config-polished .config-label{margin:14px 0 7px;line-height:1.35}
+.config-polished .config-input,.config-polished .config-select,.config-polished .config-textarea{display:block;width:100%;max-width:100%;min-width:0;min-height:46px;padding:11px 14px;font:inherit;font-size:15px;line-height:1.4}
+.config-polished .config-input:disabled,.config-polished .config-select:disabled,.config-polished .config-textarea:disabled{background:#f1f5f9;color:#64748b;cursor:not-allowed}
+.config-polished .config-textarea{min-height:110px}
+.config-polished .config-grid,.config-polished .config-grid-2,.config-polished .config-grid-3{align-items:start;min-width:0;gap:20px 18px}
+.config-polished .config-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))}
+.config-polished .config-grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.config-polished .config-grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.config-polished .config-grid>*,.config-polished .config-grid-2>*,.config-polished .config-grid-3>*{min-width:0}
+.config-polished .config-btn{font:inherit;font-weight:800}
+.config-polished .config-btn:hover:not(:disabled){transform:translateY(-2px)}
+.config-polished .config-alert{overflow-wrap:anywhere}
+.config-polished .config-search{min-width:min(100%,280px);max-width:100%}
+.config-polished .config-switch{flex:0 0 auto}
+.config-polished .config-avatar{flex:0 0 72px}
+.config-polished .config-form-footer{align-items:center;flex-wrap:wrap;gap:12px}
+.config-polished .config-form-footer .config-btn{min-width:140px}
+.config-polished .config-checkbox-grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,190px),1fr));gap:12px}
+.config-polished .config-check-card{min-width:0;overflow-wrap:anywhere}
+.config-polished .config-check-card input{flex:0 0 auto}
+.config-polished .config-help{color:#64748b;line-height:1.45}
+.config-polished .config-cards-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr))}
+@media(max-width:900px){.config-polished .config-grid-3{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:680px){
+.config-page.config-polished{padding:14px}
+.config-polished .config-header-modern{border-radius:16px;padding:18px}
+.config-polished .config-title{font-size:20px}
+.config-polished .config-card{padding:18px;border-radius:18px}
+.config-polished .config-main-card{padding:0}
+.config-polished .config-card-header{padding:18px}
+.config-polished .config-card-header h2,.config-polished .config-card-header h3{font-size:19px}
+.config-polished .config-card-body{padding:18px}
+.config-polished .config-section-box{padding:16px;margin-bottom:16px}
+.config-polished .config-grid-2,.config-polished .config-grid-3{grid-template-columns:minmax(0,1fr);gap:14px}
+.config-polished .config-row{align-items:flex-start;flex-direction:column}
+.config-polished .config-profile{align-items:flex-start}
+.config-polished .config-form-footer{flex-direction:column;padding:16px}
+.config-polished .config-form-footer .config-btn,.config-polished .config-actions>.config-btn{width:100%}
+.config-polished .config-cards-grid{grid-template-columns:1fr}
+.config-polished .config-search{width:100%;min-width:0}
+.config-polished .config-list-heading{align-items:stretch}
+.config-polished .config-toggle-row{align-items:flex-start}
+.config-polished .config-table{min-width:760px}
+}
+@media(prefers-reduced-motion:reduce){.config-page.config-polished *,.config-page.config-polished *::before,.config-page.config-polished *::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}

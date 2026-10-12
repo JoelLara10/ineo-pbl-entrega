@@ -54,7 +54,7 @@ export default function Sidebar({ isOpen, onClose }) {
   const isMedico     = role === 'medico';
   const isEnfermeria = role === 'enfermero' || role === 'enfermeria';
   const isEstudios   = role === 'estudios';
-  const isPatientSelected = !!selectedPatient?.id_atencion;
+  const isPatientSelected = Boolean(selectedPatient?.id_atencion && selectedPatient?.Id_exp);
 
   const currentPath = location.pathname;
   const currentModule = currentPath.startsWith('/admin/spark') ? 'spark'
@@ -205,7 +205,16 @@ export default function Sidebar({ isOpen, onClose }) {
   if (isAdmin)
     moduleItems.push({ name: t('sidebar.config'),  icon: 'options-outline',  path: '/config',      requiresPatient: false });
 
-  if (moduleItems.length) menuSections.push({ title: t('sidebar.modules'), items: moduleItems });
+  const currentModulePath = {
+    administrativo: '/admin',
+    spark: '/admin/spark',
+    medico: '/medico',
+    enfermeria: '/enfermeria',
+    estudios: '/estudios',
+    config: '/config',
+  }[currentModule];
+  const otherModuleItems = moduleItems.filter((item) => item.path !== currentModulePath);
+  if (otherModuleItems.length) menuSections.push({ title: t('sidebar.modules'), items: otherModuleItems });
 
   const userPrefix = isEnfermeria ? 'Enf.' : 'Dr.';
   const roleLabel = rl[role] || 'USER';
@@ -234,15 +243,15 @@ export default function Sidebar({ isOpen, onClose }) {
             <p className="section-title">{section.title}</p>
             {section.items.map((item, ii) => {
               const enabled = !item.requiresPatient || isPatientSelected;
-              const active  = currentPath === item.path || currentPath.startsWith(item.path + '/');
+              const active  = enabled && (currentPath === item.path || currentPath.startsWith(item.path + '/'));
               return (
                 <button
                   key={ii}
                   className={`nav-item ${active ? 'active' : ''} ${!enabled ? 'disabled' : ''}`}
-                  onClick={() => {
-                    if (enabled) handleNav(item.path);
-                    else alert(t('sidebar.selectPatientFirst'));
-                  }}
+                  disabled={!enabled}
+                  title={!enabled ? t('sidebar.selectPatientFirst') : undefined}
+                  aria-disabled={!enabled}
+                  onClick={() => enabled && handleNav(item.path)}
                 >
                   <Icon name={item.icon} color={!enabled ? '#a0aec0' : active ? '#667eea' : '#718096'} />
                   <span>{item.name}</span>

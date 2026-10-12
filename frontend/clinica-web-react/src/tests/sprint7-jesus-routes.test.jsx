@@ -7,6 +7,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createAppI18n } from '../i18n/setup';
 import { AuthProvider } from '../context/AuthContext';
 import AppRouter from '../router/AppRouter';
+import { getDashboardMenuOptions } from '../pages/dashboard/dashboardMenu';
 
 vi.mock('../components/layout/MainLayout', () => ({ default: ({ children }) => <>{children}</> }));
 vi.mock('../pages/dashboard/DashboardScreen', () => ({ default: () => <div>Dashboard</div> }));
@@ -56,6 +57,39 @@ describe('PBL-01-T3 — rutas reales y control de acceso', () => {
   });
   it('un médico no accede al módulo de administración', async () => {
     await open('/admin/spark/clinical', 'medico');
+    await vi.waitFor(() => expect(host.querySelector('[data-testid="location"]').textContent).toBe('/'));
+  });
+});
+
+
+describe('Módulos visibles por rol', () => {
+  it('administrativo ve gestión administrativa y análisis, sin módulos clínicos ni configuración', () => {
+    const modules = getDashboardMenuOptions('administrativo', (key) => key).map((item) => item.path);
+    expect(modules).toEqual(['/admin', '/admin/spark']);
+  });
+
+  it('administrador conserva los módulos completos y análisis', () => {
+    const modules = getDashboardMenuOptions('admin', (key) => key).map((item) => item.path);
+    expect(modules).toContain('/enfermeria');
+    expect(modules).toContain('/medico');
+    expect(modules).toContain('/config');
+    expect(modules).toContain('/admin/spark');
+  });
+
+  it('administrativo puede entrar a análisis, pero no a enfermería ni configuración', async () => {
+    await open('/admin/spark/clinical', 'administrativo');
+    await vi.waitFor(() => expect(host.querySelector('.spark-page')).toBeTruthy());
+    await act(async () => root.unmount());
+    root = null;
+    host?.remove();
+
+    await open('/enfermeria', 'administrativo');
+    await vi.waitFor(() => expect(host.querySelector('[data-testid="location"]').textContent).toBe('/'));
+    await act(async () => root.unmount());
+    root = null;
+    host?.remove();
+
+    await open('/config/usuarios', 'administrativo');
     await vi.waitFor(() => expect(host.querySelector('[data-testid="location"]').textContent).toBe('/'));
   });
 });

@@ -99,7 +99,7 @@ def test_login_normalizes_username(client, monkeypatch):
 
 @pytest.mark.parametrize(
     "role",
-    ["admin", "administrativo", "medico", "enfermero", "enfermeria", "estudios"],
+    ["admin", "administrativo", "medico", "enfermero", "estudios"],
 )
 def test_created_user_can_log_in_for_each_configured_role(client, role):
     from middleware.auth_middleware import generate_token
@@ -121,12 +121,16 @@ def test_created_user_can_log_in_for_each_configured_role(client, role):
             "password": password,
             "role": role,
             "nombre": "Usuario sintético",
+            "fecnac": "1995-04-12",
         },
     )
 
     assert created.status_code == 201
     assert created.get_json()["username"] == username
+    assert len(created.get_json()["id"]) == 24
+    assert "legacy_id" in created.get_json()
     assert "password" not in created.get_json()
+    assert created.get_json()["fecnac"] == "1995-04-12"
 
     login = client.post(
         "/api/v1/auth/login",
@@ -136,6 +140,25 @@ def test_created_user_can_log_in_for_each_configured_role(client, role):
     assert login.status_code == 200
     assert login.get_json()["user"]["username"] == username
     assert login.get_json()["user"]["role"] == role
+
+def test_user_creation_rejects_legacy_nursing_role(client):
+    from middleware.auth_middleware import generate_token
+
+    admin_token = generate_token("000000000000000000000001", "admin.test", "admin")
+    response = client.post(
+        "/api/v1/auth/users",
+        headers={"Authorization": f"Bearer {admin_token}"},
+        json={
+            "username": "usuario.enfermeria.legacy",
+            "password": "Prueba-de-usuario-42!",
+            "role": "enfermeria",
+            "nombre": "Usuario sintético",
+        },
+    )
+
+    assert response.status_code == 400
+    assert response.get_json()["error"] == "Rol inválido"
+
 
 def test_password_verification_does_not_print_hash(capsys):
     from models.user import UserModel
@@ -233,3 +256,111 @@ def test_existing_token_is_revoked_when_user_is_inactive(client, monkeypatch):
 
     assert response.status_code == 401
     assert response.get_json() == {"error": "Token inválido o expirado"}
+
+
+def test_admin_can_edit_user_profile_role_and_password(client):
+    from middleware.auth_middleware import generate_token
+
+    headers = {"Authorization": f"Bearer {generate_token('000000000000000000000001', 'admin.test', 'admin')}"}
+    created = client.post(
+        "/api/v1/auth/users",
+        headers=headers,
+        json={
+            "username": "usuario.edicion",
+            "password": "Prueba-de-usuario-42!",
+            "role": "medico",
+            "nombre": "Nombre anterior",
+            "fecnac": "1990-01-01",
+        },
+    )
+    user_id = created.get_json()["id"]
+
+    response = client.put(
+        f"/api/v1/auth/users/{user_id}",
+        headers=headers,
+        json={
+            "username": "usuario.editado",
+            "role": "enfermero",
+            "nombre": "Nombre actualizado",
+            "fecnac": "1995-04-12",
+            "password": "Nueva-clave-segura-43!",
+        },
+    )
+
+    assert response.status_code == 200
+    updated = response.get_json()["user"]
+    assert updated["username"] == "usuario.editado"
+    assert updated["role"] == "enfermero"
+    assert updated["nombre"] == "Nombre actualizado"
+    assert updated["fecnac"] == "1995-04-12"
+    assert "password" not in updated
+
+    login = client.post(
+        "/api/v1/auth/login",
+        json={"username": "usuario.editado", "password": "Nueva-clave-segura-43!"},
+    )
+    assert login.status_code == 200
+
+
+def test_user_update_rejects_duplicate_username_and_invalid_birth_date(client):
+    from middleware.auth_middleware import generate_token
+
+    headers = {"Authorization": f"Bearer {generate_token('000000000000000000000001', 'admin.test', 'admin')}"}
+    ids = []
+    for username in ("usuario.uno", "usuario.dos"):
+        response = client.post(
+            "/api/v1/auth/users",
+            headers=headers,
+            json={"username": username, "password": "Prueba-de-usuario-42!", "role": "medico"},
+        )
+        ids.append(response.get_json()["id"])
+
+    duplicate = client.put(
+        f"/api/v1/auth/users/{ids[1]}",
+        headers=headers,
+        json={"username": "usuario.uno"},
+    )
+    invalid_date = client.put(
+        f"/api/v1/auth/users/{ids[1]}",
+        headers=headers,
+        json={"fecnac": "31/12/1995"},
+    )
+
+    assert duplicate.status_code == 409
+    assert invalid_date.status_code == 400
+
+
+def test_user_list_uses_stable_mongo_ids_when_legacy_ids_repeat(client, isolated_database):
+    from bson import ObjectId
+    from middleware.auth_middleware import generate_token
+
+    first_id = ObjectId()
+    second_id = ObjectId()
+    isolated_database["users"].insert_many([
+        {
+            "_id": first_id,
+            "id": 1,
+            "username": "estudios.uno",
+            "role": "estudios",
+            "activo": True,
+        },
+        {
+            "_id": second_id,
+            "id": 1,
+            "username": "estudios.dos",
+            "role": "estudios",
+            "activo": True,
+        },
+    ])
+    token = generate_token("000000000000000000000001", "admin.test", "admin")
+
+    response = client.get(
+        "/api/v1/auth/users",
+        headers={"Authorization": f"Bearer {token}"},
+    )
+
+    assert response.status_code == 200
+    users = response.get_json()["data"]
+    listed = [user for user in users if user["username"] in {"estudios.uno", "estudios.dos"}]
+    assert {user["id"] for user in listed} == {str(first_id), str(second_id)}
+    assert {user["legacy_id"] for user in listed} == {1}

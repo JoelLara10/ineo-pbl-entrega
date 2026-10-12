@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify, g
+import bcrypt
 from services.auth_service import AuthService
 from middleware.auth_middleware import token_required, revoke_current_token
 from security.login_limiter import login_limiter
@@ -94,7 +95,7 @@ def get_current_user():
     return jsonify({
         'id': str(user.get('_id') or user.get('id')),
         'username': user.get('username'),
-        'role': user.get('role'),
+        'role': 'enfermero' if user.get('role') == 'enfermeria' else user.get('role'),
         'nombre': user.get('nombre'),
         'papell': user.get('papell'),
         'sapell': user.get('sapell'),
@@ -161,13 +162,26 @@ def get_users():
     try:
         collection = get_collection('users')
         users = list(collection.find({}, {'password': 0}).limit(100))
+        for user in users:
+            if user.get('role') == 'enfermeria':
+                user['role'] = 'enfermero'
+
+        public_users = []
+        for user in users:
+            public_user = serialize_doc(user)
+            # A document may have both MongoDB's _id and a legacy numeric id.
+            # Always expose the stable MongoDB key as "id" for account actions.
+            if user.get('_id') is not None:
+                public_user['legacy_id'] = public_user.get('id')
+                public_user['id'] = str(user['_id'])
+            public_users.append(public_user)
 
         return jsonify({
-            'total': len(users),
+            'total': len(public_users),
             'page': 1,
             'page_size': 100,
             'total_pages': 1,
-            'data': [serialize_doc(user) for user in users]
+            'data': public_users
         }), 200
 
     except Exception as e:
@@ -202,7 +216,7 @@ def create_user():
         return jsonify({'error': 'Usuario o contraseña inválidos'}), 400
 
     role = data.get('role', 'estudios')
-    allowed_roles = {'admin', 'administrativo', 'medico', 'enfermero', 'enfermeria', 'estudios'}
+    allowed_roles = {'admin', 'administrativo', 'medico', 'enfermero', 'estudios'}
     if not isinstance(role, str) or role not in allowed_roles:
         return jsonify({'error': 'Rol inválido'}), 400
 
@@ -227,68 +241,102 @@ def create_user():
 @auth_bp.route('/users/<user_id>', methods=['PUT'])
 @token_required
 def update_user(user_id):
+    from datetime import date
     from bson import ObjectId
-    from utils.database import get_collection
+    from models.user import UserModel
+    from utils.database import get_collection, serialize_doc
 
     if not is_admin():
         return jsonify({'error': 'No autorizado'}), 403
 
-    if str(g.user.get('user_id')) == str(user_id) and (
-        request.get_json(silent=True) or {}
-    ).get('activo') is False:
-        return jsonify({'error': 'No puedes desactivar tu propia cuenta'}), 409
-
     data = request.get_json(silent=True)
     if not isinstance(data, dict):
         return jsonify({'error': 'Solicitud inválida'}), 400
+
     collection = get_collection('users')
+    try:
+        user = collection.find_one({'_id': ObjectId(user_id)})
+    except Exception:
+        user = None
+    if not user:
+        try:
+            user = collection.find_one({'id': int(user_id)})
+        except (TypeError, ValueError):
+            user = collection.find_one({'id': user_id})
+    if not user:
+        return jsonify({'error': 'Usuario no encontrado'}), 404
 
-    allowed_fields = [
-        'username',
-        'role',
-        'nombre',
-        'papell',
-        'sapell',
-        'email',
-        'telefono',
-        'activo'
-    ]
+    user_key = {'_id': user['_id']} if user.get('_id') is not None else {'id': user.get('id')}
+    is_self = str(g.user.get('user_id')) in {
+        str(user.get('_id', '')),
+        str(user.get('id', '')),
+        str(user_id),
+    }
+    if is_self and data.get('activo') is False:
+        return jsonify({'error': 'No puedes desactivar tu propia cuenta'}), 409
 
-    update_data = {}
+    allowed_fields = (
+        'username', 'role', 'nombre', 'papell', 'sapell', 'email',
+        'telefono', 'fecnac', 'curp', 'matricula', 'cedula', 'cargo',
+        'pregunta_seguridad', 'activo'
+    )
+    update_data = {field: data[field] for field in allowed_fields if field in data}
 
-    for field in allowed_fields:
-        if field in data:
-            update_data[field] = data[field]
+    if 'preguntaSeguridad' in data and 'pregunta_seguridad' not in update_data:
+        update_data['pregunta_seguridad'] = data['preguntaSeguridad']
 
-    if 'role' in update_data and update_data['role'] not in {
-        'admin', 'administrativo', 'medico', 'enfermero', 'enfermeria', 'estudios'
-    }:
-        return jsonify({'error': 'Rol inválido'}), 400
+    if 'username' in update_data:
+        username = update_data['username']
+        if not isinstance(username, str) or not username.strip() or len(username.strip()) > MAX_USERNAME_LENGTH:
+            return jsonify({'error': 'Usuario inválido'}), 400
+        username = username.strip()
+        existing = UserModel.find_by_username(username)
+        if existing and str(existing.get('_id', existing.get('id'))) != str(user.get('_id', user.get('id'))):
+            return jsonify({'error': 'El usuario ya existe'}), 409
+        update_data['username'] = username
+
+    allowed_roles = {'admin', 'administrativo', 'medico', 'enfermero', 'estudios'}
+    if 'role' in update_data:
+        if not isinstance(update_data['role'], str) or update_data['role'] not in allowed_roles:
+            return jsonify({'error': 'Rol inválido'}), 400
+        if is_self and update_data['role'] != 'admin':
+            return jsonify({'error': 'No puedes quitarte el rol de administrador'}), 409
+
+    for field in ('nombre', 'papell', 'sapell', 'email', 'telefono', 'curp', 'matricula', 'cedula', 'cargo', 'pregunta_seguridad'):
+        if field in update_data and not isinstance(update_data[field], str):
+            return jsonify({'error': 'Datos de usuario inválidos'}), 400
+
+    if 'fecnac' in update_data:
+        birth_date = update_data['fecnac']
+        if not isinstance(birth_date, str):
+            return jsonify({'error': 'Fecha de nacimiento inválida'}), 400
+        if birth_date:
+            try:
+                date.fromisoformat(birth_date)
+            except ValueError:
+                return jsonify({'error': 'Fecha de nacimiento inválida'}), 400
+
+    if 'activo' in update_data and not isinstance(update_data['activo'], bool):
+        return jsonify({'error': 'Estado de usuario inválido'}), 400
+
+    password = data.get('password')
+    if password is not None and password != '':
+        if not isinstance(password, str) or len(password.encode('utf-8')) > MAX_PASSWORD_BYTES:
+            return jsonify({'error': 'Contraseña inválida'}), 400
+        valid, message = validate_password(password, update_data.get('username', user.get('username', '')))
+        if not valid:
+            return jsonify({'error': message}), 400
+        update_data['password'] = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
     if not update_data:
         return jsonify({'error': 'No hay datos para actualizar'}), 400
 
-    try:
-        result = collection.update_one(
-            {'_id': ObjectId(user_id)},
-            {'$set': update_data}
-        )
-    except Exception:
-        try:
-            result = collection.update_one(
-                {'id': int(user_id)},
-                {'$set': update_data}
-            )
-        except Exception:
-            result = collection.update_one(
-                {'id': user_id},
-                {'$set': update_data}
-            )
-
-    if result.matched_count == 0:
-        return jsonify({'error': 'Usuario no encontrado'}), 404
-
-    return jsonify({'message': 'Usuario actualizado correctamente'}), 200
+    collection.update_one(user_key, {'$set': update_data})
+    updated = collection.find_one(user_key, {'password': 0})
+    return jsonify({
+        'message': 'Usuario actualizado correctamente',
+        'user': serialize_doc(updated),
+    }), 200
 
 
 @auth_bp.route('/users/<user_id>', methods=['DELETE'])

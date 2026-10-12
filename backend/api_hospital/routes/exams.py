@@ -1,8 +1,8 @@
 # routes/exams.py
-from flask import Blueprint, request, jsonify, g, send_from_directory, abort
+from flask import Blueprint, request, jsonify, g, send_from_directory, abort, current_app
 from middleware.auth_middleware import token_required, role_required
 from utils.database import get_db, serialize_doc, get_next_sequence
-from datetime import datetime
+from datetime import datetime, date
 from bson import ObjectId
 from services.exam_service import ExamService
 from werkzeug.utils import secure_filename
@@ -142,14 +142,47 @@ def test_exams():
 # ===================================================================
 #  NUEVOS ENDPOINTS PARA ESTUDIOS (coinciden con la lógica web)
 # ===================================================================
+def _study_query_params():
+    fetch_all = request.args.get('all', '').strip().lower() in ('1', 'true', 'yes')
+    try:
+        page = max(1, int(request.args.get('page', 1)))
+        requested_limit = max(1, int(request.args.get('limit', 5)))
+        limit = min(100, requested_limit)
+    except (TypeError, ValueError):
+        return None, jsonify({'error': 'Paginación inválida'}), 400
+
+    date_from = request.args.get('from') or None
+    date_to = request.args.get('to') or None
+    try:
+        if date_from:
+            date.fromisoformat(date_from)
+        if date_to:
+            date.fromisoformat(date_to)
+    except ValueError:
+        return None, jsonify({'error': 'Fecha de filtro inválida'}), 400
+
+    if date_from and date_to and date_from > date_to:
+        return None, jsonify({'error': 'El rango de fechas es inválido'}), 400
+
+    return {
+        'page': page,
+        'limit': limit,
+        'search': request.args.get('q', '').strip()[:100],
+        'date_from': date_from,
+        'date_to': date_to,
+        'sort_order': 'oldest' if request.args.get('sort') == 'oldest' else 'newest',
+        'fetch_all': fetch_all,
+    }, None, None
+
 @exams_bp.route('/pending', methods=['GET'])
 @token_required
 @role_required('admin', 'estudios')
 def get_pending_exams():
     exam_type = request.args.get('type')
-    page = int(request.args.get('page', 1))
-    limit = int(request.args.get('limit', 5))
-    exams = ExamService.get_pending_exams(exam_type, page, limit)
+    params, error_response, status_code = _study_query_params()
+    if error_response:
+        return error_response, status_code
+    exams = ExamService.get_pending_exams(exam_type, **params)
     return jsonify(exams), 200
 
 
@@ -158,9 +191,10 @@ def get_pending_exams():
 @role_required('admin', 'estudios')
 def get_completed_exams():
     exam_type = request.args.get('type')
-    page = int(request.args.get('page', 1))
-    limit = int(request.args.get('limit', 5))
-    exams = ExamService.get_completed_exams(exam_type, page, limit)
+    params, error_response, status_code = _study_query_params()
+    if error_response:
+        return error_response, status_code
+    exams = ExamService.get_completed_exams(exam_type, **params)
     return jsonify(exams), 200
 
 @exams_bp.route('/counts', methods=['GET'])
@@ -233,6 +267,71 @@ def get_patient_exams(id_atencion):
         return jsonify([serialize_doc(r) for r in results]), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+@exams_bp.route('/<int:id_examen>/results/file', methods=['GET'])
+@token_required
+@role_required('admin', 'medico')
+def get_exam_result_file(id_examen):
+    """Entrega un adjunto solo si está asociado al examen solicitado."""
+    requested = request.args.get('filename', '').strip()
+    if not requested:
+        return jsonify({'error': 'Se requiere el nombre del archivo'}), 400
+
+    db = get_db()
+    stored_docs = db['examenes_det'].find(
+        {'id_examen': id_examen, 'archivo_resultado': {'$exists': True, '$ne': ''}},
+        {'archivo_resultado': 1}
+    )
+    stored_paths = []
+    for document in stored_docs:
+        value = document.get('archivo_resultado')
+        if isinstance(value, list):
+            stored_paths.extend(str(item).strip() for item in value if item)
+        elif isinstance(value, str):
+            stored_paths.extend(item.strip() for item in value.split(',') if item.strip())
+
+    requested_normalized = requested.replace('\\\\', '/')
+    requested_basename = os.path.basename(requested_normalized)
+    app_root = current_app.root_path
+    static_root = current_app.static_folder or os.path.join(app_root, 'static')
+    allowed_roots = [
+        os.path.realpath(os.path.join(app_root, 'uploads', 'exams')),
+        os.path.realpath(os.path.join(static_root, 'resultados', 'laboratorio')),
+        os.path.realpath(os.path.join(static_root, 'resultados', 'gabinete')),
+    ]
+
+    for stored_path in stored_paths:
+        normalized_stored = stored_path.replace('\\\\', '/')
+        stored_basename = os.path.basename(normalized_stored)
+        if requested not in (stored_path, stored_basename) and requested_basename != stored_basename:
+            continue
+
+        candidates = []
+        if os.path.isabs(stored_path):
+            candidates.append(stored_path)
+        else:
+            candidates.extend([
+                os.path.join(app_root, stored_path),
+                os.path.join(os.getcwd(), stored_path),
+            ])
+        # UploadResultForm stores only the filename in archivo_resultado.
+        # Resolve that name inside the allowed upload directories.
+        candidates.extend(os.path.join(root, stored_basename) for root in allowed_roots)
+
+        for candidate_path in candidates:
+            candidate = os.path.realpath(candidate_path)
+            try:
+                is_allowed = any(os.path.commonpath([candidate, root]) == root for root in allowed_roots)
+            except ValueError:
+                is_allowed = False
+            if is_allowed and os.path.isfile(candidate):
+                return send_from_directory(
+                    os.path.dirname(candidate),
+                    os.path.basename(candidate),
+                    as_attachment=False
+                )
+
+    return jsonify({'error': 'Archivo adjunto no encontrado'}), 404
 
 @exams_bp.route('/<int:id_examen>/results/file', methods=['POST'])
 @token_required

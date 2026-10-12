@@ -165,7 +165,7 @@ export default function AppRouter() {
                       </>
                     )}
 
-                    {(isAdmin || isMedico || isEstudios) && (
+                    {(isAdmin || isEstudios) && (
                       <>
                         <Route path="estudios" element={<EstudiosScreen />} />
                         <Route path="subir-resultado" element={<SubirResultadoScreen />} />
@@ -182,13 +182,18 @@ export default function AppRouter() {
                       </>
                     )}
 
-                    {isAdmin && (
+                    {isAdminOrAdministrativo && (
                       <>
                         <Route path="admin/spark" element={<SparkDashboard />} />
                         <Route path="admin/spark/analytics" element={<AnalyticsScreen />} />
                         <Route path="admin/spark/met" element={<MetAnalyticsScreen />} />
                         <Route path="admin/spark/clinical" element={<ClinicalAnalyticsScreen />} />
                         <Route path="admin/spark/unsupervised" element={<UnsupervisedAnalyticsScreen />} />
+                      </>
+                    )}
+
+                    {isAdmin && (
+                      <>
                         <Route path="config" element={<ConfigScreen />} />
                         <Route path="config/general" element={<GeneralSettingsScreen />} />
                         <Route path="config/usuarios" element={<UsuariosConfigScreen />} />
