@@ -76,7 +76,9 @@
     "medicalDescShort": "Medical care",
     "studiesDescShort": "Results",
     "refresh": "Refresh",
-    "logout": "Sign Out"
+    "logout": "Sign Out",
+    "analysisModule": "Data analysis",
+    "analysisDesc": "Clinical and administrative indicators"
   },
   "medical": {
     "headerEyebrow": "MEDICAL",
@@ -476,7 +478,13 @@
     "basePath": "Base path",
     "saveSettings": "Save settings",
     "generalSaved": "General settings saved in cache.",
-    "userPasswordTooLong": "The password cannot exceed 72 bytes."
+    "userPasswordTooLong": "The password cannot exceed 72 bytes.",
+    "editUser": "Edit user",
+    "updateUser": "Save changes",
+    "userUpdated": "User updated successfully.",
+    "passwordOptionalPlaceholder": "Leave blank to keep the current password",
+    "changeUserPassword": "Change password",
+    "cancelPasswordChange": "Keep current password"
   },
   "common": {
     "loading": "Loading...",

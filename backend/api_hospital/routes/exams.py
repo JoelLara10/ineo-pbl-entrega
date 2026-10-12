@@ -2,7 +2,7 @@
 from flask import Blueprint, request, jsonify, g, send_from_directory, abort, current_app
 from middleware.auth_middleware import token_required, role_required
 from utils.database import get_db, serialize_doc, get_next_sequence
-from datetime import datetime
+from datetime import datetime, date
 from bson import ObjectId
 from services.exam_service import ExamService
 from werkzeug.utils import secure_filename
@@ -142,14 +142,47 @@ def test_exams():
 # ===================================================================
 #  NUEVOS ENDPOINTS PARA ESTUDIOS (coinciden con la lógica web)
 # ===================================================================
+def _study_query_params():
+    fetch_all = request.args.get('all', '').strip().lower() in ('1', 'true', 'yes')
+    try:
+        page = max(1, int(request.args.get('page', 1)))
+        requested_limit = max(1, int(request.args.get('limit', 5)))
+        limit = min(100, requested_limit)
+    except (TypeError, ValueError):
+        return None, jsonify({'error': 'Paginación inválida'}), 400
+
+    date_from = request.args.get('from') or None
+    date_to = request.args.get('to') or None
+    try:
+        if date_from:
+            date.fromisoformat(date_from)
+        if date_to:
+            date.fromisoformat(date_to)
+    except ValueError:
+        return None, jsonify({'error': 'Fecha de filtro inválida'}), 400
+
+    if date_from and date_to and date_from > date_to:
+        return None, jsonify({'error': 'El rango de fechas es inválido'}), 400
+
+    return {
+        'page': page,
+        'limit': limit,
+        'search': request.args.get('q', '').strip()[:100],
+        'date_from': date_from,
+        'date_to': date_to,
+        'sort_order': 'oldest' if request.args.get('sort') == 'oldest' else 'newest',
+        'fetch_all': fetch_all,
+    }, None, None
+
 @exams_bp.route('/pending', methods=['GET'])
 @token_required
 @role_required('admin', 'estudios')
 def get_pending_exams():
     exam_type = request.args.get('type')
-    page = int(request.args.get('page', 1))
-    limit = int(request.args.get('limit', 5))
-    exams = ExamService.get_pending_exams(exam_type, page, limit)
+    params, error_response, status_code = _study_query_params()
+    if error_response:
+        return error_response, status_code
+    exams = ExamService.get_pending_exams(exam_type, **params)
     return jsonify(exams), 200
 
 
@@ -158,9 +191,10 @@ def get_pending_exams():
 @role_required('admin', 'estudios')
 def get_completed_exams():
     exam_type = request.args.get('type')
-    page = int(request.args.get('page', 1))
-    limit = int(request.args.get('limit', 5))
-    exams = ExamService.get_completed_exams(exam_type, page, limit)
+    params, error_response, status_code = _study_query_params()
+    if error_response:
+        return error_response, status_code
+    exams = ExamService.get_completed_exams(exam_type, **params)
     return jsonify(exams), 200
 
 @exams_bp.route('/counts', methods=['GET'])

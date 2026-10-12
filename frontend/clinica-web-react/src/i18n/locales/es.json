@@ -76,7 +76,9 @@
     "medicalDescShort": "Atención médica",
     "studiesDescShort": "Resultados",
     "refresh": "Actualizar",
-    "logout": "Cerrar sesión"
+    "logout": "Cerrar sesión",
+    "analysisModule": "Análisis de datos",
+    "analysisDesc": "Indicadores clínicos y administrativos"
   },
   "medical": {
     "headerEyebrow": "MÉDICO",
@@ -476,7 +478,13 @@
     "basePath": "Ruta base",
     "saveSettings": "Guardar configuración",
     "generalSaved": "Configuración general guardada en caché.",
-    "userPasswordTooLong": "La contraseña no puede superar 72 bytes."
+    "userPasswordTooLong": "La contraseña no puede superar 72 bytes.",
+    "editUser": "Editar usuario",
+    "updateUser": "Guardar cambios",
+    "userUpdated": "Usuario actualizado correctamente.",
+    "passwordOptionalPlaceholder": "Dejar vacío para conservar la contraseña actual",
+    "changeUserPassword": "Cambiar contraseña",
+    "cancelPasswordChange": "Conservar contraseña actual"
   },
   "common": {
     "loading": "Cargando...",

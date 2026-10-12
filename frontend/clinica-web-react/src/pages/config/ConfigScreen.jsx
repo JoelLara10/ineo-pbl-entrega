@@ -20,7 +20,7 @@ export default function ConfigScreen() {
   const { t } = useTranslation();
 
   return (
-    <main className="config-page">
+    <main className="config-page config-polished">
       <ConfigHeader title={t('config.title')} showBack={false} />
       <section className="config-content">
         <div className="config-cards-grid">

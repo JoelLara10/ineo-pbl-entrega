@@ -16,9 +16,9 @@ export default function ViewResultForm() {
   const [archivos, setArchivos] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
   const [error, setError] = useState('');
-
-  // Obtener la URL base del servidor (sin /api/v1)
-  const baseUrl = api.defaults.baseURL?.replace('/api/v1', '') || '';
+  const [previewUrl, setPreviewUrl] = useState('');
+  const [previewLoading, setPreviewLoading] = useState(false);
+  const [previewError, setPreviewError] = useState('');
 
   useEffect(() => {
     const loadFiles = async () => {
@@ -52,6 +52,39 @@ export default function ViewResultForm() {
     setSelectedFile(file);
   };
 
+  useEffect(() => {
+    if (!id_examen || !selectedFile?.nombre) return undefined;
+
+    let cancelled = false;
+    let objectUrl = null;
+    setPreviewUrl('');
+    setPreviewError('');
+    setPreviewLoading(true);
+
+    api.get(`/exams/${id_examen}/results/file`, {
+      params: { filename: selectedFile.nombre },
+      responseType: 'blob',
+    }).then(({ data }) => {
+      objectUrl = URL.createObjectURL(data);
+      if (cancelled) URL.revokeObjectURL(objectUrl);
+      else setPreviewUrl(objectUrl);
+    }).catch((previewRequestError) => {
+      if (!cancelled) {
+        const status = previewRequestError.response?.status;
+        setPreviewError(status
+          ? `${t('studies.couldNotLoadFiles')} (HTTP ${status})`
+          : t('studies.couldNotLoadFiles'));
+      }
+    }).finally(() => {
+      if (!cancelled) setPreviewLoading(false);
+    });
+
+    return () => {
+      cancelled = true;
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
+    };
+  }, [id_examen, selectedFile?.nombre, t]);
+
   // Render preview
   const renderPreview = () => {
     if (!selectedFile) {
@@ -67,31 +100,22 @@ export default function ViewResultForm() {
     }
 
     const ext = selectedFile.tipo?.toLowerCase();
-    const fileUrl = `${baseUrl}${selectedFile.url}`;
+    if (previewLoading) {
+      return <div style={styles.previewPlaceholder}><p style={styles.placeholderText}>{t('studies.loadingFiles')}</p></div>;
+    }
+    if (previewError) {
+      return <div style={styles.previewPlaceholder}><FiFile size={48} color="#e53e3e" /><p style={styles.errorText}>{previewError}</p></div>;
+    }
+    if (!previewUrl) {
+      return <div style={styles.previewPlaceholder}><FiFile size={48} color="#cbd5e0" /><p style={styles.placeholderText}>{t('studies.clickFileToPreview')}</p></div>;
+    }
 
     if (ext === 'pdf') {
-      return (
-        <div style={styles.previewPdf}>
-          <div style={styles.pdfIconWrapper}>
-            <FiFile size={56} color="#667eea" />
-          </div>
-          <p style={styles.pdfName}>{selectedFile.nombre}</p>
-          <div style={styles.pdfBadge}>PDF</div>
-          <p style={styles.pdfInfo}>{t('studies.previewAvailable')}</p>
-        </div>
-      );
+      return <iframe title={selectedFile.nombre} src={previewUrl} style={styles.pdfFrame} />;
     } else if (['png', 'jpg', 'jpeg', 'gif'].includes(ext)) {
       return (
         <div style={styles.imageContainer}>
-          <img
-            src={fileUrl}
-            alt={selectedFile.nombre}
-            style={styles.previewImage}
-            onError={(e) => {
-              e.target.onerror = null;
-              e.target.src = '';
-            }}
-          />
+          <img src={previewUrl} alt={selectedFile.nombre} style={styles.previewImage} />
         </div>
       );
     } else {
@@ -336,6 +360,7 @@ const styles = {
   },
   placeholderText: { fontSize: '18px', fontWeight: 600, color: '#64748b', marginTop: '8px' },
   placeholderSubtext: { fontSize: '14px', color: '#94a3b8', marginTop: '4px' },
+  pdfFrame: { width: '100%', height: '480px', maxHeight: '70vh', border: 0, borderRadius: '12px', backgroundColor: '#fff' },
   previewPdf: {
     textAlign: 'center',
   },

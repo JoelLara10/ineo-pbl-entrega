@@ -14,10 +14,13 @@ describe('Tareas de Joel del Sprint 1', () => {
       'admin/spark/clinical',
       'admin/spark/unsupervised',
     ].forEach((route) => expect(router).toContain(`path="${route}"`));
-    const adminOnlyBlock = router.slice(router.indexOf('{isAdmin && ('), router.indexOf('<Route path="*"'));
-    expect(adminOnlyBlock).toContain('path="admin/spark"');
-    expect(router.slice(router.indexOf('{isAdminOrAdministrativo'), router.indexOf('{(isAdmin || isMedico)')))
-      .not.toContain('path="admin/spark"');
+    const adminOnlyStart = router.indexOf('{isAdmin && (');
+    const adminOnlyBlock = router.slice(adminOnlyStart, router.indexOf('<Route path="*"'));
+    expect(adminOnlyBlock).not.toContain('path="admin/spark"');
+    const analyticsBlockStart = router.lastIndexOf('{isAdminOrAdministrativo && (', adminOnlyStart);
+    const analyticsBlock = router.slice(analyticsBlockStart, adminOnlyStart);
+    expect(analyticsBlock).toContain('path="admin/spark"');
+    expect(analyticsBlock).toContain('path="admin/spark/clinical"');
   });
 
   it('PBL-04-T2 presenta estados con acciones de recuperación', () => {

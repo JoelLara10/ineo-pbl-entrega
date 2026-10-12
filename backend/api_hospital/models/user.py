@@ -23,12 +23,22 @@ class UserModel:
             'papell': data.get('papell', ''),
             'sapell': data.get('sapell', ''),
             'email': data.get('email', ''),
+            'curp': data.get('curp', ''),
+            'matricula': data.get('matricula', ''),
+            'cedula': data.get('cedula', ''),
+            'cargo': data.get('cargo', ''),
+            'pregunta_seguridad': data.get('pregunta_seguridad', data.get('preguntaSeguridad', '')),
             'telefono': data.get('telefono', ''),
+            'fecnac': data.get('fecnac', ''),
             'activo': True
         }
         
         result = collection.insert_one(user)
-        return serialize_doc(user)
+        public_user = serialize_doc(user)
+        # Return MongoDB's stable key for APIs that support account editing.
+        public_user['legacy_id'] = user.get('id')
+        public_user['id'] = str(result.inserted_id)
+        return public_user
     
     @staticmethod
     def find_by_username(username):
