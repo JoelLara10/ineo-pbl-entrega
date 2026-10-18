@@ -5,6 +5,7 @@ from utils.database import get_db, serialize_doc, get_next_sequence
 from bson import ObjectId
 from datetime import datetime
 from services.medical_service import MedicalService
+from utils.nursing_care_validation import validate_nursing_care_payload
 
 medical_bp = Blueprint('medical', __name__, url_prefix='/medical')
 
@@ -849,12 +850,16 @@ def get_fluid_balance(id_atencion):
 @token_required
 @role_required('admin', 'medico', 'enfermero')
 def add_nursing_care(id_atencion):
-    """
-    Registra cuidados de enfermería
-    """
+    """Registra un cuidado de enfermería validado en la API remota."""
     try:
         db = get_db()
-        data = request.get_json() or {}
+
+        # Seguridad: el servidor vuelve a validar; nunca confía solo en la app móvil.
+        normalized, validation_error = validate_nursing_care_payload(
+            request.get_json(silent=True)
+        )
+        if validation_error:
+            return jsonify({'error': validation_error}), 400
 
         atencion = db['atencion'].find_one({'id_atencion': id_atencion})
         if not atencion:
@@ -864,38 +869,32 @@ def add_nursing_care(id_atencion):
             'id_cuidado': get_next_sequence('nursing_care_id'),
             'id_atencion': id_atencion,
             'Id_exp': atencion['Id_exp'],
-            'diagnostico_enfermeria': data.get('diagnostico_enfermeria', ''),
-            'objetivos': data.get('objetivos', ''),
-            'intervenciones': data.get('intervenciones', ''),
-            'evaluacion': data.get('evaluacion', ''),
-            'estado': data.get('estado', 'EN_PROCESO'),
-            'observaciones': data.get('observaciones', ''),
+            **normalized,
             'id_enfermero': ObjectId(g.user['user_id']),
             'fecha_registro': datetime.now()
         }
-
         db['nursing_care'].insert_one(care_record)
-
         return jsonify({
             'message': 'Cuidados de enfermería guardados correctamente',
             'id_cuidado': care_record['id_cuidado']
         }), 201
-    except Exception as e:
-        print(f"Error en add_nursing_care: {e}")
-        import traceback
-        traceback.print_exc()
-        return jsonify({'error': str(e)}), 500
+    except Exception:
+        # Seguridad: no se devuelven trazas, credenciales ni detalles de MongoDB.
+        print("Error interno al registrar cuidados de enfermería")
+        return jsonify({'error': 'No fue posible registrar el cuidado de enfermería'}), 500
 
 
 @medical_bp.route('/appointments/<int:id_atencion>/nursing-care', methods=['GET'])
 @token_required
 @role_required('admin', 'medico', 'enfermero')
 def get_nursing_care(id_atencion):
-    """
-    Obtiene historial de cuidados de enfermería
-    """
+    """Consulta el historial remoto de cuidados de enfermería."""
     try:
         db = get_db()
+
+        # Evita consultar o enumerar registros de una atención inexistente.
+        if not db['atencion'].find_one({'id_atencion': id_atencion}):
+            return jsonify({'error': 'Atención no encontrada'}), 404
 
         pipeline = [
             {'$match': {'id_atencion': id_atencion}},
@@ -907,6 +906,7 @@ def get_nursing_care(id_atencion):
             }},
             {'$unwind': {'path': '$enfermero', 'preserveNullAndEmptyArrays': True}},
             {'$project': {
+                '_id': 0,
                 'id_cuidado': 1,
                 'diagnostico_enfermeria': 1,
                 'objetivos': 1,
@@ -919,9 +919,9 @@ def get_nursing_care(id_atencion):
             }},
             {'$sort': {'fecha_registro': -1}}
         ]
-
         records = list(db['nursing_care'].aggregate(pipeline))
         return jsonify([serialize_doc(r) for r in records]), 200
-    except Exception as e:
-        print(f"Error en get_nursing_care: {e}")
-        return jsonify({'error': str(e)}), 500
+    except Exception:
+        # Respuesta controlada para no filtrar la infraestructura.
+        print("Error interno al consultar cuidados de enfermería")
+        return jsonify({'error': 'No fue posible consultar los cuidados de enfermería'}), 500
