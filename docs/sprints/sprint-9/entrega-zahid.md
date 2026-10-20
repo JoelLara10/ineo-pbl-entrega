@@ -68,7 +68,7 @@ Para comprobar la puerta de aceptación, agregar `--strict`. Es esperable un res
 
 ## Ejecución local de referencia
 
-Frontend: 104 pruebas aprobadas; compilación, traducciones y lint completados (una advertencia heredada en UsuariosConfigScreen). API: 226 pruebas aprobadas y siete de Spark omitidas en la suite normal. Las 14 pruebas del archivo del sprint se ejecutaron de nuevo tras ajustar la puerta de trazabilidad.
+Frontend: 104 pruebas aprobadas; compilación, traducciones y lint completados (una advertencia heredada en UsuariosConfigScreen). API: 226 pruebas aprobadas y siete de Spark omitidas en la suite normal. Se ejecutaron de nuevo 87 pruebas del sprint y del contrato Spark tras incorporar compatibilidad con resultados históricos: todas aprobadas. La unión de la regresión y esta ejecución cubre 227 pruebas API aprobadas.
 
 La compilación se abrió en el navegador y volvió a cargar la pantalla de acceso después de detener el servidor local: el contenedor estático quedó disponible desde el Service Worker. El estado de conexión del navegador no detecta por sí solo una caída exclusiva del servidor; ese caso conserva los errores y reintentos de la API.
 

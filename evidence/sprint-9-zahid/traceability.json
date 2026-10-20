@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-20T17:30:21.514229+00:00",
+  "generated_at": "2026-10-20T17:38:12.485331+00:00",
   "sprint": "Sprint 9 — alcance de Zahid",
   "stories": [
     {
@@ -22,6 +22,11 @@
           "case": "src/tests/sprint9-zahid.test.jsx::PBL-11 > shows generation, source freshness and calendar period in both languages",
           "result": "passed",
           "evidence": "evidence\\sprint-9-zahid\\frontend.xml"
+        },
+        {
+          "case": "tests.test_sprint9_zahid::test_pbl11_legacy_result_exposes_unknown_source_dates",
+          "result": "passed",
+          "evidence": "evidence\\sprint-9-zahid\\sprint9.xml"
         },
         {
           "case": "tests.test_sprint9_zahid::test_pbl11_metadata_snapshot[analytics]",
@@ -219,11 +224,11 @@
     },
     {
       "file": "evidence\\sprint-9-zahid\\sprint9.xml",
-      "sha256": "4c454920ffcf2bc89b15c73821c6645f18773ed6f841f7f12837e8bf741027bd"
+      "sha256": "81db0c0630ac722a680983b2e745d0bf7cb00775f27b575573a2cd6ca28966da"
     }
   ],
   "regression_summary": {
-    "passed": 330,
+    "passed": 331,
     "failed": 0,
     "skipped": 7
   },

@@ -83,7 +83,10 @@ def read_job(kind):
 
 def results(kind):
     doc = read_job(kind)
-    return (doc or {}).get('result') or empty_result()
+    result = dict((doc or {}).get('result') or empty_result())
+    # Historical snapshots have no source-period evidence; expose that absence.
+    result.setdefault('metadata', {**empty_metadata(), 'generated_at': result.get('timestamp')})
+    return result
 
 
 def collect_source(kind, with_metadata=False):

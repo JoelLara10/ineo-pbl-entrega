@@ -52,6 +52,17 @@ def test_pbl11_unknown_and_failed_rerun_preserves_metadata(client, isolated_data
     assert service.results('analytics')['metadata'] == metadata
 
 
+def test_pbl11_legacy_result_exposes_unknown_source_dates(client, isolated_database):
+    old = {**service.empty_result(), 'timestamp': '2026-10-12T10:00:00+00:00', 'available': True}
+    del old['metadata']
+    isolated_database.spark_jobs.insert_one({'_id': 'analytics', 'state': 'completed', 'result': old})
+    response = client.get('/api/v1/spark/analytics', headers=headers())
+    assert response.json['metadata']['generated_at'] == old['timestamp']
+    assert response.json['metadata']['period'] == {'start': None, 'end': None}
+    assert response.json['metadata']['last_updated_at'] is None
+    assert 'metadata' not in isolated_database.spark_jobs.find_one({'_id': 'analytics'})['result']
+
+
 def test_pbl25_preferences_idempotent_and_isolated(client, isolated_database):
     for _ in range(2):
         response = client.put('/api/v1/auth/preferences', json={'language': 'en'}, headers=headers())
