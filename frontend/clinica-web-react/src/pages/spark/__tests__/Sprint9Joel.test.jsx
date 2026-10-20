@@ -21,7 +21,7 @@ describe('Sprint 9 - PBL-09', () => {
     expect(screen.getAllByText('Alto').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Medio').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Normal').length).toBeGreaterThan(0);
-    expect(screen.getByLabelText('Contexto clínico')).toHaveTextContent('no sustituyen el diagnóstico');
+    expect(screen.getByLabelText('Contexto clínico').textContent).toContain('no sustituyen el diagnóstico');
   });
 });
 
