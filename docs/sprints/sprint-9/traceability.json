@@ -1,0 +1,277 @@
+{
+  "sprint": "Sprint 9 — OftalCore — Joel y Zahid; Jaime y Jesús pendientes",
+  "stories": [
+    {
+      "id": "PBL-04",
+      "azure_id": 281,
+      "title": "Estados de Analytics — rama de Jaime pendiente de integración",
+      "owner": "Jaime",
+      "requirements": [
+        "REQ-06",
+        "REQ-09"
+      ],
+      "tasks": [
+        326,
+        327,
+        328
+      ],
+      "cases": [
+        "PBL-04 validación integrada de la rama feature/sprint9"
+      ],
+      "defects": [],
+      "approval": {
+        "by": null,
+        "at": null,
+        "evidence": null
+      }
+    },
+    {
+      "id": "PBL-06",
+      "azure_id": 284,
+      "title": "Persistencia de idioma y formato regional",
+      "owner": "Zahid",
+      "requirements": [
+        "REQ-07"
+      ],
+      "tasks": [
+        334
+      ],
+      "cases": [
+        "src/tests/pbl06-language.test.jsx"
+      ],
+      "defects": [],
+      "approval": {
+        "by": "Codex — revisión técnica automatizada",
+        "at": "2026-10-20",
+        "evidence": "docs/sprints/sprint-9/revision-tecnica-joel-zahid.md",
+        "kind": "technical"
+      }
+    },
+    {
+      "id": "PBL-09",
+      "azure_id": 288,
+      "title": "Riesgos, tendencias y distribución clínica",
+      "owner": "Joel",
+      "requirements": [
+        "REQ-06",
+        "REQ-09"
+      ],
+      "tasks": [
+        345,
+        346,
+        347,
+        348,
+        349
+      ],
+      "cases": [
+        "Sprint 9 - PBL-09",
+        "PBL-09 real API regressions",
+        "test_pbl09_clinical_dated_trends_use_real_daily_aggregates",
+        "test_pbl09_dated_projection_retains_utc_day_without_identifiers"
+      ],
+      "defects": [],
+      "approval": {
+        "by": "Codex — revisión técnica automatizada",
+        "at": "2026-10-20",
+        "evidence": "docs/sprints/sprint-9/revision-tecnica-joel-zahid.md",
+        "kind": "technical"
+      }
+    },
+    {
+      "id": "PBL-11",
+      "azure_id": 290,
+      "title": "Vigencia de los análisis",
+      "requirements": [
+        "REQ-09"
+      ],
+      "tasks": [
+        355
+      ],
+      "cases": [
+        "src/tests/sprint9-zahid.test.jsx::PBL-11 > does not invent dates for historical or empty results",
+        "src/tests/sprint9-zahid.test.jsx::PBL-11 > shows generation, source freshness and calendar period in both languages",
+        "tests.test_sprint9_zahid::test_pbl11_legacy_result_exposes_unknown_source_dates",
+        "tests.test_sprint9_zahid::test_pbl11_metadata_snapshot[analytics]",
+        "tests.test_sprint9_zahid::test_pbl11_metadata_snapshot[clinical]",
+        "tests.test_sprint9_zahid::test_pbl11_metadata_snapshot[met]",
+        "tests.test_sprint9_zahid::test_pbl11_metadata_snapshot[unsupervised]",
+        "tests.test_sprint9_zahid::test_pbl11_unknown_and_failed_rerun_preserves_metadata"
+      ],
+      "defects": [],
+      "approval": {
+        "by": "Codex — revisión técnica automatizada",
+        "at": "2026-10-20",
+        "evidence": "docs/sprints/sprint-9/revision-tecnica-joel-zahid.md",
+        "kind": "technical"
+      },
+      "owner": "Zahid"
+    },
+    {
+      "id": "PBL-16",
+      "azure_id": 297,
+      "title": "Carga diferida de pantallas pesadas",
+      "owner": "Joel",
+      "requirements": [
+        "REQ-11",
+        "REQ-19"
+      ],
+      "tasks": [
+        375,
+        376,
+        377
+      ],
+      "cases": [
+        "Sprint 9 - PBL-16"
+      ],
+      "defects": [],
+      "approval": {
+        "by": "Codex — revisión técnica automatizada",
+        "at": "2026-10-20",
+        "evidence": "docs/sprints/sprint-9/revision-tecnica-joel-zahid.md",
+        "kind": "technical"
+      }
+    },
+    {
+      "id": "PBL-22",
+      "azure_id": 308,
+      "title": "Balance Hídrico — pendiente de Jesús",
+      "owner": "Jesús",
+      "requirements": [
+        "REQ-04",
+        "REQ-08"
+      ],
+      "tasks": [
+        399,
+        400,
+        401
+      ],
+      "cases": [
+        "PBL-22 ejecución del Sprint 9 pendiente"
+      ],
+      "defects": [],
+      "approval": {
+        "by": null,
+        "at": null,
+        "evidence": null
+      }
+    },
+    {
+      "id": "PBL-25",
+      "azure_id": 312,
+      "title": "Operación offline limitada",
+      "requirements": [
+        "REQ-12"
+      ],
+      "tasks": [
+        410,
+        411,
+        412,
+        413,
+        414
+      ],
+      "cases": [
+        "src/tests/sprint9-network.test.js::PBL-25 cannot synchronize the previous account preference with another account token",
+        "src/tests/sprint9-network.test.js::PBL-25 discards a clinical response that finishes after the session changes",
+        "src/tests/sprint9-network.test.js::PBL-25 does not expire a new session when an older request returns 401",
+        "src/tests/sprint9-network.test.js::PBL-25 rejects clinical writes before the adapter when offline",
+        "src/tests/sprint9-worker.test.js::PBL-25 static shell > never intercepts API, credentials, mutations, external or unknown assets",
+        "src/tests/sprint9-zahid.test.jsx::PBL-25 > coalesces language only, keeps no clinical payload and synchronizes after reconnection",
+        "src/tests/sprint9-zahid.test.jsx::PBL-25 > expires, rejects tampering, isolates accounts and clears unauthorized work",
+        "src/tests/sprint9-zahid.test.jsx::PBL-25 > hides clinical children offline and lets the user queue a translated preference",
+        "src/tests/sprint9-zahid.test.jsx::PBL-25 > retains failed network operations for an explicit safe retry",
+        "src/tests/sprint9-zahid.test.jsx::PBL-25 > serializes concurrent synchronization and preserves a newer preference",
+        "src/tests/sprint9-zahid.test.jsx::PBL-25 > uses online memory only and removes legacy persistent clinical entries",
+        "tests.test_sprint9_zahid::test_pbl25_preferences_idempotent_and_isolated",
+        "tests.test_sprint9_zahid::test_pbl25_rejects_non_allowlisted_payloads[None]",
+        "tests.test_sprint9_zahid::test_pbl25_rejects_non_allowlisted_payloads[payload1]",
+        "tests.test_sprint9_zahid::test_pbl25_rejects_non_allowlisted_payloads[payload2]",
+        "tests.test_sprint9_zahid::test_pbl25_rejects_non_allowlisted_payloads[payload3]",
+        "tests.test_sprint9_zahid::test_pbl25_rejects_non_allowlisted_payloads[payload4]",
+        "tests.test_sprint9_zahid::test_pbl25_revoked_or_inactive_accounts_cannot_sync"
+      ],
+      "defects": [],
+      "approval": {
+        "by": "Codex — revisión técnica automatizada",
+        "at": "2026-10-20",
+        "evidence": "docs/sprints/sprint-9/revision-tecnica-joel-zahid.md",
+        "kind": "technical"
+      },
+      "owner": "Zahid"
+    },
+    {
+      "id": "PBL-27",
+      "azure_id": 428,
+      "title": "UT de servicios, validadores y permisos API — pendiente de Jesús",
+      "owner": "Jesús",
+      "requirements": [
+        "REQ-14"
+      ],
+      "tasks": [
+        447,
+        448,
+        449,
+        450,
+        451
+      ],
+      "cases": [
+        "PBL-27 ejecución del Sprint 9 pendiente"
+      ],
+      "defects": [],
+      "approval": {
+        "by": null,
+        "at": null,
+        "evidence": null
+      }
+    },
+    {
+      "id": "PBL-33",
+      "azure_id": 438,
+      "title": "UAT y acta de aceptación — pendiente de Jaime",
+      "owner": "Jaime",
+      "requirements": [
+        "REQ-17",
+        "REQ-22"
+      ],
+      "tasks": [
+        477,
+        478,
+        479,
+        480,
+        481
+      ],
+      "cases": [
+        "CP-UAT-001 ejecución y acta",
+        "CP-UAT-002 ejecución y acta"
+      ],
+      "defects": [],
+      "approval": {
+        "by": null,
+        "at": null,
+        "evidence": null
+      }
+    },
+    {
+      "id": "PBL-38",
+      "azure_id": 441,
+      "title": "Reporte automático de trazabilidad",
+      "requirements": [
+        "REQ-22"
+      ],
+      "tasks": [
+        500
+      ],
+      "cases": [
+        "tests.test_sprint9_zahid::test_pbl38_gate_requires_results_evidence_approval_and_no_open_defects",
+        "tests.test_sprint9_zahid::test_pbl38_latest_failure_wins_and_external_approval_blocked"
+      ],
+      "defects": [],
+      "approval": {
+        "by": "Codex — revisión técnica automatizada",
+        "at": "2026-10-20",
+        "evidence": "docs/sprints/sprint-9/revision-tecnica-joel-zahid.md",
+        "kind": "technical"
+      },
+      "owner": "Zahid"
+    }
+  ]
+}

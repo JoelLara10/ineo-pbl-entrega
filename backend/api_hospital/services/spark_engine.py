@@ -27,6 +27,8 @@ def analyze(spark, kind, rows):
     else:
         features = ['fc', 'fr', 'temp', 'spo2']
         schema = StructType([StructField(name, DoubleType(), True) for name in features])
+        if kind == 'clinical':
+            schema.add(StructField('day', StringType(), True))
         frame = spark.createDataFrame(rows, schema)
         if kind == 'clinical':
             used = frame.na.drop(how='all').count()
@@ -34,6 +36,17 @@ def analyze(spark, kind, rows):
                 values = frame.agg(F.count(name).alias('count'), F.avg(name).alias('mean'),
                                    F.min(name).alias('minimum'), F.max(name).alias('maximum')).first().asDict()
                 result['metrics'].append({'measure': name, **values})
+            # Aggregate genuine dated observations; undated rows remain in metrics.
+            daily = frame.filter(F.col('day').isNotNull()).groupBy('day').agg(*[
+                expression for name in features for expression in (
+                    F.count(name).alias(name + '_count'), F.avg(name).alias(name + '_mean'),
+                    F.min(name).alias(name + '_minimum'), F.max(name).alias(name + '_maximum'))
+            ]).orderBy('day').collect()
+            result['trends'] = [
+                {'day': row['day'], 'measure': name,
+                 **{stat: row[name + '_' + stat] for stat in ('count', 'mean', 'minimum', 'maximum')}}
+                for row in daily for name in features if row[name + '_count'] > 0
+            ]
             result['summary'] = {'total': used} if used else {}
             result['available'] = used > 0
         else:

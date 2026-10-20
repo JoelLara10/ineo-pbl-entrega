@@ -3,22 +3,7 @@ import React, { createContext, useCallback, useEffect, useMemo, useState, useCon
 import { useAuth } from './AuthContext';
 
 const PatientContext = createContext();
-const STORAGE_KEY = 'ineo_selected_patient';
-
-const getInitialPatient = () => {
-  if (typeof window === 'undefined') {
-    return { id_atencion: null, Id_exp: null };
-  }
-
-  try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (!raw) return { id_atencion: null, Id_exp: null };
-    return JSON.parse(raw);
-  } catch (error) {
-    console.error('Error restoring selected patient:', error);
-    return { id_atencion: null, Id_exp: null };
-  }
-};
+const getInitialPatient = () => ({ id_atencion: null, Id_exp: null });
 
 export const usePatient = () => {
   const context = useContext(PatientContext);
@@ -37,16 +22,6 @@ export const PatientProvider = ({ children }) => {
       setSelectedPatient({ id_atencion: null, Id_exp: null });
     }
   }, [authLoading, isAuthenticated]);
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-
-    try {
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(selectedPatient));
-    } catch (error) {
-      console.error('Error persisting selected patient:', error);
-    }
-  }, [selectedPatient]);
 
   const selectPatient = useCallback((patientData) => {
     setSelectedPatient({

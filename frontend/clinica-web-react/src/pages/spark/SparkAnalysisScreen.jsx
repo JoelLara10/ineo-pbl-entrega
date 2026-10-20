@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { sparkService } from '../../services/sparkService';
 import { formatRegionalDate, formatRegionalNumber } from '../../i18n/regional';
 import './Spark.css';
+import AnalysisMetadata from './AnalysisMetadata';
 
 const isSimple = (value) => value === null || ['string', 'number', 'boolean'].includes(typeof value);
 const prettyKey = (key) => key.replaceAll('_', ' ').replace(/\b\w/g, (letter) => letter.toUpperCase());
@@ -113,7 +114,7 @@ export default function SparkAnalysisScreen({ type, ResultsComponent }) {
   const sections = useMemo(
     () => Object.entries(data || {}).filter(
       ([key, value]) =>
-        !['available', 'timestamp', 'visualizations', 'contract_version'].includes(key) &&
+        !['available', 'timestamp', 'metadata', 'visualizations', 'contract_version'].includes(key) &&
         hasContent(value)
     ),
     [data]
@@ -137,6 +138,7 @@ export default function SparkAnalysisScreen({ type, ResultsComponent }) {
       </div>
     </div>
     <header className="spark-header"><span>{t('spark.eyebrow')}</span><h1>{t(`spark.types.${type}.title`)}</h1><p>{t(`spark.types.${type}.description`)}</p></header>
+    {data && <AnalysisMetadata data={data} />}
     {error && <div className="spark-state spark-state-error" role="alert"><h2>{t(`spark.states.${errorKind}.title`)}</h2><p>{errorKind === 'offline' ? t('spark.states.offline.hint') : error}</p><button onClick={load}>{t('common.retry')}</button></div>}
     {!error && loading ? <div className="spark-state" role="status"><h2>{t('spark.states.loading.title')}</h2><p>{t('spark.states.loading.hint')}</p><button onClick={load}>{t('spark.refresh')}</button></div>
       : !error && (status.running || status.state === 'pending' || status.state === 'processing') ? <div className="spark-state spark-state-processing" role="status"><h2>{t('spark.states.processing.title')}</h2><p>{t('spark.states.processing.hint')}</p><button onClick={load}>{t('spark.refresh')}</button></div>
