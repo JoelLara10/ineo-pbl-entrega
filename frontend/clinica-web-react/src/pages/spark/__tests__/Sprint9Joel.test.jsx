@@ -17,7 +17,7 @@ describe('Sprint 9 - PBL-09', () => {
       { measure: 'temperatura', mean: 36.8, minimum: 36.2, maximum: 37.2 },
     ] }} />);
 
-    expect(screen.getByText('Frecuencia cardiaca')).toBeInTheDocument();
+    expect(screen.getAllByText('Frecuencia cardiaca')).toHaveLength(2);
     expect(screen.getAllByText('Alto').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Medio').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Normal').length).toBeGreaterThan(0);
