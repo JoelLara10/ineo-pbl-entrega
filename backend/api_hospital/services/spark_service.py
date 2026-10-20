@@ -51,8 +51,15 @@ def stamp(value):
 
 def empty_result():
     return {'contract_version': VERSION, 'available': False, 'timestamp': None,
+            'metadata': empty_metadata(),
             'visualizations': [], 'summary': {}, 'metrics': [], 'clusters': [],
             'pca': {}, 'quality': {}}
+
+
+def empty_metadata():
+    return {'generated_at': None, 'last_updated_at': None,
+            'period': {'start': None, 'end': None}, 'undated_rows': 0,
+            'timezone': 'UTC'}
 
 
 def status_of(doc):
@@ -76,15 +83,19 @@ def read_job(kind):
 
 def results(kind):
     doc = read_job(kind)
-    return (doc or {}).get('result') or empty_result()
+    result = dict((doc or {}).get('result') or empty_result())
+    # Historical snapshots have no source-period evidence; expose that absence.
+    result.setdefault('metadata', {**empty_metadata(), 'generated_at': result.get('timestamp')})
+    return result
 
 
-def collect_source(kind):
+def collect_source(kind, with_metadata=False):
     """Bounded projection; fail instead of silently truncating a dataset."""
     clinical = kind in ('clinical', 'unsupervised')
     fields = ('fc', 'fr', 'temp', 'spo2') if clinical else ('status', 'fecha_ing')
+    date_field = 'fecha_registro' if clinical else 'fecha_ing'
     docs = list(get_collection('signos_vitales' if clinical else 'atencion').find(
-        {}, {'_id': 0, **{field: 1 for field in fields}}).limit(MAX_ROWS + 1))
+        {}, {'_id': 0, **{field: 1 for field in (*fields, date_field)}}).limit(MAX_ROWS + 1))
     if len(docs) > MAX_ROWS:
         raise ValueError('dataset_limit')
     rows = []
@@ -97,6 +108,16 @@ def collect_source(kind):
                     row[field] = value if math.isfinite(value) and not isinstance(doc.get(field), bool) else None
                 except (TypeError, ValueError):
                     row[field] = None
+            # Calendar bucket only: never send patient identifiers to Spark.
+            if kind == 'clinical':
+                date = doc.get(date_field)
+                if isinstance(date, str):
+                    try:
+                        date = datetime.fromisoformat(date.replace('Z', '+00:00'))
+                    except ValueError:
+                        date = None
+                if isinstance(date, datetime):
+                    row['day'] = stamp(date)[:10]
         else:
             date = doc.get('fecha_ing')
             if isinstance(date, str):
@@ -107,7 +128,24 @@ def collect_source(kind):
             row = {'day': date.date().isoformat() if isinstance(date, datetime) else None,
                    'status': doc.get('status') if doc.get('status') in ('ABIERTA', 'CERRADA') else 'OTRO'}
         rows.append(row)
-    return rows
+    if not with_metadata:
+        return rows
+    dates = []
+    for doc in docs:
+        value = doc.get(date_field)
+        if isinstance(value, str):
+            try:
+                value = datetime.fromisoformat(value.replace('Z', '+00:00'))
+            except ValueError:
+                value = None
+        if isinstance(value, datetime):
+            dates.append(stamp(value))
+    metadata = empty_metadata()
+    metadata.update(last_updated_at=max(dates) if dates else None,
+                    period={'start': min(dates)[:10] if dates else None,
+                            'end': max(dates)[:10] if dates else None},
+                    undated_rows=len(docs) - len(dates))
+    return rows, metadata
 
 
 def run_engine(kind, rows):
@@ -154,8 +192,12 @@ def execute(kind, job_id):
     if not claimed.modified_count:
         return
     try:
-        result = run_engine(kind, collect_source(kind))
-        result.update(contract_version=VERSION, timestamp=stamp(now()), visualizations=[])
+        rows, metadata = collect_source(kind, with_metadata=True)
+        result = run_engine(kind, rows)
+        generated_at = stamp(now())
+        metadata['generated_at'] = generated_at
+        result.update(contract_version=VERSION, timestamp=generated_at,
+                      metadata=metadata, visualizations=[])
         update = {'state': 'completed', 'result': result, 'error': None}
     except SparkRuntimeError as error:
         update = {'state': 'failed', 'error': str(error)}

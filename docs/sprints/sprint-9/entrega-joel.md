@@ -39,3 +39,7 @@ npm run build
 ```
 
 El build de Vite debe generar chunks separados para las pantallas cargadas bajo demanda. La integración sigue el flujo `feature/joel-sprint9-pbl09-pbl16` → `develop` → `qa`.
+
+## Correcciones y verificación del 20/10/2026
+
+Se corrigió el contrato `temp`, se sustituyeron las barras fijas por rangos calculados y tendencias diarias reales, y se verificó el grafo de carga diferida mediante manifiesto de Vite. Análisis y evidencia T1–T5 en `revision-tecnica-joel-zahid.md`. La aprobación registrada es técnica automatizada; no reemplaza la UAT de Jaime.

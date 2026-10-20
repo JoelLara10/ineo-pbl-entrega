@@ -53,3 +53,6 @@ jobs:
         env:
           VITE_API_URL: http://localhost:5001/api/v1
         run: npm run build
+
+      - name: Verify heavy screens remain deferred
+        run: npm run check:bundle

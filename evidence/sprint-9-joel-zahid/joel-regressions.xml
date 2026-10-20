@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="7" failures="0" errors="0" time="0.236116455">
+    <testsuite name="src/pages/spark/__tests__/Sprint9Joel.test.jsx" timestamp="2026-10-20T21:17:12.345Z" hostname="4aa85be5134b" tests="7" failures="0" errors="0" skipped="0" time="0.236116455">
+        <testcase classname="src/pages/spark/__tests__/Sprint9Joel.test.jsx" name="Sprint 9 - PBL-09 &gt; muestra valor, unidad, nivel textual y contexto clínico accesible" time="0.058906651">
+        </testcase>
+        <testcase classname="src/pages/spark/__tests__/Sprint9Joel.test.jsx" name="Sprint 9 - PBL-16 &gt; carga las vistas pesadas por demanda con un fallback visible" time="0.000578411">
+        </testcase>
+        <testcase classname="src/pages/spark/__tests__/Sprint9Joel.test.jsx" name="PBL-09 real API regressions &gt; recognizes temp and leaves unknown measures unclassified" time="0.049397615">
+        </testcase>
+        <testcase classname="src/pages/spark/__tests__/Sprint9Joel.test.jsx" name="PBL-09 real API regressions &gt; does not invent values for missing or zero-count metrics" time="0.002658959">
+        </testcase>
+        <testcase classname="src/pages/spark/__tests__/Sprint9Joel.test.jsx" name="PBL-09 real API regressions &gt; positions range markers using the observed values and preserves unknown dates" time="0.014897877">
+        </testcase>
+        <testcase classname="src/pages/spark/__tests__/Sprint9Joel.test.jsx" name="PBL-09 real API regressions &gt; renders real chronological trends, units and selected-language dates" time="0.048935122">
+        </testcase>
+        <testcase classname="src/pages/spark/__tests__/Sprint9Joel.test.jsx" name="PBL-09 captured HTTP contract &gt; renders the synthetic response captured from authenticated API and real Spark" time="0.058916271">
+        </testcase>
+    </testsuite>
+</testsuites>
