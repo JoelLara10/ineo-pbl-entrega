@@ -646,7 +646,7 @@
     "observationsLabel": "Observaciones:",
     "noObservations": "Sin observaciones",
     "notSpecified": "No especificado"
-  },
+  }, 
   "nursingFluidBalance": {
     "eyebrow": "ENFERMERÍA",
     "title": "Balance Hídrico",
@@ -1000,7 +1000,7 @@
       },
       "processing": {
         "title": "Análisis en proceso",
-        "hint": "Puedes actualizar ahora o esperar a la actualización automática."
+        "hint": "El análisis continúa ejecutándose. Puedes actualizar el estado o esperar a la actualización automática."
       },
       "notRun": {
         "title": "Análisis sin ejecutar",
@@ -1009,12 +1009,12 @@
       },
       "empty": {
         "title": "No se encontraron datos",
-        "hint": "La ejecución terminó, pero no produjo datos para mostrar.",
+        "hint": "La consulta terminó correctamente, pero no hay datos para mostrar.",
         "action": "Actualizar resultados"
       },
       "offline": {
         "title": "Sin conexión con el servicio de análisis",
-        "hint": "Revisa la conexión con la API y vuelve a intentarlo."
+        "hint": "No fue posible comunicarse con la API. Revisa la conexión e inténtalo nuevamente."
       },
       "failed": {
         "title": "El análisis falló",
