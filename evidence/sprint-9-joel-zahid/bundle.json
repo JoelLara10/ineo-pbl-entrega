@@ -1,24 +1,24 @@
 {
-  "initialJavaScriptBytes": 463589,
+  "initialJavaScriptBytes": 460174,
   "deferredScreens": [
     {
       "screen": "ClinicalAnalyticsScreen",
-      "file": "assets/ClinicalAnalyticsScreen-BorocX8j.js",
+      "file": "assets/ClinicalAnalyticsScreen-QRoOTTUL.js",
       "bytes": 8593
     },
     {
       "screen": "MetAnalyticsScreen",
-      "file": "assets/MetAnalyticsScreen-DT0nl1Nv.js",
+      "file": "assets/MetAnalyticsScreen-CuQDV3kC.js",
       "bytes": 4351
     },
     {
       "screen": "AnalyticsScreen",
-      "file": "assets/AnalyticsScreen-BFpb46WR.js",
+      "file": "assets/AnalyticsScreen-DHHkdUjt.js",
       "bytes": 2760
     },
     {
       "screen": "UnsupervisedAnalyticsScreen",
-      "file": "assets/UnsupervisedAnalyticsScreen-B-Ksu8Wl.js",
+      "file": "assets/UnsupervisedAnalyticsScreen-Dqybs0dv.js",
       "bytes": 171
     }
   ],

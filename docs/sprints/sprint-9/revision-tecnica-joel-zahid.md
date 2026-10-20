@@ -30,3 +30,9 @@ Validación local: 111 pruebas frontend y 237 pruebas API aprobadas, incluidas o
 La entrega técnica puede quedar resuelta para revisión de aceptación. No se certifica el Sprint 9 completo ni se promueve a producción. La UAT y el acta pertenecen al alcance pendiente de Jaime.
 
 El flujo autenticado se verificó además con Flask test_client y Spark real: login → POST de ejecución → worker → GET de resultado, 401 sin autenticación y preferencia PUT/GET. Respuesta sintética sin identificadores ni tokens en `clinical-api-synthetic.json`; el frontend la consume en una regresión de contrato. No se obtuvo verificación visual en el navegador remoto porque no alcanza el servidor local; no se presenta como UAT.
+
+## Ajuste de dependencias detectado por CI
+
+La auditoría remota detectó vulnerabilidades nuevas en follow-redirects 1.16.0, Vite 8.1.3 y Pillow 12.3.0. Se actualizó el lockfile con versiones compatibles (follow-redirects 1.16.1 y Vite 8.3.4) y se fijó Pillow 13.0.0. `npm audit` y `pip-audit -r requirements.txt` no reportan vulnerabilidades tras el ajuste. Se mantienen los controles de seguridad y se verifica nuevamente la regresión y el build.
+
+Referencias oficiales: https://github.com/advisories/GHSA-q3jh-wrc6-jgq8 y https://pillow.readthedocs.io/en/stable/releasenotes/13.0.0.html
