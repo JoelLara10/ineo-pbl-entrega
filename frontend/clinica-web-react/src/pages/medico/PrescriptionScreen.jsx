@@ -1,3 +1,4 @@
+import { getClinicalCache, setClinicalCache } from '../../services/clinicalCache';
 import { formatRegionalDate } from '../../i18n/regional';
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -19,31 +20,8 @@ const emptyMedication = (id) => ({
   indicaciones: '',
 });
 
-function getCachedValue(key) {
-  if (typeof window === 'undefined') return null;
-  try {
-    const raw = window.localStorage.getItem(CACHE_PREFIX + key);
-    if (!raw) return null;
-    const parsed = JSON.parse(raw);
-    if (Date.now() - parsed.timestamp > parsed.ttl) {
-      window.localStorage.removeItem(CACHE_PREFIX + key);
-      return null;
-    }
-    return parsed.data;
-  } catch (error) {
-    console.error('Error reading prescriptions cache:', error);
-    return null;
-  }
-}
-
-function setCachedValue(key, data, ttl = CACHE_TTL) {
-  if (typeof window === 'undefined') return;
-  try {
-    window.localStorage.setItem(CACHE_PREFIX + key, JSON.stringify({ data, timestamp: Date.now(), ttl }));
-  } catch (error) {
-    console.error('Error saving prescriptions cache:', error);
-  }
-}
+function getCachedValue(key) { return getClinicalCache(CACHE_PREFIX + key); }
+function setCachedValue(key, data, ttl = CACHE_TTL) { setClinicalCache(CACHE_PREFIX + key, data, ttl); }
 
 export default function PrescriptionScreen() {
   const { t, i18n } = useTranslation();

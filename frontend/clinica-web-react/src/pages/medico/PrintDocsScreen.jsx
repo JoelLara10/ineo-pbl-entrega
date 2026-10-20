@@ -12,19 +12,8 @@ function getPatientName(patientInfo) {
   return [patientInfo.papell, patientInfo.sapell, patientInfo.nom_pac].filter(Boolean).join(' ') || 'Paciente';
 }
 
-const PRINT_HISTORY_KEY = '@ineo_print_history';
 const PRINT_HISTORY_LIMIT = 5;
-
-function loadPrintHistory() {
-  if (typeof window === 'undefined') return [];
-
-  try {
-    const storedHistory = JSON.parse(window.localStorage.getItem(PRINT_HISTORY_KEY) || '[]');
-    return Array.isArray(storedHistory) ? storedHistory.slice(0, PRINT_HISTORY_LIMIT) : [];
-  } catch {
-    return [];
-  }
-}
+const loadPrintHistory = () => [];
 
 export default function PrintDocsScreen() {
   const { t, i18n } = useTranslation();
@@ -56,7 +45,6 @@ export default function PrintDocsScreen() {
 
     setPrintHistory((currentHistory) => {
       const updatedHistory = [newEntry, ...currentHistory].slice(0, PRINT_HISTORY_LIMIT);
-      window.localStorage.setItem(PRINT_HISTORY_KEY, JSON.stringify(updatedHistory));
       return updatedHistory;
     });
   };
