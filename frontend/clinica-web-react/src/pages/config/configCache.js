@@ -1,33 +1,10 @@
+import { getClinicalCache, setClinicalCache, clearClinicalCache } from '../../services/clinicalCache';
 export const CACHE_TTL = 5 * 60 * 1000;
 export const CACHE_PREFIX = 'ineo_config_react_';
 
-export function getCache(key) {
-  try {
-    const raw = localStorage.getItem(CACHE_PREFIX + key);
-    if (!raw) return null;
-    const parsed = JSON.parse(raw);
-    if (Date.now() - parsed.timestamp > parsed.ttl) {
-      localStorage.removeItem(CACHE_PREFIX + key);
-      return null;
-    }
-    return parsed.data;
-  } catch (error) {
-    console.error('Error leyendo caché:', error);
-    return null;
-  }
-}
-
-export function setCache(key, data, ttl = CACHE_TTL) {
-  try {
-    localStorage.setItem(CACHE_PREFIX + key, JSON.stringify({ data, timestamp: Date.now(), ttl }));
-  } catch (error) {
-    console.error('Error guardando caché:', error);
-  }
-}
-
-export function clearCache(key) {
-  localStorage.removeItem(CACHE_PREFIX + key);
-}
+export function getCache(key) { return getClinicalCache(CACHE_PREFIX + key); }
+export function setCache(key, data, ttl = CACHE_TTL) { setClinicalCache(CACHE_PREFIX + key, data, ttl); }
+export function clearCache() { clearClinicalCache(); }
 
 export function readPermanent(key, fallback) {
   try {

@@ -1195,5 +1195,27 @@
     "searchPreviousPatients": "Find a previously treated patient",
     "reactivatePatient": "Reactivate in a new visit",
     "patientAlreadyActive": "This patient already has an active visit"
+  },
+  "analysisMetadata": {
+    "title": "Analysis freshness",
+    "generated": "Generated at",
+    "updated": "Last source update",
+    "period": "Analyzed period",
+    "unknown": "Not available",
+    "timezone": "Source dates in UTC; times shown in your local timezone.",
+    "undated": "Undated records: {{count}}. The period includes only known dates."
+  },
+  "offline": {
+    "preferences": "Connection and preferences",
+    "language": "Language",
+    "online": "Online",
+    "disconnected": "Offline",
+    "pending": "Preference pending synchronization",
+    "failed": "Synchronization failed. Retry when the connection is restored.",
+    "retry": "Retry synchronization",
+    "title": "Limited offline operation",
+    "hint": "Clinical modules and writes require a connection. Patient records are not stored on this device.",
+    "safeAction": "You can change the language; it will sync with your account when online. The queue expires after 8 hours and is cleared on logout.",
+    "logout": "Sign out locally"
   }
 }
