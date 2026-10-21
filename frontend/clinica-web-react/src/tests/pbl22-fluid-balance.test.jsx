@@ -23,7 +23,7 @@ vi.mock('react-router-dom', () => ({
 vi.mock('react-i18next', () => ({
   useTranslation: () => ({
     i18n: { language: 'es' },
-    t: (key, fallback) => fallback || key,
+    t: (key, fallback) => typeof fallback === 'string' ? fallback : key,
   }),
 }));
 
