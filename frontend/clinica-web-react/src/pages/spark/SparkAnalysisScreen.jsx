@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import { sparkService } from '../../services/sparkService';
 import { formatRegionalDate, formatRegionalNumber } from '../../i18n/regional';
 import './Spark.css';
-import AnalysisMetadata from './AnalysisMetadata';
 
 const isSimple = (value) =>
   value === null || ['string', 'number', 'boolean'].includes(typeof value);
@@ -247,7 +246,6 @@ export default function SparkAnalysisScreen({ type, ResultsComponent }) {
   }, [load, status, t, type]);
 
   const sections = useMemo(
-<<<<<<< HEAD
     () =>
       Object.entries(data || {}).filter(
         ([key, value]) =>
@@ -258,13 +256,6 @@ export default function SparkAnalysisScreen({ type, ResultsComponent }) {
             'contract_version',
           ].includes(key) && hasContent(value)
       ),
-=======
-    () => Object.entries(data || {}).filter(
-      ([key, value]) =>
-        !['available', 'timestamp', 'metadata', 'visualizations', 'contract_version'].includes(key) &&
-        hasContent(value)
-    ),
->>>>>>> origin/develop
     [data]
   );
 
@@ -335,7 +326,6 @@ export default function SparkAnalysisScreen({ type, ResultsComponent }) {
           </button>
         </div>
       </div>
-<<<<<<< HEAD
 
       <header className="spark-header">
         <span>{t('spark.eyebrow')}</span>
@@ -457,22 +447,4 @@ export default function SparkAnalysisScreen({ type, ResultsComponent }) {
       )}
     </main>
   );
-=======
-    </div>
-    <header className="spark-header"><span>{t('spark.eyebrow')}</span><h1>{t(`spark.types.${type}.title`)}</h1><p>{t(`spark.types.${type}.description`)}</p></header>
-    {data && <AnalysisMetadata data={data} />}
-    {error && <div className="spark-state spark-state-error" role="alert"><h2>{t(`spark.states.${errorKind}.title`)}</h2><p>{errorKind === 'offline' ? t('spark.states.offline.hint') : error}</p><button onClick={load}>{t('common.retry')}</button></div>}
-    {!error && loading ? <div className="spark-state" role="status"><h2>{t('spark.states.loading.title')}</h2><p>{t('spark.states.loading.hint')}</p><button onClick={load}>{t('spark.refresh')}</button></div>
-      : !error && (status.running || status.state === 'pending' || status.state === 'processing') ? <div className="spark-state spark-state-processing" role="status"><h2>{t('spark.states.processing.title')}</h2><p>{t('spark.states.processing.hint')}</p><button onClick={load}>{t('spark.refresh')}</button></div>
-      : !error && status.state === 'failed' ? <div className="spark-state spark-state-error" role="alert"><h2>{t('spark.states.failed.title')}</h2><p>{status.error || t('spark.states.failed.hint')}</p><button onClick={run}>{t('spark.states.failed.action')}</button></div>
-      : !error && !data?.available && status.state === 'idle' ? <div className="spark-state"><h2>{t('spark.states.notRun.title')}</h2><p>{t('spark.states.notRun.hint')}</p><button className="spark-primary" onClick={run}>{t('spark.states.notRun.action')}</button></div>
-      : !error && !data?.available ? (
-      <div className="spark-state"><h2>{t('spark.states.empty.title')}</h2><p>{t('spark.states.empty.hint')}</p><button onClick={load}>{t('spark.states.empty.action')}</button></div>
-    ) : !error && (ResultsComponent ? <ResultsComponent data={data} /> : <>
-      {sections.map(([key, value]) => <section className="spark-panel" key={key}><h2>{t(`spark.sections.${key}`, prettyKey(key))}</h2><DataValue value={value} /></section>)}
-      <VisualGallery images={data?.visualizations} />
-    </>)}
-    {status.state === 'failed' && status.log && <details className="spark-log"><summary>{t('spark.executionFailed')}</summary><pre>{status.log}</pre></details>}
-  </main>;
->>>>>>> origin/develop
 }
