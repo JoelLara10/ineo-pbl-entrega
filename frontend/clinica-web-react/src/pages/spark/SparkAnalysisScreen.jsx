@@ -145,7 +145,7 @@ export default function SparkAnalysisScreen({ type, ResultsComponent }) {
       : !error && status.state === 'failed' ? <div className="spark-state spark-state-error" role="alert"><h2>{t('spark.states.failed.title')}</h2><p>{status.error || t('spark.states.failed.hint')}</p><button onClick={run}>{t('spark.states.failed.action')}</button></div>
       : !error && !data?.available && status.state === 'idle' ? <div className="spark-state"><h2>{t('spark.states.notRun.title')}</h2><p>{t('spark.states.notRun.hint')}</p><button className="spark-primary" onClick={run}>{t('spark.states.notRun.action')}</button></div>
       : !error && !data?.available ? (
-      <div className="spark-state"><h2>{t('spark.states.empty.title')}</h2><p>{t('spark.states.empty.hint')}</p><button onClick={load}>{t('spark.states.empty.action')}</button></div>
+      <div className="spark-state"><h2>{t('spark.states.empty.title')}</h2><p>{t(type === 'unsupervised' && data?.quality?.reason === 'insufficient_complete_distinct_rows' ? 'analysisDashboard.insufficientPatterns' : 'spark.states.empty.hint')}</p><button onClick={load}>{t('spark.states.empty.action')}</button></div>
     ) : !error && (ResultsComponent ? <ResultsComponent data={data} /> : <>
       {sections.map(([key, value]) => <section className="spark-panel" key={key}><h2>{t(`spark.sections.${key}`, prettyKey(key))}</h2><DataValue value={value} /></section>)}
       <VisualGallery images={data?.visualizations} />
