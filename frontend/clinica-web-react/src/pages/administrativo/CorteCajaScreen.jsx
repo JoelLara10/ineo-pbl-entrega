@@ -1,3 +1,4 @@
+import { useDebouncedSearch } from '../../hooks/usePageRevalidation';
 import { useCallback, useState } from 'react';
 import { FiEye, FiSearch } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
@@ -15,8 +16,9 @@ export default function CorteCajaScreen() {
   const [search, setSearch] = useState('');
   const [movementPage, setMovementPage] = useState(1);
   const [accountPage, setAccountPage] = useState(1);
-  const loader = useCallback(() => adminService.getCashCut(), []);
-  const state = useAdminData('cash-cut:all:complete', loader, { movements: [], activeAccounts: [], summary: {} });
+  const query = useDebouncedSearch(search, 350);
+  const loader = useCallback(() => adminService.getCashCut({ search: query }), [query]);
+  const state = useAdminData(`cash-cut:${query.toLowerCase() || 'all'}:complete`, loader, { movements: [], activeAccounts: [], summary: {} });
   const matches = (item) => !search || Object.values(item).join(' ').toLowerCase().includes(search.toLowerCase());
   const movements = (state.data?.movements || state.data?.data || []).filter(matches);
   const accounts = (state.data?.activeAccounts || state.data?.accounts || []).filter(matches);

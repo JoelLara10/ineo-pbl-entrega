@@ -1,3 +1,4 @@
+import { usePageRevalidation } from '../../hooks/usePageRevalidation';
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
@@ -88,6 +89,8 @@ export default function EstudiosScreen() {
 
   const skipFocusRefresh = useRef(false);
   const loadRequestRef = useRef(0);
+  const firstListLoad = useRef(true);
+  const firstPreload = useRef(true);
   const preloadRequestRef = useRef(0);
 
   const normalizeItem = (item = {}) => ({
@@ -269,16 +272,25 @@ export default function EstudiosScreen() {
 
   useEffect(() => {
     skipFocusRefresh.current = false;
-    loadAllData();
+    const force = firstListLoad.current;
+    firstListLoad.current = false;
+    loadAllData(force);
   }, [selectedSection, loadAllData]);
 
   useEffect(() => {
-    loadCounts();
+    loadCounts(true);
   }, [loadCounts]);
 
   useEffect(() => {
-    preloadOtherSections();
+    const force = firstPreload.current;
+    firstPreload.current = false;
+    preloadOtherSections(force);
   }, [preloadOtherSections]);
+
+  const refreshLists = useCallback(() => {
+    loadAllData(true); loadCounts(true); preloadOtherSections(true);
+  }, [loadAllData, loadCounts, preloadOtherSections]);
+  usePageRevalidation(refreshLists);
 
   const onRefresh = async () => {
     setRefreshing(true);
