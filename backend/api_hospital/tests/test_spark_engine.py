@@ -7,6 +7,11 @@ from services.spark_engine import analyze
 pytestmark = pytest.mark.skipif(os.getenv('RUN_SPARK_TESTS') != '1', reason='Enable real Spark with RUN_SPARK_TESTS=1')
 
 
+@pytest.fixture(autouse=True)
+def require_actual_spark(monkeypatch):
+    monkeypatch.setenv('ANALYSIS_ENGINE', 'spark')
+
+
 @pytest.fixture(scope='module')
 def spark():
     from pyspark.sql import SparkSession
@@ -94,3 +99,21 @@ def test_dated_rows_without_any_vital_sign_are_excluded(spark):
     assert result['available'] is False
     assert result['quality']['used_rows'] == 0
     assert result['quality']['excluded_rows'] == 1
+
+
+@pytest.mark.parametrize('kind', ['analytics', 'met', 'clinical'])
+def test_lightweight_aggregates_match_real_spark(spark, kind):
+    from services.analysis_lightweight import analyze as lightweight
+    rows = service.collect_source(kind)
+    actual, expected = lightweight(kind, rows), analyze(spark, kind, rows)
+
+    def normalized(value):
+        if isinstance(value, float):
+            return round(value, 12)
+        if isinstance(value, list):
+            return [normalized(item) for item in value]
+        if isinstance(value, dict):
+            return {key: normalized(item) for key, item in value.items() if key != 'engine'}
+        return value
+
+    assert normalized(actual) == normalized(expected)
