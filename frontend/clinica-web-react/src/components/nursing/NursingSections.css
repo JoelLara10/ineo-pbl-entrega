@@ -1,0 +1,20 @@
+.nursing-theme-assessment { --nursing-accent: #7c3aed; --nursing-gradient: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%); }
+.nursing-theme-balance { --nursing-accent: #0891b2; --nursing-gradient: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%); }
+.nursing-theme-care { --nursing-accent: #059669; --nursing-gradient: linear-gradient(135deg, #059669 0%, #10b981 100%); }
+.nursing-patient { margin-top: 20px; padding: 18px 20px; background: #fff; border-radius: 20px; display: flex; align-items: center; gap: 16px; box-shadow: 0 12px 32px rgba(15,23,42,.08); border-left: 5px solid var(--nursing-accent); }
+.nursing-patient-avatar { width: 56px; height: 56px; border-radius: 16px; background: var(--nursing-accent); color: #fff; display: grid; place-items: center; flex-shrink: 0; }
+.nursing-patient h2 { margin: 0; font-size: 18px; color: #0f172a; }
+.nursing-patient p { margin: 6px 0 0; color: #64748b; overflow-wrap: anywhere; }
+.nursing-section { margin-top: 18px; background: #fff; border-radius: 24px; overflow: hidden; box-shadow: 0 14px 36px rgba(15,23,42,.08); }
+.nursing-section-title { display: flex; align-items: center; gap: 10px; margin: 0; padding: 18px 22px; color: #fff; background: var(--nursing-gradient); font-size: 16px; font-weight: 700; }
+.nursing-section-title svg { flex-shrink: 0; }
+.nursing-form-body { padding: 22px; }
+.nursing-history-heading { margin: 0; }
+.nursing-history-toggle { width: 100%; border: 0; padding: 18px 22px; display: flex; align-items: center; justify-content: space-between; gap: 12px; color: #fff; background: var(--nursing-gradient); cursor: pointer; font: inherit; font-size: 14px; text-align: left; }
+.nursing-history-toggle:focus-visible { outline: 3px solid #0f172a; outline-offset: -4px; }
+.nursing-history-title { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.nursing-history-count { margin-left: 8px; padding: 4px 10px; border-radius: 999px; background: rgba(255,255,255,.2); font-size: 12px; font-weight: 400; }
+.nursing-history-body { padding: 18px; }
+.nursing-history-body[hidden] { display: none; }
+.nursing-history-status { padding: 28px; border-radius: 18px; text-align: center; background: #f8fafc; color: #64748b; }
+@media (max-width: 480px) { .nursing-patient { padding: 16px; gap: 12px; } .nursing-form-body { padding: 16px; } .nursing-section-title, .nursing-history-toggle { padding: 18px 16px; } .nursing-history-title { gap: 8px; } .nursing-history-count { margin-left: 0; } }

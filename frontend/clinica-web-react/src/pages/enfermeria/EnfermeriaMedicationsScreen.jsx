@@ -225,9 +225,9 @@ export default function EnfermeriaMedicationsScreen() {
                     <span style={styles.fieldLabel}>{t('nursingMeds.applicationDate')}</span>
                     <input
                       style={styles.fieldInput}
-                      placeholder="DD/MM/YYYY"
-                      value={medication.fecha_aplicacion}
-                      onChange={(event) => updateMedication(medication.id, 'fecha_aplicacion', event.target.value)}
+                      type="date"
+                      value={medication.fecha_aplicacion ? medication.fecha_aplicacion.split('/').reverse().join('-') : ''}
+                      onChange={(event) => updateMedication(medication.id, 'fecha_aplicacion', event.target.value ? event.target.value.split('-').reverse().join('/') : '')}
                     />
                   </label>
                 </div>

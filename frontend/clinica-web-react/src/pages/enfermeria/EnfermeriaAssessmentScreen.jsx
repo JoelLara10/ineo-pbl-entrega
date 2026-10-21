@@ -1,3 +1,4 @@
+import { NursingPatientCard, NursingFormCard, NursingHistoryCard } from '../../components/nursing/NursingSections';
 import { formatRegionalDate } from '../../i18n/regional';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -7,7 +8,6 @@ import {
   FiRefreshCw,
   FiSave,
   FiShield,
-  FiUser,
 } from 'react-icons/fi';
 import { usePatient } from '../../context/PatientContext';
 import api from '../../services/api';
@@ -137,23 +137,11 @@ export default function EnfermeriaAssessmentScreen() {
         <div style={styles.headerSpacer} />
       </header>
 
-      <section style={styles.patientCard}>
-        <div style={styles.patientAvatar}>
-          <FiUser size={28} color="#fff" />
-        </div>
-        <div>
-          <h2 style={styles.patientName}>{t('nursingAssessment.selectedPatient')}</h2>
-          <p style={styles.patientMeta}>{patientLabel}</p>
-        </div>
-      </section>
+      <NursingPatientCard theme="assessment" title={t('nursingAssessment.selectedPatient')} label={patientLabel} />
 
       {errorMessage ? <div style={styles.errorCard}>{errorMessage}</div> : null}
 
-      <section style={styles.mainCard}>
-        <div style={styles.cardHeader}>
-          <FiClipboard size={20} />
-          <strong>{t('nursingAssessment.newRecord', 'Nueva valoración')}</strong>
-        </div>
+      <NursingFormCard theme="assessment" title={t('nursingAssessment.newRecord')} icon={<FiClipboard size={22} />}>
 
         <div style={styles.formGrid}>
           {fieldConfig.map((field) => (
@@ -197,22 +185,15 @@ export default function EnfermeriaAssessmentScreen() {
             <span>{loading ? t('nursingAssessment.saving') : t('nursingAssessment.save')}</span>
           </button>
         </div>
-      </section>
+      </NursingFormCard>
 
-      <section style={styles.historyCard}>
-        <div style={styles.historyHeader}>
-          <FiClipboard size={18} />
-          <strong>{t('nursingAssessment.history')}</strong>
-          <span style={styles.historyCount}>
-            {t('nursingAssessment.records', { count: history.length, defaultValue: `${history.length} registro(s)` })}
-          </span>
-        </div>
+      <NursingHistoryCard theme="assessment" title={t('nursingAssessment.history')} count={history.length}>
 
-        <div style={styles.historyBody}>
+
           {loadingHistory ? (
-            <div style={styles.statusBox}>{t('nursingAssessment.loading')}</div>
+            <div className="nursing-history-status">{t('nursingAssessment.loading')}</div>
           ) : history.length === 0 ? (
-            <div style={styles.statusBox}>{t('nursingAssessment.noRecords')}</div>
+            <div className="nursing-history-status">{t('nursingAssessment.noRecords')}</div>
           ) : (
             history.map((item, index) => {
               const assessment = item.valoracion || item;
@@ -254,8 +235,8 @@ export default function EnfermeriaAssessmentScreen() {
               );
             })
           )}
-        </div>
-      </section>
+
+      </NursingHistoryCard>
 
       <footer style={styles.footer}>
         <FiShield size={14} />
@@ -309,27 +290,6 @@ const styles = {
     lineHeight: 1.2,
   },
   headerSpacer: { width: 44, height: 44, flexShrink: 0 },
-  patientCard: {
-    marginTop: 20,
-    padding: '18px 20px',
-    backgroundColor: '#fff',
-    borderRadius: 18,
-    display: 'flex',
-    gap: 14,
-    alignItems: 'center',
-    boxShadow: '0 12px 24px rgba(15, 23, 42, 0.08)',
-  },
-  patientAvatar: {
-    width: 52,
-    height: 52,
-    borderRadius: '50%',
-    display: 'grid',
-    placeItems: 'center',
-    background: 'linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%)',
-    flexShrink: 0,
-  },
-  patientName: { margin: 0, fontSize: 18, color: '#1f2937', fontWeight: 700 },
-  patientMeta: { margin: '4px 0 0', color: '#64748b', fontSize: 14 },
   errorCard: {
     marginTop: 14,
     padding: '12px 16px',
@@ -338,25 +298,6 @@ const styles = {
     border: '1px solid #fecaca',
     color: '#991b1b',
     fontSize: 14,
-  },
-  mainCard: {
-    marginTop: 18,
-    background: '#fff',
-    borderRadius: 24,
-    padding: 20,
-    boxShadow: '0 14px 36px rgba(15, 23, 42, 0.08)',
-    border: '1px solid #ede9fe',
-  },
-  cardHeader: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 10,
-    margin: '-20px -20px 20px',
-    padding: '18px 22px',
-    borderRadius: '24px 24px 0 0',
-    color: '#fff',
-    background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)',
-    fontSize: 16,
   },
   formGrid: {
     display: 'grid',
@@ -426,38 +367,6 @@ const styles = {
     fontSize: 14,
     fontWeight: 700,
     boxShadow: '0 8px 20px rgba(37, 99, 235, 0.25)',
-  },
-  historyCard: {
-    marginTop: 18,
-    background: '#fff',
-    borderRadius: 24,
-    padding: 20,
-    boxShadow: '0 14px 36px rgba(15, 23, 42, 0.08)',
-    border: '1px solid #ede9fe',
-  },
-  historyHeader: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 10,
-    color: '#6d28d9',
-    marginBottom: 12,
-  },
-  historyCount: {
-    marginLeft: 'auto',
-    fontSize: 12,
-    color: '#64748b',
-    background: '#f1f5f9',
-    padding: '4px 10px',
-    borderRadius: 999,
-  },
-  historyBody: { marginTop: 4 },
-  statusBox: {
-    padding: 16,
-    borderRadius: 12,
-    background: '#f8fafc',
-    color: '#64748b',
-    textAlign: 'center',
-    fontSize: 14,
   },
   historyItem: {
     marginTop: 12,
