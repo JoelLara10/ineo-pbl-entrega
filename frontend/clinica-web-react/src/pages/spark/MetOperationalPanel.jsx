@@ -1,3 +1,4 @@
+import AnalysisDashboard from './AnalysisCharts';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { formatRegionalDate, formatRegionalNumber } from '../../i18n/regional';
@@ -44,8 +45,11 @@ export default function MetOperationalPanel({ data }) {
     ? t('spark.met.decision.improveCapture')
     : null;
 
+  if (data?.dashboard) return <AnalysisDashboard data={data} />;
+
   return (
     <div className="spark-met-panel">
+      <AnalysisDashboard data={data} />
       <section className="spark-kpi-grid" aria-label={t('spark.met.kpiSection')}>
         <article className="spark-kpi-card">
           <h3>{t('spark.met.kpis.total.title')}</h3>

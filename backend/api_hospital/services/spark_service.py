@@ -125,7 +125,7 @@ def collect_source(kind, with_metadata=False):
                     date = datetime.fromisoformat(date.replace('Z', '+00:00'))
                 except ValueError:
                     date = None
-            row = {'day': date.date().isoformat() if isinstance(date, datetime) else None,
+            row = {'day': stamp(date)[:10] if isinstance(date, datetime) else None,
                    'status': doc.get('status') if doc.get('status') in ('ABIERTA', 'CERRADA') else 'OTRO'}
         rows.append(row)
     if not with_metadata:
@@ -194,6 +194,8 @@ def execute(kind, job_id):
     try:
         rows, metadata = collect_source(kind, with_metadata=True)
         result = run_engine(kind, rows)
+        from services.analysis_dashboard import build_dashboard
+        result['dashboard'] = build_dashboard(kind, rows, result)
         generated_at = stamp(now())
         metadata['generated_at'] = generated_at
         result.update(contract_version=VERSION, timestamp=generated_at,
