@@ -1,7 +1,9 @@
+import es from '../../../i18n/locales/es.json';
+import en from '../../../i18n/locales/en.json';
 /** @vitest-environment jsdom */
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { cleanup, render, screen, within } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, within } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import ClinicalAnalyticsPanel from '../ClinicalAnalyticsPanel';
 
@@ -10,7 +12,7 @@ afterEach(cleanup);
 beforeEach(() => { locale.language = 'es'; });
 
 vi.mock('react-i18next', () => ({
-  useTranslation: () => ({ i18n: { resolvedLanguage: locale.language } }),
+  useTranslation: () => ({ i18n: { resolvedLanguage: locale.language, language: locale.language }, t: (key, fallback) => key.split('.').reduce((value, part) => value?.[part], locale.language === 'en' ? en : es) ?? fallback ?? key }),
 }));
 
 describe('Sprint 9 - PBL-09', () => {
@@ -76,13 +78,17 @@ describe('PBL-09 real API regressions', () => {
       trends: [{ day: '2026-10-15', measure: 'temp', mean: 39, count: 1 },
         { day: '2026-10-12', measure: 'temp', mean: 37.5, count: 2 }] };
     const view = render(<ClinicalAnalyticsPanel data={data} />);
-    expect(screen.getByRole('img', { name: 'Temperatura: Tendencias por fecha (°C)' })).toBeTruthy();
+    expect(screen.getByRole('img', { name: 'Promedio diario de temperatura (°C)' })).toBeTruthy();
+    fireEvent.click(screen.getByText('Ver tabla de datos'));
     expect(screen.getAllByRole('row')[1].textContent).toContain('12/10/2026');
-    expect(screen.getByRole('img').querySelector('polyline').getAttribute('points')).toBe('20,160 580,20');
+    const points = screen.getByRole('img').querySelector('polyline').getAttribute('points').split(' ').map((point) => point.split(',').map(Number));
+    expect(points[0][0]).toBe(65); expect(points[1][0]).toBe(735);
+    expect(points[0][1]).toBeGreaterThan(points[1][1]);
+    expect(points[1][1]).toBe(35);
     locale.language = 'en'; view.rerender(<ClinicalAnalyticsPanel data={data} />);
-    expect(screen.getByRole('img', { name: 'Temperature: Trends over time (°C)' })).toBeTruthy();
+    expect(screen.getByRole('img', { name: 'Daily mean: temperature (°C)' })).toBeTruthy();
     expect(screen.getAllByRole('row')[1].textContent).toContain('10/12/2026');
-    expect(screen.getByRole('columnheader', { name: 'Average (°C)' })).toBeTruthy();
+    expect(screen.getByRole('columnheader', { name: '°C' })).toBeTruthy();
   });
 });
 
@@ -94,7 +100,7 @@ describe('PBL-09 captured HTTP contract', () => {
     const temperature = screen.getByRole('heading', { name: 'Temperatura' }).closest('article');
     expect(within(temperature).getByText('Alto')).toBeTruthy();
     expect(screen.getAllByRole('img')).toHaveLength(4);
-    expect(screen.getAllByRole('table')).toHaveLength(4);
+    expect(screen.getAllByRole('table', { hidden: true })).toHaveLength(4);
     expect(screen.getAllByText('Periodo analizado: 11/10/2026 – 18/10/2026')).toHaveLength(2);
   });
 });

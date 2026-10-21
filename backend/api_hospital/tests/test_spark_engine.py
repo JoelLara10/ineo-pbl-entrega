@@ -87,3 +87,10 @@ def test_pbl09_clinical_dated_trends_use_real_daily_aggregates(spark):
     assert result['summary']['total'] == 4
     assert result['metrics'][2]['count'] == 4
     assert not any(row['measure'] == 'spo2' for row in result['trends'])
+
+
+def test_dated_rows_without_any_vital_sign_are_excluded(spark):
+    result = analyze(spark, 'clinical', [{'day': '2026-10-01', 'fc': None, 'fr': None, 'temp': None, 'spo2': None}])
+    assert result['available'] is False
+    assert result['quality']['used_rows'] == 0
+    assert result['quality']['excluded_rows'] == 1

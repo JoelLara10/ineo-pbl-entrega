@@ -1,3 +1,5 @@
+import AnalysisDashboard from './AnalysisCharts';
+import { AnalysisChart } from './AnalysisCharts';
 import { useTranslation } from 'react-i18next';
 import { formatRegionalDate, formatRegionalNumber } from '../../i18n/regional';
 
@@ -136,6 +138,7 @@ export default function ClinicalAnalyticsPanel({ data }) {
 
   return (
     <div className="clinical-dashboard">
+      <AnalysisDashboard data={data} />
       <section className="spark-panel" aria-labelledby="clinical-risk-title">
         <h2 id="clinical-risk-title">{copy.title}</h2>
         <p className="spark-chart-explanation">{copy.subtitle}</p>
@@ -188,17 +191,12 @@ export default function ClinicalAnalyticsPanel({ data }) {
         <h2 id="clinical-daily-title">{copy.trends}</h2>
         <p>{copy.trendHint}</p><p>{copy.period}: {periodText}</p>
         {!series.length && <p>{copy.noTrends}</p>}
-        {series.map(({ key, labels: [label, unit], points }) => {
-          const min = Math.min(...points.map((point) => point.average));
-          const max = Math.max(...points.map((point) => point.average));
-          const times = points.map((point) => Date.parse(point.day));
-          const start = times[0]; const end = times[times.length - 1];
-          const coords = points.map((point, index) => `${20 + (times[index] - start) / (end - start) * 560},${max === min ? 90 : 160 - (point.average - min) / (max - min) * 140}`).join(' ');
-          return <figure className="clinical-trend" key={key}>
-            <figcaption>{label} — {copy.average} ({unit})</figcaption>
-            <svg viewBox="0 0 600 180" role="img" aria-label={`${label}: ${copy.trends} (${unit})`}><polyline points={coords} fill="none" stroke="currentColor" strokeWidth="3" />{coords.split(' ').map((pair, index) => { const [cx, cy] = pair.split(','); return <circle key={points[index].day} cx={cx} cy={cy} r="5"><title>{formatRegionalDate(points[index].day, language)}: {formatValue(points[index].average)} {unit}</title></circle>; })}</svg>
-            <table><thead><tr><th scope="col">{copy.date}</th><th scope="col">{copy.average} ({unit})</th><th scope="col">{copy.count}</th></tr></thead><tbody>{points.map((point) => <tr key={point.day}><td>{formatRegionalDate(point.day, language)}</td><td>{formatValue(point.average)}</td><td>{formatValue(point.count)}</td></tr>)}</tbody></table>
-          </figure>;
+        {series.map(({ key, points }) => {
+          return <AnalysisChart key={key} chart={{
+            key: 'clinical_' + key, unit: { heartRate: 'fc', respiratoryRate: 'fr', temperature: 'temp', oxygen: 'spo2' }[key],
+            rows: points.map((point) => ({ label: point.day, value: point.average })),
+            mode: 'line', scope: 'history', source: 'signos_vitales.fecha_registro',
+          }} period={period} />;
         })}
       </section>
 

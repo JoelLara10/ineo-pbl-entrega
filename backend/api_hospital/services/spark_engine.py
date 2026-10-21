@@ -31,7 +31,7 @@ def analyze(spark, kind, rows):
             schema.add(StructField('day', StringType(), True))
         frame = spark.createDataFrame(rows, schema)
         if kind == 'clinical':
-            used = frame.na.drop(how='all').count()
+            used = frame.na.drop(how='all', subset=features).count()
             for name in features:
                 values = frame.agg(F.count(name).alias('count'), F.avg(name).alias('mean'),
                                    F.min(name).alias('minimum'), F.max(name).alias('maximum')).first().asDict()

@@ -427,6 +427,103 @@
               "day"
             ]
           }
+        },
+        "dashboard": {
+          "type": "object",
+          "properties": {
+            "version": {
+              "const": 1
+            },
+            "timezone": {
+              "const": "UTC"
+            },
+            "kpis": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "key": {
+                    "type": "string"
+                  },
+                  "value": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "unit": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "key",
+                  "value",
+                  "unit"
+                ]
+              }
+            },
+            "charts": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "key": {
+                    "type": "string"
+                  },
+                  "source": {
+                    "type": "string"
+                  },
+                  "unit": {
+                    "type": "string"
+                  },
+                  "scope": {
+                    "enum": [
+                      "snapshot",
+                      "history"
+                    ]
+                  },
+                  "mode": {
+                    "enum": [
+                      "bar",
+                      "line"
+                    ]
+                  },
+                  "rows": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "label": {
+                          "type": "string"
+                        },
+                        "value": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "label",
+                        "value"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "key",
+                  "source",
+                  "unit",
+                  "scope",
+                  "mode",
+                  "rows"
+                ]
+              }
+            }
+          },
+          "required": [
+            "version",
+            "timezone",
+            "kpis",
+            "charts"
+          ]
         }
       },
       "required": [
