@@ -6,11 +6,15 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createAppI18n } from '../i18n/setup';
 import AnalysisMetadata from '../pages/spark/AnalysisMetadata';
 import OfflineBoundary from '../components/OfflineBoundary';
+import Sidebar from '../components/layout/Sidebar';
+import LoginScreen from '../pages/auth/LoginScreen';
+import { MemoryRouter } from 'react-router-dom';
 import { clearOfflineQueue, flushLanguage, queueLanguage, readOfflineQueue, QUEUE_KEY } from '../services/offlineQueue';
 import { clearClinicalCache, getClinicalCache, setClinicalCache, purgeLegacyClinicalStorage } from '../services/clinicalCache';
 import api from '../services/api';
 
 vi.mock('../services/api', () => ({ default: { put: vi.fn() } }));
+vi.mock('../context/PatientContext', () => ({ usePatient: () => ({ selectedPatient: null }) }));
 const account = { id: 'owner' };
 vi.mock('../context/AuthContext', () => ({ useAuth: () => ({ user: account, logout: vi.fn() }) }));
 const online = (value) => Object.defineProperty(navigator, 'onLine', { configurable: true, value });
@@ -109,5 +113,27 @@ describe('PBL-25', () => {
     online(true); act(() => window.dispatchEvent(new Event('online')));
     await waitFor(() => expect(api.put).toHaveBeenCalledWith('/auth/preferences', { language: 'en' }, { preferenceOwner: 'owner' }));
     expect(screen.getByText('CLINICAL')).toBeInTheDocument();
+  });
+});
+
+
+describe('Language selector placement', () => {
+  it('keeps only ES / EN on the online login without the global toolbar', async () => {
+    render(<I18nextProvider i18n={createAppI18n()}><OfflineBoundary><LoginScreen /></OfflineBoundary></I18nextProvider>);
+    expect(screen.queryByRole('combobox')).not.toBeInTheDocument();
+    expect(screen.queryByRole('complementary')).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'EN' }));
+    await waitFor(() => expect(document.documentElement.lang).toBe('en'));
+    expect(screen.getByRole('button', { name: 'ES' })).toBeInTheDocument();
+  });
+
+  it('changes and synchronizes the language from the sidebar', async () => {
+    render(<I18nextProvider i18n={createAppI18n()}><OfflineBoundary><MemoryRouter><Sidebar isOpen /></MemoryRouter></OfflineBoundary></I18nextProvider>);
+    expect(screen.queryByRole('combobox')).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Español' })).toHaveAttribute('aria-pressed', 'true');
+    fireEvent.click(screen.getByRole('button', { name: 'English' }));
+    await waitFor(() => expect(api.put).toHaveBeenCalledWith('/auth/preferences', { language: 'en' }, { preferenceOwner: 'owner' }));
+    expect(screen.getByRole('button', { name: 'English' })).toHaveAttribute('aria-pressed', 'true');
+    expect(localStorage.getItem('@ineo_lang')).toBe('en');
   });
 });
