@@ -136,7 +136,8 @@ esta ejecución no generó capturas del navegador ni de una sesión autenticada
 en Render. Si solicitan capturas, colocar aquí las siguientes imágenes reales:
 
 1. **Figura 1.** Consola de `python -m pytest -q tests` con el resumen final.
-2. **Figura 2.** Consola de `npm test` con el resumen final.
+![alt text](image.png)
+2. **Figura 2.** Consola de `npm test` con el resumen final.python scripts\sprint7_smoke_public.py
 3. **Figura 3.** Consola de `python scripts/sprint7_smoke_public.py` con las diez rutas.
 4. **Figura 4.** Panel Spark abierto con una cuenta de prueba administradora en
    el ambiente autorizado, sin mostrar token, contraseña ni datos de pacientes.
