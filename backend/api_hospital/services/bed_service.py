@@ -14,7 +14,7 @@ class BedService:
         elif status == 'ocupada':
             query['ocupada'] = 1
         
-        beds = list(collection.find(query).sort('numero', 1))
+        beds = list(collection.find(query).sort([('numero', 1), ('id_cama', 1)]))
         
         # Enriquecer con información de ocupación
         db = collection.database

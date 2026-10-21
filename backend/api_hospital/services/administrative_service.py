@@ -509,7 +509,7 @@ class AdministrativeService:
 
     @staticmethod
     def _recent_discharge_rows(db, limit=20):
-        expedientes = list(db['expedientes'].find({}).sort('fecha_alta', -1).limit(limit))
+        expedientes = list(db['expedientes'].find({}).sort([('fecha_alta', -1), ('id_atencion', -1), ('_id', -1)]).limit(limit))
         rows = []
         for expediente in expedientes:
             patient = db['pacientes'].find_one({'Id_exp': expediente.get('id_exp')})
@@ -532,7 +532,7 @@ class AdministrativeService:
         db = AdministrativeService._db()
 
         active_appointments = list(
-            db['atencion'].find({'status': 'ABIERTA'}).sort('fecha_ing', -1)
+            db['atencion'].find({'status': 'ABIERTA'}).sort([('fecha_ing', -1), ('id_atencion', -1), ('_id', -1)])
         )
         active = [
             row
@@ -839,7 +839,7 @@ class AdministrativeService:
             return None
 
         active = db['atencion'].find_one({'Id_exp': id_exp, 'status': 'ABIERTA'})
-        appointments = list(db['atencion'].find({'Id_exp': id_exp}).sort('fecha_ing', -1))
+        appointments = list(db['atencion'].find({'Id_exp': id_exp}).sort([('fecha_ing', -1), ('id_atencion', -1), ('_id', -1)]))
         family = db['familiares'].find_one({'Id_exp': id_exp})
         active_row = AdministrativeService._appointment_patient_row(db, active, patient) if active else None
         if active_row:
@@ -925,7 +925,7 @@ class AdministrativeService:
         }
 
         appointments = list(
-            db['atencion'].find({'status': 'ABIERTA'}).sort('fecha_ing', -1)
+            db['atencion'].find({'status': 'ABIERTA'}).sort([('fecha_ing', -1), ('id_atencion', -1), ('_id', -1)])
         )
         rows = AdministrativeService._appointment_rows_bulk(db, appointments)
 
@@ -1021,7 +1021,7 @@ class AdministrativeService:
     def get_active_accounts(search=''):
         db = AdministrativeService._db()
         appointments = list(
-            db['atencion'].find({'status': 'ABIERTA'}).sort('fecha_ing', -1)
+            db['atencion'].find({'status': 'ABIERTA'}).sort([('fecha_ing', -1), ('id_atencion', -1), ('_id', -1)])
         )
         if not appointments:
             return []
@@ -1317,7 +1317,7 @@ class AdministrativeService:
     @staticmethod
     def get_documents_patients():
         db = AdministrativeService._db()
-        appointments = list(db['atencion'].find({}).sort('fecha_ing', -1).limit(100))
+        appointments = list(db['atencion'].find({}).sort([('fecha_ing', -1), ('id_atencion', -1), ('_id', -1)]).limit(100))
         rows = []
         for appointment in appointments:
             patient = db['pacientes'].find_one({'Id_exp': appointment.get('Id_exp')})

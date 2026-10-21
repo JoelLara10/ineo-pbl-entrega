@@ -1,6 +1,7 @@
+import { usePageRevalidation } from '../../hooks/usePageRevalidation';
 import { getClinicalCache, setClinicalCache } from '../../services/clinicalCache';
 import { formatRegionalDate } from '../../i18n/regional';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { FiAlertCircle, FiArrowLeft, FiChevronLeft, FiChevronRight, FiRefreshCw, FiShield, FiUser } from 'react-icons/fi';
@@ -59,7 +60,9 @@ export default function EnfermeriaScreen() {
   const [errorMessage, setErrorMessage] = useState('');
 
 
+  const requestId = useRef(0);
   const loadPatients = useCallback(async (forceRefresh = false) => {
+    const currentRequest = ++requestId.current;
     setLoading(true);
     setErrorMessage('');
 
@@ -81,6 +84,7 @@ export default function EnfermeriaScreen() {
 
     try {
       const response = await api.get('/medico');
+      if (currentRequest !== requestId.current) return;
       const nextState = {
         consulta: response.data.beds_consulta || [],
         urgencias: response.data.beds_preparacion || [],
@@ -92,6 +96,7 @@ export default function EnfermeriaScreen() {
       setCachedValue(CACHE_KEYS.hospitalizados, nextState.hospitalizados);
       setPatientsByArea(nextState);
     } catch (error) {
+      if (currentRequest !== requestId.current) return;
       console.error('Error loading nursing patients:', error);
 
       const cachedConsulta = getCachedValue(CACHE_KEYS.consulta);
@@ -109,13 +114,17 @@ export default function EnfermeriaScreen() {
         setErrorMessage(t('nursing.errorMessage'));
       }
     } finally {
-      setLoading(false);
+      if (currentRequest === requestId.current) setLoading(false);
     }
   }, [t, i18n.language]);
 
   useEffect(() => {
-    loadPatients();
+    loadPatients(true);
+    return () => { requestId.current += 1; };
   }, [loadPatients]);
+
+  const refreshPatients = useCallback(() => loadPatients(true), [loadPatients]);
+  usePageRevalidation(refreshPatients);
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
@@ -190,8 +199,8 @@ export default function EnfermeriaScreen() {
       ) : (
         sectionConfig.map((section) => {
           const sectionData = patientsByArea[section.key];
-          const page = pages[section.key];
           const totalPages = getTotalPages(sectionData);
+          const page = Math.min(pages[section.key], Math.max(1, totalPages));
           const pagedData = getPagedData(sectionData, page);
           const SectionIcon = section.icon;
 
