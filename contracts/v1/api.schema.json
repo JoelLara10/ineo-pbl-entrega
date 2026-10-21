@@ -524,6 +524,24 @@
             "kpis",
             "charts"
           ]
+        },
+        "engine": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "enum": [
+                "spark",
+                "lightweight"
+              ]
+            },
+            "method": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "name",
+            "method"
+          ]
         }
       },
       "required": [

@@ -11,10 +11,12 @@ import signal
 import subprocess
 import sys
 import tempfile
+import time
 from uuid import uuid4
 
 from pymongo import ReturnDocument
 from utils.database import get_collection
+from services.analysis_resources import choose_engine, memory_pressure
 
 TYPES = ('analytics', 'met', 'clinical', 'unsupervised')
 VERSION = '1.0'
@@ -148,39 +150,69 @@ def collect_source(kind, with_metadata=False):
     return rows, metadata
 
 
+def stop_engine(process):
+    """Kill the whole analysis group, including any JVM children."""
+    try:
+        if os.name != 'nt':
+            os.killpg(process.pid, signal.SIGKILL)
+        else:
+            process.kill()
+    except ProcessLookupError:
+        pass
+    process.communicate()
+
+
 def run_engine(kind, rows):
-    """Isolate the JVM and kill its process group on timeout (Linux deployment)."""
-    unavailable = runtime_error()
-    if unavailable:
-        raise SparkRuntimeError(unavailable)
-    with tempfile.TemporaryDirectory(prefix='ineo-spark-') as directory:
+    """Choose a safe engine, isolate it and monitor time/memory headroom."""
+    try:
+        engine = choose_engine()
+    except ValueError as error:
+        raise SparkRuntimeError(str(error)) from error
+    if engine == 'spark':
+        unavailable = runtime_error()
+        if unavailable:
+            raise SparkRuntimeError(unavailable)
+    with tempfile.TemporaryDirectory(prefix='ineo-analysis-') as directory:
         source = Path(directory) / 'input.json'
         target = Path(directory) / 'output.json'
-        source.write_text(json.dumps({'type': kind, 'rows': rows}), encoding='utf-8')
+        source.write_text(json.dumps({'type': kind, 'rows': rows, 'engine': engine}), encoding='utf-8')
+        env = os.environ.copy()
+        # Bound native thread pools before importing NumPy in the child process.
+        env.update(OPENBLAS_NUM_THREADS='1', OMP_NUM_THREADS='1', MKL_NUM_THREADS='1')
+        if engine == 'spark':
+            # Driver memory must be set before the gateway JVM is launched.
+            env['PYSPARK_SUBMIT_ARGS'] = '--driver-memory 512m --conf spark.executor.memory=512m --conf spark.driver.maxResultSize=32m pyspark-shell'
         process = subprocess.Popen(
             [sys.executable, str(Path(__file__).with_name('spark_engine.py')), str(source), str(target)],
-            stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, text=True,
+            stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, text=True, env=env,
             start_new_session=os.name != 'nt')
+        deadline = time.monotonic() + TIMEOUT
         try:
-            _, stderr = process.communicate(timeout=TIMEOUT)
-        except subprocess.TimeoutExpired:
-            if os.name != 'nt':
-                os.killpg(process.pid, signal.SIGKILL)
-            else:
-                process.kill()
-            process.communicate()
-            raise SparkRuntimeError(
-                f'El análisis excedió el límite de {TIMEOUT} segundos. Inténtalo con menos datos.'
-            )
+            while True:
+                if memory_pressure():
+                    raise SparkRuntimeError('El análisis se detuvo para proteger la memoria de la API. Se conserva el último resultado; vuelve a intentarlo cuando haya recursos disponibles.')
+                remaining = deadline - time.monotonic()
+                if remaining <= 0:
+                    raise SparkRuntimeError(f'El análisis excedió el límite de {TIMEOUT} segundos. Inténtalo con menos datos.')
+                try:
+                    _, stderr = process.communicate(timeout=min(0.25, remaining))
+                    break
+                except subprocess.TimeoutExpired:
+                    continue
+        except BaseException:
+            stop_engine(process)
+            raise
         if process.returncode != 0 or not target.exists():
+            # A Python driver can exit before its JVM; never leave it behind.
+            stop_engine(process)
             lowered = (stderr or '').lower()
             if 'java_home' in lowered or 'java gateway' in lowered or 'java: not found' in lowered:
                 raise SparkRuntimeError('Java 17 no está configurado correctamente para ejecutar Spark.')
             if 'no module named' in lowered and 'pyspark' in lowered:
                 raise SparkRuntimeError('PySpark no está instalado en la API.')
             if process.returncode in (-9, 137) or 'outofmemory' in lowered or 'cannot allocate memory' in lowered:
-                raise SparkRuntimeError('El servidor no tiene memoria suficiente para ejecutar Spark.')
-            raise SparkRuntimeError('El motor Spark terminó inesperadamente. Revisa los logs del servicio.')
+                raise SparkRuntimeError('El servidor no tiene memoria suficiente para ejecutar el análisis.')
+            raise SparkRuntimeError('El motor de análisis terminó inesperadamente. Revisa los logs del servicio.')
         return json.loads(target.read_text(encoding='utf-8'))
 
 

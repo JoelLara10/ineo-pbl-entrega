@@ -1205,7 +1205,12 @@
     "period": "Analyzed period",
     "unknown": "Not available",
     "timezone": "Source dates in UTC; times shown in your local timezone.",
-    "undated": "Undated records: {{count}}. The period includes only known dates."
+    "undated": "Undated records: {{count}}. The period includes only known dates.",
+    "engine": "Processing",
+    "engines": {
+      "spark": "Apache Spark",
+      "lightweight": "Low-memory engine"
+    }
   },
   "offline": {
     "preferences": "Connection and preferences",

@@ -11,6 +11,7 @@ export default function AnalysisMetadata({ data }) {
     <dl className="spark-data-grid">
       <div><dt>{t('analysisMetadata.generated')}</dt><dd>{date(metadata?.generated_at || data?.timestamp)}</dd></div>
       <div><dt>{t('analysisMetadata.updated')}</dt><dd>{date(metadata?.last_updated_at)}</dd></div>
+      {data?.engine?.name && <div><dt>{t('analysisMetadata.engine')}</dt><dd>{t(`analysisMetadata.engines.${data.engine.name}`, data.engine.name)}</dd></div>}
       <div><dt>{t('analysisMetadata.period')}</dt><dd>{date(metadata?.period?.start, 'date')} — {date(metadata?.period?.end, 'date')}</dd></div>
     </dl>
     <p>{t('analysisMetadata.timezone')}</p>
