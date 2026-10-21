@@ -1,3 +1,4 @@
+import { useDebouncedSearch } from '../../hooks/usePageRevalidation';
 import { useCallback, useMemo, useState } from 'react';
 import { FiEdit2, FiEye, FiPlus, FiSearch } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
@@ -16,16 +17,14 @@ export default function PacientesScreen() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
-  const [pages, setPages] = useState({});
-  const loader = useCallback(() => adminService.getPatients(''), []);
-  const state = useAdminData('patients:all:complete', loader, { groups: [], summary: {} });
+  const [requestedPage, setPage] = useState(1);
+  const query = useDebouncedSearch(search);
+  const loader = useCallback(() => adminService.getPatients(query), [query]);
+  const state = useAdminData(`patients:${query.toLowerCase() || 'all'}:complete`, loader, { groups: [], summary: {} });
   const groups = groupsFrom(state.data);
 
-  const filtered = useMemo(() => groups.map((group) => {
-    const query = search.trim().toLowerCase();
-    const patients = (group.patients || []).filter((patient) => !query || Object.values(patient).join(' ').toLowerCase().includes(query));
-    return { ...group, patients };
-  }), [groups, search]);
+  const totalPages = useMemo(() => Math.max(1, ...groups.map((group) => Math.ceil((group.patients || []).length / LIMIT))), [groups]);
+  const page = Math.min(requestedPage, totalPages);
 
   const open = (patient) => navigate(`/pacientes/${patient.Id_exp || patient.id_exp || patient.record || 'cuenta'}`, { state: { patient } });
   const edit = (patient) => navigate(`/pacientes/${patient.Id_exp || patient.id_exp}/editar`, { state: { patient } });
@@ -48,13 +47,11 @@ export default function PacientesScreen() {
         ))}
       </div>
       <div className="adm-toolbar">
-        <div className="adm-search"><FiSearch /><input value={search} onChange={(event) => setSearch(event.target.value)} placeholder={t('administrative.searchPatients')} /></div>
+        <div className="adm-search"><FiSearch /><input value={search} onChange={(event) => { setSearch(event.target.value); setPage(1); }} placeholder={t('administrative.searchPatients')} /></div>
       </div>
       {state.error && <div className="adm-alert">{t('administrative.apiError')}: {state.error}</div>}
-      {state.loading ? <div className="adm-loading">{t('common.loading')}</div> : filtered.map((group) => {
-        const page = pages[group.key] || 1;
-        const totalPages = Math.max(1, Math.ceil(group.patients.length / LIMIT));
-        const visible = group.patients.slice((page - 1) * LIMIT, page * LIMIT);
+      {state.loading ? <div className="adm-loading">{t('common.loading')}</div> : groups.map((group) => {
+        const visible = (group.patients || []).slice((page - 1) * LIMIT, page * LIMIT);
         return (
           <section className="adm-panel adm-section" key={group.key}>
             <div className="adm-section-head"><h2>{t(`administrative.group_${group.key}`, group.title || group.key)}</h2><span className="adm-badge">{group.patients.length}</span></div>
@@ -66,10 +63,11 @@ export default function PacientesScreen() {
               <td><div className="adm-actions"><button className="adm-button" onClick={() => open(patient)}><FiEye />{t('common.view')}</button><button className="adm-button adm-button-light" onClick={() => edit(patient)}><FiEdit2 />{t('common.edit')}</button></div></td>
             </tr>)}</tbody></table></div>
             {!visible.length && <div className="adm-empty">{t('administrative.noPatients')}</div>}
-            <div className="adm-pagination"><button disabled={page === 1} onClick={() => setPages({ ...pages, [group.key]: page - 1 })}>‹</button><span>{page} / {totalPages}</span><button disabled={page === totalPages} onClick={() => setPages({ ...pages, [group.key]: page + 1 })}>›</button></div>
+
           </section>
         );
       })}
+      {!state.loading && <div className="adm-pagination"><button aria-label={t('common.previous', 'Anterior')} disabled={page <= 1} onClick={() => setPage(page - 1)}>‹</button><span>{page} / {totalPages}</span><button aria-label={t('common.next', 'Siguiente')} disabled={page >= totalPages} onClick={() => setPage(page + 1)}>›</button></div>}
     </AdminLayout>
   );
 }

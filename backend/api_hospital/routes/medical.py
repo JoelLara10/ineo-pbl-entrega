@@ -151,6 +151,19 @@ def get_medico_dashboard():
             }}
         ]))
         
+        # Both clients consume these arrays unchanged. Never rely on Mongo's
+        # insertion/aggregation order, which can differ between identical reads.
+        def stable_id(row, field):
+            try:
+                value = int(row.get(field))
+            except (TypeError, ValueError):
+                value = float('inf')
+            return value, str(row.get('_id', ''))
+
+        beds_consulta.sort(key=lambda row: stable_id(row, 'id_atencion'))
+        beds_preparacion.sort(key=lambda row: stable_id(row, 'id_cama'))
+        beds_recuperacion.sort(key=lambda row: stable_id(row, 'id_cama'))
+
         # Usar serialize_doc para convertir ObjectId y fechas
         return jsonify({
             'beds_consulta': serialize_doc(beds_consulta),

@@ -502,7 +502,9 @@
     "retry": "Reintentar",
     "actions": "Acciones",
     "view": "Ver",
-    "select": "Seleccionar"
+    "select": "Seleccionar",
+    "previous": "Anterior",
+    "next": "Siguiente"
   },
   "vitalSigns": {
     "eyebrow": "ENFERMERÍA",

@@ -46,7 +46,7 @@ class PatientModel:
         
         skip = (page - 1) * page_size
         total = collection.count_documents(search_filter)
-        patients = list(collection.find(search_filter).skip(skip).limit(page_size))
+        patients = list(collection.find(search_filter).sort('Id_exp', -1).skip(skip).limit(page_size))
         
         return {
             'total': total,
