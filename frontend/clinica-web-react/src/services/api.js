@@ -1,3 +1,5 @@
+import { clearClinicalCache, purgeLegacyClinicalStorage } from './clinicalCache';
+import { clearOfflineQueue } from './offlineQueue';
 import axios from 'axios';
 
 const DEFAULT_API_PORT = '5001';
@@ -34,7 +36,17 @@ const api = axios.create({
 // 🔐 Interceptor: agregar token
 api.interceptors.request.use(
   (config) => {
+    if (navigator.onLine === false) {
+      return Promise.reject(Object.assign(new Error('offline_operation_not_permitted'), { code: 'ERR_OFFLINE' }));
+    }
     const token = localStorage.getItem('@ineo_token');
+    if (config.preferenceOwner) {
+      let storedUser;
+      try { storedUser = JSON.parse(localStorage.getItem('@ineo_user')); } catch { /* Invalid session. */ }
+      if (!token || (storedUser?.id || storedUser?.username) !== config.preferenceOwner) {
+        return Promise.reject(Object.assign(new Error('session_changed'), { code: 'ERR_SESSION_CHANGED' }));
+      }
+    }
     if (token) config.headers.Authorization = `Bearer ${token}`;
     return config;
   },
@@ -43,9 +55,22 @@ api.interceptors.request.use(
 
 // 🚨 Interceptor: token inválido
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    const sentAuthorization = response.config?.headers?.Authorization;
+    const currentToken = localStorage.getItem('@ineo_token');
+    if (sentAuthorization && sentAuthorization !== `Bearer ${currentToken}`) {
+      return Promise.reject(Object.assign(new Error('session_changed'), { code: 'ERR_SESSION_CHANGED' }));
+    }
+    return response;
+  },
   (error) => {
+    const sentAuthorization = error.config?.headers?.Authorization;
+    if (sentAuthorization && sentAuthorization !== `Bearer ${localStorage.getItem('@ineo_token')}`) {
+      return Promise.reject(Object.assign(new Error('session_changed'), { code: 'ERR_SESSION_CHANGED' }));
+    }
     if (error.response?.status === 401) {
+      clearClinicalCache(); purgeLegacyClinicalStorage(); clearOfflineQueue();
+      window.dispatchEvent(new Event('ineo-session-expired'));
       localStorage.removeItem('@ineo_token');
       localStorage.removeItem('@ineo_user');
       delete api.defaults.headers.Authorization;

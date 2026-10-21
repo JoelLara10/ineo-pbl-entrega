@@ -1,0 +1,524 @@
+{
+  "project": "OftalCore",
+  "date": "2026-10-21",
+  "azure_items": {
+    "PBL-22": 308,
+    "PBL-27": 428
+  },
+  "code_commit": "fff224b40a4b771af495829073bd25c22cf78cdb",
+  "command": "python -m pytest -q --cov=routes --cov=services --cov=middleware --cov-report=term --cov-report=json:coverage.json --junitxml=test-results.xml",
+  "backend": {
+    "tests": 262,
+    "passed": 254,
+    "skipped": 8,
+    "failures": 0,
+    "errors": 0
+  },
+  "pbl27_cases": [
+    {
+      "name": "test_cp_ut_001_auth_valid_and_invalid_credentials[payload0-200]",
+      "status": "passed"
+    },
+    {
+      "name": "test_cp_ut_001_auth_valid_and_invalid_credentials[payload1-401]",
+      "status": "passed"
+    },
+    {
+      "name": "test_cp_ut_001_auth_valid_and_invalid_credentials[payload2-400]",
+      "status": "passed"
+    },
+    {
+      "name": "test_cp_ut_002_admin_endpoint_applies_role_permissions[admin-200]",
+      "status": "passed"
+    },
+    {
+      "name": "test_cp_ut_002_admin_endpoint_applies_role_permissions[medico-403]",
+      "status": "passed"
+    },
+    {
+      "name": "test_cp_ut_002_admin_endpoint_applies_role_permissions[enfermero-403]",
+      "status": "passed"
+    },
+    {
+      "name": "test_cp_ut_002_admin_endpoint_applies_role_permissions[estudios-403]",
+      "status": "passed"
+    },
+    {
+      "name": "test_cp_ut_003_study_file_extension_validation[resultado.pdf-True]",
+      "status": "passed"
+    },
+    {
+      "name": "test_cp_ut_003_study_file_extension_validation[radiografia.PNG-True]",
+      "status": "passed"
+    },
+    {
+      "name": "test_cp_ut_003_study_file_extension_validation[informe.docx-True]",
+      "status": "passed"
+    },
+    {
+      "name": "test_cp_ut_003_study_file_extension_validation[sin-extension-False]",
+      "status": "passed"
+    },
+    {
+      "name": "test_cp_ut_003_study_file_extension_validation[script.exe-False]",
+      "status": "passed"
+    },
+    {
+      "name": "test_cp_ut_003_study_file_extension_validation[archivo.pdf.exe-False]",
+      "status": "passed"
+    },
+    {
+      "name": "test_cp_ut_003_rejected_upload_does_not_persist_file",
+      "status": "passed"
+    },
+    {
+      "name": "test_cp_ut_003_valid_upload_uses_temporary_storage[resultado.pdf]",
+      "status": "passed"
+    },
+    {
+      "name": "test_cp_ut_003_valid_upload_uses_temporary_storage[radiografia.PNG]",
+      "status": "passed"
+    },
+    {
+      "name": "test_cp_ut_003_missing_file_does_not_persist[data0]",
+      "status": "passed"
+    },
+    {
+      "name": "test_cp_ut_003_missing_file_does_not_persist[data1]",
+      "status": "passed"
+    },
+    {
+      "name": "test_cp_ut_002_upload_denied_before_persistence[medico]",
+      "status": "passed"
+    },
+    {
+      "name": "test_cp_ut_002_upload_denied_before_persistence[enfermero]",
+      "status": "passed"
+    },
+    {
+      "name": "test_cp_ut_004_clinical_analytics_schema_and_values[empty]",
+      "status": "passed"
+    },
+    {
+      "name": "test_cp_ut_004_clinical_analytics_schema_and_values[partial]",
+      "status": "passed"
+    },
+    {
+      "name": "test_cp_ut_004_clinical_analytics_schema_and_values[valid]",
+      "status": "passed"
+    },
+    {
+      "name": "test_cp_ut_004_clinical_analytics_rejects_unauthorized_roles[enfermero]",
+      "status": "passed"
+    },
+    {
+      "name": "test_cp_ut_004_clinical_analytics_rejects_unauthorized_roles[estudios]",
+      "status": "passed"
+    }
+  ],
+  "web": {
+    "files_passed": 24,
+    "tests_passed": 114,
+    "pbl22_passed": 3,
+    "command": "npm test -- --maxWorkers=2"
+  },
+  "coverage": {
+    "scope": [
+      "routes",
+      "services",
+      "middleware"
+    ],
+    "totals": {
+      "covered_lines": 2163,
+      "num_statements": 5354,
+      "percent_covered": 40.399701158012704,
+      "percent_covered_display": "40",
+      "missing_lines": 3191,
+      "excluded_lines": 0,
+      "percent_statements_covered": 40.399701158012704,
+      "percent_statements_covered_display": "40"
+    },
+    "modules": {
+      "middleware/__init__.py": {
+        "covered_lines": 0,
+        "num_statements": 0,
+        "percent_covered": 100.0,
+        "percent_covered_display": "100",
+        "missing_lines": 0,
+        "excluded_lines": 0,
+        "percent_statements_covered": 100.0,
+        "percent_statements_covered_display": "100"
+      },
+      "middleware/auth_middleware.py": {
+        "covered_lines": 67,
+        "num_statements": 69,
+        "percent_covered": 97.10144927536231,
+        "percent_covered_display": "97",
+        "missing_lines": 2,
+        "excluded_lines": 0,
+        "percent_statements_covered": 97.10144927536231,
+        "percent_statements_covered_display": "97"
+      },
+      "routes/administrative.py": {
+        "covered_lines": 293,
+        "num_statements": 420,
+        "percent_covered": 69.76190476190476,
+        "percent_covered_display": "70",
+        "missing_lines": 127,
+        "excluded_lines": 0,
+        "percent_statements_covered": 69.76190476190476,
+        "percent_statements_covered_display": "70"
+      },
+      "routes/analytics.py": {
+        "covered_lines": 42,
+        "num_statements": 82,
+        "percent_covered": 51.21951219512195,
+        "percent_covered_display": "51",
+        "missing_lines": 40,
+        "excluded_lines": 0,
+        "percent_statements_covered": 51.21951219512195,
+        "percent_statements_covered_display": "51"
+      },
+      "routes/appointments.py": {
+        "covered_lines": 60,
+        "num_statements": 131,
+        "percent_covered": 45.80152671755725,
+        "percent_covered_display": "46",
+        "missing_lines": 71,
+        "excluded_lines": 0,
+        "percent_statements_covered": 45.80152671755725,
+        "percent_statements_covered_display": "46"
+      },
+      "routes/auth.py": {
+        "covered_lines": 173,
+        "num_statements": 228,
+        "percent_covered": 75.87719298245614,
+        "percent_covered_display": "76",
+        "missing_lines": 55,
+        "excluded_lines": 0,
+        "percent_statements_covered": 75.87719298245614,
+        "percent_statements_covered_display": "76"
+      },
+      "routes/backup.py": {
+        "covered_lines": 45,
+        "num_statements": 112,
+        "percent_covered": 40.17857142857143,
+        "percent_covered_display": "40",
+        "missing_lines": 67,
+        "excluded_lines": 0,
+        "percent_statements_covered": 40.17857142857143,
+        "percent_statements_covered_display": "40"
+      },
+      "routes/beds.py": {
+        "covered_lines": 24,
+        "num_statements": 49,
+        "percent_covered": 48.97959183673469,
+        "percent_covered_display": "49",
+        "missing_lines": 25,
+        "excluded_lines": 0,
+        "percent_statements_covered": 48.97959183673469,
+        "percent_statements_covered_display": "49"
+      },
+      "routes/billing.py": {
+        "covered_lines": 35,
+        "num_statements": 105,
+        "percent_covered": 33.333333333333336,
+        "percent_covered_display": "33",
+        "missing_lines": 70,
+        "excluded_lines": 0,
+        "percent_statements_covered": 33.333333333333336,
+        "percent_statements_covered_display": "33"
+      },
+      "routes/catalog.py": {
+        "covered_lines": 34,
+        "num_statements": 72,
+        "percent_covered": 47.22222222222222,
+        "percent_covered_display": "47",
+        "missing_lines": 38,
+        "excluded_lines": 0,
+        "percent_statements_covered": 47.22222222222222,
+        "percent_statements_covered_display": "47"
+      },
+      "routes/exams.py": {
+        "covered_lines": 76,
+        "num_statements": 320,
+        "percent_covered": 23.75,
+        "percent_covered_display": "24",
+        "missing_lines": 244,
+        "excluded_lines": 0,
+        "percent_statements_covered": 23.75,
+        "percent_statements_covered_display": "24"
+      },
+      "routes/logs.py": {
+        "covered_lines": 0,
+        "num_statements": 42,
+        "percent_covered": 0.0,
+        "percent_covered_display": "0",
+        "missing_lines": 42,
+        "excluded_lines": 0,
+        "percent_statements_covered": 0.0,
+        "percent_statements_covered_display": "0"
+      },
+      "routes/medical.py": {
+        "covered_lines": 93,
+        "num_statements": 337,
+        "percent_covered": 27.596439169139465,
+        "percent_covered_display": "28",
+        "missing_lines": 244,
+        "excluded_lines": 0,
+        "percent_statements_covered": 27.596439169139465,
+        "percent_statements_covered_display": "28"
+      },
+      "routes/monitoring.py": {
+        "covered_lines": 49,
+        "num_statements": 52,
+        "percent_covered": 94.23076923076923,
+        "percent_covered_display": "94",
+        "missing_lines": 3,
+        "excluded_lines": 0,
+        "percent_statements_covered": 94.23076923076923,
+        "percent_statements_covered_display": "94"
+      },
+      "routes/patients.py": {
+        "covered_lines": 26,
+        "num_statements": 62,
+        "percent_covered": 41.935483870967744,
+        "percent_covered_display": "42",
+        "missing_lines": 36,
+        "excluded_lines": 0,
+        "percent_statements_covered": 41.935483870967744,
+        "percent_statements_covered_display": "42"
+      },
+      "routes/pdf.py": {
+        "covered_lines": 44,
+        "num_statements": 411,
+        "percent_covered": 10.70559610705596,
+        "percent_covered_display": "11",
+        "missing_lines": 367,
+        "excluded_lines": 0,
+        "percent_statements_covered": 10.70559610705596,
+        "percent_statements_covered_display": "11"
+      },
+      "routes/performance.py": {
+        "covered_lines": 18,
+        "num_statements": 32,
+        "percent_covered": 56.25,
+        "percent_covered_display": "56",
+        "missing_lines": 14,
+        "excluded_lines": 0,
+        "percent_statements_covered": 56.25,
+        "percent_statements_covered_display": "56"
+      },
+      "routes/preferences.py": {
+        "covered_lines": 18,
+        "num_statements": 20,
+        "percent_covered": 90.0,
+        "percent_covered_display": "90",
+        "missing_lines": 2,
+        "excluded_lines": 0,
+        "percent_statements_covered": 90.0,
+        "percent_statements_covered_display": "90"
+      },
+      "routes/reports.py": {
+        "covered_lines": 22,
+        "num_statements": 45,
+        "percent_covered": 48.888888888888886,
+        "percent_covered_display": "49",
+        "missing_lines": 23,
+        "excluded_lines": 0,
+        "percent_statements_covered": 48.888888888888886,
+        "percent_statements_covered_display": "49"
+      },
+      "routes/spark.py": {
+        "covered_lines": 67,
+        "num_statements": 67,
+        "percent_covered": 100.0,
+        "percent_covered_display": "100",
+        "missing_lines": 0,
+        "excluded_lines": 0,
+        "percent_statements_covered": 100.0,
+        "percent_statements_covered_display": "100"
+      },
+      "routes/studies.py": {
+        "covered_lines": 62,
+        "num_statements": 98,
+        "percent_covered": 63.265306122448976,
+        "percent_covered_display": "63",
+        "missing_lines": 36,
+        "excluded_lines": 0,
+        "percent_statements_covered": 63.265306122448976,
+        "percent_statements_covered_display": "63"
+      },
+      "services/administrative_service.py": {
+        "covered_lines": 328,
+        "num_statements": 636,
+        "percent_covered": 51.57232704402516,
+        "percent_covered_display": "52",
+        "missing_lines": 308,
+        "excluded_lines": 0,
+        "percent_statements_covered": 51.57232704402516,
+        "percent_statements_covered_display": "52"
+      },
+      "services/analytics_service.py": {
+        "covered_lines": 41,
+        "num_statements": 104,
+        "percent_covered": 39.42307692307692,
+        "percent_covered_display": "39",
+        "missing_lines": 63,
+        "excluded_lines": 0,
+        "percent_statements_covered": 39.42307692307692,
+        "percent_statements_covered_display": "39"
+      },
+      "services/auth_service.py": {
+        "covered_lines": 20,
+        "num_statements": 30,
+        "percent_covered": 66.66666666666667,
+        "percent_covered_display": "67",
+        "missing_lines": 10,
+        "excluded_lines": 0,
+        "percent_statements_covered": 66.66666666666667,
+        "percent_statements_covered_display": "67"
+      },
+      "services/bed_service.py": {
+        "covered_lines": 12,
+        "num_statements": 67,
+        "percent_covered": 17.91044776119403,
+        "percent_covered_display": "18",
+        "missing_lines": 55,
+        "excluded_lines": 0,
+        "percent_statements_covered": 17.91044776119403,
+        "percent_statements_covered_display": "18"
+      },
+      "services/billing_service.py": {
+        "covered_lines": 18,
+        "num_statements": 67,
+        "percent_covered": 26.865671641791046,
+        "percent_covered_display": "27",
+        "missing_lines": 49,
+        "excluded_lines": 0,
+        "percent_statements_covered": 26.865671641791046,
+        "percent_statements_covered_display": "27"
+      },
+      "services/catalog_service.py": {
+        "covered_lines": 20,
+        "num_statements": 83,
+        "percent_covered": 24.096385542168676,
+        "percent_covered_display": "24",
+        "missing_lines": 63,
+        "excluded_lines": 0,
+        "percent_statements_covered": 24.096385542168676,
+        "percent_statements_covered_display": "24"
+      },
+      "services/exam_service.py": {
+        "covered_lines": 52,
+        "num_statements": 276,
+        "percent_covered": 18.840579710144926,
+        "percent_covered_display": "19",
+        "missing_lines": 224,
+        "excluded_lines": 0,
+        "percent_statements_covered": 18.840579710144926,
+        "percent_statements_covered_display": "19"
+      },
+      "services/medical_service.py": {
+        "covered_lines": 32,
+        "num_statements": 115,
+        "percent_covered": 27.82608695652174,
+        "percent_covered_display": "28",
+        "missing_lines": 83,
+        "excluded_lines": 0,
+        "percent_statements_covered": 27.82608695652174,
+        "percent_statements_covered_display": "28"
+      },
+      "services/monitoring_service.py": {
+        "covered_lines": 130,
+        "num_statements": 141,
+        "percent_covered": 92.19858156028369,
+        "percent_covered_display": "92",
+        "missing_lines": 11,
+        "excluded_lines": 0,
+        "percent_statements_covered": 92.19858156028369,
+        "percent_statements_covered_display": "92"
+      },
+      "services/monitoring_socket.py": {
+        "covered_lines": 34,
+        "num_statements": 41,
+        "percent_covered": 82.92682926829268,
+        "percent_covered_display": "83",
+        "missing_lines": 7,
+        "excluded_lines": 0,
+        "percent_statements_covered": 82.92682926829268,
+        "percent_statements_covered_display": "83"
+      },
+      "services/patient_service.py": {
+        "covered_lines": 13,
+        "num_statements": 44,
+        "percent_covered": 29.545454545454547,
+        "percent_covered_display": "30",
+        "missing_lines": 31,
+        "excluded_lines": 0,
+        "percent_statements_covered": 29.545454545454547,
+        "percent_statements_covered_display": "30"
+      },
+      "services/pdf_service.py": {
+        "covered_lines": 31,
+        "num_statements": 500,
+        "percent_covered": 6.2,
+        "percent_covered_display": "6",
+        "missing_lines": 469,
+        "excluded_lines": 0,
+        "percent_statements_covered": 6.2,
+        "percent_statements_covered_display": "6"
+      },
+      "services/report_service.py": {
+        "covered_lines": 20,
+        "num_statements": 171,
+        "percent_covered": 11.695906432748538,
+        "percent_covered_display": "12",
+        "missing_lines": 151,
+        "excluded_lines": 0,
+        "percent_statements_covered": 11.695906432748538,
+        "percent_statements_covered_display": "12"
+      },
+      "services/spark_engine.py": {
+        "covered_lines": 6,
+        "num_statements": 76,
+        "percent_covered": 7.894736842105263,
+        "percent_covered_display": "8",
+        "missing_lines": 70,
+        "excluded_lines": 0,
+        "percent_statements_covered": 7.894736842105263,
+        "percent_statements_covered_display": "8"
+      },
+      "services/spark_service.py": {
+        "covered_lines": 137,
+        "num_statements": 161,
+        "percent_covered": 85.09316770186335,
+        "percent_covered_display": "85",
+        "missing_lines": 24,
+        "excluded_lines": 0,
+        "percent_statements_covered": 85.09316770186335,
+        "percent_statements_covered_display": "85"
+      },
+      "services/study_service.py": {
+        "covered_lines": 21,
+        "num_statements": 88,
+        "percent_covered": 23.863636363636363,
+        "percent_covered_display": "24",
+        "missing_lines": 67,
+        "excluded_lines": 0,
+        "percent_statements_covered": 23.863636363636363,
+        "percent_statements_covered_display": "24"
+      }
+    }
+  },
+  "source_sha256": {
+    "backend/api_hospital/tests/test_sprint9_jesus.py": "7a1fad34f1ca632f58932a3f21ad89cb44b7e1fd9525786753bcf9878c96d5cd",
+    "frontend/clinica-web-react/src/pages/enfermeria/EnfermeriaFluidBalanceScreen.jsx": "0ce9a7269913c1f804271f23dceeff69e9f3380431c7c0b7ef942d4171ea7429",
+    "frontend/clinica-web-react/src/tests/pbl22-fluid-balance.test.jsx": "bc2fdcc48402b83468493512a4863f2351743de993057c944320f82f848e5e03"
+  },
+  "limitations": [
+    "MongoDB simulado con mongomock y agregaciones simuladas para Analytics.",
+    "Las 8 pruebas del motor Spark real se omiten localmente; el job Real Spark integration de GitHub Actions las ejecuta con Java y PySpark.",
+    "Cobertura de líneas de routes, services y middleware; no equivale a cobertura funcional completa del producto."
+  ]
+}

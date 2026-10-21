@@ -1,0 +1,26 @@
+{
+  "initialJavaScriptBytes": 460174,
+  "deferredScreens": [
+    {
+      "screen": "ClinicalAnalyticsScreen",
+      "file": "assets/ClinicalAnalyticsScreen-QRoOTTUL.js",
+      "bytes": 8593
+    },
+    {
+      "screen": "MetAnalyticsScreen",
+      "file": "assets/MetAnalyticsScreen-CuQDV3kC.js",
+      "bytes": 4351
+    },
+    {
+      "screen": "AnalyticsScreen",
+      "file": "assets/AnalyticsScreen-DHHkdUjt.js",
+      "bytes": 2760
+    },
+    {
+      "screen": "UnsupervisedAnalyticsScreen",
+      "file": "assets/UnsupervisedAnalyticsScreen-Dqybs0dv.js",
+      "bytes": 171
+    }
+  ],
+  "note": "Measured production entry plus static JS imports. Deferred screens are excluded from the initial dependency graph; this is not a historical before/after benchmark."
+}

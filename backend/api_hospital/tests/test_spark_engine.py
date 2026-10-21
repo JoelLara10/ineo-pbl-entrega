@@ -70,3 +70,20 @@ def test_http_to_background_worker_to_real_spark(client):
     assert result['available']
     assert result['summary']['total'] == 8
     assert result['metrics'][0]['mean'] == 82.5
+
+
+def test_pbl09_clinical_dated_trends_use_real_daily_aggregates(spark):
+    rows = [
+        {'fc': 80., 'fr': None, 'temp': 37., 'spo2': None, 'day': '2026-10-12'},
+        {'fc': 100., 'fr': None, 'temp': 39., 'spo2': None, 'day': '2026-10-12'},
+        {'fc': 60., 'fr': None, 'temp': 36., 'spo2': None, 'day': '2026-10-15'},
+        {'fc': 120., 'fr': None, 'temp': 40., 'spo2': None},
+    ]
+    result = analyze(spark, 'clinical', rows)
+    assert [row for row in result['trends'] if row['measure'] == 'temp'] == [
+        {'day': '2026-10-12', 'measure': 'temp', 'count': 2, 'mean': 38., 'minimum': 37., 'maximum': 39.},
+        {'day': '2026-10-15', 'measure': 'temp', 'count': 1, 'mean': 36., 'minimum': 36., 'maximum': 36.},
+    ]
+    assert result['summary']['total'] == 4
+    assert result['metrics'][2]['count'] == 4
+    assert not any(row['measure'] == 'spo2' for row in result['trends'])
