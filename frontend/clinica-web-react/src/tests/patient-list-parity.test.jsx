@@ -14,7 +14,7 @@ import api from '../services/api';
 import { clearClinicalCache, setClinicalCache } from '../services/clinicalCache';
 import { setAdminCache } from '../services/adminCache';
 
-vi.mock('../services/adminService', () => ({ default: { getPatients: vi.fn(), getCensus: vi.fn() } }));
+vi.mock('../services/adminService', () => ({ default: { getPatients: vi.fn(), getCensus: vi.fn(), getAccounts: vi.fn(), getAccount: vi.fn(), getOptions: vi.fn() } }));
 vi.mock('../services/api', () => ({ default: { get: vi.fn() } }));
 vi.mock('../context/AuthContext', () => ({ useAuth: () => ({ user: { role: 'admin' } }) }));
 vi.mock('../context/PatientContext', () => ({ usePatient: () => ({ selectPatient: vi.fn() }) }));
@@ -102,4 +102,17 @@ it('ignores a late response from a previous patient search', async () => {
   await act(async () => pending.anterior({ groups: [{ key: 'activos', patients: rows('Anterior', 1) }] }));
   expect(screen.getByText('Actual 1')).toBeInTheDocument();
   expect(screen.queryByText('Anterior 1')).not.toBeInTheDocument();
+});
+
+it('keeps the complete patient row when the account API returns patient as a name string', async () => {
+  const module = await import('../pages/administrativo/PacienteDetailScreen');
+  const account = { id_atencion: 77, Id_exp: 42, name: 'Paciente cuenta sintético', patient: 'Paciente cuenta sintético', record: 'INEO-000042', attention: 'A-77', area: 'Consulta', total: 0, charges: [] };
+  adminService.getAccounts.mockResolvedValue([account]);
+  adminService.getAccount.mockResolvedValue(account);
+  adminService.getOptions.mockResolvedValue({ servicios: [], medicamentos: [] });
+  mount(module.default);
+  fireEvent.click(await screen.findByRole('button', { name: 'Abrir cuenta' }));
+  await waitFor(() => expect(adminService.getAccount).toHaveBeenCalledWith(77));
+  await waitFor(() => expect(screen.getAllByText('Paciente cuenta sintético').length).toBeGreaterThan(1));
+  expect(screen.getByText('INEO-000042')).toBeInTheDocument();
 });

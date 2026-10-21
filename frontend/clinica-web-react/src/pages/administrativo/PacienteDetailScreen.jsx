@@ -1,3 +1,4 @@
+import { useDebouncedSearch } from '../../hooks/usePageRevalidation';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FiDownload, FiPlus, FiSearch, FiTrash2 } from 'react-icons/fi';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -23,16 +24,19 @@ export default function PacienteDetailScreen() {
   const selectedAttention = selected.id_atencion || selected.idAtencion || selected.attention;
   const selectedRecord = selected.Id_exp || selected.id_exp || selected.record || id;
   const [search, setSearch] = useState('');
-  const [page, setPage] = useState(1);
+  const [requestedPage, setPage] = useState(1);
   const [attention, setAttention] = useState(selectedAttention || '');
   const [account, setAccount] = useState(null);
   const [options, setOptions] = useState({ servicios: [], medicamentos: [] });
   const [charge, setCharge] = useState({ type: 'service', id: '', description: '', quantity: 1 });
   const [busy, setBusy] = useState('');
   const [message, setMessage] = useState('');
-  const loader = useCallback(() => adminService.getAccounts(''), []);
-  const listState = useAdminData('accounts:all:complete', loader, []);
+  const query = useDebouncedSearch(search, 400);
+  const loader = useCallback(() => adminService.getAccounts(query), [query]);
+  const listState = useAdminData(`accounts:${query.toLowerCase() || 'all'}:complete`, loader, []);
   const filtered = useMemo(() => accountsFrom(listState.data).filter((item) => !search || Object.values(item).join(' ').toLowerCase().includes(search.toLowerCase())), [listState.data, search]);
+
+  const page = Math.min(requestedPage, Math.max(1, Math.ceil(filtered.length / LIMIT)));
 
   const loadAccount = useCallback(async (idAttention) => {
     if (!idAttention) return;
@@ -46,7 +50,7 @@ export default function PacienteDetailScreen() {
   useEffect(() => { if (selectedAttention) loadAccount(selectedAttention); }, [loadAccount, selectedAttention]);
 
   const currency = (value) => formatRegionalNumber(value || 0, i18n.language, { style: 'currency', currency: 'MXN' });
-  const patient = account?.patient || selected;
+  const patient = account?.patient && typeof account.patient === 'object' ? account.patient : account || selected;
   const charges = account?.charges || account?.items || [];
   const documents = account?.documents?.length ? account.documents : documentDefaults.map(([key, label]) => ({
     key, title: t(`administrative.${label}`), endpoint: selectedRecord && attention ? `/api/v1/pdf/${key}/${selectedRecord}/${attention}` : '', filename: `${key}_${attention}.pdf`,

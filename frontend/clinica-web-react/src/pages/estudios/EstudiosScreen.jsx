@@ -132,10 +132,12 @@ export default function EstudiosScreen() {
       let cachedData = null;
 
       const showPage = (items) => {
-        const start = (currentPage - 1) * PAGE_SIZE;
+        const page = Math.min(currentPage, Math.max(1, Math.ceil(items.length / PAGE_SIZE)));
+        if (page !== currentPage) setCurrentPage(page);
+        const start = (page - 1) * PAGE_SIZE;
         setTotalItems(items.length);
         setAllItems(items.slice(start, start + PAGE_SIZE).map(normalizeItem));
-        setHasMore(items.length > currentPage * PAGE_SIZE);
+        setHasMore(items.length > page * PAGE_SIZE);
         setHasCachedData(true);
       };
 
