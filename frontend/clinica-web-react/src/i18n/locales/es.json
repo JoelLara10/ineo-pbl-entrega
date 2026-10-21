@@ -1205,7 +1205,12 @@
     "period": "Periodo analizado",
     "unknown": "No disponible",
     "timezone": "Fechas de origen en UTC; horas mostradas en tu zona local.",
-    "undated": "Registros sin fecha: {{count}}. El periodo sólo incluye fechas conocidas."
+    "undated": "Registros sin fecha: {{count}}. El periodo sólo incluye fechas conocidas.",
+    "engine": "Procesamiento",
+    "engines": {
+      "spark": "Apache Spark",
+      "lightweight": "Motor de bajo consumo"
+    }
   },
   "offline": {
     "preferences": "Conexión y preferencias",

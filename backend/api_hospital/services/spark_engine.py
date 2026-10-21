@@ -90,9 +90,15 @@ def analyze(spark, kind, rows):
 
 
 def main():
-    from pyspark.sql import SparkSession
     with open(sys.argv[1], encoding='utf-8') as source:
         payload = json.load(source)
+    if payload.get('engine') == 'lightweight':
+        from analysis_lightweight import analyze as analyze_lightweight
+        result = analyze_lightweight(payload['type'], payload['rows'])
+        with open(sys.argv[2], 'w', encoding='utf-8') as target:
+            json.dump(result, target, allow_nan=False)
+        return
+    from pyspark.sql import SparkSession
     spark = (SparkSession.builder.master(os.getenv('SPARK_MASTER', 'local[1]'))
              .appName('INEO-Sprint7').config('spark.ui.enabled', 'false')
              .config('spark.sql.shuffle.partitions', '2')
@@ -100,6 +106,7 @@ def main():
              .config('spark.driver.host', '127.0.0.1').getOrCreate())
     try:
         result = analyze(spark, payload['type'], payload['rows'])
+        result['engine'] = {'name': 'spark', 'method': 'pyspark'}
         with open(sys.argv[2], 'w', encoding='utf-8') as target:
             json.dump(result, target, allow_nan=False)
     finally:
