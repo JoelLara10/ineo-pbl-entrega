@@ -1,0 +1,146 @@
+Volver
+Actualizar
+Ejecutar análisis
+ANÁLISIS DE DATOS
+Analítica clínica
+
+Indicadores clínicos derivados de la información hospitalaria.
+
+Explorar los indicadores
+Desde
+Hasta
+Área
+Todas las áreas
+Ambulatorio
+Limpiar filtros
+
+Las fechas incluyen ambos días y se interpretan en UTC. Selecciona hasta cinco años y pulsa Ejecutar análisis para aplicar los filtros.
+
+Vigencia Del Análisis
+Fecha de generación
+22/10/2026, 01:27 p.m.
+Última actualización de la fuente
+05/01/2026, 06:00 a.m.
+Procesamiento
+Motor de bajo consumo
+Periodo analizado
+05/01/2026 — 05/01/2026
+
+Fechas de origen en UTC; horas mostradas en tu zona local.
+
+Filtros del resultado mostrado: Todas las áreas · Todo el historial disponible
+
+Descargar indicadores y tablas (CSV)
+Observaciones utilizadas
+8
+Observaciones
+Observaciones excluidas
+0
+Observaciones
+Cobertura de signos vitales
+Unidad de medida: Observaciones
+
+Periodo de los registros: 05/01/2026 – 05/01/2026 · Área: Todas las áreas
+
+Cómo leer la gráfica y fuente de datos
+Categoría
+0
+4
+8
+Observaciones
+Frecuencia cardiaca
+8
+Frecuencia respiratoria
+8
+Temperatura
+8
+Saturación de oxígeno
+8
+PNG
+SVG
+CSV
+Observaciones · La escala incluye el cero; los valores se muestran en la gráfica y en la tabla.
+Ver tabla de datos
+
+Datos agregados del análisis guardado. Actualizar consulta el último resultado; Ejecutar análisis vuelve a calcularlo con la base de datos. Las atenciones y observaciones pueden corresponder a un mismo paciente.
+
+Resumen De Riesgo Clínico
+
+Los niveles combinan el valor promedio con rangos clínicos de referencia.
+
+Periodo analizado: 05/01/2026 – 05/01/2026
+
+Normal
+Frecuencia cardiaca
+
+82.5 lpm
+
+Mínimo: 65 · Máximo: 100
+
+Observaciones: 8
+
+Normal
+Frecuencia respiratoria
+
+16.5 rpm
+
+Mínimo: 13 · Máximo: 20
+
+Observaciones: 8
+
+Normal
+Temperatura
+
+36.45 °C
+
+Mínimo: 36.1 · Máximo: 36.8
+
+Observaciones: 8
+
+Normal
+Saturación de oxígeno
+
+95.5 %
+
+Mínimo: 92 · Máximo: 99
+
+Observaciones: 8
+
+Distribución De Indicadores Por Riesgo
+
+Cantidad de indicadores según su promedio; no representa el número de pacientes ni de alertas individuales.
+
+0
+Alto
+0
+Medio
+4
+Normal
+Rangos Observados
+
+La marca indica la posición del promedio entre el mínimo y el máximo observados.
+
+Frecuencia cardiaca
+Mínimo 65 / Promedio 82.5 / Máximo 100 lpm
+Frecuencia respiratoria
+Mínimo 13 / Promedio 16.5 / Máximo 20 rpm
+Temperatura
+Mínimo 36.1 / Promedio 36.45 / Máximo 36.8 °C
+Saturación de oxígeno
+Mínimo 92 / Promedio 95.5 / Máximo 99 %
+Tendencias Por Fecha
+
+Promedios diarios en orden cronológico. Cada gráfica usa la unidad del indicador.
+
+Periodo analizado: 05/01/2026 – 05/01/2026
+
+No hay al menos dos días con observaciones fechadas para mostrar una tendencia.
+
+Contexto clínico: Los indicadores son agregados y apoyan la priorización; no sustituyen el diagnóstico ni la valoración profesional.
+Cómo interpretar y usar estos resultados
+
+Cada promedio se basa en las observaciones válidas indicadas en su tarjeta. El mínimo y máximo observados ofrecen contexto del conjunto de datos; no son límites clínicos recomendados. Compara únicamente valores con la misma unidad.
+
+Se utilizaron 8 de 8 observaciones; 0 se excluyeron por datos incompletos o no utilizables.
+
+Antes de formular una decisión: Revisa la cantidad y calidad de las observaciones con el equipo clínico antes de interpretar una variación o proponer una acción.

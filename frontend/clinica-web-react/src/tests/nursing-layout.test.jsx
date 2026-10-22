@@ -23,6 +23,21 @@ beforeEach(() => {
 });
 afterEach(cleanup);
 
+it('blocks an empty assessment and rejects an out-of-range numeric pain score before sending', async () => {
+  render(<Assessment />);
+  const save = screen.getByRole('button', { name: 'nursingAssessment.save' });
+  fireEvent.click(save);
+  expect(api.post).not.toHaveBeenCalled();
+  for (const name of ['generalStateLabel', 'mobilityLabel', 'fallRiskLabel', 'uprRiskLabel']) {
+    fireEvent.change(screen.getByLabelText('nursingAssessment.' + name), { target: { value: 'Prueba' } });
+  }
+  fireEvent.change(screen.getByLabelText('nursingAssessment.painLabel'), { target: { value: '11' } });
+  fireEvent.click(save);
+  expect(await screen.findByRole('alert')).toHaveTextContent('nursingAssessment.invalidPain');
+  expect(api.post).not.toHaveBeenCalled();
+  expect(screen.getByLabelText('nursingAssessment.observationsLabel')).not.toBeRequired();
+});
+
 it.each([{ Screen: Assessment, prefix: 'nursingAssessment' }, { Screen: Balance, prefix: 'nursingFluidBalance' }, { Screen: Care, prefix: 'nursingCare' }])(
   '$prefix keeps its history available and allows collapsing it without reloading', async ({ Screen, prefix }) => {
     render(<Screen />);

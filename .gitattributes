@@ -1,0 +1,5 @@
+# Preserve generated review evidence byte for byte on Windows.
+docs/sprints/sprint-9/Revision-Jaime-UAT-Sprint9.pdf binary
+evidence/sprint-9-jaime-review/*.xml binary
+docs/sprints/sprint-9/Correccion-UAT-Simulada-Sprint9.pdf binary
+evidence/sprint-9-jaime-fix/*.xml binary

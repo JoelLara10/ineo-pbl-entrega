@@ -10,7 +10,7 @@ describe('Entrega corregida de Jaime para Sprint 7', () => {
     expect(screen).toContain('sparkService.run(type)');
     expect(screen).toContain('sparkService.getStatus(type)');
     expect(screen).toContain('sparkService.getResults(type)');
-    expect(screen).toContain('if (!next.running) load()');
+    expect(screen).toContain('if (!isProcessing(next)) load()');
   });
 
   it('PBL-03-T4 integra pendiente, procesamiento, completado y fallo', () => {

@@ -584,6 +584,9 @@
     "fechaLabel": "Fecha:"
   },
   "nursingAssessment": {
+    "requiredFields": "Completa todos los campos de la valoración; las observaciones son opcionales.",
+    "requiredHint": "Todos los campos son obligatorios salvo las observaciones. Dolor: de 0 a 10 o una descripción.",
+    "invalidPain": "El dolor numérico debe estar entre 0 y 10; también puedes escribir una descripción.",
     "eyebrow": "ENFERMERÍA",
     "title": "Valoración de Enfermería",
     "selectedPatient": "Paciente seleccionado",
@@ -648,7 +651,7 @@
     "observationsLabel": "Observaciones:",
     "noObservations": "Sin observaciones",
     "notSpecified": "No especificado"
-  },
+  }, 
   "nursingFluidBalance": {
     "eyebrow": "ENFERMERÍA",
     "title": "Balance Hídrico",
@@ -1002,7 +1005,7 @@
       },
       "processing": {
         "title": "Análisis en proceso",
-        "hint": "Puedes actualizar ahora o esperar a la actualización automática."
+        "hint": "El análisis continúa ejecutándose. Puedes actualizar el estado o esperar a la actualización automática."
       },
       "notRun": {
         "title": "Análisis sin ejecutar",
@@ -1011,12 +1014,12 @@
       },
       "empty": {
         "title": "No se encontraron datos",
-        "hint": "La ejecución terminó, pero no produjo datos para mostrar.",
+        "hint": "La consulta terminó correctamente, pero no hay datos para mostrar.",
         "action": "Actualizar resultados"
       },
       "offline": {
         "title": "Sin conexión con el servicio de análisis",
-        "hint": "Revisa la conexión con la API y vuelve a intentarlo."
+        "hint": "No fue posible comunicarse con la API. Revisa la conexión e inténtalo nuevamente."
       },
       "failed": {
         "title": "El análisis falló",
@@ -1226,6 +1229,8 @@
     "logout": "Cerrar sesión local"
   },
   "analysisDashboard": {
+    "unit": "Unidad de medida",
+    "chartDetails": "Cómo leer la gráfica y fuente de datos",
     "summary": "Indicadores principales",
     "group": "Grupo",
     "period": "Periodo de los registros",

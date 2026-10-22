@@ -1,0 +1,148 @@
+Volver
+Actualizar
+Ejecutar análisis
+ANÁLISIS DE DATOS
+Analítica general
+
+Indicadores generales y tendencias operativas.
+
+Explorar los indicadores
+Desde
+Hasta
+Área
+Todas las áreas
+Ambulatorio
+Comparar con el periodo anterior de igual duración
+Limpiar filtros
+
+Las fechas incluyen ambos días y se interpretan en UTC. Selecciona hasta cinco años y pulsa Ejecutar análisis para aplicar los filtros.
+
+Las fechas filtran las atenciones. Pacientes registrados es el catálogo global; camas y estudios reflejan su estado actual, no una reconstrucción histórica. El área se aplica a atenciones, camas y estudios, usando el área registrada actualmente.
+
+Vigencia Del Análisis
+Fecha de generación
+22/10/2026, 01:34 p.m.
+Última actualización de la fuente
+07/01/2026, 06:00 p.m.
+Procesamiento
+Motor de bajo consumo
+Periodo analizado
+05/01/2026 — 10/01/2026
+
+Fechas de origen en UTC; horas mostradas en tu zona local.
+
+Filtros del resultado mostrado: Todas las áreas · Periodo seleccionado
+
+Descargar indicadores y tablas (CSV)
+Pacientes registrados
+8
+Pacientes
+Atenciones registradas
+4
+Atenciones
+Atenciones abiertas
+2
+Atenciones
+Ocupación actual de camas
+0
+%
+Atenciones por estado
+Unidad de medida: Atenciones
+
+Periodo de los registros: 05/01/2026 – 10/01/2026 · Área: Todas las áreas
+
+Cómo leer la gráfica y fuente de datos
+
+Conteo histórico de atenciones abiertas, cerradas y otros estados. Una atención no equivale a un paciente único.
+
+Fuente: Atenciones · Fecha de generación: 22/10/2026, 01:34 p.m.
+
+Categoría
+0
+1
+2
+Atenciones
+Abiertas
+2
+Cerradas
+2
+PNG
+SVG
+CSV
+Atenciones · La escala incluye el cero; los valores se muestran en la gráfica y en la tabla.
+Ver tabla de datos
+Carga actual por área
+Unidad de medida: Atenciones
+
+Periodo de los registros: 05/01/2026 – 10/01/2026 · Área: Todas las áreas
+
+Cómo leer la gráfica y fuente de datos
+Categoría
+0
+1
+2
+Atenciones
+Ambulatorio
+2
+PNG
+SVG
+CSV
+Atenciones · La escala incluye el cero; los valores se muestran en la gráfica y en la tabla.
+Ver tabla de datos
+Disponibilidad de camas
+Unidad de medida: Camas
+
+Estado de los registros al ejecutar el análisis · Área: Todas las áreas
+
+Cómo leer la gráfica y fuente de datos
+Categoría
+0
+0.5
+1
+Camas
+Libres
+1
+PNG
+SVG
+CSV
+Camas · La escala incluye el cero; los valores se muestran en la gráfica y en la tabla.
+Ver tabla de datos
+Seguimiento de estudios
+Unidad de medida: Estudios solicitados
+
+Estado de los registros al ejecutar el análisis · Área: Todas las áreas
+
+Cómo leer la gráfica y fuente de datos
+Categoría
+0
+0.5
+1
+Estudios solicitados
+Pendientes
+1
+PNG
+SVG
+CSV
+Estudios solicitados · La escala incluye el cero; los valores se muestran en la gráfica y en la tabla.
+Ver tabla de datos
+
+Datos agregados del análisis guardado. Actualizar consulta el último resultado; Ejecutar análisis vuelve a calcularlo con la base de datos. Las atenciones y observaciones pueden corresponder a un mismo paciente.
+
+Cómo interpretar y usar estos resultados
+
+Cada atención es un episodio registrado; un mismo paciente puede tener varias. Los estados describen cómo están los registros al ejecutar el análisis.
+
+Comparación de atenciones
+Periodo seleccionado
+4 Atenciones
+05/01/2026 – 10/01/2026
+Periodo anterior · referencia
+4 Atenciones
+30/12/2025 – 04/01/2026
+Cambio absoluto y porcentual
+0
+0 %
+
+El conteo se mantuvo. Comprueba también la distribución por fecha y área antes de concluir que la carga fue igual.
+
+Antes de formular una decisión: Identifica qué áreas concentran atenciones abiertas y revisa si la distribución de camas y solicitudes requiere una revisión operativa. Registra una acción concreta y cómo comprobarías su resultado.
