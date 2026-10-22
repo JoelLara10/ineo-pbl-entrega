@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, g
 from middleware.auth_middleware import verify_token
 from services import spark_service as service
 from pymongo.errors import PyMongoError
@@ -39,6 +39,7 @@ def authorize():
         return error('Token no proporcionado, inválido o expirado.', 'unauthorized', 401)
     if account.get('role') not in {'admin', 'administrativo'}:
         return error('Permisos insuficientes.', 'forbidden', 403)
+    g.spark_user_id = user_id
 
 
 @spark_bp.errorhandler(PyMongoError)
@@ -75,10 +76,41 @@ def status(kind):
 def run(kind):
     if kind not in service.TYPES:
         return error('Tipo de análisis no válido.', 'invalid_type', 400)
-    if request.get_data():
-        return error('Esta versión no acepta parámetros de ejecución.', 'invalid_request', 400)
+    filters = request.get_json(silent=True) if request.get_data() else None
+    if request.get_data() and filters is None:
+        return error('El cuerpo debe contener filtros JSON válidos.', 'invalid_request', 400)
     try:
-        current, created = service.start(kind)
+        current, created = service.start(kind, filters)
+    except ValueError as invalid:
+        return error(str(invalid), 'invalid_request', 400)
+    except service.SparkRuntimeError as conflict:
+        return error(str(conflict), 'analysis_busy', 409)
     except RuntimeError:
         return error('Ejecutor no disponible.', 'unavailable', 503)
     return jsonify(contract_version=service.VERSION, status=current), 202 if created else 200
+
+
+@spark_bp.route('/options')
+def analysis_options():
+    areas = [area for area in get_collection('atencion').distinct('area')
+             if isinstance(area, str) and area.strip() and len(area) <= 100]
+    return jsonify(areas=sorted(set(areas)))
+
+
+@spark_bp.route('/reviews/<kind>', methods=['GET', 'POST'])
+def analysis_review(kind):
+    from services.analysis_reviews import read_review, save_review
+    if kind not in service.TYPES:
+        return error('Tipo de análisis no válido.', 'invalid_type', 400)
+    if request.method == 'GET':
+        timestamp = request.args.get('result_timestamp', '')
+        if not timestamp or len(timestamp) > 80:
+            return error('Selecciona un resultado de análisis válido.', 'invalid_review', 400)
+        return jsonify(review=read_review(g.spark_user_id, kind, timestamp))
+    try:
+        review = save_review(g.spark_user_id, kind, request.get_json(silent=True))
+    except ValueError as invalid:
+        return error(str(invalid), 'invalid_review', 400)
+    except LookupError as stale:
+        return error(str(stale), 'stale_result', 409)
+    return jsonify(saved=True, review=review), 200

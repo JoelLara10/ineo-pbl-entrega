@@ -21,7 +21,9 @@ def distribution(collection, field, query=None):
     return rows
 
 
-def build_dashboard(kind, source_rows, result):
+def build_dashboard(kind, source_rows, result, filters=None):
+    filters = filters or {}
+    area_query = {'area': filters['area']} if filters.get('area') else {}
     dashboard = {'version': 1, 'charts': [], 'kpis': [], 'timezone': 'UTC'}
 
     def chart(key, rows, source, unit='records', scope='snapshot', mode='bar'):
@@ -30,8 +32,8 @@ def build_dashboard(kind, source_rows, result):
 
     if kind == 'analytics':
         patients = get_collection('pacientes').count_documents({})
-        active = get_collection('atencion').count_documents({'status': 'ABIERTA'})
-        beds = distribution('camas', 'ocupada')
+        active = sum(row.get('status') == 'ABIERTA' for row in source_rows) if filters else get_collection('atencion').count_documents({'status': 'ABIERTA'})
+        beds = distribution('camas', 'ocupada', area_query)
         total_beds = sum(row['value'] for row in beds)
         occupied = sum(row['value'] for row in beds if row['label'] == '1')
         dashboard['kpis'] = [
@@ -42,13 +44,26 @@ def build_dashboard(kind, source_rows, result):
         ]
         chart('attentionStatus', [{'label': row['status'], 'value': row['count']}
                                   for row in result.get('metrics', []) if 'status' in row], 'atencion', 'attentions', 'history')
-        chart('activeArea', distribution('atencion', 'area', {'status': 'ABIERTA'}), 'atencion', 'attentions')
+        if filters:
+            areas = Counter(row.get('area') or 'UNKNOWN' for row in source_rows if row.get('status') == 'ABIERTA')
+            area_rows = [{'label': area, 'value': count} for area, count in sorted(areas.items(), key=lambda item: (-item[1], item[0]))]
+            if len(area_rows) > 12:
+                area_rows = area_rows[:11] + [{'label': 'OTHER', 'value': sum(row['value'] for row in area_rows[11:])}]
+        else:
+            area_rows = distribution('atencion', 'area', {'status': 'ABIERTA'})
+        chart('activeArea', area_rows, 'atencion', 'attentions', 'history' if filters else 'snapshot')
         chart('beds', beds, 'camas', 'beds')
-        chart('examStatus', distribution('examenes_det', 'estado'), 'examenes_det', 'exams')
+        exam_query = {}
+        if filters.get('area'):
+            ids = [row.get('id_atencion') for row in get_collection('atencion').find(area_query, {'_id': 0, 'id_atencion': 1}).limit(20001)]
+            if len(ids) > 20000:
+                raise ValueError('dataset_limit')
+            exam_query['id_atencion'] = {'$in': [value for value in ids if value is not None]}
+        chart('examStatus', distribution('examenes_det', 'estado', exam_query), 'examenes_det', 'exams')
     elif kind == 'met':
         counts = Counter(row['day'] for row in source_rows if row.get('day'))
-        if counts:
-            start, end = date.fromisoformat(min(counts)), date.fromisoformat(max(counts))
+        if counts or filters.get('start_date'):
+            start, end = (date.fromisoformat(filters['start_date']), date.fromisoformat(filters['end_date'])) if filters.get('start_date') else (date.fromisoformat(min(counts)), date.fromisoformat(max(counts)))
             span = (end - start).days + 1
             # Daily for <=90 days, otherwise monthly: bound the chart without truncation.
             if span <= 90:
@@ -73,6 +88,9 @@ def build_dashboard(kind, source_rows, result):
             chart('weekday', [{'label': 'weekday' + str(i), 'value': weekday[i]} for i in range(7)],
                   'atencion.fecha_ing', 'attentions', 'history')
             dated = sum(counts.values())
+            peak = max(counts.values(), default=0)
+            dashboard['peak_days'] = [{'day': day, 'count': count} for day, count in sorted(counts.items()) if count == peak][:10]
+            dashboard['peak_ties'] = sum(count == peak for count in counts.values())
             dashboard['kpis'] = [{'key': 'dated', 'value': dated, 'unit': 'attentions'},
                                  {'key': 'calendarAverage', 'value': dated / span, 'unit': 'perDay'},
                                  {'key': 'calendarDays', 'value': span, 'unit': 'days'},
@@ -95,6 +113,12 @@ def build_dashboard(kind, source_rows, result):
                   [{'label': str(row['cluster']), 'value': row['means'][feature]}
                    for row in result.get('clusters', []) if feature in row.get('means', {})],
                   'signos_vitales', feature, 'history')
+        total = sum(group['count'] for group in result.get('clusters', []))
+        for entry in dashboard['charts']:
+            if entry['key'].startswith('profile_') and total:
+                feature = entry['key'][len('profile_'):]
+                if all(feature in group.get('means', {}) for group in result.get('clusters', [])):
+                    entry['reference_value'] = sum(group['count'] * group['means'][feature] for group in result.get('clusters', [])) / total
         dashboard['kpis'] = [{'key': 'observations', 'value': result.get('summary', {}).get('total', 0), 'unit': 'observations'},
                              {'key': 'groups', 'value': result.get('summary', {}).get('groups', 0), 'unit': 'groups'},
                              {'key': 'excluded', 'value': result.get('quality', {}).get('excluded_rows', 0), 'unit': 'observations'}]

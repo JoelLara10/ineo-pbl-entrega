@@ -81,6 +81,9 @@
             "string",
             "null"
           ]
+        },
+        "filters": {
+          "$ref": "#/$defs/analysis_filters"
         }
       },
       "required": [
@@ -542,6 +545,76 @@
             "name",
             "method"
           ]
+        },
+        "comparison": {
+          "type": "object",
+          "properties": {
+            "current": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "previous": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "change": {
+              "type": "integer"
+            },
+            "change_percent": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "area": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "current_period": {
+              "type": "object",
+              "properties": {
+                "start": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "end": {
+                  "type": "string",
+                  "format": "date"
+                }
+              },
+              "required": [
+                "start",
+                "end"
+              ]
+            },
+            "previous_period": {
+              "type": "object",
+              "properties": {
+                "start": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "end": {
+                  "type": "string",
+                  "format": "date"
+                }
+              },
+              "required": [
+                "start",
+                "end"
+              ]
+            }
+          },
+          "required": [
+            "current",
+            "previous",
+            "change",
+            "change_percent",
+            "current_period",
+            "previous_period"
+          ]
         }
       },
       "required": [
@@ -960,6 +1033,64 @@
           "const": "UTC"
         }
       }
+    },
+    "analysis_filters": {
+      "type": "object",
+      "properties": {
+        "start_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "end_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "area": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "compare_previous": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "analysis_review": {
+      "type": "object",
+      "properties": {
+        "interpretation": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 2000
+        },
+        "decision": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 2000
+        },
+        "clarity": {
+          "enum": [
+            "clear",
+            "acceptable",
+            "confusing"
+          ]
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "result_timestamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "interpretation",
+        "decision",
+        "clarity",
+        "notes",
+        "result_timestamp"
+      ]
     }
   }
 }
