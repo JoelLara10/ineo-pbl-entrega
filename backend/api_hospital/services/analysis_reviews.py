@@ -35,6 +35,9 @@ def save_review(user_id, kind, payload):
                   evidence={'period': result.get('metadata', {}).get('period'),
                             'filters': result.get('metadata', {}).get('filters', {}),
                             'summary': result.get('summary', {}),
+                            'kpis': result.get('dashboard', {}).get('kpis', []),
+                            'charts': result.get('dashboard', {}).get('charts', []),
+                            'clusters': result.get('clusters', []) if kind == 'unsupervised' else [],
                             'comparison': result.get('comparison'),
                             'units': sorted({row.get('unit', '') for row in result.get('dashboard', {}).get('charts', [])}),
                             'clinical_metrics': result.get('metrics', []) if kind == 'clinical' else []})

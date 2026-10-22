@@ -110,6 +110,8 @@ def test_review_saved_against_snapshot_with_actual_reference_evidence(client, mo
     assert doc['evidence']['comparison']['current'] == 8
     assert doc['evidence']['period'] == {'start': '2026-01-01', 'end': '2026-01-08'}
     assert doc['clarity'] == 'clear'
+    assert doc['evidence']['kpis'][1]['value'] == 8
+    assert next(chart for chart in doc['evidence']['charts'] if chart['key'] == 'attentionStatus')['rows'] == [{'label': 'ABIERTA', 'value': 4}, {'label': 'CERRADA', 'value': 4}]
     assert client.post('/api/v1/spark/reviews/analytics', headers=headers(), json=payload).status_code == 200
     assert isolated_database.analysis_reviews.count_documents({}) == 1
     saved = client.get('/api/v1/spark/reviews/analytics', headers=headers(), query_string={'result_timestamp': result['timestamp']})
@@ -148,3 +150,13 @@ def test_review_requires_a_real_qualitative_assessment(client, monkeypatch, patc
     result = run_inline(monkeypatch, 'analytics')
     payload = {**review_payload(result['timestamp']), **patch}
     assert client.post('/api/v1/spark/reviews/analytics', headers=headers(), json=payload).status_code == 400
+
+
+def test_pattern_review_keeps_the_reference_and_group_values(client, monkeypatch, isolated_database):
+    result = run_inline(monkeypatch, 'unsupervised')
+    response = client.post('/api/v1/spark/reviews/unsupervised', headers=headers(), json=review_payload(result['timestamp']))
+    assert response.status_code == 200
+    evidence = isolated_database.analysis_reviews.find_one({})['evidence']
+    assert evidence['clusters'] == result['clusters']
+    reference = next(chart for chart in evidence['charts'] if chart['key'] == 'profile_fc')
+    assert reference['reference_value'] == pytest.approx(82.5)
