@@ -1,6 +1,5 @@
 import AnalysisFilters, { blankFilters } from './AnalysisFilters';
 import AnalysisInsights from './AnalysisInsights';
-import AnalysisReview from './AnalysisReview';
 import { downloadCsv } from '../../utils/analysisExport';
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -206,7 +205,6 @@ export default function SparkAnalysisScreen({ type, ResultsComponent }) {
       <VisualGallery images={data?.visualizations} />
     </>)}
     {data && !loading && !status.running && <AnalysisInsights type={type} data={data} />}
-    {data?.available && data.timestamp && !loading && !status.running && <AnalysisReview key={data.timestamp} type={type} data={data} />}
     {status.state === 'failed' && status.log && <details className="spark-log"><summary>{t('spark.executionFailed')}</summary><pre>{status.log}</pre></details>}
   </main>;
 }
