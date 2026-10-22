@@ -5,7 +5,8 @@ export const monitoringService = {
   async patient(id) { return (await api.get(`/monitoring/patients/${encodeURIComponent(id)}`)).data.data; },
   async acknowledge(id) { return (await api.patch(`/monitoring/alerts/${encodeURIComponent(id)}/acknowledge`)).data.data; },
 };
-export const readingState = (patient) => !patient.device ? 'Sin dispositivo asignado' : !patient.latest ? 'Sin lecturas' : !patient.device.online ? 'Dispositivo desconectado' : patient.latest.stale ? 'Lectura desactualizada' : patient.latest.finger_detected === false ? 'Sin contacto con el sensor' : 'Lectura reciente';
-export const readingTime = (value) => value ? new Date(value).toLocaleString() : 'Sin fecha';
-export const readingValue = (value, unit = '') => value == null ? 'Sin lectura' : `${value} ${unit}`.trim();
-export const alertTitle = (alert) => alert.type === 'fall' ? 'Posible caída detectada' : alert.message || 'Alerta de monitoreo';
+export const readingState = (patient, t) => t(`patientMonitoring.states.${!patient.device ? 'unassigned' : !patient.latest ? 'noReadings' : !patient.device.online ? 'offline' : patient.latest.stale ? 'stale' : patient.latest.finger_detected === false ? 'noContact' : 'recent'}`);
+export const readingTime = (value, language, t) => value ? new Date(value).toLocaleString(language?.startsWith('en') ? 'en-US' : 'es-MX') : t('patientMonitoring.noDate');
+export const readingValue = (value, unit = '', t) => value == null ? t('patientMonitoring.noReading') : `${value} ${unit}`.trim();
+const knownAlertTypes = new Set(['fall', 'low_heart_rate', 'high_heart_rate', 'low_spo2']);
+export const alertTitle = (alert, t) => knownAlertTypes.has(alert.type) ? t(`patientMonitoring.alertTypes.${alert.type}`) : alert.message || t('patientMonitoring.alertTypes.generic');
