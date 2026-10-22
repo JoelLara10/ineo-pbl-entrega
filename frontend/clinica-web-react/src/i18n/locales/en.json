@@ -1377,5 +1377,83 @@
       "signos_vitales": "Vital signs records",
       "signos_vitales_fecha_registro": "Vital signs · record date"
     }
+  },
+  "analysisTools": {
+    "observations": "Valid observations",
+    "filters": {
+      "title": "Explore the indicators",
+      "from": "From",
+      "to": "To",
+      "area": "Area",
+      "allAreas": "All areas",
+      "compare": "Compare with the previous period of equal length",
+      "clear": "Clear filters",
+      "hint": "Both dates are inclusive and use UTC. Select up to five years and run the analysis to apply filters.",
+      "changed": "Some filters have not been applied. Charts retain the saved result filters until the analysis runs again.",
+      "invalid": "Select both dates in order, up to five years. Comparison also requires both dates.",
+      "optionsError": "Areas could not be loaded. Refresh to try again; date filtering remains available across all areas.",
+      "applied": "Filters for the displayed result",
+      "selectedPeriod": "Selected period",
+      "allHistory": "All available history"
+    },
+    "comparison": {
+      "title": "Encounter comparison",
+      "current": "Selected period",
+      "previous": "Previous period · reference",
+      "change": "Absolute and percentage change",
+      "noBase": "No percentage baseline: there were no encounters in the previous period.",
+      "rising": "The count increased. Review scheduling and workload distribution before proposing capacity changes. The change alone does not establish its cause.",
+      "falling": "The count decreased. Review demand and record completeness before proposing capacity changes.",
+      "stable": "The count stayed the same. Check the date and area distributions before concluding that workload was identical."
+    },
+    "insights": {
+      "title": "How to interpret and use these results",
+      "analytics": "Each encounter is a recorded episode; a patient may have several. Statuses describe the records when the analysis runs.",
+      "snapshotScope": "Dates filter encounters. Registered patients is the global catalog; beds and studies reflect their current state rather than historical occupancy. Area applies to encounters, beds and studies using the currently recorded area.",
+      "met": "The trend counts admissions, not unique people. The daily average includes calendar days with no admissions within the selected period.",
+      "clinical": "Each mean is based on the valid observations shown on its card. Observed minima and maxima describe the dataset; they are not recommended clinical limits. Compare only values with the same unit.",
+      "unsupervised": "Each group contains complete observations with similar vital signs. Group numbers identify sets and may change across runs. Groups are not diagnoses or unique patients.",
+      "quality": "Used {{used}} of {{total}} observations; {{excluded}} were excluded because of incomplete or unusable values.",
+      "excludedDates": "{{count}} records without valid dates were excluded when applying the period.",
+      "peaks": "Dates with the most admissions",
+      "morePeaks": "{{count}} dates are tied; the first ten are shown.",
+      "actionTitle": "Before proposing a decision",
+      "action_analytics": "Identify areas with the most open encounters and review whether beds and study requests need operational attention. Record a concrete action and how you would evaluate its outcome.",
+      "action_met": "Use peak dates to review resource scheduling and check whether the pattern recurs in other periods.",
+      "action_clinical": "Review the quantity and quality of observations with the clinical team before interpreting a change or proposing an action.",
+      "action_unsupervised": "Compare group means against the overall mean of the observations used. Review exclusions before deciding whether data capture needs improvement or a pattern needs investigation.",
+      "referenceMean": "Overall mean of the observations used",
+      "groupMeaning": "These means describe the group observations. The dashed line in each profile chart marks the overall mean as a reference."
+    },
+    "export": {
+      "download": "Download",
+      "all": "Download indicators and tables (CSV)",
+      "value": "Value",
+      "unit": "Unit",
+      "error": "The download could not be generated. Try SVG or CSV.",
+      "metric": "Indicator",
+      "mean": "Mean",
+      "minimum": "Minimum",
+      "maximum": "Maximum"
+    },
+    "review": {
+      "title": "My interpretation and decision",
+      "hint": "Review the period, units and references. Explain what the data mean, propose an evidence-based action and rate the clarity of text, legends and design. Your assessment is linked to the result you are viewing.",
+      "interpretation": "What does the indicator mean? Include the period and unit.",
+      "decision": "What conclusion or action do you propose, and which data support it?",
+      "clarity": "Clarity of text, legends and design",
+      "clear": "Clear",
+      "acceptable": "Acceptable",
+      "confusing": "Confusing",
+      "notes": "What would you improve? (optional)",
+      "save": "Save interpretation and assessment",
+      "saving": "Saving…",
+      "saved": "Interpretation and assessment saved for this result.",
+      "export": "Download assessment (CSV)",
+      "loadError": "Your previous assessment could not be retrieved. Refresh before saving if you already submitted one.",
+      "saveError": "Could not save. Check the fields and connection, then try again.",
+      "stale": "The result changed after you opened the page. Refresh the analysis before saving your assessment.",
+      "loading": "Loading your assessment…"
+    }
   }
 }

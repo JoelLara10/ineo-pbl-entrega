@@ -152,6 +152,7 @@ export default function ClinicalAnalyticsPanel({ data }) {
                 <h3>{label}</h3>
                 <p className="clinical-risk-value">{formatValue(metric.average)} <small>{unit}</small></p>
                 <p>{copy.minimum}: {formatValue(metric.minimum)} · {copy.maximum}: {formatValue(metric.maximum)}</p>
+                <p>{copy.count}: <strong>{Number.isFinite(metric.count) ? formatValue(metric.count) : '—'}</strong></p>
               </article>
             );
           })}
@@ -194,9 +195,9 @@ export default function ClinicalAnalyticsPanel({ data }) {
         {series.map(({ key, points }) => {
           return <AnalysisChart key={key} chart={{
             key: 'clinical_' + key, unit: { heartRate: 'fc', respiratoryRate: 'fr', temperature: 'temp', oxygen: 'spo2' }[key],
-            rows: points.map((point) => ({ label: point.day, value: point.average })),
+            rows: points.map((point) => ({ label: point.day, value: point.average, count: point.count })),
             mode: 'line', scope: 'history', source: 'signos_vitales.fecha_registro',
-          }} period={period} />;
+          }} period={period} filters={data.metadata?.filters} generatedAt={data.timestamp} />;
         })}
       </section>
 
