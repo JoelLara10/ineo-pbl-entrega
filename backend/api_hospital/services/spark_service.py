@@ -17,6 +17,7 @@ from uuid import uuid4
 from pymongo import ReturnDocument
 from utils.database import get_collection
 from services.analysis_resources import choose_engine, memory_pressure
+from services.analysis_filters import normalize_filters, previous_filters, parse_time
 
 TYPES = ('analytics', 'met', 'clinical', 'unsupervised')
 VERSION = '1.0'
@@ -71,7 +72,7 @@ def status_of(doc):
             'running': state in ('pending', 'running'), 'job_id': doc.get('job_id'),
             'started_at': stamp(doc.get('started_at')),
             'finished_at': stamp(doc.get('finished_at')),
-            'error': doc.get('error')}
+            'error': doc.get('error'), 'filters': doc.get('filters', {})}
 
 
 def read_job(kind):
@@ -91,15 +92,36 @@ def results(kind):
     return result
 
 
-def collect_source(kind, with_metadata=False):
+def collect_source(kind, with_metadata=False, filters=None):
     """Bounded projection; fail instead of silently truncating a dataset."""
     clinical = kind in ('clinical', 'unsupervised')
-    fields = ('fc', 'fr', 'temp', 'spo2') if clinical else ('status', 'fecha_ing')
+    filters = filters or {}
+    fields = ('fc', 'fr', 'temp', 'spo2') if clinical else ('status', 'fecha_ing', 'area')
+    query = {}
+    if filters.get('area'):
+        if clinical:
+            attention_ids = [doc.get('id_atencion') for doc in get_collection('atencion').find(
+                {'area': filters['area']}, {'_id': 0, 'id_atencion': 1}).limit(MAX_ROWS + 1)]
+            if len(attention_ids) > MAX_ROWS:
+                raise SparkRuntimeError('El área supera el límite de 20,000 atenciones para este análisis.')
+            query['id_atencion'] = {'$in': [value for value in attention_ids if value is not None]}
+        else:
+            query['area'] = filters['area']
     date_field = 'fecha_registro' if clinical else 'fecha_ing'
     docs = list(get_collection('signos_vitales' if clinical else 'atencion').find(
-        {}, {'_id': 0, **{field: 1 for field in (*fields, date_field)}}).limit(MAX_ROWS + 1))
+        query, {'_id': 0, **{field: 1 for field in (*fields, date_field)}}).limit(MAX_ROWS + 1))
     if len(docs) > MAX_ROWS:
         raise ValueError('dataset_limit')
+    excluded_undated = 0
+    if filters.get('start_date'):
+        selected = []
+        for doc in docs:
+            recorded = parse_time(doc.get(date_field))
+            if recorded is None:
+                excluded_undated += 1
+            elif filters['start_date'] <= recorded.date().isoformat() <= filters['end_date']:
+                selected.append(doc)
+        docs = selected
     rows = []
     for doc in docs:
         if clinical:
@@ -129,6 +151,8 @@ def collect_source(kind, with_metadata=False):
                     date = None
             row = {'day': stamp(date)[:10] if isinstance(date, datetime) else None,
                    'status': doc.get('status') if doc.get('status') in ('ABIERTA', 'CERRADA') else 'OTRO'}
+        if not clinical and doc.get('area') is not None:
+            row['area'] = str(doc['area'])
         rows.append(row)
     if not with_metadata:
         return rows
@@ -147,6 +171,10 @@ def collect_source(kind, with_metadata=False):
                     period={'start': min(dates)[:10] if dates else None,
                             'end': max(dates)[:10] if dates else None},
                     undated_rows=len(docs) - len(dates))
+    metadata['filters'] = filters
+    metadata['excluded_undated_rows'] = excluded_undated
+    if filters.get('start_date'):
+        metadata['period'] = {'start': filters['start_date'], 'end': filters['end_date']}
     return rows, metadata
 
 
@@ -224,10 +252,27 @@ def execute(kind, job_id):
     if not claimed.modified_count:
         return
     try:
-        rows, metadata = collect_source(kind, with_metadata=True)
+        job = collection.find_one({'_id': kind, 'job_id': job_id}) or {}
+        filters = job.get('filters') or {}
+        rows, metadata = collect_source(kind, with_metadata=True, filters=filters)
         result = run_engine(kind, rows)
+        if kind in ('analytics', 'met') and filters.get('start_date'):
+            # A fully queried date interval with zero dated encounters is still a valid count.
+            result['available'] = True
+            result.setdefault('summary', {}).setdefault('total', 0)
         from services.analysis_dashboard import build_dashboard
-        result['dashboard'] = build_dashboard(kind, rows, result)
+        result['dashboard'] = build_dashboard(kind, rows, result, filters=filters)
+        if filters.get('compare_previous'):
+            previous = previous_filters(filters)
+            prior_rows = collect_source(kind, filters=previous)
+            prior_count = len(prior_rows) if kind == 'analytics' else sum(bool(row.get('day')) for row in prior_rows)
+            current_count = result.get('summary', {}).get('total', 0)
+            result['comparison'] = {
+                'current': current_count, 'previous': prior_count, 'change': current_count - prior_count,
+                'change_percent': (current_count - prior_count) / prior_count * 100 if prior_count else None,
+                'previous_period': {'start': previous['start_date'], 'end': previous['end_date']},
+                'current_period': metadata['period'], 'area': filters.get('area'),
+            }
         generated_at = stamp(now())
         metadata['generated_at'] = generated_at
         result.update(contract_version=VERSION, timestamp=generated_at,
@@ -242,7 +287,8 @@ def execute(kind, job_id):
     collection.update_one({'_id': kind, 'job_id': job_id, 'state': 'running'}, {'$set': update})
 
 
-def start(kind):
+def start(kind, filters=None):
+    filters = normalize_filters(filters, kind)
     collection = get_collection('spark_jobs')
     collection.update_one({'_id': kind}, {'$setOnInsert': {'state': 'idle'}}, upsert=True)
     read_job(kind)
@@ -250,11 +296,14 @@ def start(kind):
     doc = collection.find_one_and_update(
         {'_id': kind, 'state': {'$nin': ['pending', 'running']}},
         {'$set': {'job_id': job_id, 'state': 'pending', 'error': None,
-                  'started_at': None, 'finished_at': None,
+                  'started_at': None, 'finished_at': None, 'filters': filters,
                   'expires_at': now() + timedelta(seconds=JOB_TTL)}},
         return_document=ReturnDocument.AFTER)
     if doc is None:
-        return status_of(read_job(kind)), False
+        current = read_job(kind)
+        if (current or {}).get('filters', {}) != filters:
+            raise SparkRuntimeError('Ya hay un análisis en curso con otros filtros. Espera a que termine y vuelve a ejecutar.')
+        return status_of(current), False
     try:
         EXECUTOR.submit(execute, kind, job_id)
     except RuntimeError:

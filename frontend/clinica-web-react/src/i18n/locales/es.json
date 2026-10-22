@@ -1377,5 +1377,83 @@
       "signos_vitales": "Registros de signos vitales",
       "signos_vitales_fecha_registro": "Signos vitales · fecha de registro"
     }
+  },
+  "analysisTools": {
+    "observations": "Observaciones válidas",
+    "filters": {
+      "title": "Explorar los indicadores",
+      "from": "Desde",
+      "to": "Hasta",
+      "area": "Área",
+      "allAreas": "Todas las áreas",
+      "compare": "Comparar con el periodo anterior de igual duración",
+      "clear": "Limpiar filtros",
+      "hint": "Las fechas incluyen ambos días y se interpretan en UTC. Selecciona hasta cinco años y pulsa Ejecutar análisis para aplicar los filtros.",
+      "changed": "Hay filtros sin aplicar. Las gráficas conservan los filtros del resultado guardado hasta ejecutar de nuevo.",
+      "invalid": "Selecciona inicio y fin en orden, con un máximo de cinco años. Para comparar también se requieren ambas fechas.",
+      "optionsError": "No se pudieron cargar las áreas. Actualiza la página para volver a intentarlo; puedes consultar las fechas con todas las áreas.",
+      "applied": "Filtros del resultado mostrado",
+      "selectedPeriod": "Periodo seleccionado",
+      "allHistory": "Todo el historial disponible"
+    },
+    "comparison": {
+      "title": "Comparación de atenciones",
+      "current": "Periodo seleccionado",
+      "previous": "Periodo anterior · referencia",
+      "change": "Cambio absoluto y porcentual",
+      "noBase": "Sin base porcentual: el periodo anterior no tuvo atenciones.",
+      "rising": "El conteo aumentó. Revisa la programación y la distribución de carga antes de proponer ajustes de capacidad. El cambio no demuestra por sí solo su causa.",
+      "falling": "El conteo disminuyó. Revisa la demanda y la integridad de los registros antes de proponer ajustes de capacidad.",
+      "stable": "El conteo se mantuvo. Comprueba también la distribución por fecha y área antes de concluir que la carga fue igual."
+    },
+    "insights": {
+      "title": "Cómo interpretar y usar estos resultados",
+      "analytics": "Cada atención es un episodio registrado; un mismo paciente puede tener varias. Los estados describen cómo están los registros al ejecutar el análisis.",
+      "snapshotScope": "Las fechas filtran las atenciones. Pacientes registrados es el catálogo global; camas y estudios reflejan su estado actual, no una reconstrucción histórica. El área se aplica a atenciones, camas y estudios, usando el área registrada actualmente.",
+      "met": "La tendencia cuenta ingresos, no personas únicas. El promedio diario incluye los días calendario sin ingresos dentro del periodo seleccionado.",
+      "clinical": "Cada promedio se basa en las observaciones válidas indicadas en su tarjeta. El mínimo y máximo observados ofrecen contexto del conjunto de datos; no son límites clínicos recomendados. Compara únicamente valores con la misma unidad.",
+      "unsupervised": "Cada grupo reúne observaciones completas con signos vitales similares. Los números de grupo identifican conjuntos y pueden cambiar entre ejecuciones. Los grupos no equivalen a diagnósticos ni a pacientes únicos.",
+      "quality": "Se utilizaron {{used}} de {{total}} observaciones; {{excluded}} se excluyeron por datos incompletos o no utilizables.",
+      "excludedDates": "Se excluyeron {{count}} registros sin fecha válida al aplicar el periodo.",
+      "peaks": "Fechas con mayor número de ingresos",
+      "morePeaks": "Hay {{count}} fechas empatadas; se muestran las primeras diez.",
+      "actionTitle": "Antes de formular una decisión",
+      "action_analytics": "Identifica qué áreas concentran atenciones abiertas y revisa si la distribución de camas y solicitudes requiere una revisión operativa. Registra una acción concreta y cómo comprobarías su resultado.",
+      "action_met": "Usa las fechas pico para revisar la programación de recursos y confirma si el patrón se repite en otros periodos.",
+      "action_clinical": "Revisa la cantidad y calidad de las observaciones con el equipo clínico antes de interpretar una variación o proponer una acción.",
+      "action_unsupervised": "Compara los promedios de cada grupo con el promedio general de las observaciones utilizadas. Revisa las exclusiones antes de decidir si hace falta mejorar la captura o investigar un patrón.",
+      "referenceMean": "Promedio general de las observaciones utilizadas",
+      "groupMeaning": "Estos promedios describen las observaciones del grupo. La línea discontinua de cada gráfica de perfil marca el promedio general como referencia."
+    },
+    "export": {
+      "download": "Descargar",
+      "all": "Descargar indicadores y tablas (CSV)",
+      "value": "Valor",
+      "unit": "Unidad",
+      "error": "No se pudo generar la descarga. Intenta con SVG o CSV.",
+      "metric": "Indicador",
+      "mean": "Promedio",
+      "minimum": "Mínimo",
+      "maximum": "Máximo"
+    },
+    "review": {
+      "title": "Mi interpretación y decisión",
+      "hint": "Revisa el periodo, las unidades y las referencias. Explica qué significan los datos, propón una acción basada en ellos y califica la claridad de textos, leyendas y diseño. Esta evaluación queda vinculada al resultado que estás viendo.",
+      "interpretation": "¿Qué significa el indicador? Incluye el periodo y la unidad.",
+      "decision": "¿Qué conclusión o acción propones y en qué dato te basas?",
+      "clarity": "Claridad de textos, leyendas y diseño",
+      "clear": "Clara",
+      "acceptable": "Aceptable",
+      "confusing": "Confusa",
+      "notes": "¿Qué mejorarías? (opcional)",
+      "save": "Guardar interpretación y evaluación",
+      "saving": "Guardando…",
+      "saved": "Interpretación y evaluación guardadas para este resultado.",
+      "export": "Descargar evaluación (CSV)",
+      "loadError": "No se pudo recuperar tu evaluación anterior. Actualiza antes de guardar si ya habías registrado una.",
+      "saveError": "No se pudo guardar. Comprueba los campos y la conexión e inténtalo de nuevo.",
+      "stale": "El resultado cambió desde que abriste la vista. Actualiza el análisis antes de guardar tu evaluación.",
+      "loading": "Recuperando tu evaluación…"
+    }
   }
 }
