@@ -1,0 +1,44 @@
+{
+  "date": "2026-10-22",
+  "develop": "9c456cc",
+  "jaime": "7343a42",
+  "decision": "NO-GO for promotion of feature/sprint9; human Analytics UAT remains conditional",
+  "results": {
+    "frontend-baseline.xml": {
+      "tests": 141,
+      "passed": 141,
+      "failed": 0,
+      "skipped_or_xfail": 0
+    },
+    "frontend-final.xml": {
+      "tests": 148,
+      "passed": 148,
+      "failed": 0,
+      "skipped_or_xfail": 0
+    },
+    "jaime-states.xml": {
+      "tests": 7,
+      "passed": 7,
+      "failed": 0,
+      "skipped_or_xfail": 0
+    },
+    "backend-baseline.xml": {
+      "tests": 329,
+      "passed": 311,
+      "failed": 4,
+      "skipped_or_xfail": 14
+    },
+    "backend-portable.xml": {
+      "tests": 335,
+      "passed": 320,
+      "failed": 0,
+      "skipped_or_xfail": 15
+    },
+    "uat-readiness.xml": {
+      "tests": 9,
+      "passed": 8,
+      "failed": 0,
+      "skipped_or_xfail": 1
+    }
+  }
+}
