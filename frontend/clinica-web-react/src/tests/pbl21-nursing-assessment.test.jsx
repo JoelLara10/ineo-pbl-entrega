@@ -58,6 +58,10 @@ describe('PBL-21 — Valoración de Enfermería unificada', () => {
     expect(await screen.findByText(i18n.t('nursingAssessment.noRecords'))).toBeInTheDocument();
     expect(api.get).toHaveBeenCalledWith('/appointments/AT-JAIME-8/nursing-assessment');
     await userEvent.type(screen.getByLabelText(i18n.t('nursingAssessment.generalStateLabel')), 'Estable');
+    await userEvent.type(screen.getByLabelText(i18n.t('nursingAssessment.painLabel')), '0');
+    await userEvent.type(screen.getByLabelText(i18n.t('nursingAssessment.mobilityLabel')), 'Independiente');
+    await userEvent.type(screen.getByLabelText(i18n.t('nursingAssessment.fallRiskLabel')), 'Bajo');
+    await userEvent.type(screen.getByLabelText(i18n.t('nursingAssessment.uprRiskLabel')), 'Bajo');
     await userEvent.type(screen.getByLabelText(i18n.t('nursingAssessment.observationsLabel')), 'Paciente sin dolor');
     await userEvent.click(screen.getByRole('button', { name: i18n.t('nursingAssessment.save') }));
 

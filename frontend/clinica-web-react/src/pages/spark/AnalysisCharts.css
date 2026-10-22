@@ -10,6 +10,9 @@
 .analysis-chart h2 { margin:0 0 8px; font-size:1.1rem; color:#1e293b; }
 .analysis-chart p { font-size:.86rem; line-height:1.6; color:#475569; }
 .analysis-chart header p { margin:0; }
+.analysis-chart-description { margin:12px 0; }
+.analysis-chart-description summary { cursor:pointer; color:#1d4ed8; font-size:.85rem; }
+.analysis-chart header { flex-wrap:wrap; }
 .analysis-unit { flex-shrink:0; border-radius:8px; padding:6px 9px; background:#eff6ff; color:#1d4ed8; font-size:.8rem; }
 .analysis-chart-scope { border-bottom:1px solid #e2e8f0; padding-bottom:12px; overflow-wrap:anywhere; }
 .analysis-bars { display:grid; gap:15px; padding:12px 0 24px; }

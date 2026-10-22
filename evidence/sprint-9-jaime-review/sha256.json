@@ -1,0 +1,9 @@
+{
+  "docs/sprints/sprint-9/Revision-Jaime-UAT-Sprint9.pdf": "e6a22bf472d370127d75faf0d0d8af1d0212a247c6a8faa50c6dc8f2ad985c0a",
+  "evidence/sprint-9-jaime-review/backend-baseline.xml": "b295b3ccddc04de67b9ed6bc720071f82200aac2bf8b28b0d282cc31cefae4ef",
+  "evidence/sprint-9-jaime-review/backend-portable.xml": "00c92bdea8389ebb51a6dc49cdde16e5b61be42e89545e37447845c4a1f37764",
+  "evidence/sprint-9-jaime-review/frontend-baseline.xml": "a8bb5ce00fe089cd7646d955a2241c5f113229d74116e7e521a8b51d8d0282c9",
+  "evidence/sprint-9-jaime-review/frontend-final.xml": "63d7a437824bbf11fe83ff22ac4732ac636b89b9b17e46c6869dcbe6ebe06bac",
+  "evidence/sprint-9-jaime-review/jaime-states.xml": "6e71380f79a7102d3be5f0cb1d21a23a32247a137efa8b95a251197f987954fd",
+  "evidence/sprint-9-jaime-review/uat-readiness.xml": "a49af2fd2dade75422d6cf8968d5e3adb8151c7d65b59f6830edb70f8e5b25ec"
+}
