@@ -1,0 +1,12 @@
+Comparación de atenciones
+Periodo seleccionado
+4 Atenciones
+05/01/2026 – 10/01/2026
+Periodo anterior · referencia
+4 Atenciones
+30/12/2025 – 04/01/2026
+Cambio absoluto y porcentual
+0
+0 %
+
+El conteo se mantuvo. Comprueba también la distribución por fecha y área antes de concluir que la carga fue igual.

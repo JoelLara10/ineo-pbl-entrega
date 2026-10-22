@@ -1,0 +1,14 @@
+{
+  "normalization": "UTF-8 text with LF line endings",
+  "files": {
+    "backend/api_hospital/routes/medical.py": "326421537d4822e5579d8c47d9c3349b450e86e2afa21151b93688523dc0dd1b",
+    "backend/api_hospital/utils/nursing_assessment_validation.py": "9ed6d71980ee772bee9798abd8a2b9c7ba0cb455ce18a77be1b3434646687067",
+    "backend/api_hospital/testing/uat_server.py": "170929fcf5c10ee7e55d280a191fb195cd359c992c30a10ec68d4605c4ce98d0",
+    "frontend/clinica-web-react/src/pages/enfermeria/EnfermeriaAssessmentScreen.jsx": "f163990b55760688aefd74f18d84073ed69f45c330ef034152126c38d79dc6cf",
+    "frontend/clinica-web-react/src/pages/spark/SparkAnalysisScreen.jsx": "17a9fdd92ec031123a3f462cbbe7d69259eb25946f0af556c510660034cade4f",
+    "frontend/clinica-web-react/src/pages/spark/AnalysisCharts.jsx": "5536a1c4d99a756ee1fd9d6f9b81bfa8deec0b4d77f3210c4f0a4c4b0246c0fc",
+    "frontend/clinica-web-react/src/pages/spark/AnalysisCharts.css": "46f81c9146e7d8676ae48d77857acf37abc445e3e4c43fc8515a9e86014f8e34",
+    "frontend/clinica-web-react/src/i18n/locales/es.json": "ed968287426ac7bb52c2fae39ea79b2bc43a4267b5d59b7f01d0c4311cb4b323",
+    "frontend/clinica-web-react/src/i18n/locales/en.json": "40802ca91b17b1c9b129136b7e9e9744495e76475880375a3c85f8aac3db5885"
+  }
+}

@@ -1,0 +1,686 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="153" failures="0" errors="0" time="22.4888443">
+    <testsuite name="src/tests/analysis-dashboard.test.jsx" timestamp="2026-10-22T19:36:06.745Z" hostname="DESKTOP-812BAG9" tests="7" failures="0" errors="0" skipped="0" time="0.5932255">
+        <testcase classname="src/tests/analysis-dashboard.test.jsx" name="labels actual statuses and exposes every value in an accessible table" time="0.3020508">
+        </testcase>
+        <testcase classname="src/tests/analysis-dashboard.test.jsx" name="plots all dates and zero days without truncating at twelve rows" time="0.1390052">
+        </testcase>
+        <testcase classname="src/tests/analysis-dashboard.test.jsx" name="uses group labels rather than bed labels and keeps profile units separate" time="0.0467617">
+        </testcase>
+        <testcase classname="src/tests/analysis-dashboard.test.jsx" name="renders unknown occupancy without inventing zero and translates labels" time="0.0306338">
+        </testcase>
+        <testcase classname="src/tests/analysis-dashboard.test.jsx" name="shows empty and migration states explicitly" time="0.0165969">
+        </testcase>
+        <testcase classname="src/tests/analysis-dashboard.test.jsx" name="keeps units explicit and makes supporting text optional in es" time="0.02658">
+        </testcase>
+        <testcase classname="src/tests/analysis-dashboard.test.jsx" name="keeps units explicit and makes supporting text optional in en" time="0.0286732">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/tests/analysis-tools.test.jsx" timestamp="2026-10-22T19:36:06.757Z" hostname="DESKTOP-812BAG9" tests="7" failures="0" errors="0" skipped="0" time="2.5109384">
+        <testcase classname="src/tests/analysis-tools.test.jsx" name="applies dates, area and equal-period comparison only after running" time="0.5279224">
+        </testcase>
+        <testcase classname="src/tests/analysis-tools.test.jsx" name="rejects a partial date range without executing the analysis" time="0.1322643">
+        </testcase>
+        <testcase classname="src/tests/analysis-tools.test.jsx" name="clearly labels both periods, counts, units and a missing percentage baseline" time="0.0164601">
+        </testcase>
+        <testcase classname="src/tests/analysis-tools.test.jsx" name="records a human interpretation, action and qualitative clarity against the displayed snapshot" time="1.7209058">
+        </testcase>
+        <testcase classname="src/tests/analysis-tools.test.jsx" name="reports that a changed result requires refreshing before saving a review" time="0.0949547">
+        </testcase>
+        <testcase classname="src/tests/analysis-tools.test.jsx" name="exports CSV safely for Excel while retaining numeric negative changes" time="0.0010649">
+        </testcase>
+        <testcase classname="src/tests/analysis-tools.test.jsx" name="exports a standalone chart with labels, unit, period and weighted reference without markup injection" time="0.0132217">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/tests/auth-session.test.jsx" timestamp="2026-10-22T19:36:06.766Z" hostname="DESKTOP-812BAG9" tests="1" failures="0" errors="0" skipped="0" time="0.3964848">
+        <testcase classname="src/tests/auth-session.test.jsx" name="Cambio de cuenta &gt; limpia la sesión anterior y acepta el inicio de sesión de otra cuenta" time="0.3924125">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/tests/monitoring.test.jsx" timestamp="2026-10-22T19:36:06.767Z" hostname="DESKTOP-812BAG9" tests="4" failures="0" errors="0" skipped="0" time="0.4637844">
+        <testcase classname="src/tests/monitoring.test.jsx" name="monitoring API and screen &gt; uses the API data array without an extra patients wrapper" time="0.008313">
+        </testcase>
+        <testcase classname="src/tests/monitoring.test.jsx" name="monitoring API and screen &gt; shows a possible fall independently of missing vital readings and acknowledges it" time="0.219731">
+        </testcase>
+        <testcase classname="src/tests/monitoring.test.jsx" name="switches loaded monitoring and errors between ES and EN without reloading data" time="0.2283423">
+        </testcase>
+        <testcase classname="src/tests/monitoring.test.jsx" name="translates all sensor states, units, dates and known API alerts" time="0.0028805">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/tests/nursing-layout.test.jsx" timestamp="2026-10-22T19:36:06.770Z" hostname="DESKTOP-812BAG9" tests="5" failures="0" errors="0" skipped="0" time="0.8462719">
+        <testcase classname="src/tests/nursing-layout.test.jsx" name="blocks an empty assessment and rejects an out-of-range numeric pain score before sending" time="0.3933771">
+        </testcase>
+        <testcase classname="src/tests/nursing-layout.test.jsx" name="&apos;nursingAssessment&apos; keeps its history available and allows collapsing it without reloading" time="0.1188218">
+        </testcase>
+        <testcase classname="src/tests/nursing-layout.test.jsx" name="&apos;nursingFluidBalance&apos; keeps its history available and allows collapsing it without reloading" time="0.1256118">
+        </testcase>
+        <testcase classname="src/tests/nursing-layout.test.jsx" name="&apos;nursingCare&apos; keeps its history available and allows collapsing it without reloading" time="0.0704631">
+        </testcase>
+        <testcase classname="src/tests/nursing-layout.test.jsx" name="selects a medication date with a calendar and preserves the existing API date format" time="0.1352584">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/tests/patient-list-parity.test.jsx" timestamp="2026-10-22T19:36:06.772Z" hostname="DESKTOP-812BAG9" tests="7" failures="0" errors="0" skipped="0" time="2.7964507">
+        <testcase classname="src/tests/patient-list-parity.test.jsx" name="moves all patient groups together and returns to page one after server search" time="1.1970847">
+        </testcase>
+        <testcase classname="src/tests/patient-list-parity.test.jsx" name="revalidates a fresh cache on entry and after focus instead of keeping stale patients" time="0.1488509">
+        </testcase>
+        <testcase classname="src/tests/patient-list-parity.test.jsx" name="keeps census searches separate by area and resets the filtered area page" time="0.0615407">
+        </testcase>
+        <testcase classname="src/tests/patient-list-parity.test.jsx" name="clinical lists discard stale snapshots and preserve shared API order (&apos;ineo_web_cache_medico_&apos;)" time="0.0997749">
+        </testcase>
+        <testcase classname="src/tests/patient-list-parity.test.jsx" name="clinical lists discard stale snapshots and preserve shared API order (&apos;ineo_web_cache_enfermeria_&apos;)" time="0.0405484">
+        </testcase>
+        <testcase classname="src/tests/patient-list-parity.test.jsx" name="ignores a late response from a previous patient search" time="1.0957333">
+        </testcase>
+        <testcase classname="src/tests/patient-list-parity.test.jsx" name="keeps the complete patient row when the account API returns patient as a name string" time="0.1489418">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/tests/pbl06-language.test.jsx" timestamp="2026-10-22T19:36:06.776Z" hostname="DESKTOP-812BAG9" tests="14" failures="0" errors="0" skipped="0" time="0.3023663">
+        <testcase classname="src/tests/pbl06-language.test.jsx" name="PBL-06-T1 — persistencia de idioma y formato regional &gt; cambia textos, fecha y moneda en la misma pantalla mediante los botones reales ES/EN" time="0.2170033">
+        </testcase>
+        <testcase classname="src/tests/pbl06-language.test.jsx" name="PBL-06-T1 — persistencia de idioma y formato regional &gt; restaura inglés en una nueva sesión después de cerrar sesión y remontar la aplicación" time="0.0575395">
+        </testcase>
+        <testcase classname="src/tests/pbl06-language.test.jsx" name="PBL-06-T1 — persistencia de idioma y formato regional &gt; persiste también cambios de idioma hechos fuera del login" time="0.0031906">
+        </testcase>
+        <testcase classname="src/tests/pbl06-language.test.jsx" name="PBL-06-T1 — persistencia de idioma y formato regional &gt; normaliza la preferencia almacenada en-US a en" time="0.0012281">
+        </testcase>
+        <testcase classname="src/tests/pbl06-language.test.jsx" name="PBL-06-T1 — persistencia de idioma y formato regional &gt; normaliza la preferencia almacenada es-MX a es" time="0.0010286">
+        </testcase>
+        <testcase classname="src/tests/pbl06-language.test.jsx" name="PBL-06-T1 — persistencia de idioma y formato regional &gt; normaliza la preferencia almacenada incorrecto a es" time="0.0012961">
+        </testcase>
+        <testcase classname="src/tests/pbl06-language.test.jsx" name="PBL-06-T1 — persistencia de idioma y formato regional &gt; normaliza la preferencia almacenada  a es" time="0.0013303">
+        </testcase>
+        <testcase classname="src/tests/pbl06-language.test.jsx" name="PBL-06-T1 — persistencia de idioma y formato regional &gt; continúa traduciendo si el navegador bloquea la lectura y escritura de almacenamiento" time="0.0016174">
+        </testcase>
+        <testcase classname="src/tests/pbl06-language.test.jsx" name="PBL-06-T1 — persistencia de idioma y formato regional &gt; conserva la fecha de calendario y utiliza el orden regional" time="0.0028532">
+        </testcase>
+        <testcase classname="src/tests/pbl06-language.test.jsx" name="PBL-06-T1 — persistencia de idioma y formato regional &gt; localiza fechas y horas de estilo dateTime" time="0.0026267">
+        </testcase>
+        <testcase classname="src/tests/pbl06-language.test.jsx" name="PBL-06-T1 — persistencia de idioma y formato regional &gt; localiza fechas y horas de estilo long" time="0.0012005">
+        </testcase>
+        <testcase classname="src/tests/pbl06-language.test.jsx" name="PBL-06-T1 — persistencia de idioma y formato regional &gt; localiza fechas y horas de estilo longDateTime" time="0.0013537">
+        </testcase>
+        <testcase classname="src/tests/pbl06-language.test.jsx" name="PBL-06-T1 — persistencia de idioma y formato regional &gt; localiza fechas y horas de estilo short" time="0.0024623">
+        </testcase>
+        <testcase classname="src/tests/pbl06-language.test.jsx" name="PBL-06-T1 — persistencia de idioma y formato regional &gt; formatea cantidades en es-MX/en-US sin confundir México con España" time="0.0012131">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/tests/pbl07-analytics-general.test.jsx" timestamp="2026-10-22T19:36:06.781Z" hostname="DESKTOP-812BAG9" tests="1" failures="0" errors="0" skipped="0" time="0.2302691">
+        <testcase classname="src/tests/pbl07-analytics-general.test.jsx" name="PBL-07 — Analytics general explicado &gt; presenta tarjetas y una gráfica con título, etiquetas, valores, unidad, periodo, leyenda y explicación" time="0.2261212">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/tests/pbl08-met.test.js" timestamp="2026-10-22T19:36:06.782Z" hostname="DESKTOP-812BAG9" tests="5" failures="0" errors="0" skipped="0" time="0.0129067">
+        <testcase classname="src/tests/pbl08-met.test.js" name="PBL-08 vista MET operativa &gt; MetAnalyticsScreen sigue delegando en SparkAnalysisScreen con type met" time="0.0031441">
+        </testcase>
+        <testcase classname="src/tests/pbl08-met.test.js" name="PBL-08 vista MET operativa &gt; MetAnalyticsScreen integra el panel operativo sin afectar otros análisis" time="0.0008694">
+        </testcase>
+        <testcase classname="src/tests/pbl08-met.test.js" name="PBL-08 vista MET operativa &gt; MetOperationalPanel expone KPIs, pistas de decisión y detalle técnico" time="0.0010217">
+        </testcase>
+        <testcase classname="src/tests/pbl08-met.test.js" name="PBL-08 vista MET operativa &gt; i18n ES e EN incluyen claves operativas MET" time="0.0038431">
+        </testcase>
+        <testcase classname="src/tests/pbl08-met.test.js" name="PBL-08 vista MET operativa &gt; backend registra MET dentro de los tipos Spark disponibles" time="0.0009965">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/tests/pbl15-i18n-validator.test.js" timestamp="2026-10-22T19:36:06.785Z" hostname="DESKTOP-812BAG9" tests="1" failures="0" errors="0" skipped="0" time="0.0266655">
+        <testcase classname="src/tests/pbl15-i18n-validator.test.js" name="PBL-15 — validador de traducciones &gt; reporta archivo, clave e idioma cuando falta una traducción" time="0.02396">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/tests/pbl17-plain-language.test.js" timestamp="2026-10-22T19:36:06.787Z" hostname="DESKTOP-812BAG9" tests="2" failures="0" errors="0" skipped="0" time="0.0082031">
+        <testcase classname="src/tests/pbl17-plain-language.test.js" name="PBL-17 — terminología comprensible &gt; presenta nombres cotidianos en español" time="0.0042236">
+        </testcase>
+        <testcase classname="src/tests/pbl17-plain-language.test.js" name="PBL-17 — terminología comprensible &gt; mantiene el mismo criterio de lenguaje claro en inglés" time="0.0008579">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/tests/pbl21-nursing-assessment.test.jsx" timestamp="2026-10-22T19:36:06.788Z" hostname="DESKTOP-812BAG9" tests="2" failures="0" errors="0" skipped="0" time="1.7108044">
+        <testcase classname="src/tests/pbl21-nursing-assessment.test.jsx" name="PBL-21 — Valoración de Enfermería unificada &gt; muestra los datos anidados que devuelve la API en el historial" time="0.3054919">
+        </testcase>
+        <testcase classname="src/tests/pbl21-nursing-assessment.test.jsx" name="PBL-21 — Valoración de Enfermería unificada &gt; conserva consulta, campos, guardado e historial con textos del diseño común" time="1.4021558">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/tests/pbl22-fluid-balance.test.jsx" timestamp="2026-10-22T19:36:06.790Z" hostname="DESKTOP-812BAG9" tests="3" failures="0" errors="0" skipped="0" time="0.5378723">
+        <testcase classname="src/tests/pbl22-fluid-balance.test.jsx" name="PBL-22 - Balance hídrico &gt; distingue visualmente entradas, salidas y balance neto" time="0.2359756">
+        </testcase>
+        <testcase classname="src/tests/pbl22-fluid-balance.test.jsx" name="PBL-22 - Balance hídrico &gt; calcula los totales mientras se capturan los datos" time="0.1155369">
+        </testcase>
+        <testcase classname="src/tests/pbl22-fluid-balance.test.jsx" name="PBL-22 - Balance hídrico &gt; conserva el envío y la recarga del historial" time="0.1828837">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/tests/pbl28-react-testing-library.test.jsx" timestamp="2026-10-22T19:36:06.792Z" hostname="DESKTOP-812BAG9" tests="6" failures="0" errors="0" skipped="0" time="0.6105416">
+        <testcase classname="src/tests/pbl28-react-testing-library.test.jsx" name="PBL-28 — componentes, eventos, servicios simulados e i18n con RTL &gt; muestra el estado de carga" time="0.1622967">
+        </testcase>
+        <testcase classname="src/tests/pbl28-react-testing-library.test.jsx" name="PBL-28 — componentes, eventos, servicios simulados e i18n con RTL &gt; representa un resultado exitoso" time="0.0872218">
+        </testcase>
+        <testcase classname="src/tests/pbl28-react-testing-library.test.jsx" name="PBL-28 — componentes, eventos, servicios simulados e i18n con RTL &gt; muestra el estado vacío y permite actualizar" time="0.1936476">
+        </testcase>
+        <testcase classname="src/tests/pbl28-react-testing-library.test.jsx" name="PBL-28 — componentes, eventos, servicios simulados e i18n con RTL &gt; muestra un error accionable y permite reintentar" time="0.1086281">
+        </testcase>
+        <testcase classname="src/tests/pbl28-react-testing-library.test.jsx" name="PBL-28 — componentes, eventos, servicios simulados e i18n con RTL &gt; traduce la interfaz en es sin mostrar claves técnicas" time="0.0324539">
+        </testcase>
+        <testcase classname="src/tests/pbl28-react-testing-library.test.jsx" name="PBL-28 — componentes, eventos, servicios simulados e i18n con RTL &gt; traduce la interfaz en en sin mostrar claves técnicas" time="0.0231868">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/tests/pbl32-patient-reactivation.test.jsx" timestamp="2026-10-22T19:36:06.795Z" hostname="DESKTOP-812BAG9" tests="2" failures="0" errors="0" skipped="0" time="1.318036">
+        <testcase classname="src/tests/pbl32-patient-reactivation.test.jsx" name="Registro y reactivación de pacientes existentes &gt; busca un expediente previo y abre su edición para crear una nueva atención" time="0.8013176">
+        </testcase>
+        <testcase classname="src/tests/pbl32-patient-reactivation.test.jsx" name="Registro y reactivación de pacientes existentes &gt; impide iniciar otra atención desde el buscador si el paciente ya está activo" time="0.5127625">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/tests/pbl33-user-registration.test.jsx" timestamp="2026-10-22T19:36:06.796Z" hostname="DESKTOP-812BAG9" tests="4" failures="0" errors="0" skipped="0" time="4.8667462">
+        <testcase classname="src/tests/pbl33-user-registration.test.jsx" name="Alta de usuarios &gt; recorta el usuario, guarda el rol y muestra el alta sin depender de otra consulta" time="1.538622">
+        </testcase>
+        <testcase classname="src/tests/pbl33-user-registration.test.jsx" name="Alta de usuarios &gt; explica el límite de bcrypt antes de enviar una contraseña demasiado larga" time="2.0539511">
+        </testcase>
+        <testcase classname="src/tests/pbl33-user-registration.test.jsx" name="Edición de usuarios &gt; carga los datos, actualiza el usuario y conserva su contraseña si se deja vacía" time="0.6109526">
+        </testcase>
+        <testcase classname="src/tests/pbl33-user-registration.test.jsx" name="Cambio voluntario de contraseña &gt; solo incluye contraseña si se activa explícitamente el cambio" time="0.6593599">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/tests/pbl34-admin-patient-service.test.js" timestamp="2026-10-22T19:36:06.798Z" hostname="DESKTOP-812BAG9" tests="2" failures="0" errors="0" skipped="0" time="0.0092875">
+        <testcase classname="src/tests/pbl34-admin-patient-service.test.js" name="Administrative patient API flow &gt; loads, creates, and edits through the attention-aware administrative routes" time="0.0055387">
+        </testcase>
+        <testcase classname="src/tests/pbl34-admin-patient-service.test.js" name="Administrative patient API flow &gt; searches existing records through the authenticated patient lookup route" time="0.0011894">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/tests/project-structure.test.js" timestamp="2026-10-22T19:36:06.799Z" hostname="DESKTOP-812BAG9" tests="10" failures="0" errors="0" skipped="0" time="0.0128524">
+        <testcase classname="src/tests/project-structure.test.js" name="Estructura principal de INEO Web &gt; debe incluir src/main.jsx" time="0.00328">
+        </testcase>
+        <testcase classname="src/tests/project-structure.test.js" name="Estructura principal de INEO Web &gt; debe incluir src/router/AppRouter.jsx" time="0.0006987">
+        </testcase>
+        <testcase classname="src/tests/project-structure.test.js" name="Estructura principal de INEO Web &gt; debe incluir src/context/AuthContext.jsx" time="0.0004964">
+        </testcase>
+        <testcase classname="src/tests/project-structure.test.js" name="Estructura principal de INEO Web &gt; debe incluir src/context/PatientContext.jsx" time="0.0004843">
+        </testcase>
+        <testcase classname="src/tests/project-structure.test.js" name="Estructura principal de INEO Web &gt; debe incluir el módulo src/pages/administrativo" time="0.0005428">
+        </testcase>
+        <testcase classname="src/tests/project-structure.test.js" name="Estructura principal de INEO Web &gt; debe incluir el módulo src/pages/enfermeria" time="0.0005222">
+        </testcase>
+        <testcase classname="src/tests/project-structure.test.js" name="Estructura principal de INEO Web &gt; debe incluir el módulo src/pages/medico" time="0.0005051">
+        </testcase>
+        <testcase classname="src/tests/project-structure.test.js" name="Estructura principal de INEO Web &gt; debe incluir el módulo src/pages/estudios" time="0.0004782">
+        </testcase>
+        <testcase classname="src/tests/project-structure.test.js" name="Estructura principal de INEO Web &gt; debe conservar la configuración de la API" time="0.0018573">
+        </testcase>
+        <testcase classname="src/tests/project-structure.test.js" name="Estructura principal de INEO Web &gt; debe incluir rutas protegidas" time="0.0010443">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/tests/sprint1-joel.test.js" timestamp="2026-10-22T19:36:06.804Z" hostname="DESKTOP-812BAG9" tests="3" failures="0" errors="0" skipped="0" time="0.0196698">
+        <testcase classname="src/tests/sprint1-joel.test.js" name="Tareas de Joel del Sprint 1 &gt; PBL-01-T2 registra el panel y los cuatro módulos Spark" time="0.0059793">
+        </testcase>
+        <testcase classname="src/tests/sprint1-joel.test.js" name="Tareas de Joel del Sprint 1 &gt; PBL-04-T2 presenta estados con acciones de recuperación" time="0.0018881">
+        </testcase>
+        <testcase classname="src/tests/sprint1-joel.test.js" name="Tareas de Joel del Sprint 1 &gt; PBL-05-T3 mantiene las claves Spark equivalentes en ambos idiomas" time="0.0069792">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/tests/sprint2-joel.test.jsx" timestamp="2026-10-22T19:36:06.806Z" hostname="DESKTOP-812BAG9" tests="5" failures="0" errors="0" skipped="0" time="0.4088717">
+        <testcase classname="src/tests/sprint2-joel.test.jsx" name="PBL-03 — flujo clínico Spark &gt; muestra resultados reales al completar el análisis" time="0.1619316">
+        </testcase>
+        <testcase classname="src/tests/sprint2-joel.test.jsx" name="PBL-03 — flujo clínico Spark &gt; permite ejecutar y comunica pendiente o procesamiento" time="0.0410656">
+        </testcase>
+        <testcase classname="src/tests/sprint2-joel.test.jsx" name="PBL-03 — flujo clínico Spark &gt; presenta un fallo previo y permite volver a ejecutar" time="0.0410072">
+        </testcase>
+        <testcase classname="src/tests/sprint2-joel.test.jsx" name="PBL-23 — diseño de Cuidados de Enfermería &gt; conserva consulta, captura, estados y guardado con componentes responsivos" time="0.1019846">
+            <system-err>
+An update to EnfermeriaCareScreen inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+            </system-err>
+        </testcase>
+        <testcase classname="src/tests/sprint2-joel.test.jsx" name="PBL-23 — diseño de Cuidados de Enfermería &gt; muestra un error recuperable cuando falla el historial" time="0.0597315">
+            <system-err>
+Error loading nursing care history: Error: offline
+    at C:/9noCuatri/examen-vini/app-web-unidad2/sprint9-review/frontend/clinica-web-react/src/tests/sprint2-joel.test.jsx:124:35
+    at file:///C:/9noCuatri/examen-vini/backend/ineo-integration/frontend/clinica-web-react/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11
+    at file:///C:/9noCuatri/examen-vini/backend/ineo-integration/frontend/clinica-web-react/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26
+    at file:///C:/9noCuatri/examen-vini/backend/ineo-integration/frontend/clinica-web-react/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20
+    at new Promise (&lt;anonymous&gt;)
+    at runWithCancel (file:///C:/9noCuatri/examen-vini/backend/ineo-integration/frontend/clinica-web-react/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)
+    at file:///C:/9noCuatri/examen-vini/backend/ineo-integration/frontend/clinica-web-react/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20
+    at new Promise (&lt;anonymous&gt;)
+    at runWithTimeout (file:///C:/9noCuatri/examen-vini/backend/ineo-integration/frontend/clinica-web-react/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)
+    at file:///C:/9noCuatri/examen-vini/backend/ineo-integration/frontend/clinica-web-react/node_modules/@vitest/runner/dist/chunk-artifact.js:2956:64
+
+            </system-err>
+        </testcase>
+    </testsuite>
+    <testsuite name="src/tests/sprint7-jaime.test.js" timestamp="2026-10-22T19:36:06.809Z" hostname="DESKTOP-812BAG9" tests="3" failures="0" errors="0" skipped="0" time="0.008229">
+        <testcase classname="src/tests/sprint7-jaime.test.js" name="Entrega corregida de Jaime para Sprint 7 &gt; PBL-03-T3 conserva el flujo ejecutar, consultar estado y cargar resultado" time="0.0032666">
+        </testcase>
+        <testcase classname="src/tests/sprint7-jaime.test.js" name="Entrega corregida de Jaime para Sprint 7 &gt; PBL-03-T4 integra pendiente, procesamiento, completado y fallo" time="0.0010902">
+        </testcase>
+        <testcase classname="src/tests/sprint7-jaime.test.js" name="Entrega corregida de Jaime para Sprint 7 &gt; PBL-04-T1 mantiene acciones para estados vacíos, sin conexión y fallo" time="0.0009319">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/tests/sprint7-jesus-routes.test.jsx" timestamp="2026-10-22T19:36:06.810Z" hostname="DESKTOP-812BAG9" tests="10" failures="0" errors="0" skipped="0" time="2.0996932">
+        <testcase classname="src/tests/sprint7-jesus-routes.test.jsx" name="PBL-01-T3 — rutas reales y control de acceso &gt; admin abre directamente /admin/spark sin redirección" time="0.3944272">
+            <system-err>
+A suspended resource finished loading inside a test, but the event was not wrapped in act(...).
+
+When testing, code that resolves suspended data should be wrapped into act(...):
+
+act(() =&gt; {
+  /* finish loading suspended data */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+A suspended resource finished loading inside a test, but the event was not wrapped in act(...).
+
+When testing, code that resolves suspended data should be wrapped into act(...):
+
+act(() =&gt; {
+  /* finish loading suspended data */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+            </system-err>
+        </testcase>
+        <testcase classname="src/tests/sprint7-jesus-routes.test.jsx" name="PBL-01-T3 — rutas reales y control de acceso &gt; admin abre directamente /admin/spark/analytics sin redirección" time="0.3837401">
+            <system-err>
+A suspended resource finished loading inside a test, but the event was not wrapped in act(...).
+
+When testing, code that resolves suspended data should be wrapped into act(...):
+
+act(() =&gt; {
+  /* finish loading suspended data */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+A suspended resource finished loading inside a test, but the event was not wrapped in act(...).
+
+When testing, code that resolves suspended data should be wrapped into act(...):
+
+act(() =&gt; {
+  /* finish loading suspended data */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+An update to SparkAnalysisScreen inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to SparkAnalysisScreen inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to SparkAnalysisScreen inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to SparkAnalysisScreen inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+            </system-err>
+        </testcase>
+        <testcase classname="src/tests/sprint7-jesus-routes.test.jsx" name="PBL-01-T3 — rutas reales y control de acceso &gt; admin abre directamente /admin/spark/met sin redirección" time="0.318497">
+            <system-err>
+A suspended resource finished loading inside a test, but the event was not wrapped in act(...).
+
+When testing, code that resolves suspended data should be wrapped into act(...):
+
+act(() =&gt; {
+  /* finish loading suspended data */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+A suspended resource finished loading inside a test, but the event was not wrapped in act(...).
+
+When testing, code that resolves suspended data should be wrapped into act(...):
+
+act(() =&gt; {
+  /* finish loading suspended data */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+An update to SparkAnalysisScreen inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to SparkAnalysisScreen inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to SparkAnalysisScreen inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to SparkAnalysisScreen inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+            </system-err>
+        </testcase>
+        <testcase classname="src/tests/sprint7-jesus-routes.test.jsx" name="PBL-01-T3 — rutas reales y control de acceso &gt; admin abre directamente /admin/spark/clinical sin redirección" time="0.3869219">
+            <system-err>
+A suspended resource finished loading inside a test, but the event was not wrapped in act(...).
+
+When testing, code that resolves suspended data should be wrapped into act(...):
+
+act(() =&gt; {
+  /* finish loading suspended data */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+A suspended resource finished loading inside a test, but the event was not wrapped in act(...).
+
+When testing, code that resolves suspended data should be wrapped into act(...):
+
+act(() =&gt; {
+  /* finish loading suspended data */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+An update to SparkAnalysisScreen inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to SparkAnalysisScreen inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to SparkAnalysisScreen inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to SparkAnalysisScreen inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+            </system-err>
+        </testcase>
+        <testcase classname="src/tests/sprint7-jesus-routes.test.jsx" name="PBL-01-T3 — rutas reales y control de acceso &gt; admin abre directamente /admin/spark/unsupervised sin redirección" time="0.3900779">
+            <system-err>
+A suspended resource finished loading inside a test, but the event was not wrapped in act(...).
+
+When testing, code that resolves suspended data should be wrapped into act(...):
+
+act(() =&gt; {
+  /* finish loading suspended data */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+A suspended resource finished loading inside a test, but the event was not wrapped in act(...).
+
+When testing, code that resolves suspended data should be wrapped into act(...):
+
+act(() =&gt; {
+  /* finish loading suspended data */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+An update to SparkAnalysisScreen inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to SparkAnalysisScreen inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to SparkAnalysisScreen inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to SparkAnalysisScreen inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() =&gt; {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+            </system-err>
+        </testcase>
+        <testcase classname="src/tests/sprint7-jesus-routes.test.jsx" name="PBL-01-T3 — rutas reales y control de acceso &gt; sin sesión envía al acceso" time="0.1532681">
+            <system-err>
+A suspended resource finished loading inside a test, but the event was not wrapped in act(...).
+
+When testing, code that resolves suspended data should be wrapped into act(...):
+
+act(() =&gt; {
+  /* finish loading suspended data */
+});
+/* assert on the output */
+
+This ensures that you&apos;re testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+            </system-err>
+        </testcase>
+        <testcase classname="src/tests/sprint7-jesus-routes.test.jsx" name="PBL-01-T3 — rutas reales y control de acceso &gt; un médico no accede al módulo de administración" time="0.0119405">
+        </testcase>
+        <testcase classname="src/tests/sprint7-jesus-routes.test.jsx" name="Módulos visibles por rol &gt; administrativo ve gestión administrativa y análisis, sin módulos clínicos ni configuración" time="0.0007454">
+        </testcase>
+        <testcase classname="src/tests/sprint7-jesus-routes.test.jsx" name="Módulos visibles por rol &gt; administrador conserva los módulos completos y análisis" time="0.0016047">
+        </testcase>
+        <testcase classname="src/tests/sprint7-jesus-routes.test.jsx" name="Módulos visibles por rol &gt; administrativo puede entrar a análisis, pero no a enfermería ni configuración" time="0.0547682">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/tests/sprint7-jesus-screen.test.jsx" timestamp="2026-10-22T19:36:06.818Z" hostname="DESKTOP-812BAG9" tests="10" failures="0" errors="0" skipped="0" time="0.5265597">
+        <testcase classname="src/tests/sprint7-jesus-screen.test.jsx" name="PBL-04-T3 — estados y acciones visibles de Spark &gt; sin ejecutar permite iniciar el trabajo y muestra procesamiento" time="0.1388309">
+        </testcase>
+        <testcase classname="src/tests/sprint7-jesus-screen.test.jsx" name="PBL-04-T3 — estados y acciones visibles de Spark &gt; un resultado vacío ofrece actualizar y vuelve a consultar la API" time="0.0494721">
+        </testcase>
+        <testcase classname="src/tests/sprint7-jesus-screen.test.jsx" name="PBL-04-T3 — estados y acciones visibles de Spark &gt; sin conexión muestra una acción de reintento que recupera la vista" time="0.0415997">
+        </testcase>
+        <testcase classname="src/tests/sprint7-jesus-screen.test.jsx" name="PBL-04-T3 — estados y acciones visibles de Spark &gt; un trabajo fallido permite ejecutarlo de nuevo" time="0.0343229">
+        </testcase>
+        <testcase classname="src/tests/sprint7-jesus-screen.test.jsx" name="PBL-04-T3 — estados y acciones visibles de Spark &gt; un trabajo en ejecución muestra progreso y botón para actualizar" time="0.0388217">
+        </testcase>
+        <testcase classname="src/tests/sprint7-jesus-screen.test.jsx" name="PBL-05-T4 — pantalla Spark completa en español e inglés &gt; traduce título, botones, mensajes, secciones y etiquetas dinámicas sin claves técnicas" time="0.089627">
+        </testcase>
+        <testcase classname="src/tests/sprint7-jesus-screen.test.jsx" name="PBL-05-T4 — pantalla Spark completa en español e inglés &gt; traduce los mensajes de estado y sus acciones al cambiar de idioma" time="0.0341488">
+        </testcase>
+        <testcase classname="src/tests/sprint7-jesus-screen.test.jsx" name="PBL-13-T5 — imagen sintética del contrato &gt; descarga y representa una imagen autenticada mediante sparkService" time="0.0284243">
+        </testcase>
+        <testcase classname="src/tests/sprint7-jesus-screen.test.jsx" name="Sprint 8 — ciclo de vida de las imágenes del contrato &gt; libera una imagen cuya descarga termina después de salir de la pantalla" time="0.0382756">
+        </testcase>
+        <testcase classname="src/tests/sprint7-jesus-screen.test.jsx" name="Sprint 8 — ciclo de vida de las imágenes del contrato &gt; libera las imágenes ya cargadas al salir de la pantalla" time="0.026569">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/tests/sprint7-zahid.test.jsx" timestamp="2026-10-22T19:36:06.823Z" hostname="DESKTOP-812BAG9" tests="8" failures="0" errors="0" skipped="0" time="0.0802563">
+        <testcase classname="src/tests/sprint7-zahid.test.jsx" name="Sprint 7 — Zahid: PBL-05-T5 y contrato consumidor Spark &gt; traduce todas las claves estáticas y dinámicas de Spark" time="0.0113429">
+        </testcase>
+        <testcase classname="src/tests/sprint7-zahid.test.jsx" name="Sprint 7 — Zahid: PBL-05-T5 y contrato consumidor Spark &gt; renderiza etiquetas y medidas reales en es" time="0.0543996">
+        </testcase>
+        <testcase classname="src/tests/sprint7-zahid.test.jsx" name="Sprint 7 — Zahid: PBL-05-T5 y contrato consumidor Spark &gt; renderiza etiquetas y medidas reales en en" time="0.0044606">
+        </testcase>
+        <testcase classname="src/tests/sprint7-zahid.test.jsx" name="Sprint 7 — Zahid: PBL-05-T5 y contrato consumidor Spark &gt; consume las rutas y formatos de analytics" time="0.0018013">
+        </testcase>
+        <testcase classname="src/tests/sprint7-zahid.test.jsx" name="Sprint 7 — Zahid: PBL-05-T5 y contrato consumidor Spark &gt; consume las rutas y formatos de met" time="0.0007106">
+        </testcase>
+        <testcase classname="src/tests/sprint7-zahid.test.jsx" name="Sprint 7 — Zahid: PBL-05-T5 y contrato consumidor Spark &gt; consume las rutas y formatos de clinical" time="0.0011499">
+        </testcase>
+        <testcase classname="src/tests/sprint7-zahid.test.jsx" name="Sprint 7 — Zahid: PBL-05-T5 y contrato consumidor Spark &gt; consume las rutas y formatos de unsupervised" time="0.0009854">
+        </testcase>
+        <testcase classname="src/tests/sprint7-zahid.test.jsx" name="Sprint 7 — Zahid: PBL-05-T5 y contrato consumidor Spark &gt; propaga errores de API para que la pantalla permita reintentar" time="0.0018681">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/tests/sprint9-network.test.js" timestamp="2026-10-22T19:36:06.826Z" hostname="DESKTOP-812BAG9" tests="4" failures="0" errors="0" skipped="0" time="0.1491995">
+        <testcase classname="src/tests/sprint9-network.test.js" name="PBL-25 rejects clinical writes before the adapter when offline" time="0.0133503">
+        </testcase>
+        <testcase classname="src/tests/sprint9-network.test.js" name="PBL-25 cannot synchronize the previous account preference with another account token" time="0.0024492">
+        </testcase>
+        <testcase classname="src/tests/sprint9-network.test.js" name="PBL-25 discards a clinical response that finishes after the session changes" time="0.0667982">
+        </testcase>
+        <testcase classname="src/tests/sprint9-network.test.js" name="PBL-25 does not expire a new session when an older request returns 401" time="0.0638042">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/tests/sprint9-worker.test.js" timestamp="2026-10-22T19:36:06.828Z" hostname="DESKTOP-812BAG9" tests="1" failures="0" errors="0" skipped="0" time="0.0151936">
+        <testcase classname="src/tests/sprint9-worker.test.js" name="PBL-25 static shell &gt; never intercepts API, credentials, mutations, external or unknown assets" time="0.0112103">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/tests/sprint9-zahid.test.jsx" timestamp="2026-10-22T19:36:06.830Z" hostname="DESKTOP-812BAG9" tests="10" failures="0" errors="0" skipped="0" time="0.6043797">
+        <testcase classname="src/tests/sprint9-zahid.test.jsx" name="PBL-11 &gt; shows generation, source freshness and calendar period in both languages" time="0.1944053">
+        </testcase>
+        <testcase classname="src/tests/sprint9-zahid.test.jsx" name="PBL-11 &gt; does not invent dates for historical or empty results" time="0.0093102">
+        </testcase>
+        <testcase classname="src/tests/sprint9-zahid.test.jsx" name="PBL-25 &gt; coalesces language only, keeps no clinical payload and synchronizes after reconnection" time="0.0058132">
+        </testcase>
+        <testcase classname="src/tests/sprint9-zahid.test.jsx" name="PBL-25 &gt; retains failed network operations for an explicit safe retry" time="0.0052557">
+        </testcase>
+        <testcase classname="src/tests/sprint9-zahid.test.jsx" name="PBL-25 &gt; expires, rejects tampering, isolates accounts and clears unauthorized work" time="0.0053049">
+        </testcase>
+        <testcase classname="src/tests/sprint9-zahid.test.jsx" name="PBL-25 &gt; serializes concurrent synchronization and preserves a newer preference" time="0.0009915">
+        </testcase>
+        <testcase classname="src/tests/sprint9-zahid.test.jsx" name="PBL-25 &gt; uses online memory only and removes legacy persistent clinical entries" time="0.002332">
+        </testcase>
+        <testcase classname="src/tests/sprint9-zahid.test.jsx" name="PBL-25 &gt; hides clinical children offline and lets the user queue a translated preference" time="0.1293407">
+        </testcase>
+        <testcase classname="src/tests/sprint9-zahid.test.jsx" name="Language selector placement &gt; keeps only ES / EN on the online login without the global toolbar" time="0.1099881">
+        </testcase>
+        <testcase classname="src/tests/sprint9-zahid.test.jsx" name="Language selector placement &gt; changes and synchronizes the language from the sidebar" time="0.1382503">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/pages/spark/SparkAnalysisScreen.test.jsx" timestamp="2026-10-22T19:36:06.834Z" hostname="DESKTOP-812BAG9" tests="9" failures="0" errors="0" skipped="0" time="0.7143261">
+        <testcase classname="src/pages/spark/SparkAnalysisScreen.test.jsx" name="SparkAnalysisScreen — PBL-04 &gt; muestra el estado sin ejecutar y permite ejecutar" time="0.2699414">
+        </testcase>
+        <testcase classname="src/pages/spark/SparkAnalysisScreen.test.jsx" name="SparkAnalysisScreen — PBL-04 &gt; muestra el estado sin datos cuando la ejecución terminó vacía" time="0.0703507">
+        </testcase>
+        <testcase classname="src/pages/spark/SparkAnalysisScreen.test.jsx" name="SparkAnalysisScreen — PBL-04 &gt; muestra un mensaje de conexión cuando la API no responde" time="0.0742895">
+        </testcase>
+        <testcase classname="src/pages/spark/SparkAnalysisScreen.test.jsx" name="SparkAnalysisScreen — PBL-04 &gt; muestra el estado de procesamiento" time="0.0361649">
+        </testcase>
+        <testcase classname="src/pages/spark/SparkAnalysisScreen.test.jsx" name="SparkAnalysisScreen — PBL-04 &gt; muestra el fallo y permite volver a ejecutar" time="0.0664678">
+        </testcase>
+        <testcase classname="src/pages/spark/SparkAnalysisScreen.test.jsx" name="SparkAnalysisScreen — PBL-04 &gt; muestra los resultados cuando existen datos" time="0.0647055">
+        </testcase>
+        <testcase classname="src/pages/spark/SparkAnalysisScreen.test.jsx" name="SparkAnalysisScreen — PBL-04 &gt; permite regresar al panel de Analytics" time="0.0363299">
+        </testcase>
+        <testcase classname="src/pages/spark/SparkAnalysisScreen.test.jsx" name="SparkAnalysisScreen — PBL-04 &gt; bloquea ejecuciones duplicadas mientras el POST sigue pendiente" time="0.0580437">
+        </testcase>
+        <testcase classname="src/pages/spark/SparkAnalysisScreen.test.jsx" name="SparkAnalysisScreen — PBL-04 &gt; consulta un trabajo pendiente incluso con running=false y carga su resultado al terminar" time="0.033095">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/pages/spark/__tests__/Sprint9Joel.test.jsx" timestamp="2026-10-22T19:36:06.839Z" hostname="DESKTOP-812BAG9" tests="7" failures="0" errors="0" skipped="0" time="0.6087589">
+        <testcase classname="src/pages/spark/__tests__/Sprint9Joel.test.jsx" name="Sprint 9 - PBL-09 &gt; muestra valor, unidad, nivel textual y contexto clínico accesible" time="0.1461763">
+        </testcase>
+        <testcase classname="src/pages/spark/__tests__/Sprint9Joel.test.jsx" name="Sprint 9 - PBL-16 &gt; carga las vistas pesadas por demanda con un fallback visible" time="0.0011156">
+        </testcase>
+        <testcase classname="src/pages/spark/__tests__/Sprint9Joel.test.jsx" name="PBL-09 real API regressions &gt; recognizes temp and leaves unknown measures unclassified" time="0.1204401">
+        </testcase>
+        <testcase classname="src/pages/spark/__tests__/Sprint9Joel.test.jsx" name="PBL-09 real API regressions &gt; does not invent values for missing or zero-count metrics" time="0.00479">
+        </testcase>
+        <testcase classname="src/pages/spark/__tests__/Sprint9Joel.test.jsx" name="PBL-09 real API regressions &gt; positions range markers using the observed values and preserves unknown dates" time="0.0344402">
+        </testcase>
+        <testcase classname="src/pages/spark/__tests__/Sprint9Joel.test.jsx" name="PBL-09 real API regressions &gt; renders real chronological trends, units and selected-language dates" time="0.1285284">
+        </testcase>
+        <testcase classname="src/pages/spark/__tests__/Sprint9Joel.test.jsx" name="PBL-09 captured HTTP contract &gt; renders the synthetic response captured from authenticated API and real Spark" time="0.168524">
+        </testcase>
+    </testsuite>
+</testsuites>

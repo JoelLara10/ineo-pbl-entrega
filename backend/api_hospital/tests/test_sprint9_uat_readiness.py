@@ -41,12 +41,40 @@ def test_cp_uat_001_session_required(client, method):
     assert response.status_code == 401
 
 
-@pytest.mark.xfail(strict=True, reason='DEF-UAT-001: API accepts an empty nursing assessment; requires product correction')
 def test_cp_uat_001_empty_assessment_must_not_persist(client, isolated_database):
     response = client.post('/api/v1/appointments/1/nursing-assessment',
                            headers=login(client, 'enfermeria'), json={})
     assert response.status_code == 400
     assert isolated_database.nursing_assessment.count_documents({}) == 0
+
+
+@pytest.mark.parametrize('patch', [
+    {'estado_general': '   '}, {'dolor': '11'}, {'dolor': '-1'},
+    {'movilidad': []}, {'riesgo_caidas': {'$ne': ''}},
+    {'riesgo_upp': None}, {'observaciones': 'x' * 1001},
+])
+def test_cp_uat_001_invalid_fields_do_not_write_or_allocate_id(client, isolated_database, patch):
+    payload = dict(estado_general='Estable', dolor='0', movilidad='Independiente',
+                   riesgo_caidas='Bajo', riesgo_upp='Bajo')
+    response = client.post('/api/v1/appointments/1/nursing-assessment',
+                           headers=login(client, 'enfermeria'), json={**payload, **patch})
+    assert response.status_code == 400
+    assert isolated_database.nursing_assessment.count_documents({}) == 0
+    assert isolated_database.counters.find_one({'_id': 'nursing_assessment_id'}) is None
+
+
+@pytest.mark.parametrize('pain', ['0', '10', '2.5', 'Sin dolor', 'Dolor leve al movimiento'])
+def test_cp_uat_001_accepts_score_or_description_and_trims_fields(client, isolated_database, pain):
+    payload = dict(estado_general=' Estable ', dolor=pain, movilidad=' Independiente ',
+                   riesgo_caidas=' Bajo ', riesgo_upp=' Bajo ', unexpected='ignored')
+    response = client.post('/api/v1/appointments/1/nursing-assessment',
+                           headers=login(client, 'enfermeria'), json=payload)
+    assert response.status_code == 201
+    record = isolated_database.nursing_assessment.find_one({})['valoracion']
+    assert record['estado_general'] == 'Estable'
+    assert record['dolor'] == pain
+    assert record['observaciones'] == ''
+    assert 'unexpected' not in record
 
 
 @pytest.mark.parametrize('kind', ['analytics', 'met', 'clinical', 'unsupervised'])

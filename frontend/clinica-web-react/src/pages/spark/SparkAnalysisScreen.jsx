@@ -18,6 +18,7 @@ const hasContent = (value) => {
   if (typeof value === 'object') return Object.keys(value).length > 0;
   return value !== '';
 };
+const isProcessing = (status) => status.running || ['pending', 'running', 'processing'].includes(status.state);
 
 function DataValue({ value }) {
   const { t, i18n } = useTranslation();
@@ -77,6 +78,7 @@ export default function SparkAnalysisScreen({ type, ResultsComponent }) {
   const navigate = useNavigate();
   const formId = useId();
   const initialized = useRef(false);
+  const runLock = useRef(false);
   const [filters, setFilters] = useState(blankFilters);
   const [areas, setAreas] = useState([]);
   const [optionsError, setOptionsError] = useState(false);
@@ -112,14 +114,14 @@ export default function SparkAnalysisScreen({ type, ResultsComponent }) {
     return () => { active = false; };
   }, [type]);
   useEffect(() => {
-    if (!status.running) return undefined;
+    if (!isProcessing(status)) return undefined;
     let active = true;
     const timer = window.setInterval(async () => {
       try {
         const next = await sparkService.getStatus(type);
         if (!active) return;
         setStatus(next);
-        if (!next.running) load();
+        if (!isProcessing(next)) load();
       } catch (requestError) {
         if (!active) return;
         window.clearInterval(timer);
@@ -128,7 +130,7 @@ export default function SparkAnalysisScreen({ type, ResultsComponent }) {
       }
     }, 3000);
     return () => { active = false; window.clearInterval(timer); };
-  }, [load, status.running, t, type]);
+  }, [load, status.running, status.state, t, type]);
 
   const sections = useMemo(
     () => Object.entries(data || {}).filter(
@@ -141,17 +143,24 @@ export default function SparkAnalysisScreen({ type, ResultsComponent }) {
 
   const run = async (event) => {
     event?.preventDefault?.();
+    if (runLock.current || isProcessing(status)) return;
     setError(''); setErrorKind('error');
     if (!!filters.start_date !== !!filters.end_date || (filters.compare_previous && !filters.start_date) ||
         (filters.start_date && (filters.start_date > filters.end_date || (Date.parse(filters.end_date) - Date.parse(filters.start_date)) / 86400000 >= 1827))) {
       setError(t('analysisTools.filters.invalid')); return;
     }
+    const previousStatus = status;
+    runLock.current = true;
+    setStatus({ state: 'pending', running: true });
     try { const activeFilters = Object.fromEntries(Object.entries(filters).filter(([, value]) => value !== '' && value !== false));
       const response = Object.keys(activeFilters).length ? await sparkService.run(type, activeFilters) : await sparkService.run(type);
       setStatus(response.status); }
     catch (requestError) {
+      setStatus(previousStatus);
       setErrorKind(requestError.response ? 'error' : 'offline');
       setError(requestError.response?.data?.error || t('spark.runError'));
+    } finally {
+      runLock.current = false;
     }
   };
 
@@ -184,11 +193,11 @@ export default function SparkAnalysisScreen({ type, ResultsComponent }) {
       <button onClick={() => navigate('/admin/spark')}><FiArrowLeft /> {t('common.back', 'Volver')}</button>
       <div>
         <button onClick={load} disabled={loading}><FiRefreshCw /> {t('spark.refresh')}</button>
-        <button className="spark-primary" type="submit" form={formId} disabled={status.running || loading}><FiPlay /> {status.running ? t('spark.running') : t('spark.run')}</button>
+        <button className="spark-primary" type="submit" form={formId} disabled={isProcessing(status) || loading}><FiPlay /> {isProcessing(status) ? t('spark.running') : t('spark.run')}</button>
       </div>
     </div>
     <header className="spark-header"><span>{t('spark.eyebrow')}</span><h1>{t(`spark.types.${type}.title`)}</h1><p>{t(`spark.types.${type}.description`)}</p></header>
-    <AnalysisFilters formId={formId} type={type} value={filters} onChange={setFilters} onSubmit={run} areas={areas} busy={status.running || loading} changed={changed} />
+    <AnalysisFilters formId={formId} type={type} value={filters} onChange={setFilters} onSubmit={run} areas={areas} busy={isProcessing(status) || loading} changed={changed} />
     {optionsError && <p className="analysis-footnote">{t('analysisTools.filters.optionsError')}</p>}
     {data && <AnalysisMetadata data={data} />}
     {data?.timestamp && <p className="analysis-applied">{t('analysisTools.filters.applied')}: {data.metadata?.filters?.area || t('analysisTools.filters.allAreas')} · {t(data.metadata?.filters?.start_date ? 'analysisTools.filters.selectedPeriod' : 'analysisTools.filters.allHistory')}</p>}

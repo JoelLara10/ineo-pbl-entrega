@@ -584,6 +584,9 @@
     "fechaLabel": "Date:"
   },
   "nursingAssessment": {
+    "requiredFields": "Complete all assessment fields; observations are optional.",
+    "requiredHint": "All fields except observations are required. Pain: 0 to 10 or a description.",
+    "invalidPain": "The numeric pain score must be between 0 and 10; you can also enter a description.",
     "eyebrow": "NURSING",
     "title": "Nursing Assessment",
     "selectedPatient": "Selected Patient",
@@ -1226,6 +1229,8 @@
     "logout": "Sign out locally"
   },
   "analysisDashboard": {
+    "unit": "Unit of measure",
+    "chartDetails": "How to read the chart and data source",
     "summary": "Key indicators",
     "group": "Group",
     "period": "Record period",

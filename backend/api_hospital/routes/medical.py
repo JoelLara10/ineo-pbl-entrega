@@ -6,6 +6,7 @@ from bson import ObjectId
 from datetime import datetime
 from services.medical_service import MedicalService
 from utils.nursing_care_validation import validate_nursing_care_payload
+from utils.nursing_assessment_validation import validate_nursing_assessment
 
 medical_bp = Blueprint('medical', __name__, url_prefix='/medical')
 
@@ -695,24 +696,21 @@ def add_nursing_assessment(id_atencion):
     """
     try:
         db = get_db()
-        data = request.get_json() or {}
+        data = request.get_json(silent=True)
 
         atencion = db['atencion'].find_one({'id_atencion': id_atencion})
         if not atencion:
             return jsonify({'error': 'Atención no encontrada'}), 404
 
+        assessment, error = validate_nursing_assessment(data)
+        if error:
+            return jsonify({'error': error}), 400
+
         assessment_record = {
             'id_valoracion': get_next_sequence('nursing_assessment_id'),
             'id_atencion': id_atencion,
             'Id_exp': atencion['Id_exp'],
-            'valoracion': {
-                'estado_general': data.get('estado_general', ''),
-                'dolor': data.get('dolor', ''),
-                'movilidad': data.get('movilidad', ''),
-                'riesgo_caidas': data.get('riesgo_caidas', ''),
-                'riesgo_upp': data.get('riesgo_upp', ''),
-                'observaciones': data.get('observaciones', ''),
-            },
+            'valoracion': assessment,
             'id_enfermero': ObjectId(g.user['user_id']),
             'fecha_registro': datetime.now()
         }

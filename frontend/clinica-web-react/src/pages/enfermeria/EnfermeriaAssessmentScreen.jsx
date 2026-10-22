@@ -101,8 +101,19 @@ export default function EnfermeriaAssessmentScreen() {
     setFormData((current) => ({ ...current, [field]: value }));
   };
 
-  const handleSubmit = async () => {
-    if (!idAtencion) return;
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (!idAtencion || loading) return;
+    setErrorMessage('');
+    if (fieldConfig.some(({ key }) => !formData[key].trim())) {
+      setErrorMessage(t('nursingAssessment.requiredFields'));
+      return;
+    }
+    const pain = formData.dolor.trim();
+    if (/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/.test(pain) && !(Number(pain) >= 0 && Number(pain) <= 10)) {
+      setErrorMessage(t('nursingAssessment.invalidPain'));
+      return;
+    }
     setLoading(true);
     try {
       await api.post(`/appointments/${idAtencion}/nursing-assessment`, formData);
@@ -139,10 +150,11 @@ export default function EnfermeriaAssessmentScreen() {
 
       <NursingPatientCard theme="assessment" title={t('nursingAssessment.selectedPatient')} label={patientLabel} />
 
-      {errorMessage ? <div style={styles.errorCard}>{errorMessage}</div> : null}
+      {errorMessage ? <div role="alert" style={styles.errorCard}>{errorMessage}</div> : null}
 
       <NursingFormCard theme="assessment" title={t('nursingAssessment.newRecord')} icon={<FiClipboard size={22} />}>
-
+        <form onSubmit={handleSubmit}>
+        <p>{t('nursingAssessment.requiredHint')}</p>
         <div style={styles.formGrid}>
           {fieldConfig.map((field) => (
             <label key={field.key} style={styles.fieldGroup}>
@@ -151,6 +163,8 @@ export default function EnfermeriaAssessmentScreen() {
                 style={styles.fieldInput}
                 placeholder={field.placeholder}
                 value={formData[field.key]}
+                required
+                maxLength={1000}
                 onChange={(event) => handleChange(field.key, event.target.value)}
                 disabled={!idAtencion || loading}
               />
@@ -165,6 +179,7 @@ export default function EnfermeriaAssessmentScreen() {
             rows={4}
             placeholder={t('nursingAssessment.observationsPlaceholder')}
             value={formData.observaciones}
+            maxLength={1000}
             onChange={(event) => handleChange('observaciones', event.target.value)}
             disabled={!idAtencion || loading}
           />
@@ -176,15 +191,15 @@ export default function EnfermeriaAssessmentScreen() {
             <span>{t('nursingAssessment.reload')}</span>
           </button>
           <button
-            type="button"
+            type="submit"
             style={styles.primaryButton}
-            onClick={handleSubmit}
             disabled={!idAtencion || loading}
           >
             <FiSave size={18} />
             <span>{loading ? t('nursingAssessment.saving') : t('nursingAssessment.save')}</span>
           </button>
         </div>
+        </form>
       </NursingFormCard>
 
       <NursingHistoryCard theme="assessment" title={t('nursingAssessment.history')} count={history.length}>

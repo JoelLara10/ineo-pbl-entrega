@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import SparkAnalysisScreen from './SparkAnalysisScreen';
 
 const { sparkServiceMock, navigateMock } = vi.hoisted(() => ({
@@ -180,5 +180,30 @@ describe('SparkAnalysisScreen — PBL-04', () => {
     );
 
     expect(navigateMock).toHaveBeenCalledWith('/admin/spark');
+  });
+
+  it('bloquea ejecuciones duplicadas mientras el POST sigue pendiente', async () => {
+    await showState({ state: 'idle', running: false });
+    await screen.findByText('spark.states.notRun.title');
+    let finish;
+    sparkServiceMock.run.mockReturnValue(new Promise((resolve) => { finish = resolve; }));
+    const run = screen.getByRole('button', { name: 'spark.states.notRun.action' });
+    fireEvent.click(run);
+    fireEvent.click(run);
+    expect(sparkServiceMock.run).toHaveBeenCalledTimes(1);
+    await act(async () => finish({ status: { state: 'pending', running: true } }));
+  });
+
+  it('consulta un trabajo pendiente incluso con running=false y carga su resultado al terminar', async () => {
+    vi.useFakeTimers();
+    sparkServiceMock.getResults.mockResolvedValue({ available: false });
+    sparkServiceMock.getStatus.mockResolvedValue({ state: 'pending', running: false });
+    await act(async () => { renderScreen(); });
+    expect(screen.getByText('spark.states.processing.title')).toBeTruthy();
+    sparkServiceMock.getStatus.mockResolvedValue({ state: 'completed', running: false });
+    sparkServiceMock.getResults.mockResolvedValue({ available: true, summary: { total: 42 } });
+    await act(async () => { await vi.advanceTimersByTimeAsync(3000); });
+    expect(screen.getByText('42')).toBeTruthy();
+    expect(screen.queryByText('spark.states.processing.title')).toBeNull();
   });
 });
