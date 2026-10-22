@@ -1,7 +1,8 @@
+import { NursingPatientCard, NursingFormCard, NursingHistoryCard } from '../../components/nursing/NursingSections';
 import { formatRegionalDate } from '../../i18n/regional';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { FiArrowLeft, FiClipboard, FiClock, FiRefreshCw, FiSave, FiShield, FiUser } from 'react-icons/fi';
+import { FiArrowLeft, FiClipboard, FiRefreshCw, FiSave, FiShield } from 'react-icons/fi';
 import { usePatient } from '../../context/PatientContext';
 import api from '../../services/api';
 import { useTranslation } from 'react-i18next';
@@ -92,16 +93,9 @@ export default function EnfermeriaCareScreen() {
         <div className="nursing-care-header-spacer" />
       </header>
 
-      <section className="nursing-care-patient" aria-labelledby="nursing-care-patient-title">
-        <div className="nursing-care-avatar"><FiUser size={30} color="#fff" /></div>
-        <div>
-          <h2 id="nursing-care-patient-title">{t('nursingCare.selectedPatient')}</h2>
-          <p>{patientLabel}</p>
-        </div>
-      </section>
+      <NursingPatientCard theme="care" title={t('nursingCare.selectedPatient')} label={patientLabel} />
 
-      <section className="nursing-care-card" aria-labelledby="nursing-care-form-title">
-        <h2 id="nursing-care-form-title" className="nursing-care-card-header"><FiClipboard size={20} />{t('nursingCare.formTitle')}</h2>
+      <NursingFormCard theme="care" title={t('nursingCare.formTitle')} icon={<FiClipboard size={22} />}>
         <div className="nursing-care-grid">
           <label>{t('nursingCare.nursingDiagnosisPlaceholder')}<textarea rows={3} value={formData.diagnostico_enfermeria} onChange={(e) => handleChange('diagnostico_enfermeria', e.target.value)} /></label>
           <label>{t('nursingCare.objectivesPlaceholder')}<textarea rows={3} value={formData.objetivos} onChange={(e) => handleChange('objetivos', e.target.value)} /></label>
@@ -124,18 +118,13 @@ export default function EnfermeriaCareScreen() {
             <FiSave size={16} /> {loading ? t('nursingCare.saving') : t('nursingCare.save')}
           </button>
         </div>
-      </section>
+      </NursingFormCard>
 
-      <section className="nursing-care-history" aria-labelledby="nursing-care-history-title">
-        <div className="nursing-care-history-header">
-          <FiClock size={16} />
-          <h2 id="nursing-care-history-title">{t('nursingCare.history')}</h2>
-          <span>{history.length}</span>
-        </div>
-        {loadingHistory ? <div className="nursing-care-status" role="status">{t('nursingCare.loading')}</div>
+      <NursingHistoryCard theme="care" title={t('nursingCare.history')} count={history.length}>
+        {loadingHistory ? <div className="nursing-history-status" role="status">{t('nursingCare.loading')}</div>
           : historyError ? <div className="nursing-care-status nursing-care-error" role="alert"><span>{historyError}</span><button type="button" onClick={loadHistory}>{t('common.retry')}</button></div>
           : history.length === 0 ? (
-          <div className="nursing-care-status">{t('nursingCare.noRecords')}</div>
+          <div className="nursing-history-status">{t('nursingCare.noRecords')}</div>
         ) : (
           history.map((item, index) => (
             <article key={item.id_cuidado || index} className="nursing-care-history-item">
@@ -149,7 +138,7 @@ export default function EnfermeriaCareScreen() {
             </article>
           ))
         )}
-      </section>
+      </NursingHistoryCard>
 
       <footer className="nursing-care-footer">
         <FiShield size={14} />

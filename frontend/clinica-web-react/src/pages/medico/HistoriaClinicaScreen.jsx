@@ -1,3 +1,4 @@
+import { getClinicalCache, setClinicalCache } from '../../services/clinicalCache';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FiArrowLeft, FiCheckCircle, FiClipboard, FiRefreshCw, FiSave, FiShield, FiUser } from 'react-icons/fi';
@@ -12,31 +13,8 @@ const sintomasOptions = ['Dolor', 'Ojo rojo', 'Lagrimeo', 'Vision borrosa', 'Fot
 const heredoOptions = ['Diabetes', 'Hipertension', 'Cancer', 'Glaucoma', 'Catarata'];
 const nopatOptions = ['Tabaquismo', 'Alcohol', 'Sedentarismo', 'Vacunacion COVID'];
 
-function getCachedValue(key) {
-  if (typeof window === 'undefined') return null;
-  try {
-    const raw = window.localStorage.getItem(CACHE_PREFIX + key);
-    if (!raw) return null;
-    const parsed = JSON.parse(raw);
-    if (Date.now() - parsed.timestamp > parsed.ttl) {
-      window.localStorage.removeItem(CACHE_PREFIX + key);
-      return null;
-    }
-    return parsed.data;
-  } catch (error) {
-    console.error('Error reading historia clinica cache:', error);
-    return null;
-  }
-}
-
-function setCachedValue(key, data, ttl = CACHE_TTL) {
-  if (typeof window === 'undefined') return;
-  try {
-    window.localStorage.setItem(CACHE_PREFIX + key, JSON.stringify({ data, timestamp: Date.now(), ttl }));
-  } catch (error) {
-    console.error('Error saving historia clinica cache:', error);
-  }
-}
+function getCachedValue(key) { return getClinicalCache(CACHE_PREFIX + key); }
+function setCachedValue(key, data, ttl = CACHE_TTL) { setClinicalCache(CACHE_PREFIX + key, data, ttl); }
 
 export default function HistoriaClinicaScreen() {
   const { t } = useTranslation();

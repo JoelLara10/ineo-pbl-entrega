@@ -1,2 +1,3 @@
 import SparkAnalysisScreen from './SparkAnalysisScreen';
-export default function UnsupervisedAnalyticsScreen() { return <SparkAnalysisScreen type="unsupervised" />; }
+import AnalysisDashboard from './AnalysisCharts';
+export default function UnsupervisedAnalyticsScreen() { return <SparkAnalysisScreen type="unsupervised" ResultsComponent={AnalysisDashboard} />; }

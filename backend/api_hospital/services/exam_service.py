@@ -117,7 +117,7 @@ class ExamService:
             }},
         ])
         ExamService._apply_result_filters(pipeline, search, date_from, date_to)
-        pipeline.append({"$sort": {"fecha": 1 if sort_order == 'oldest' else -1}})
+        pipeline.append({"$sort": {"fecha": 1 if sort_order == 'oldest' else -1, "id_examen": 1 if sort_order == 'oldest' else -1}})
         if not fetch_all:
             pipeline.extend([
                 {"$skip": skip},
@@ -195,7 +195,7 @@ class ExamService:
             }},
         ])
         ExamService._apply_result_filters(pipeline, search, date_from, date_to)
-        pipeline.append({"$sort": {"fecha": 1 if sort_order == 'oldest' else -1}})
+        pipeline.append({"$sort": {"fecha": 1 if sort_order == 'oldest' else -1, "id_examen": 1 if sort_order == 'oldest' else -1}})
         if not fetch_all:
             pipeline.extend([
                 {"$skip": skip},

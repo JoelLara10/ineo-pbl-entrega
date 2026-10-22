@@ -27,13 +27,26 @@ def analyze(spark, kind, rows):
     else:
         features = ['fc', 'fr', 'temp', 'spo2']
         schema = StructType([StructField(name, DoubleType(), True) for name in features])
+        if kind == 'clinical':
+            schema.add(StructField('day', StringType(), True))
         frame = spark.createDataFrame(rows, schema)
         if kind == 'clinical':
-            used = frame.na.drop(how='all').count()
+            used = frame.na.drop(how='all', subset=features).count()
             for name in features:
                 values = frame.agg(F.count(name).alias('count'), F.avg(name).alias('mean'),
                                    F.min(name).alias('minimum'), F.max(name).alias('maximum')).first().asDict()
                 result['metrics'].append({'measure': name, **values})
+            # Aggregate genuine dated observations; undated rows remain in metrics.
+            daily = frame.filter(F.col('day').isNotNull()).groupBy('day').agg(*[
+                expression for name in features for expression in (
+                    F.count(name).alias(name + '_count'), F.avg(name).alias(name + '_mean'),
+                    F.min(name).alias(name + '_minimum'), F.max(name).alias(name + '_maximum'))
+            ]).orderBy('day').collect()
+            result['trends'] = [
+                {'day': row['day'], 'measure': name,
+                 **{stat: row[name + '_' + stat] for stat in ('count', 'mean', 'minimum', 'maximum')}}
+                for row in daily for name in features if row[name + '_count'] > 0
+            ]
             result['summary'] = {'total': used} if used else {}
             result['available'] = used > 0
         else:
@@ -77,9 +90,15 @@ def analyze(spark, kind, rows):
 
 
 def main():
-    from pyspark.sql import SparkSession
     with open(sys.argv[1], encoding='utf-8') as source:
         payload = json.load(source)
+    if payload.get('engine') == 'lightweight':
+        from analysis_lightweight import analyze as analyze_lightweight
+        result = analyze_lightweight(payload['type'], payload['rows'])
+        with open(sys.argv[2], 'w', encoding='utf-8') as target:
+            json.dump(result, target, allow_nan=False)
+        return
+    from pyspark.sql import SparkSession
     spark = (SparkSession.builder.master(os.getenv('SPARK_MASTER', 'local[1]'))
              .appName('INEO-Sprint7').config('spark.ui.enabled', 'false')
              .config('spark.sql.shuffle.partitions', '2')
@@ -87,6 +106,7 @@ def main():
              .config('spark.driver.host', '127.0.0.1').getOrCreate())
     try:
         result = analyze(spark, payload['type'], payload['rows'])
+        result['engine'] = {'name': 'spark', 'method': 'pyspark'}
         with open(sys.argv[2], 'w', encoding='utf-8') as target:
             json.dump(result, target, allow_nan=False)
     finally:

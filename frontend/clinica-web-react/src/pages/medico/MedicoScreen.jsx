@@ -1,5 +1,7 @@
+import { usePageRevalidation } from '../../hooks/usePageRevalidation';
+import { getClinicalCache, setClinicalCache } from '../../services/clinicalCache';
 import { formatRegionalDate } from '../../i18n/regional';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
@@ -26,38 +28,8 @@ const CACHE_KEYS = {
   hospitalizados: 'hospitalizados',
 };
 
-function getCachedValue(key) {
-  if (typeof window === 'undefined') return null;
-
-  try {
-    const raw = window.localStorage.getItem(CACHE_PREFIX + key);
-    if (!raw) return null;
-
-    const parsed = JSON.parse(raw);
-    if (Date.now() - parsed.timestamp > parsed.ttl) {
-      window.localStorage.removeItem(CACHE_PREFIX + key);
-      return null;
-    }
-
-    return parsed.data;
-  } catch (error) {
-    console.error('Error reading medico cache:', error);
-    return null;
-  }
-}
-
-function setCachedValue(key, data, ttl = CACHE_TTL) {
-  if (typeof window === 'undefined') return;
-
-  try {
-    window.localStorage.setItem(
-      CACHE_PREFIX + key,
-      JSON.stringify({ data, timestamp: Date.now(), ttl })
-    );
-  } catch (error) {
-    console.error('Error saving medico cache:', error);
-  }
-}
+function getCachedValue(key) { return getClinicalCache(CACHE_PREFIX + key); }
+function setCachedValue(key, data, ttl = CACHE_TTL) { setClinicalCache(CACHE_PREFIX + key, data, ttl); }
 
 function getPatientName(item) {
   if (item.nom_pac && item.papell) {
@@ -88,7 +60,9 @@ export default function MedicoScreen() {
   const [errorMessage, setErrorMessage] = useState('');
 
 
+  const requestId = useRef(0);
   const loadPatients = useCallback(async (forceRefresh = false) => {
+    const currentRequest = ++requestId.current;
     setLoading(true);
     setErrorMessage('');
 
@@ -110,6 +84,7 @@ export default function MedicoScreen() {
 
     try {
       const response = await api.get('/medico');
+      if (currentRequest !== requestId.current) return;
       const nextState = {
         consulta: response.data.beds_consulta || [],
         urgencias: response.data.beds_preparacion || [],
@@ -121,6 +96,7 @@ export default function MedicoScreen() {
       setCachedValue(CACHE_KEYS.hospitalizados, nextState.hospitalizados);
       setPatientsByArea(nextState);
     } catch (error) {
+      if (currentRequest !== requestId.current) return;
       console.error('Error loading medico patients:', error);
 
       const cachedConsulta = getCachedValue(CACHE_KEYS.consulta);
@@ -138,13 +114,17 @@ export default function MedicoScreen() {
         setErrorMessage(t('medical.errorMessage'));
       }
     } finally {
-      setLoading(false);
+      if (currentRequest === requestId.current) setLoading(false);
     }
   }, [t, i18n.language]);
 
   useEffect(() => {
-    loadPatients();
+    loadPatients(true);
+    return () => { requestId.current += 1; };
   }, [loadPatients]);
+
+  const refreshPatients = useCallback(() => loadPatients(true), [loadPatients]);
+  usePageRevalidation(refreshPatients);
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
@@ -203,8 +183,8 @@ export default function MedicoScreen() {
       ) : (
         sections.map((section) => {
           const sectionData = patientsByArea[section.key];
-          const page = pages[section.key];
           const totalPages = getTotalPages(sectionData);
+          const page = Math.min(pages[section.key], Math.max(1, totalPages));
           const pagedData = getPagedData(sectionData, page);
           const SectionIcon = section.icon;
 

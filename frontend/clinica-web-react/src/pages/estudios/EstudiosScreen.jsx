@@ -1,3 +1,4 @@
+import { usePageRevalidation } from '../../hooks/usePageRevalidation';
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
@@ -88,6 +89,8 @@ export default function EstudiosScreen() {
 
   const skipFocusRefresh = useRef(false);
   const loadRequestRef = useRef(0);
+  const firstListLoad = useRef(true);
+  const firstPreload = useRef(true);
   const preloadRequestRef = useRef(0);
 
   const normalizeItem = (item = {}) => ({
@@ -129,10 +132,12 @@ export default function EstudiosScreen() {
       let cachedData = null;
 
       const showPage = (items) => {
-        const start = (currentPage - 1) * PAGE_SIZE;
+        const page = Math.min(currentPage, Math.max(1, Math.ceil(items.length / PAGE_SIZE)));
+        if (page !== currentPage) setCurrentPage(page);
+        const start = (page - 1) * PAGE_SIZE;
         setTotalItems(items.length);
         setAllItems(items.slice(start, start + PAGE_SIZE).map(normalizeItem));
-        setHasMore(items.length > currentPage * PAGE_SIZE);
+        setHasMore(items.length > page * PAGE_SIZE);
         setHasCachedData(true);
       };
 
@@ -269,16 +274,25 @@ export default function EstudiosScreen() {
 
   useEffect(() => {
     skipFocusRefresh.current = false;
-    loadAllData();
+    const force = firstListLoad.current;
+    firstListLoad.current = false;
+    loadAllData(force);
   }, [selectedSection, loadAllData]);
 
   useEffect(() => {
-    loadCounts();
+    loadCounts(true);
   }, [loadCounts]);
 
   useEffect(() => {
-    preloadOtherSections();
+    const force = firstPreload.current;
+    firstPreload.current = false;
+    preloadOtherSections(force);
   }, [preloadOtherSections]);
+
+  const refreshLists = useCallback(() => {
+    loadAllData(true); loadCounts(true); preloadOtherSections(true);
+  }, [loadAllData, loadCounts, preloadOtherSections]);
+  usePageRevalidation(refreshLists);
 
   const onRefresh = async () => {
     setRefreshing(true);

@@ -7,6 +7,11 @@ from services.spark_engine import analyze
 pytestmark = pytest.mark.skipif(os.getenv('RUN_SPARK_TESTS') != '1', reason='Enable real Spark with RUN_SPARK_TESTS=1')
 
 
+@pytest.fixture(autouse=True)
+def require_actual_spark(monkeypatch):
+    monkeypatch.setenv('ANALYSIS_ENGINE', 'spark')
+
+
 @pytest.fixture(scope='module')
 def spark():
     from pyspark.sql import SparkSession
@@ -70,3 +75,45 @@ def test_http_to_background_worker_to_real_spark(client):
     assert result['available']
     assert result['summary']['total'] == 8
     assert result['metrics'][0]['mean'] == 82.5
+
+
+def test_pbl09_clinical_dated_trends_use_real_daily_aggregates(spark):
+    rows = [
+        {'fc': 80., 'fr': None, 'temp': 37., 'spo2': None, 'day': '2026-10-12'},
+        {'fc': 100., 'fr': None, 'temp': 39., 'spo2': None, 'day': '2026-10-12'},
+        {'fc': 60., 'fr': None, 'temp': 36., 'spo2': None, 'day': '2026-10-15'},
+        {'fc': 120., 'fr': None, 'temp': 40., 'spo2': None},
+    ]
+    result = analyze(spark, 'clinical', rows)
+    assert [row for row in result['trends'] if row['measure'] == 'temp'] == [
+        {'day': '2026-10-12', 'measure': 'temp', 'count': 2, 'mean': 38., 'minimum': 37., 'maximum': 39.},
+        {'day': '2026-10-15', 'measure': 'temp', 'count': 1, 'mean': 36., 'minimum': 36., 'maximum': 36.},
+    ]
+    assert result['summary']['total'] == 4
+    assert result['metrics'][2]['count'] == 4
+    assert not any(row['measure'] == 'spo2' for row in result['trends'])
+
+
+def test_dated_rows_without_any_vital_sign_are_excluded(spark):
+    result = analyze(spark, 'clinical', [{'day': '2026-10-01', 'fc': None, 'fr': None, 'temp': None, 'spo2': None}])
+    assert result['available'] is False
+    assert result['quality']['used_rows'] == 0
+    assert result['quality']['excluded_rows'] == 1
+
+
+@pytest.mark.parametrize('kind', ['analytics', 'met', 'clinical'])
+def test_lightweight_aggregates_match_real_spark(spark, kind):
+    from services.analysis_lightweight import analyze as lightweight
+    rows = service.collect_source(kind)
+    actual, expected = lightweight(kind, rows), analyze(spark, kind, rows)
+
+    def normalized(value):
+        if isinstance(value, float):
+            return round(value, 12)
+        if isinstance(value, list):
+            return [normalized(item) for item in value]
+        if isinstance(value, dict):
+            return {key: normalized(item) for key, item in value.items() if key != 'engine'}
+        return value
+
+    assert normalized(actual) == normalized(expected)

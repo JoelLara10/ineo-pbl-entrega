@@ -1,3 +1,4 @@
+import { getClinicalCache, setClinicalCache } from '../../services/clinicalCache';
 import { formatRegionalDate } from '../../i18n/regional';
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -10,38 +11,8 @@ import { useTranslation } from 'react-i18next';
 const CACHE_PREFIX = 'ineo_web_cache_enfermeria_medications_';
 const CACHE_TTL = 2 * 60 * 1000;
 
-function getCachedValue(key) {
-  if (typeof window === 'undefined') return null;
-
-  try {
-    const raw = window.localStorage.getItem(CACHE_PREFIX + key);
-    if (!raw) return null;
-
-    const parsed = JSON.parse(raw);
-    if (Date.now() - parsed.timestamp > parsed.ttl) {
-      window.localStorage.removeItem(CACHE_PREFIX + key);
-      return null;
-    }
-
-    return parsed.data;
-  } catch (error) {
-    console.error('Error reading medications cache:', error);
-    return null;
-  }
-}
-
-function setCachedValue(key, data, ttl = CACHE_TTL) {
-  if (typeof window === 'undefined') return;
-
-  try {
-    window.localStorage.setItem(
-      CACHE_PREFIX + key,
-      JSON.stringify({ data, timestamp: Date.now(), ttl })
-    );
-  } catch (error) {
-    console.error('Error saving medications cache:', error);
-  }
-}
+function getCachedValue(key) { return getClinicalCache(CACHE_PREFIX + key); }
+function setCachedValue(key, data, ttl = CACHE_TTL) { setClinicalCache(CACHE_PREFIX + key, data, ttl); }
 
 function createMedicationItem(id) {
   return { id, nombre: '', dosis: '', frecuencia: '', via: '', fecha_aplicacion: '' };
@@ -254,9 +225,9 @@ export default function EnfermeriaMedicationsScreen() {
                     <span style={styles.fieldLabel}>{t('nursingMeds.applicationDate')}</span>
                     <input
                       style={styles.fieldInput}
-                      placeholder="DD/MM/YYYY"
-                      value={medication.fecha_aplicacion}
-                      onChange={(event) => updateMedication(medication.id, 'fecha_aplicacion', event.target.value)}
+                      type="date"
+                      value={medication.fecha_aplicacion ? medication.fecha_aplicacion.split('/').reverse().join('-') : ''}
+                      onChange={(event) => updateMedication(medication.id, 'fecha_aplicacion', event.target.value ? event.target.value.split('-').reverse().join('/') : '')}
                     />
                   </label>
                 </div>

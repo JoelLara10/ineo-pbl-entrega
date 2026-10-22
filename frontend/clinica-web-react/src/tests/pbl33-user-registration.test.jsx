@@ -8,6 +8,8 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createAppI18n } from '../i18n/setup';
 import UsuariosConfigScreen from '../pages/config/UsuariosConfigScreen';
 import api from '../services/api';
+import { clearClinicalCache } from '../services/clinicalCache';
+import { getCache } from '../pages/config/configCache';
 
 vi.mock('../services/api', () => ({ default: {
   get: vi.fn(),
@@ -28,6 +30,7 @@ async function mount() {
 
 beforeEach(() => {
   localStorage.clear();
+  clearClinicalCache();
   vi.clearAllMocks();
   api.get.mockResolvedValue({ data: { data: [] } });
 });
@@ -60,7 +63,8 @@ describe('Alta de usuarios', () => {
     }));
     expect(await screen.findByText('Usuario guardado correctamente.')).toBeInTheDocument();
     expect(await screen.findByText(/qa.medico/)).toBeInTheDocument();
-    expect(localStorage.getItem('ineo_config_react_usuarios_v2')).not.toContain('no-debe-guardarse');
+    expect(localStorage.getItem('ineo_config_react_usuarios_v2')).toBeNull();
+    expect(JSON.stringify(getCache('usuarios_v2'))).not.toContain('no-debe-guardarse');
   });
 
   it('explica el límite de bcrypt antes de enviar una contraseña demasiado larga', async () => {

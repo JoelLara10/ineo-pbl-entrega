@@ -502,7 +502,9 @@
     "retry": "Reintentar",
     "actions": "Acciones",
     "view": "Ver",
-    "select": "Seleccionar"
+    "select": "Seleccionar",
+    "previous": "Anterior",
+    "next": "Siguiente"
   },
   "vitalSigns": {
     "eyebrow": "ENFERMERÍA",
@@ -1195,5 +1197,263 @@
     "searchPreviousPatients": "Buscar paciente atendido anteriormente",
     "reactivatePatient": "Reactivar en una nueva atención",
     "patientAlreadyActive": "Ya tiene una atención activa"
+  },
+  "analysisMetadata": {
+    "title": "Vigencia del análisis",
+    "generated": "Fecha de generación",
+    "updated": "Última actualización de la fuente",
+    "period": "Periodo analizado",
+    "unknown": "No disponible",
+    "timezone": "Fechas de origen en UTC; horas mostradas en tu zona local.",
+    "undated": "Registros sin fecha: {{count}}. El periodo sólo incluye fechas conocidas.",
+    "engine": "Procesamiento",
+    "engines": {
+      "spark": "Apache Spark",
+      "lightweight": "Motor de bajo consumo"
+    }
+  },
+  "offline": {
+    "preferences": "Conexión y preferencias",
+    "language": "Idioma",
+    "online": "Con conexión",
+    "disconnected": "Sin conexión",
+    "pending": "Preferencia pendiente de sincronizar",
+    "failed": "No se pudo sincronizar. Reintenta al recuperar la conexión.",
+    "retry": "Reintentar sincronización",
+    "title": "Operación offline limitada",
+    "hint": "Los módulos clínicos y sus escrituras requieren conexión. No se guardan expedientes en este dispositivo.",
+    "safeAction": "Puedes cambiar el idioma; se sincronizará con tu cuenta al reconectar. La cola caduca en 8 horas y se elimina al cerrar sesión.",
+    "logout": "Cerrar sesión local"
+  },
+  "analysisDashboard": {
+    "summary": "Indicadores principales",
+    "group": "Grupo",
+    "period": "Periodo de los registros",
+    "unknownPeriod": "Periodo no disponible",
+    "source": "Fuente",
+    "snapshot": "Estado de los registros al ejecutar el análisis",
+    "empty": "No hay registros suficientes para esta gráfica.",
+    "zeroAxis": "La escala incluye el cero; los valores se muestran en la gráfica y en la tabla.",
+    "dateAxis": "Fecha",
+    "category": "Categoría",
+    "table": "Ver tabla de datos",
+    "update": "Estos resultados son de una versión anterior. Pulsa Ejecutar análisis para generar las nuevas gráficas con los datos de la base.",
+    "aggregateHint": "Datos agregados del análisis guardado. Actualizar consulta el último resultado; Ejecutar análisis vuelve a calcularlo con la base de datos. Las atenciones y observaciones pueden corresponder a un mismo paciente.",
+    "units": {
+      "records": "Registros",
+      "patients": "Pacientes",
+      "attentions": "Atenciones",
+      "percent": "%",
+      "beds": "Camas",
+      "exams": "Estudios solicitados",
+      "observations": "Observaciones",
+      "perDay": "Atenciones / día",
+      "days": "Días",
+      "groups": "Grupos",
+      "fc": "lpm",
+      "fr": "rpm",
+      "temp": "°C",
+      "spo2": "%"
+    },
+    "kpis": {
+      "patients": "Pacientes registrados",
+      "attentions": "Atenciones registradas",
+      "active": "Atenciones abiertas",
+      "occupancy": "Ocupación actual de camas",
+      "dated": "Atenciones con fecha válida",
+      "calendarAverage": "Promedio por día calendario",
+      "calendarDays": "Días del periodo",
+      "undated": "Atenciones sin fecha válida",
+      "observations": "Observaciones utilizadas",
+      "groups": "Grupos identificados",
+      "excluded": "Observaciones excluidas"
+    },
+    "labels": {
+      "ABIERTA": "Abiertas",
+      "CERRADA": "Cerradas",
+      "OTRO": "Otros estados",
+      "UNKNOWN": "Sin especificar",
+      "OTHER": "Otras categorías",
+      "0": "Libres",
+      "1": "Ocupadas",
+      "PENDIENTE": "Pendientes",
+      "REALIZADO": "Realizados",
+      "CANCELADO": "Cancelados",
+      "CONSULTA": "Consulta",
+      "PREPARACION": "Preparación",
+      "RECUPERACION": "Recuperación",
+      "fc": "Frecuencia cardiaca",
+      "fr": "Frecuencia respiratoria",
+      "temp": "Temperatura",
+      "spo2": "Saturación de oxígeno",
+      "weekday0": "Lunes",
+      "weekday1": "Martes",
+      "weekday2": "Miércoles",
+      "weekday3": "Jueves",
+      "weekday4": "Viernes",
+      "weekday5": "Sábado",
+      "weekday6": "Domingo"
+    },
+    "charts": {
+      "attentionStatus": {
+        "title": "Atenciones por estado",
+        "hint": "Conteo histórico de atenciones abiertas, cerradas y otros estados. Una atención no equivale a un paciente único."
+      },
+      "activeArea": {
+        "title": "Carga actual por área",
+        "hint": "Atenciones abiertas agrupadas por el área registrada. Ayuda a identificar dónde se concentra la atención."
+      },
+      "beds": {
+        "title": "Disponibilidad de camas",
+        "hint": "Camas del catálogo por su estado de ocupación. Los estados desconocidos se conservan como categoría."
+      },
+      "examStatus": {
+        "title": "Seguimiento de estudios",
+        "hint": "Solicitudes de estudios por estado. Cuenta detalles de solicitudes, no pacientes ni resultados únicos."
+      },
+      "daily": {
+        "title": "Atenciones por día",
+        "hint": "Ingresos por fecha UTC. Los días intermedios sin ingresos se muestran con cero."
+      },
+      "monthly": {
+        "title": "Atenciones por mes",
+        "hint": "Ingresos agrupados por mes UTC para periodos mayores a 90 días; los meses vacíos se muestran con cero."
+      },
+      "weekday": {
+        "title": "Actividad por día de la semana",
+        "hint": "Suma de ingresos de cada día de la semana en todo el periodo; no es un promedio semanal."
+      },
+      "clinicalCoverage": {
+        "title": "Cobertura de signos vitales",
+        "hint": "Cantidad de valores numéricos disponibles por indicador. Una observación puede aportar varios signos vitales."
+      },
+      "groups": {
+        "title": "Tamaño de los grupos",
+        "hint": "Observaciones con los cuatro signos vitales completos agrupadas por similitud (K-means). Los grupos no representan diagnósticos ni pacientes únicos."
+      },
+      "variance": {
+        "title": "Información conservada en la proyección",
+        "hint": "Porcentaje de varianza explicado por cada componente principal (PCA). Se usan variables estandarizadas."
+      },
+      "profile_fc": {
+        "title": "Promedio de frecuencia cardiaca por grupo",
+        "hint": "Comparación de los promedios dentro de cada grupo, en la unidad original. La numeración identifica grupos y puede cambiar al volver a ejecutar."
+      },
+      "profile_fr": {
+        "title": "Promedio de frecuencia respiratoria por grupo",
+        "hint": "Comparación de los promedios dentro de cada grupo, en la unidad original. La numeración identifica grupos y puede cambiar al volver a ejecutar."
+      },
+      "profile_temp": {
+        "title": "Promedio de temperatura por grupo",
+        "hint": "Comparación de los promedios dentro de cada grupo, en la unidad original. La numeración identifica grupos y puede cambiar al volver a ejecutar."
+      },
+      "profile_spo2": {
+        "title": "Promedio de saturación de oxígeno por grupo",
+        "hint": "Comparación de los promedios dentro de cada grupo, en la unidad original. La numeración identifica grupos y puede cambiar al volver a ejecutar."
+      },
+      "clinical_heartRate": {
+        "title": "Promedio diario de frecuencia cardiaca",
+        "hint": "Promedios de las observaciones fechadas. Los días sin mediciones no se inventan; consulta la tabla para ver las fechas disponibles. La línea conecta las mediciones disponibles; no estima valores intermedios."
+      },
+      "clinical_respiratoryRate": {
+        "title": "Promedio diario de frecuencia respiratoria",
+        "hint": "Promedios de las observaciones fechadas. Los días sin mediciones no se inventan; consulta la tabla para ver las fechas disponibles. La línea conecta las mediciones disponibles; no estima valores intermedios."
+      },
+      "clinical_temperature": {
+        "title": "Promedio diario de temperatura",
+        "hint": "Promedios de las observaciones fechadas. Los días sin mediciones no se inventan; consulta la tabla para ver las fechas disponibles. La línea conecta las mediciones disponibles; no estima valores intermedios."
+      },
+      "clinical_oxygen": {
+        "title": "Promedio diario de saturación de oxígeno",
+        "hint": "Promedios de las observaciones fechadas. Los días sin mediciones no se inventan; consulta la tabla para ver las fechas disponibles. La línea conecta las mediciones disponibles; no estima valores intermedios."
+      }
+    },
+    "insufficientPatterns": "Se requieren al menos cuatro observaciones completas de frecuencia cardiaca, respiratoria, temperatura y saturación, con tres combinaciones distintas, para identificar grupos. No se generan grupos de ejemplo.",
+    "sources": {
+      "atencion": "Atenciones",
+      "atencion_fecha_ing": "Atenciones · fecha de ingreso",
+      "camas": "Catálogo de camas",
+      "examenes_det": "Solicitudes de estudios",
+      "signos_vitales": "Registros de signos vitales",
+      "signos_vitales_fecha_registro": "Signos vitales · fecha de registro"
+    }
+  },
+  "analysisTools": {
+    "observations": "Observaciones válidas",
+    "filters": {
+      "title": "Explorar los indicadores",
+      "from": "Desde",
+      "to": "Hasta",
+      "area": "Área",
+      "allAreas": "Todas las áreas",
+      "compare": "Comparar con el periodo anterior de igual duración",
+      "clear": "Limpiar filtros",
+      "hint": "Las fechas incluyen ambos días y se interpretan en UTC. Selecciona hasta cinco años y pulsa Ejecutar análisis para aplicar los filtros.",
+      "changed": "Hay filtros sin aplicar. Las gráficas conservan los filtros del resultado guardado hasta ejecutar de nuevo.",
+      "invalid": "Selecciona inicio y fin en orden, con un máximo de cinco años. Para comparar también se requieren ambas fechas.",
+      "optionsError": "No se pudieron cargar las áreas. Actualiza la página para volver a intentarlo; puedes consultar las fechas con todas las áreas.",
+      "applied": "Filtros del resultado mostrado",
+      "selectedPeriod": "Periodo seleccionado",
+      "allHistory": "Todo el historial disponible"
+    },
+    "comparison": {
+      "title": "Comparación de atenciones",
+      "current": "Periodo seleccionado",
+      "previous": "Periodo anterior · referencia",
+      "change": "Cambio absoluto y porcentual",
+      "noBase": "Sin base porcentual: el periodo anterior no tuvo atenciones.",
+      "rising": "El conteo aumentó. Revisa la programación y la distribución de carga antes de proponer ajustes de capacidad. El cambio no demuestra por sí solo su causa.",
+      "falling": "El conteo disminuyó. Revisa la demanda y la integridad de los registros antes de proponer ajustes de capacidad.",
+      "stable": "El conteo se mantuvo. Comprueba también la distribución por fecha y área antes de concluir que la carga fue igual."
+    },
+    "insights": {
+      "title": "Cómo interpretar y usar estos resultados",
+      "analytics": "Cada atención es un episodio registrado; un mismo paciente puede tener varias. Los estados describen cómo están los registros al ejecutar el análisis.",
+      "snapshotScope": "Las fechas filtran las atenciones. Pacientes registrados es el catálogo global; camas y estudios reflejan su estado actual, no una reconstrucción histórica. El área se aplica a atenciones, camas y estudios, usando el área registrada actualmente.",
+      "met": "La tendencia cuenta ingresos, no personas únicas. El promedio diario incluye los días calendario sin ingresos dentro del periodo seleccionado.",
+      "clinical": "Cada promedio se basa en las observaciones válidas indicadas en su tarjeta. El mínimo y máximo observados ofrecen contexto del conjunto de datos; no son límites clínicos recomendados. Compara únicamente valores con la misma unidad.",
+      "unsupervised": "Cada grupo reúne observaciones completas con signos vitales similares. Los números de grupo identifican conjuntos y pueden cambiar entre ejecuciones. Los grupos no equivalen a diagnósticos ni a pacientes únicos.",
+      "quality": "Se utilizaron {{used}} de {{total}} observaciones; {{excluded}} se excluyeron por datos incompletos o no utilizables.",
+      "excludedDates": "Se excluyeron {{count}} registros sin fecha válida al aplicar el periodo.",
+      "peaks": "Fechas con mayor número de ingresos",
+      "morePeaks": "Hay {{count}} fechas empatadas; se muestran las primeras diez.",
+      "actionTitle": "Antes de formular una decisión",
+      "action_analytics": "Identifica qué áreas concentran atenciones abiertas y revisa si la distribución de camas y solicitudes requiere una revisión operativa. Registra una acción concreta y cómo comprobarías su resultado.",
+      "action_met": "Usa las fechas pico para revisar la programación de recursos y confirma si el patrón se repite en otros periodos.",
+      "action_clinical": "Revisa la cantidad y calidad de las observaciones con el equipo clínico antes de interpretar una variación o proponer una acción.",
+      "action_unsupervised": "Compara los promedios de cada grupo con el promedio general de las observaciones utilizadas. Revisa las exclusiones antes de decidir si hace falta mejorar la captura o investigar un patrón.",
+      "referenceMean": "Promedio general de las observaciones utilizadas",
+      "groupMeaning": "Estos promedios describen las observaciones del grupo. La línea discontinua de cada gráfica de perfil marca el promedio general como referencia."
+    },
+    "export": {
+      "download": "Descargar",
+      "all": "Descargar indicadores y tablas (CSV)",
+      "value": "Valor",
+      "unit": "Unidad",
+      "error": "No se pudo generar la descarga. Intenta con SVG o CSV.",
+      "metric": "Indicador",
+      "mean": "Promedio",
+      "minimum": "Mínimo",
+      "maximum": "Máximo"
+    },
+    "review": {
+      "title": "Mi interpretación y decisión",
+      "hint": "Revisa el periodo, las unidades y las referencias. Explica qué significan los datos, propón una acción basada en ellos y califica la claridad de textos, leyendas y diseño. Esta evaluación queda vinculada al resultado que estás viendo.",
+      "interpretation": "¿Qué significa el indicador? Incluye el periodo y la unidad.",
+      "decision": "¿Qué conclusión o acción propones y en qué dato te basas?",
+      "clarity": "Claridad de textos, leyendas y diseño",
+      "clear": "Clara",
+      "acceptable": "Aceptable",
+      "confusing": "Confusa",
+      "notes": "¿Qué mejorarías? (opcional)",
+      "save": "Guardar interpretación y evaluación",
+      "saving": "Guardando…",
+      "saved": "Interpretación y evaluación guardadas para este resultado.",
+      "export": "Descargar evaluación (CSV)",
+      "loadError": "No se pudo recuperar tu evaluación anterior. Actualiza antes de guardar si ya habías registrado una.",
+      "saveError": "No se pudo guardar. Comprueba los campos y la conexión e inténtalo de nuevo.",
+      "stale": "El resultado cambió desde que abriste la vista. Actualiza el análisis antes de guardar tu evaluación.",
+      "loading": "Recuperando tu evaluación…"
+    }
   }
 }

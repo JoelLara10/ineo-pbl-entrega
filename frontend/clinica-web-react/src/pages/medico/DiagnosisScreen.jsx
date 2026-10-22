@@ -1,3 +1,4 @@
+import { getClinicalCache, setClinicalCache } from '../../services/clinicalCache';
 import { formatRegionalDate } from '../../i18n/regional';
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -10,31 +11,8 @@ const CACHE_CURRENT = 'ineo_web_cache_medico_diagnosis_current_';
 const CACHE_HISTORY = 'ineo_web_cache_medico_diagnosis_history_';
 const CACHE_TTL = 2 * 60 * 1000;
 
-function getCachedValue(key) {
-  if (typeof window === 'undefined') return null;
-  try {
-    const raw = window.localStorage.getItem(key);
-    if (!raw) return null;
-    const parsed = JSON.parse(raw);
-    if (Date.now() - parsed.timestamp > parsed.ttl) {
-      window.localStorage.removeItem(key);
-      return null;
-    }
-    return parsed.data;
-  } catch (error) {
-    console.error('Error reading diagnosis cache:', error);
-    return null;
-  }
-}
-
-function setCachedValue(key, data, ttl = CACHE_TTL) {
-  if (typeof window === 'undefined') return;
-  try {
-    window.localStorage.setItem(key, JSON.stringify({ data, timestamp: Date.now(), ttl }));
-  } catch (error) {
-    console.error('Error saving diagnosis cache:', error);
-  }
-}
+function getCachedValue(key) { return getClinicalCache(key); }
+function setCachedValue(key, data, ttl = CACHE_TTL) { setClinicalCache(key, data, ttl); }
 
 export default function DiagnosisScreen() {
   const { t, i18n } = useTranslation();

@@ -81,6 +81,9 @@
             "string",
             "null"
           ]
+        },
+        "filters": {
+          "$ref": "#/$defs/analysis_filters"
         }
       },
       "required": [
@@ -374,6 +377,244 @@
             }
           },
           "required": []
+        },
+        "metadata": {
+          "$ref": "#/$defs/analysis_metadata"
+        },
+        "trends": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "measure": {
+                "enum": [
+                  "fc",
+                  "fr",
+                  "temp",
+                  "spo2"
+                ]
+              },
+              "count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "mean": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "minimum": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "maximum": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "day": {
+                "type": "string",
+                "format": "date"
+              }
+            },
+            "required": [
+              "measure",
+              "count",
+              "mean",
+              "minimum",
+              "maximum",
+              "day"
+            ]
+          }
+        },
+        "dashboard": {
+          "type": "object",
+          "properties": {
+            "version": {
+              "const": 1
+            },
+            "timezone": {
+              "const": "UTC"
+            },
+            "kpis": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "key": {
+                    "type": "string"
+                  },
+                  "value": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "unit": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "key",
+                  "value",
+                  "unit"
+                ]
+              }
+            },
+            "charts": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "key": {
+                    "type": "string"
+                  },
+                  "source": {
+                    "type": "string"
+                  },
+                  "unit": {
+                    "type": "string"
+                  },
+                  "scope": {
+                    "enum": [
+                      "snapshot",
+                      "history"
+                    ]
+                  },
+                  "mode": {
+                    "enum": [
+                      "bar",
+                      "line"
+                    ]
+                  },
+                  "rows": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "label": {
+                          "type": "string"
+                        },
+                        "value": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "label",
+                        "value"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "key",
+                  "source",
+                  "unit",
+                  "scope",
+                  "mode",
+                  "rows"
+                ]
+              }
+            }
+          },
+          "required": [
+            "version",
+            "timezone",
+            "kpis",
+            "charts"
+          ]
+        },
+        "engine": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "enum": [
+                "spark",
+                "lightweight"
+              ]
+            },
+            "method": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "name",
+            "method"
+          ]
+        },
+        "comparison": {
+          "type": "object",
+          "properties": {
+            "current": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "previous": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "change": {
+              "type": "integer"
+            },
+            "change_percent": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "area": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "current_period": {
+              "type": "object",
+              "properties": {
+                "start": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "end": {
+                  "type": "string",
+                  "format": "date"
+                }
+              },
+              "required": [
+                "start",
+                "end"
+              ]
+            },
+            "previous_period": {
+              "type": "object",
+              "properties": {
+                "start": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "end": {
+                  "type": "string",
+                  "format": "date"
+                }
+              },
+              "required": [
+                "start",
+                "end"
+              ]
+            }
+          },
+          "required": [
+            "current",
+            "previous",
+            "change",
+            "change_percent",
+            "current_period",
+            "previous_period"
+          ]
         }
       },
       "required": [
@@ -735,6 +976,120 @@
         "today_income",
         "bed_occupancy",
         "pending_exams"
+      ]
+    },
+    "analysis_metadata": {
+      "type": "object",
+      "required": [
+        "generated_at",
+        "last_updated_at",
+        "period",
+        "undated_rows",
+        "timezone"
+      ],
+      "properties": {
+        "generated_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "last_updated_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "period": {
+          "type": "object",
+          "required": [
+            "start",
+            "end"
+          ],
+          "properties": {
+            "start": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "date"
+            },
+            "end": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "date"
+            }
+          }
+        },
+        "undated_rows": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "timezone": {
+          "const": "UTC"
+        }
+      }
+    },
+    "analysis_filters": {
+      "type": "object",
+      "properties": {
+        "start_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "end_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "area": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "compare_previous": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "analysis_review": {
+      "type": "object",
+      "properties": {
+        "interpretation": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 2000
+        },
+        "decision": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 2000
+        },
+        "clarity": {
+          "enum": [
+            "clear",
+            "acceptable",
+            "confusing"
+          ]
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "result_timestamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "interpretation",
+        "decision",
+        "clarity",
+        "notes",
+        "result_timestamp"
       ]
     }
   }

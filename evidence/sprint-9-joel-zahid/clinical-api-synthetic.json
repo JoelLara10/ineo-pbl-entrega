@@ -1,0 +1,314 @@
+{
+  "available": true,
+  "clusters": [],
+  "contract_version": "1.0",
+  "metadata": {
+    "generated_at": "2026-10-20T21:16:41.912757+00:00",
+    "last_updated_at": "2026-10-18T00:00:00+00:00",
+    "period": {
+      "end": "2026-10-18",
+      "start": "2026-10-11"
+    },
+    "timezone": "UTC",
+    "undated_rows": 0
+  },
+  "metrics": [
+    {
+      "count": 8,
+      "maximum": 100.0,
+      "mean": 82.5,
+      "measure": "fc",
+      "minimum": 65.0
+    },
+    {
+      "count": 8,
+      "maximum": 20.0,
+      "mean": 16.5,
+      "measure": "fr",
+      "minimum": 13.0
+    },
+    {
+      "count": 8,
+      "maximum": 39.8,
+      "mean": 39.45,
+      "measure": "temp",
+      "minimum": 39.1
+    },
+    {
+      "count": 8,
+      "maximum": 99.0,
+      "mean": 95.5,
+      "measure": "spo2",
+      "minimum": 92.0
+    }
+  ],
+  "pca": {},
+  "quality": {
+    "excluded_rows": 0,
+    "source_rows": 8,
+    "used_rows": 8
+  },
+  "summary": {
+    "total": 8
+  },
+  "timestamp": "2026-10-20T21:16:41.912757+00:00",
+  "trends": [
+    {
+      "count": 1,
+      "day": "2026-10-11",
+      "maximum": 65.0,
+      "mean": 65.0,
+      "measure": "fc",
+      "minimum": 65.0
+    },
+    {
+      "count": 1,
+      "day": "2026-10-11",
+      "maximum": 13.0,
+      "mean": 13.0,
+      "measure": "fr",
+      "minimum": 13.0
+    },
+    {
+      "count": 1,
+      "day": "2026-10-11",
+      "maximum": 39.1,
+      "mean": 39.1,
+      "measure": "temp",
+      "minimum": 39.1
+    },
+    {
+      "count": 1,
+      "day": "2026-10-11",
+      "maximum": 99.0,
+      "mean": 99.0,
+      "measure": "spo2",
+      "minimum": 99.0
+    },
+    {
+      "count": 1,
+      "day": "2026-10-12",
+      "maximum": 70.0,
+      "mean": 70.0,
+      "measure": "fc",
+      "minimum": 70.0
+    },
+    {
+      "count": 1,
+      "day": "2026-10-12",
+      "maximum": 14.0,
+      "mean": 14.0,
+      "measure": "fr",
+      "minimum": 14.0
+    },
+    {
+      "count": 1,
+      "day": "2026-10-12",
+      "maximum": 39.2,
+      "mean": 39.2,
+      "measure": "temp",
+      "minimum": 39.2
+    },
+    {
+      "count": 1,
+      "day": "2026-10-12",
+      "maximum": 98.0,
+      "mean": 98.0,
+      "measure": "spo2",
+      "minimum": 98.0
+    },
+    {
+      "count": 1,
+      "day": "2026-10-13",
+      "maximum": 75.0,
+      "mean": 75.0,
+      "measure": "fc",
+      "minimum": 75.0
+    },
+    {
+      "count": 1,
+      "day": "2026-10-13",
+      "maximum": 15.0,
+      "mean": 15.0,
+      "measure": "fr",
+      "minimum": 15.0
+    },
+    {
+      "count": 1,
+      "day": "2026-10-13",
+      "maximum": 39.3,
+      "mean": 39.3,
+      "measure": "temp",
+      "minimum": 39.3
+    },
+    {
+      "count": 1,
+      "day": "2026-10-13",
+      "maximum": 97.0,
+      "mean": 97.0,
+      "measure": "spo2",
+      "minimum": 97.0
+    },
+    {
+      "count": 1,
+      "day": "2026-10-14",
+      "maximum": 80.0,
+      "mean": 80.0,
+      "measure": "fc",
+      "minimum": 80.0
+    },
+    {
+      "count": 1,
+      "day": "2026-10-14",
+      "maximum": 16.0,
+      "mean": 16.0,
+      "measure": "fr",
+      "minimum": 16.0
+    },
+    {
+      "count": 1,
+      "day": "2026-10-14",
+      "maximum": 39.4,
+      "mean": 39.4,
+      "measure": "temp",
+      "minimum": 39.4
+    },
+    {
+      "count": 1,
+      "day": "2026-10-14",
+      "maximum": 96.0,
+      "mean": 96.0,
+      "measure": "spo2",
+      "minimum": 96.0
+    },
+    {
+      "count": 1,
+      "day": "2026-10-15",
+      "maximum": 85.0,
+      "mean": 85.0,
+      "measure": "fc",
+      "minimum": 85.0
+    },
+    {
+      "count": 1,
+      "day": "2026-10-15",
+      "maximum": 17.0,
+      "mean": 17.0,
+      "measure": "fr",
+      "minimum": 17.0
+    },
+    {
+      "count": 1,
+      "day": "2026-10-15",
+      "maximum": 39.5,
+      "mean": 39.5,
+      "measure": "temp",
+      "minimum": 39.5
+    },
+    {
+      "count": 1,
+      "day": "2026-10-15",
+      "maximum": 95.0,
+      "mean": 95.0,
+      "measure": "spo2",
+      "minimum": 95.0
+    },
+    {
+      "count": 1,
+      "day": "2026-10-16",
+      "maximum": 90.0,
+      "mean": 90.0,
+      "measure": "fc",
+      "minimum": 90.0
+    },
+    {
+      "count": 1,
+      "day": "2026-10-16",
+      "maximum": 18.0,
+      "mean": 18.0,
+      "measure": "fr",
+      "minimum": 18.0
+    },
+    {
+      "count": 1,
+      "day": "2026-10-16",
+      "maximum": 39.6,
+      "mean": 39.6,
+      "measure": "temp",
+      "minimum": 39.6
+    },
+    {
+      "count": 1,
+      "day": "2026-10-16",
+      "maximum": 94.0,
+      "mean": 94.0,
+      "measure": "spo2",
+      "minimum": 94.0
+    },
+    {
+      "count": 1,
+      "day": "2026-10-17",
+      "maximum": 95.0,
+      "mean": 95.0,
+      "measure": "fc",
+      "minimum": 95.0
+    },
+    {
+      "count": 1,
+      "day": "2026-10-17",
+      "maximum": 19.0,
+      "mean": 19.0,
+      "measure": "fr",
+      "minimum": 19.0
+    },
+    {
+      "count": 1,
+      "day": "2026-10-17",
+      "maximum": 39.7,
+      "mean": 39.7,
+      "measure": "temp",
+      "minimum": 39.7
+    },
+    {
+      "count": 1,
+      "day": "2026-10-17",
+      "maximum": 93.0,
+      "mean": 93.0,
+      "measure": "spo2",
+      "minimum": 93.0
+    },
+    {
+      "count": 1,
+      "day": "2026-10-18",
+      "maximum": 100.0,
+      "mean": 100.0,
+      "measure": "fc",
+      "minimum": 100.0
+    },
+    {
+      "count": 1,
+      "day": "2026-10-18",
+      "maximum": 20.0,
+      "mean": 20.0,
+      "measure": "fr",
+      "minimum": 20.0
+    },
+    {
+      "count": 1,
+      "day": "2026-10-18",
+      "maximum": 39.8,
+      "mean": 39.8,
+      "measure": "temp",
+      "minimum": 39.8
+    },
+    {
+      "count": 1,
+      "day": "2026-10-18",
+      "maximum": 92.0,
+      "mean": 92.0,
+      "measure": "spo2",
+      "minimum": 92.0
+    }
+  ],
+  "visualizations": []
+}

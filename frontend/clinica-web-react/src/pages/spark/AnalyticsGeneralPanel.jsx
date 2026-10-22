@@ -1,3 +1,4 @@
+import AnalysisDashboard from './AnalysisCharts';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { formatRegionalDate, formatRegionalNumber } from '../../i18n/regional';
@@ -18,7 +19,10 @@ export default function AnalyticsGeneralPanel({ data }) {
     ? `${formatRegionalDate(data.period.start, i18n.language)} – ${formatRegionalDate(data.period.end, i18n.language)}`
     : t('spark.analyticsGeneral.currentPeriod');
 
+  if (data?.dashboard) return <AnalysisDashboard data={data} />;
+
   return <div className="spark-analytics-general">
+    <AnalysisDashboard data={data} />
     <section aria-labelledby="analytics-summary-title">
       <h2 id="analytics-summary-title">{t('spark.analyticsGeneral.summaryTitle')}</h2>
       <div className="spark-kpi-grid">

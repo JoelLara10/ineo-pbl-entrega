@@ -1,10 +1,12 @@
+import { useContext } from 'react';
+import { OfflinePreferencesContext } from '../../context/OfflinePreferencesContext';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
 import { usePatient } from '../../context/PatientContext';
 import {
   FiHome, FiSettings, FiLogOut, FiUser, FiHeart, FiFileText,
-  FiClipboard, FiActivity, FiPrinter, FiMonitor, FiBarChart2,
+  FiClipboard, FiActivity, FiPrinter, FiMonitor, FiBarChart2, FiGlobe,
 } from 'react-icons/fi';
 import './Sidebar.css';
 
@@ -44,6 +46,9 @@ const roleLabelsEn = {
 
 export default function Sidebar({ isOpen, onClose }) {
   const { t, i18n } = useTranslation();
+  const preferences = useContext(OfflinePreferencesContext);
+  const changeLanguage = preferences?.changeLanguage || ((language) => i18n.changeLanguage(language));
+  const language = i18n.resolvedLanguage || i18n.language || 'es';
   const navigate = useNavigate();
   const location = useLocation();
   const { user, logout } = useAuth();
@@ -262,6 +267,20 @@ export default function Sidebar({ isOpen, onClose }) {
           </div>
         ))}
       </nav>
+
+      <div className="sidebar-language">
+        <span className="sidebar-language-label"><FiGlobe size={17} />{t('offline.language')}</span>
+        <div className="sidebar-language-buttons" role="group" aria-label={t('offline.language')}>
+          {['es', 'en'].map((option) => (
+            <button key={option} type="button" lang={option}
+              aria-label={option === 'es' ? 'Español' : 'English'}
+              aria-pressed={language.startsWith(option)}
+              onClick={() => changeLanguage(option)}>
+              {option.toUpperCase()}
+            </button>
+          ))}
+        </div>
+      </div>
 
       {/* Logout */}
       <button className="logout-btn" onClick={handleLogout}>

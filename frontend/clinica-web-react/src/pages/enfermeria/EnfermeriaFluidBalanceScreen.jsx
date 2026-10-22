@@ -1,7 +1,8 @@
+import { NursingPatientCard, NursingFormCard, NursingHistoryCard } from '../../components/nursing/NursingSections';
 import { formatRegionalDate } from '../../i18n/regional';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { FiArrowLeft, FiClock, FiDroplet, FiRefreshCw, FiSave, FiShield, FiUser } from 'react-icons/fi';
+import { FiArrowLeft, FiDroplet, FiRefreshCw, FiSave, FiShield } from 'react-icons/fi';
 import { usePatient } from '../../context/PatientContext';
 import api from '../../services/api';
 import { useTranslation } from 'react-i18next';
@@ -30,6 +31,14 @@ export default function EnfermeriaFluidBalanceScreen() {
     () => `Exp: ${idExp || 'N/A'} | Atención: ${idAtencion || 'N/A'}`,
     [idAtencion, idExp]
   );
+
+  const totals = useMemo(() => {
+    const numberValue = (value) => Number(value) || 0;
+    const inputs = numberValue(formData.ingresos_orales) + numberValue(formData.ingresos_iv);
+    const outputs = numberValue(formData.egresos_orina) + numberValue(formData.egresos_drenajes);
+
+    return { inputs, outputs, balance: inputs - outputs };
+  }, [formData]);
 
   const loadHistory = useCallback(async () => {
     if (!idAtencion) return;
@@ -85,31 +94,59 @@ export default function EnfermeriaFluidBalanceScreen() {
         <div style={styles.headerSpacer} />
       </div>
 
-      <section style={styles.patientCard}>
-        <div style={styles.patientAvatar}><FiUser size={30} color="#fff" /></div>
-        <div>
-          <h2 style={styles.patientName}>{t('nursingFluidBalance.selectedPatient')}</h2>
-          <p style={styles.patientMeta}>{patientLabel}</p>
-        </div>
-      </section>
+      <NursingPatientCard theme="balance" title={t('nursingFluidBalance.selectedPatient')} label={patientLabel} />
 
-      <section style={styles.mainCard}>
-        <div style={styles.cardHeader}>
-          <FiDroplet size={20} />
-          <strong>{t('nursingFluidBalance.newRecord', 'Registrar balance hídrico')}</strong>
+      <NursingFormCard theme="balance" title={t('nursingFluidBalance.newRecord')} icon={<FiDroplet size={22} />}>
+        <div style={styles.balanceColumns}>
+          <fieldset style={{ ...styles.balanceSection, ...styles.inputSection }}>
+            <legend style={{ ...styles.sectionLegend, ...styles.inputLegend }}>
+              {t('nursingFluidBalance.inputsLabel')}
+            </legend>
+            {[
+              ['ingresos_orales', t('nursingFluidBalance.oralInputsPlaceholder')],
+              ['ingresos_iv', t('nursingFluidBalance.ivInputsPlaceholder')],
+            ].map(([field, label]) => (
+              <label key={field} style={styles.fieldGroup}>
+                <span style={styles.fieldLabel}>{label}</span>
+                <div style={styles.inputWithUnit}>
+                  <input aria-label={label} style={styles.input} type="number" min="0" placeholder="0" value={formData[field]} onChange={(e) => handleChange(field, e.target.value)} />
+                  <span style={styles.unit}>ml</span>
+                </div>
+              </label>
+            ))}
+          </fieldset>
+
+          <fieldset style={{ ...styles.balanceSection, ...styles.outputSection }}>
+            <legend style={{ ...styles.sectionLegend, ...styles.outputLegend }}>
+              {t('nursingFluidBalance.outputsLabel')}
+            </legend>
+            {[
+              ['egresos_orina', t('nursingFluidBalance.urineOutputsPlaceholder')],
+              ['egresos_drenajes', t('nursingFluidBalance.drainageOutputsPlaceholder')],
+            ].map(([field, label]) => (
+              <label key={field} style={styles.fieldGroup}>
+                <span style={styles.fieldLabel}>{label}</span>
+                <div style={styles.inputWithUnit}>
+                  <input aria-label={label} style={styles.input} type="number" min="0" placeholder="0" value={formData[field]} onChange={(e) => handleChange(field, e.target.value)} />
+                  <span style={styles.unit}>ml</span>
+                </div>
+              </label>
+            ))}
+          </fieldset>
         </div>
-        <div style={styles.formGrid}>
-          {[
-            ['ingresos_orales', t('nursingFluidBalance.oralInputsPlaceholder')],
-            ['ingresos_iv', t('nursingFluidBalance.ivInputsPlaceholder')],
-            ['egresos_orina', t('nursingFluidBalance.urineOutputsPlaceholder')],
-            ['egresos_drenajes', t('nursingFluidBalance.drainageOutputsPlaceholder')],
-          ].map(([field, label]) => (
-            <label key={field} style={styles.fieldGroup}>
-              <span style={styles.fieldLabel}>{label}</span>
-              <input style={styles.input} type="number" min="0" placeholder="0" value={formData[field]} onChange={(e) => handleChange(field, e.target.value)} />
-            </label>
-          ))}
+        <div style={styles.totalsGrid} aria-live="polite">
+          <div style={{ ...styles.totalCard, ...styles.inputTotal }}>
+            <span>{t('nursingFluidBalance.inputsLabel')}</span>
+            <strong data-testid="total-inputs">{totals.inputs} ml</strong>
+          </div>
+          <div style={{ ...styles.totalCard, ...styles.outputTotal }}>
+            <span>{t('nursingFluidBalance.outputsLabel')}</span>
+            <strong data-testid="total-outputs">{totals.outputs} ml</strong>
+          </div>
+          <div style={{ ...styles.totalCard, ...styles.netTotal }}>
+            <span>{t('nursingFluidBalance.netBalance')}</span>
+            <strong data-testid="net-balance">{totals.balance} ml</strong>
+          </div>
         </div>
         <label style={styles.observationsGroup}>
           <span style={styles.fieldLabel}>{t('nursingFluidBalance.observationsLabel')}</span>
@@ -129,16 +166,11 @@ export default function EnfermeriaFluidBalanceScreen() {
             <FiSave size={16} /> {loading ? t('nursingFluidBalance.saving') : t('nursingFluidBalance.save')}
           </button>
         </div>
-      </section>
+      </NursingFormCard>
 
-      <section style={styles.historyCard}>
-        <div style={styles.historyHeader}>
-          <FiClock size={16} />
-          <strong>{t('nursingFluidBalance.history')}</strong>
-          <span style={styles.count}>{history.length}</span>
-        </div>
-        {loadingHistory ? <div style={styles.status}>{t('nursingFluidBalance.loading')}</div> : history.length === 0 ? (
-          <div style={styles.status}>{t('nursingFluidBalance.noRecords')}</div>
+      <NursingHistoryCard theme="balance" title={t('nursingFluidBalance.history')} count={history.length}>
+        {loadingHistory ? <div className="nursing-history-status">{t('nursingFluidBalance.loading')}</div> : history.length === 0 ? (
+          <div className="nursing-history-status">{t('nursingFluidBalance.noRecords')}</div>
         ) : (
           history.map((item, index) => (
             <article key={item.id_balance || index} style={styles.historyItem}>
@@ -150,7 +182,7 @@ export default function EnfermeriaFluidBalanceScreen() {
             </article>
           ))
         )}
-      </section>
+      </NursingHistoryCard>
 
       <footer style={styles.footer}>
         <FiShield size={14} />
@@ -167,25 +199,28 @@ const styles = {
   headerEyebrow: { fontSize: 12, letterSpacing: 1.2, opacity: 0.85 },
   headerTitle: { margin: '6px 0 0', fontSize: 26 },
   headerSpacer: { width: 44, height: 44 },
-  patientCard: { marginTop: 18, background: '#fff', borderRadius: 18, padding: 18, display: 'flex', gap: 12, alignItems: 'center', boxShadow: '0 12px 24px rgba(15, 23, 42, 0.08)' },
-  patientAvatar: { width: 52, height: 52, borderRadius: '50%', display: 'grid', placeItems: 'center', background: 'linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%)' },
-  patientName: { margin: 0, fontSize: 18, color: '#1f2937' },
-  patientMeta: { margin: '4px 0 0', color: '#64748b' },
-  mainCard: { marginTop: 18, background: '#fff', borderRadius: 24, padding: 22, boxShadow: '0 14px 36px rgba(15, 23, 42, 0.08)', border: '1px solid #cffafe' },
-  cardHeader: { display: 'flex', alignItems: 'center', gap: 10, margin: '-22px -22px 22px', padding: '18px 22px', borderRadius: '24px 24px 0 0', color: '#fff', background: 'linear-gradient(135deg, #0891b2 0%, #06b6d4 100%)' },
-  formGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 12 },
+  balanceColumns: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 },
+  balanceSection: { margin: 0, padding: 18, borderRadius: 18, display: 'grid', gap: 14 },
+  inputSection: { border: '2px solid #bae6fd', background: '#f0f9ff' },
+  outputSection: { border: '2px solid #fecaca', background: '#fff7f7' },
+  sectionLegend: { padding: '0 8px', fontWeight: 800, fontSize: 15 },
+  inputLegend: { color: '#0369a1' },
+  outputLegend: { color: '#b91c1c' },
   fieldGroup: { display: 'grid', gap: 7 },
   fieldLabel: { color: '#334155', fontSize: 14, fontWeight: 700 },
   observationsGroup: { display: 'grid', gap: 7, marginTop: 16 },
-  input: { border: '1px solid #cbd5e1', borderRadius: 14, padding: '12px 14px', fontSize: 14 },
+  inputWithUnit: { display: 'flex', alignItems: 'center', border: '1px solid #cbd5e1', borderRadius: 14, background: '#fff', overflow: 'hidden' },
+  input: { width: '100%', border: 'none', padding: '12px 14px', fontSize: 14, background: 'transparent' },
+  unit: { padding: '0 12px', color: '#64748b', fontWeight: 700, borderLeft: '1px solid #e2e8f0' },
+  totalsGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))', gap: 10, marginTop: 18 },
+  totalCard: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10, padding: '14px 16px', borderRadius: 14 },
+  inputTotal: { color: '#075985', background: '#e0f2fe' },
+  outputTotal: { color: '#991b1b', background: '#fee2e2' },
+  netTotal: { color: '#4c1d95', background: '#ede9fe' },
   textArea: { width: '100%', border: '1px solid #cbd5e1', borderRadius: 14, padding: 14, fontSize: 14, resize: 'vertical', boxSizing: 'border-box', fontFamily: 'inherit' },
   buttonRow: { marginTop: 14, display: 'flex', justifyContent: 'space-between', gap: 10 },
   secondaryButton: { display: 'inline-flex', alignItems: 'center', gap: 6, border: '1px solid #cbd5e1', borderRadius: 10, padding: '10px 14px', background: '#f8fafc', cursor: 'pointer' },
   primaryButton: { display: 'inline-flex', alignItems: 'center', gap: 6, border: 'none', borderRadius: 14, padding: '12px 18px', background: '#16a34a', color: '#fff', cursor: 'pointer', fontWeight: 700 },
-  historyCard: { marginTop: 18, background: '#fff', borderRadius: 24, padding: 20, boxShadow: '0 14px 36px rgba(15, 23, 42, 0.08)', border: '1px solid #cffafe' },
-  historyHeader: { display: 'flex', alignItems: 'center', gap: 8, color: '#0e7490' },
-  count: { marginLeft: 'auto', fontSize: 12, color: '#64748b' },
-  status: { marginTop: 12, color: '#64748b' },
   historyItem: { marginTop: 12, border: '1px solid #e2e8f0', borderRadius: 12, padding: 12 },
   historyDate: { fontSize: 13, color: '#475569', marginBottom: 6 },
   historyText: { fontSize: 14, color: '#1e293b', margin: '2px 0' },

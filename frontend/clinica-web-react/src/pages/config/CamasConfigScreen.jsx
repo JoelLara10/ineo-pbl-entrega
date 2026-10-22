@@ -1,3 +1,4 @@
+import { usePageRevalidation } from '../../hooks/usePageRevalidation';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FiChevronLeft, FiChevronRight, FiEdit2, FiSave, FiSearch, FiTrash2, FiX } from 'react-icons/fi';
@@ -29,12 +30,13 @@ export default function CamasConfigScreen() {
   }, [t]);
 
   useEffect(() => { load(); }, [load]);
+  usePageRevalidation(load);
 
   const filtered = useMemo(() => {
     const query = search.trim().toLowerCase();
     if (!query) return camas;
     return camas.filter((cama) =>
-      [cama.id_cama, cama.numero, cama.area, cama.tipo_habitacion, cama.piso, cama.seccion, cama.ocupada ? t('config.bedOccupied') : t('config.bedFree')]
+      [cama.id_cama, cama.numero, cama.area, cama.tipo_habitacion, cama.piso, cama.seccion, cama.current_patient?.nombre, cama.ocupada ? t('config.bedOccupied') : t('config.bedFree')]
         .join(' ').toLowerCase().includes(query)
     );
   }, [camas, search, t]);
@@ -112,10 +114,11 @@ export default function CamasConfigScreen() {
         {loading && <div className="config-card">{t('config.loadingBeds')}</div>}
         {!loading && <div className="config-table-wrap">
           <table className="config-table">
-            <thead><tr><th>ID</th><th>{t('config.bedNumber')}</th><th>{t('config.bedArea')}</th><th>{t('config.room')}</th><th>{t('config.bedFloor')}</th><th>{t('config.bedSection')}</th><th>{t('config.bedStatus')}</th><th>{t('config.actions')}</th></tr></thead>
+            <thead><tr><th>ID</th><th>{t('config.bedNumber')}</th><th>{t('config.bedArea')}</th><th>{t('config.room')}</th><th>{t('config.bedFloor')}</th><th>{t('config.bedSection')}</th><th>{t('config.bedStatus')}</th><th>{t('administrative.patient')}</th><th>{t('config.actions')}</th></tr></thead>
             <tbody>{visibleBeds.map((cama) => <tr key={cama.id_cama}>
               <td>{cama.id_cama}</td><td><strong>{cama.numero}</strong></td><td>{cama.area}</td><td>{cama.tipo_habitacion || 'N/A'}</td><td>{cama.piso || 'N/A'}</td><td>{cama.seccion || 'N/A'}</td>
               <td><span className={`config-badge ${cama.ocupada ? 'danger' : 'success'}`}>{cama.ocupada ? t('config.bedOccupied') : t('config.bedFree')}</span></td>
+              <td>{cama.current_patient?.nombre || '—'}</td>
               <td><div className="config-actions compact"><button className="config-btn warning icon-only" type="button" title={t('config.edit')} onClick={() => edit(cama)}><FiEdit2 /></button><button className="config-btn danger icon-only" type="button" title={t('config.delete')} onClick={() => remove(cama)}><FiTrash2 /></button></div></td>
             </tr>)}</tbody>
           </table>

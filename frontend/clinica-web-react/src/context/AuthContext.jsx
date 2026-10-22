@@ -1,3 +1,5 @@
+import { clearClinicalCache, purgeLegacyClinicalStorage } from '../services/clinicalCache';
+import { clearOfflineQueue } from '../services/offlineQueue';
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import api from '../services/api';
 
@@ -11,6 +13,22 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     loadStoredData();
+  }, []);
+
+  useEffect(() => {
+    const expire = () => { setUser(null); };
+    const storageChanged = (event) => {
+      if (event.key === '@ineo_token' || event.key === '@ineo_user' || event.key === null) {
+        clearClinicalCache(); clearOfflineQueue();
+        clearAuthorization(); setUser(null);
+      }
+    };
+    window.addEventListener('ineo-session-expired', expire);
+    window.addEventListener('storage', storageChanged);
+    return () => {
+      window.removeEventListener('ineo-session-expired', expire);
+      window.removeEventListener('storage', storageChanged);
+    };
   }, []);
 
   const clearAuthorization = () => {
@@ -38,6 +56,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const login = async (username, password) => {
+    clearClinicalCache(); purgeLegacyClinicalStorage(); clearOfflineQueue();
     setError(null);
     localStorage.removeItem('@ineo_token');
     localStorage.removeItem('@ineo_user');
@@ -60,6 +79,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
+    clearClinicalCache(); purgeLegacyClinicalStorage(); clearOfflineQueue();
     const token = localStorage.getItem('@ineo_token');
     if (token) {
       try {
