@@ -11,9 +11,9 @@
 | 2 | Abrir la vista correspondiente | Gráficas y KPIs visibles | General, Actividad diaria, Clínica y Patrones; estados de ejecución, vacío y error diferenciados |
 | 3 | Identificar el periodo representado | El usuario indica el periodo correctamente | Periodo del resultado guardado y filtros aplicados; un cambio en el formulario no relabela el resultado anterior |
 | 4 | Identificar la unidad | El usuario indica la unidad correctamente | Unidades visibles en tarjetas, gráficas, tablas y exportaciones; señales clínicas con unidades separadas |
-| 5 | Explicar el significado | Explicación coherente con los datos | Guía de lectura, referencia al periodo previo o al promedio general, observaciones válidas y exclusiones; campo de interpretación escrito por el usuario |
-| 6 | Formular una conclusión o decisión | Conclusión lógica y accionable | Pistas de revisión por apartado y campo para registrar conclusión/acción y el dato que la respalda |
-| 7 | Calificar claridad | Calificación cualitativa de textos, leyendas y diseño | Opciones Clara, Aceptable o Confusa, comentario opcional, guardado por usuario y resultado, descarga CSV de la evaluación |
+| 5 | Explicar el significado | Explicación coherente con los datos | Guía de lectura, referencia al periodo previo o al promedio general, observaciones válidas y exclusiones; el participante explica los datos al evaluador |
+| 6 | Formular una conclusión o decisión | Conclusión lógica y accionable | Pistas de revisión por apartado; la conclusión/acción y el dato que la respalda se registran en la documentación UAT |
+| 7 | Calificar claridad | Calificación cualitativa de textos, leyendas y diseño | El evaluador registra Clara, Aceptable o Confusa y los comentarios en la documentación UAT; no hay formulario de evaluación en los cuatro análisis |
 
 ## Conjunto conocido para ejecutar el escenario
 
@@ -31,9 +31,9 @@ Para clínica, la semilla tiene ocho mediciones de frecuencia cardiaca con prome
 
 ## Evidencia y criterio de aceptación
 
-El usuario guarda su interpretación, su decisión y una calificación real de claridad. El sistema vincula la evaluación al tipo de análisis, marca de tiempo del resultado, periodo, filtros, unidades y referencias. Si el resultado cambia antes del guardado, solicita actualizar. Cada usuario puede recuperar su propia evaluación, sin leer la de otro.
+El compañero responsable de la documentación registra la interpretación, la decisión y la calificación real de claridad del participante, junto con el tipo de análisis, fecha del resultado, periodo, filtros, unidades y referencias. Esta evaluación se realiza fuera de la aplicación.
 
-Capturar la vista con periodo/unidad/referencias, las respuestas del participante y la evaluación descargada. Las pruebas automatizadas verifican acceso, filtros, cálculos, persistencia y descargas; **no sustituyen la prueba con una persona ni demuestran que el diseño sea claro**.
+Capturar la vista con periodo/unidad/referencias y registrar las respuestas y observaciones en el documento de pruebas. Las pruebas automatizadas verifican acceso, filtros, cálculos y descargas; **no sustituyen la prueba con una persona ni demuestran que el diseño sea claro**.
 
 **Estado de aceptación humana: pendiente de ejecución con usuario de Administración.** Registrar fecha, participante, resultado por paso y observaciones durante la sesión UAT. No rellenar calificaciones por adelantado.
 
