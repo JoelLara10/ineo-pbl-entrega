@@ -73,7 +73,7 @@ class CatalogService:
             'serv_costo7': CatalogService._number(data.get('serv_costo7')),
             'serv_costo8': CatalogService._number(data.get('serv_costo8')),
             'serv_umed': data.get('serv_umed', ''),
-            'serv_activo': 'SI',
+            'serv_activo': data.get('serv_activo', 'SI'),
             'tipo': int(data['tipo']),
             'proveedor': int(data['proveedor']) if str(data.get('proveedor', '')).isdigit() else data.get('proveedor', ''),
             'grupo': data.get('grupo', ''),

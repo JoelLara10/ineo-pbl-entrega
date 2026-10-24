@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { cloneElement, useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FiChevronLeft, FiChevronRight, FiEdit2, FiSave, FiSearch, FiTrash2, FiX } from 'react-icons/fi';
 import ConfigHeader from './ConfigHeader';
 import api from '../../services/api';
+import { normalizeServiceForm, serviceErrorKey } from '../../utils/serviceForm';
 import { paginate, pages } from './configCache';
 import './ConfigStyles.css';
 
@@ -23,6 +24,8 @@ export default function ServiciosConfigScreen() {
   const [page, setPage] = useState(1);
   const [msg, setMsg] = useState('');
   const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const saveLock = useRef(false);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -30,7 +33,7 @@ export default function ServiciosConfigScreen() {
       const response = await api.get('/catalog/services');
       setServicios(Array.isArray(response.data) ? response.data : []);
     } catch (error) {
-      setMsg(error.response?.data?.error || t('config.serviceLoadError'));
+      setMsg(t(`config.${serviceErrorKey(error, 'serviceLoadError')}`));
     } finally { setLoading(false); }
   }, [t]);
 
@@ -51,18 +54,24 @@ export default function ServiciosConfigScreen() {
 
   const save = async (event) => {
     event.preventDefault();
-    if (!form.serv_cve.trim() || !form.serv_desc.trim() || form.serv_costo === '') return setMsg(t('config.serviceRequired'));
+    if (saveLock.current) return;
+    const validated = normalizeServiceForm(form);
+    if (validated.error) return setMsg(t(`config.${validated.error}`));
     const duplicate = servicios.some((service) => service.serv_cve.toLowerCase() === form.serv_cve.trim().toLowerCase() && service.id_serv !== editId);
     if (duplicate) return setMsg(t('config.serviceDuplicate'));
-    const payload = { ...form, serv_cve: form.serv_cve.trim().toUpperCase(), serv_desc: form.serv_desc.trim() };
+    const payload = validated.data;
+    saveLock.current = true;
+    setSaving(true);
+    setMsg('');
     try {
       if (editId === null) await api.post('/catalog/services', payload);
       else await api.put(`/catalog/services/${editId}`, payload);
-      setMsg(editId === null ? t('config.serviceSaved') : t('config.serviceUpdated'));
+      const success = editId === null ? t('config.serviceSaved') : t('config.serviceUpdated');
       reset(); setPage(1); await load();
+      setMsg((current) => current ? `${success} ${current}` : success);
     } catch (error) {
-      setMsg(error.response?.data?.error || t('config.serviceSaveError'));
-    }
+      setMsg(t(`config.${serviceErrorKey(error, 'serviceSaveError')}`));
+    } finally { saveLock.current = false; setSaving(false); }
   };
 
   const edit = (service) => {
@@ -78,7 +87,7 @@ export default function ServiciosConfigScreen() {
       setMsg(t('config.serviceDeleted'));
       await load();
     } catch (error) {
-      setMsg(error.response?.data?.error || t('config.serviceDeleteError'));
+      setMsg(t(`config.${serviceErrorKey(error, 'serviceDeleteError')}`));
     }
   };
 
@@ -86,7 +95,7 @@ export default function ServiciosConfigScreen() {
     <main className="config-page config-polished">
       <ConfigHeader title={t('config.headerServices')} />
       <section className="config-content">
-        <form className="config-card config-main-card" onSubmit={save}>
+        <form className="config-card config-main-card" onSubmit={save} aria-busy={saving}>
           <div className="config-card-header"><h2>{editId === null ? t('config.registerService') : t('config.editService')}</h2></div>
           <div className="config-card-body">
             <div className="config-section-box">
@@ -117,8 +126,8 @@ export default function ServiciosConfigScreen() {
                 return <Field key={key} label={t('config.additionalPrice', { number })}><input className="config-input" type="number" min="0" step="0.01" value={form[key]} onChange={(e) => setForm({ ...form, [key]: e.target.value })} /></Field>;
               })}</div>
             </details>
-            <div className="config-form-footer"><button className="config-btn secondary" type="button" onClick={reset}><FiX /> {t('config.cancel')}</button><button className="config-btn success" type="submit"><FiSave /> {editId === null ? t('config.saveService') : t('config.updateService')}</button></div>
-            {msg && <div className="config-alert">{msg}</div>}
+            <div className="config-form-footer"><button className="config-btn secondary" type="button" disabled={saving} onClick={reset}><FiX /> {t('config.cancel')}</button><button className="config-btn success" type="submit" disabled={saving}><FiSave /> {saving ? t('config.serviceSaving') : editId === null ? t('config.saveService') : t('config.updateService')}</button></div>
+            {msg && <div className="config-alert" role="status">{msg}</div>}
           </div>
         </form>
 
@@ -130,7 +139,7 @@ export default function ServiciosConfigScreen() {
           <tbody>{list.map((service) => <tr key={service.id_serv}>
             <td>{service.id_serv}</td><td><strong>{service.serv_cve}</strong></td><td>{service.serv_desc}</td><td>${Number(service.serv_costo || 0).toFixed(2)}</td><td>{service.serv_umed}</td><td>{typeKeys[service.tipo] ? t(`config.${typeKeys[service.tipo]}`) : t('config.noType')}</td>
             <td><span className={`config-badge ${service.serv_activo === 'SI' ? 'success' : 'danger'}`}>{service.serv_activo === 'SI' ? t('config.activeStatus') : t('config.inactiveStatus')}</span></td>
-            <td><div className="config-actions"><button className="config-btn warning" type="button" onClick={() => edit(service)}><FiEdit2 /></button><button className="config-btn danger" type="button" onClick={() => remove(service)}><FiTrash2 /></button></div></td>
+            <td><div className="config-actions"><button className="config-btn warning" type="button" aria-label={`${t('config.editService')} ${service.serv_cve}`} onClick={() => edit(service)}><FiEdit2 /></button><button className="config-btn danger" type="button" aria-label={`${t('config.delete')} ${service.serv_cve}`} onClick={() => remove(service)}><FiTrash2 /></button></div></td>
           </tr>)}</tbody>
         </table></div>}
         {filtered.length > ITEMS_PER_PAGE && <div className="config-pagination"><button className="config-btn secondary" type="button" disabled={page === 1} onClick={() => setPage(page - 1)}><FiChevronLeft /></button><span className="config-page-pill">{page} / {totalPages}</span><button className="config-btn secondary" type="button" disabled={page === totalPages} onClick={() => setPage(page + 1)}><FiChevronRight /></button></div>}
@@ -140,5 +149,6 @@ export default function ServiciosConfigScreen() {
 }
 
 function Field({ label, children }) {
-  return <div><label className="config-label">{label}</label>{children}</div>;
+  const id = useId();
+  return <div><label className="config-label" htmlFor={id}>{label}</label>{cloneElement(children, { id })}</div>;
 }
