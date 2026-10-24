@@ -448,7 +448,7 @@
     "serviceTypeLaboratory": "Laboratorio",
     "serviceTypeImaging": "Gabinete",
     "serviceTypeHospitalization": "Hospitalización",
-    "serviceProviderIneo": "OftalCore",
+    "serviceProviderOftalCore": "OftalCore",
     "serviceProviderExternal": "Proveedor externo",
     "serviceGroupHospital": "Servicios hospitalarios",
     "serviceGroupImaging": "Imagenología",

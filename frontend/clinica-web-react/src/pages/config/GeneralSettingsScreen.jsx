@@ -4,6 +4,7 @@ import { FiSave } from 'react-icons/fi';
 import ConfigHeader from './ConfigHeader';
 import { readPermanent, savePermanent } from './configCache';
 import './ConfigStyles.css';
+import { currentClinicSettings } from '../../utils/branding';
 
 const defaults = {
   nombreClinica: 'OftalCore Hospital',
@@ -18,7 +19,7 @@ const defaults = {
 
 export default function GeneralSettingsScreen() {
   const { t } = useTranslation();
-  const [form, setForm] = useState(() => readPermanent('general', defaults));
+  const [form, setForm] = useState(() => currentClinicSettings(readPermanent('general', defaults)));
   const [msg, setMsg] = useState('');
 
   const save = (event) => {
