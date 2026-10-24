@@ -175,7 +175,7 @@ export default function NuevoPacienteScreen() {
         const name = patient.name || patient.patient || [patient.nom_pac, patient.papell, patient.sapell].filter(Boolean).join(' ');
         const active = Boolean(patient.hasActiveAttention);
         return <button key={patientId || index} type="button" className="adm-button adm-button-light" disabled={active || !patientId} onClick={() => navigate(`/pacientes/${patientId}/editar`, { state: { patient, reactivation: true } })}>
-          {name} · {patient.record || `INEO-${patientId}`} · {active ? t('administrative.patientAlreadyActive') : t('administrative.reactivatePatient')}
+          {name} · {patient.record || `OFTALCORE-${patientId}`} · {active ? t('administrative.patientAlreadyActive') : t('administrative.reactivatePatient')}
         </button>;
       })}</div>}
       {patientSearch.trim().length >= 2 && !searchingPatients && !patientSearchError && patientMatches.length === 0 && <div className="adm-empty">{t('administrative.noPatients')}</div>}

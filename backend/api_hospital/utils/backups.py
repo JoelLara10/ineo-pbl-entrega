@@ -209,7 +209,7 @@ def realizar_backup(tipo='completa', formato='json', colecciones=None, es_automa
         document = SimpleDocTemplate(str(backup_path), pagesize=landscape(letter))
         styles = getSampleStyleSheet()
         story = [
-            Paragraph('Copia de seguridad INEO', styles['Title']),
+            Paragraph('Copia de seguridad OftalCore', styles['Title']),
             Paragraph(f'Tipo: {tipo.upper()} · Fecha: {metadata["created_at"]}', styles['Normal']),
             Spacer(1, .2 * inch),
         ]
