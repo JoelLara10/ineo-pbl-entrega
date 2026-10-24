@@ -22,6 +22,8 @@ def test_close_and_reactivate_patient_moves_attention_between_states(isolated_da
 
     id_exp = created['rawPatient']['Id_exp']
     first_attention = created['activeAppointment']['id_atencion']
+    # The display brand must not change the numeric patient identifier.
+    assert AdministrativeService._record_label(id_exp) == f'OFTALCORE-{id_exp:06d}'
     assert created['activeAppointment']['status'] == 'ABIERTA'
     assert AdministrativeService.quick_search('QA-REACTIVACION')[0]['hasActiveAttention'] is True
 

@@ -9,7 +9,7 @@ import './ConfigStyles.css';
 
 const ITEMS_PER_PAGE = 8;
 const typeKeys = { 1: 'serviceTypeConsultation', 2: 'serviceTypeProcedure', 3: 'serviceTypeLaboratory', 4: 'serviceTypeImaging', 5: 'serviceTypeHospitalization' };
-const providerKeys = { 1: 'serviceProviderIneo', 2: 'serviceProviderExternal' };
+const providerKeys = { 1: 'serviceProviderOftalCore', 2: 'serviceProviderExternal' };
 const emptyForm = {
   serv_cve: '', serv_desc: '', serv_costo: '', serv_umed: 'SERVICIO', tipo: '1', proveedor: '1',
   grupo: 'SERVICIOS HOSPITALARIOS', codigo_sat: '', c_cveuni: '', iva: '16', serv_activo: 'SI',

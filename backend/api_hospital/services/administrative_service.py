@@ -173,7 +173,7 @@ class AdministrativeService:
     @staticmethod
     def _record_label(id_exp):
         try:
-            return f"INEO-{int(id_exp):06d}"
+            return f"OFTALCORE-{int(id_exp):06d}"
         except (TypeError, ValueError):
             return str(id_exp or '')
 
