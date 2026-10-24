@@ -1,0 +1,22 @@
+[
+  {
+    "prueba": "Consulta autenticada",
+    "status": 200,
+    "registros": 3
+  },
+  {
+    "prueba": "Sin token",
+    "status": 401,
+    "registros": null
+  },
+  {
+    "prueba": "Token inválido",
+    "status": 401,
+    "registros": null
+  },
+  {
+    "prueba": "Sesión vigente",
+    "status": 200,
+    "registros": null
+  }
+]

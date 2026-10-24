@@ -1,0 +1,35 @@
+[
+  {
+    "prueba": "Registro visible tras POST de app",
+    "metodo": "GET",
+    "ruta": "/catalog/services",
+    "status": 200,
+    "respuesta": [
+      {
+        "id_serv": 4,
+        "serv_cve": "A15-EVIDENCIA-2410",
+        "serv_desc": "Consulta de prueba Actividad 15",
+        "serv_costo": 500.0,
+        "tipo": 1
+      }
+    ]
+  },
+  {
+    "prueba": "POST incompleto",
+    "metodo": "POST",
+    "ruta": "/catalog/services",
+    "status": 400,
+    "respuesta": {
+      "error": "Campo requerido: serv_cve"
+    }
+  },
+  {
+    "prueba": "Credenciales incorrectas",
+    "metodo": "POST",
+    "ruta": "/auth/login",
+    "status": 401,
+    "respuesta": {
+      "error": "Credenciales inválidas"
+    }
+  }
+]
