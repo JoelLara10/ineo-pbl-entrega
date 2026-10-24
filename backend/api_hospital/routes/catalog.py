@@ -32,6 +32,10 @@ def create_service():
             value = data.get(field, 16 if field == 'iva' else 0)
             if field == 'serv_costo' and field not in data:
                 raise ValueError()
+            # Los formularios existentes envían precios opcionales vacíos.
+            # Mantener su valor predeterminado sin aceptar un precio principal vacío.
+            if field != 'serv_costo' and (value is None or str(value).strip() == ''):
+                value = 16 if field == 'iva' else 0
             if value is None or isinstance(value, bool) or str(value).strip() == '':
                 raise ValueError()
             number = float(value)
@@ -42,6 +46,8 @@ def create_service():
         if isinstance(tipo, bool) or str(tipo) not in ('1', '2', '3', '4', '5'):
             raise ValueError()
         data['tipo'] = int(tipo)
+        if data.get('serv_activo', 'SI') not in ('SI', 'NO'):
+            raise ValueError()
     except (TypeError, ValueError, OverflowError):
         return jsonify({'error': 'Costo, IVA o tipo de servicio inválido'}), 400
 

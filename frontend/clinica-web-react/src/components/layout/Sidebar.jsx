@@ -230,7 +230,7 @@ export default function Sidebar({ isOpen, onClose }) {
       {/* Header */}
       <div className="sidebar-header">
         <div className="brand-row">
-          <span className="brand-title">INEO</span>
+          <span className="brand-title">OftalCore</span>
           <span className="brand-version">v2.0</span>
         </div>
         <div className="user-info">
