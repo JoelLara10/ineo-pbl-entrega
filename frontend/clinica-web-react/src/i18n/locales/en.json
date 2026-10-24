@@ -4,7 +4,7 @@
     "username": "Username",
     "password": "Password",
     "loginButton": "Sign In",
-    "footer": "INEO v2.0 - Hospital Management System",
+    "footer": "OftalCore v2.0 - Hospital Management System",
     "errorEmptyFields": "Please enter username and password",
     "errorCredentials": "Invalid credentials"
   },
@@ -98,10 +98,10 @@
     "loading": "Loading patients...",
     "offlineMessage": "No connection. Showing previously saved data.",
     "errorMessage": "Could not load medical module patients.",
-    "footer": "INEO v2.0 - Hospital Management System"
+    "footer": "OftalCore v2.0 - Hospital Management System"
   },
   "nursing": {
-    "headerEyebrow": "INEO",
+    "headerEyebrow": "OftalCore",
     "headerTitle": "Nursing Module",
     "greeting": "Hello, Ns. {{name}}",
     "totalPatients": "Total patients: {{count}}",
@@ -118,7 +118,7 @@
     "loading": "Loading patients...",
     "offlineMessage": "No connection. Showing previously saved data.",
     "errorMessage": "Could not load nursing patients.",
-    "footer": "INEO v2.0 - Hospital Management System"
+    "footer": "OftalCore v2.0 - Hospital Management System"
   },
   "studies": {
     "module": "Studies",
@@ -158,7 +158,7 @@
     "loading": "Loading...",
     "loadingStudies": "Loading studies...",
     "secureFooter": "Secure data • All rights reserved",
-    "hospitalFooter": "INEO v2.0 - Hospital Management System",
+    "hospitalFooter": "OftalCore v2.0 - Hospital Management System",
     "missingExamId": "Missing exam ID",
     "loadInfoError": "Could not load information: {{error}}",
     "couldNotLoadInfo": "Could not load information.",
@@ -211,7 +211,7 @@
   },
   "config": {
     "title": "System Settings",
-    "subtitle": "Manage modules, catalogs, users, backups and INEO system parameters.",
+    "subtitle": "Manage modules, catalogs, users, backups and OftalCore system parameters.",
     "bedManagement": "Bed Management",
     "bedManagementDesc": "Manage availability and assignment of hospital beds",
     "staffManagement": "System Users",
@@ -282,6 +282,11 @@
     "serviceUpdated": "Service updated successfully.",
     "serviceDeleted": "Service deleted successfully.",
     "serviceRequired": "Enter key, description and price.",
+    "serviceInvalidData": "Check the data: the key may already exist, prices must be non-negative and VAT must be between 0 and 100.",
+    "serviceSaving": "Saving service...",
+    "serviceSessionExpired": "Your session expired. Sign in again.",
+    "serviceForbidden": "You do not have permission to perform this operation.",
+    "serviceConnectionError": "Unable to connect to the server. Try again.",
     "serviceDuplicate": "A service with that key already exists.",
     "serviceSaveError": "Could not save the service.",
     "serviceDeleteError": "Could not delete the service.",
@@ -443,7 +448,7 @@
     "serviceTypeLaboratory": "Laboratory",
     "serviceTypeImaging": "Imaging",
     "serviceTypeHospitalization": "Hospitalization",
-    "serviceProviderIneo": "INEO",
+    "serviceProviderIneo": "OftalCore",
     "serviceProviderExternal": "External provider",
     "serviceGroupHospital": "Hospital services",
     "serviceGroupImaging": "Imaging",
@@ -521,7 +526,7 @@
     "enterAtLeastOne": "Enter at least one vital sign",
     "saveError": "Could not save vital signs",
     "selectPatientFirst": "Select a patient before recording vital signs.",
-    "footer": "INEO v2.0 - Vital signs record",
+    "footer": "OftalCore v2.0 - Vital signs record",
     "ta": "Blood pressure (BP)",
     "fc": "Heart rate (HR)",
     "fr": "Respiratory rate (RR)",
@@ -549,7 +554,7 @@
     "selectPatientFirst": "Select a patient before recording a nursing note.",
     "noteLabel": "Note",
     "noContent": "No content",
-    "footer": "INEO v2.0 - Nursing notes record"
+    "footer": "OftalCore v2.0 - Nursing notes record"
   },
   "nursingMeds": {
     "eyebrow": "NURSING",
@@ -577,7 +582,7 @@
     "minOneMedication": "Must add at least one medication",
     "minOneMedicationAlert": "Must have at least one medication",
     "saveError": "Could not save the administration",
-    "footer": "INEO v2.0 - Medication administration",
+    "footer": "OftalCore v2.0 - Medication administration",
     "dosisLabel": "Dose:",
     "frecuenciaLabel": "Frequency:",
     "viaLabel": "Route:",
@@ -604,7 +609,7 @@
     "noRecords": "No records",
     "saveSuccess": "Nursing assessment saved successfully",
     "saveError": "Could not save the nursing assessment",
-    "footer": "INEO v2.0 - Nursing assessment",
+    "footer": "OftalCore v2.0 - Nursing assessment",
     "generalStateLabel": "General state:",
     "painLabel": "Pain:",
     "mobilityLabel": "Mobility:",
@@ -637,7 +642,7 @@
     "historyError": "The care history could not be loaded",
     "saveSuccess": "Nursing care saved successfully",
     "saveError": "Could not save the nursing care",
-    "footer": "INEO v2.0 - Nursing care",
+    "footer": "OftalCore v2.0 - Nursing care",
     "diagnosisLabel": "Diagnosis:",
     "objectivesLabel": "Objectives:",
     "interventionsLabel": "Interventions:",
@@ -669,7 +674,7 @@
     "noRecords": "No records",
     "saveSuccess": "Fluid balance saved successfully",
     "saveError": "Could not save the fluid balance",
-    "footer": "INEO v2.0 - Fluid balance",
+    "footer": "OftalCore v2.0 - Fluid balance",
     "inputsLabel": "Inputs:",
     "outputsLabel": "Outputs:",
     "netBalance": "Net balance:",
@@ -699,7 +704,7 @@
     "cancel": "Cancel",
     "save": "Save Clinical History",
     "saving": "Saving...",
-    "footer": "INEO v2.0 - Clinical history"
+    "footer": "OftalCore v2.0 - Clinical history"
   },
   "prescription": {
     "selectPatientFirst": "Select a patient before generating a medical prescription.",
@@ -725,7 +730,7 @@
     "history": "Prescriptions History",
     "loadingHistory": "Loading history...",
     "noPrescriptions": "No prescriptions registered yet.",
-    "footer": "INEO v2.0 - Medical prescription",
+    "footer": "OftalCore v2.0 - Medical prescription",
     "recetas": "prescriptions",
     "dosisLabel": "Dose:",
     "frecuenciaLabel": "Frequency:",
@@ -751,7 +756,7 @@
     "history": "History",
     "loadingHistory": "Loading history...",
     "noRequests": "No previous requests.",
-    "footer": "INEO v2.0 - Laboratory"
+    "footer": "OftalCore v2.0 - Laboratory"
   },
   "imagingExams": {
     "selectPatientFirst": "Select a patient before requesting imaging studies.",
@@ -772,7 +777,7 @@
     "history": "History",
     "loadingHistory": "Loading history...",
     "noRequests": "No previous requests.",
-    "footer": "INEO v2.0 - Imaging"
+    "footer": "OftalCore v2.0 - Imaging"
   },
   "nursingDetail": {
     "eyebrow": "NURSING",
@@ -805,7 +810,7 @@
     "fluidBalanceSub": "Input and output control",
     "nursingCare": "Nursing Care",
     "nursingCareSub": "Care plan and evolution",
-    "footer": "INEO v2.0 - Patient tracking in nursing"
+    "footer": "OftalCore v2.0 - Patient tracking in nursing"
   },
   "printDocs": {
     "selectPatientFirst": "Select a patient before printing documents.",
@@ -829,7 +834,7 @@
     "preparing": "Preparing...",
     "print": "Print",
     "docsNote": "Documents will open in a new tab as PDFs ready for printing.",
-    "footer": "INEO v2.0 - Document printing",
+    "footer": "OftalCore v2.0 - Document printing",
     "recentHistory": "Recently printed documents",
     "lastDocuments": "Last {{count}}",
     "noPrintHistory": "No documents have been printed yet.",
@@ -857,7 +862,7 @@
     "physician": "Physician:",
     "observations": "Observations:",
     "noObservations": "No observations",
-    "footer": "INEO v2.0 - Results consultation"
+    "footer": "OftalCore v2.0 - Results consultation"
   },
   "medicalDetail": {
     "errorNotFound": "Complete patient reference not found. Return to the medical panel and select again.",
@@ -895,7 +900,7 @@
     "resultsSub": "Studies and documents",
     "print": "Print",
     "printSub": "PDF and documents",
-    "footer": "INEO v2.0 - Patient medical tracking"
+    "footer": "OftalCore v2.0 - Patient medical tracking"
   },
   "medicalSoap": {
     "selectPatientFirst": "Select a patient before recording a medical note.",
@@ -917,7 +922,7 @@
     "history": "Medical Notes History",
     "loadingHistory": "Loading history...",
     "noNotes": "No previous medical notes.",
-    "footer": "INEO v2.0 - SOAP medical note"
+    "footer": "OftalCore v2.0 - SOAP medical note"
   },
   "medicalDiagnosis": {
     "selectPatientFirst": "Select a patient before recording diagnosis.",
@@ -943,7 +948,7 @@
     "principalLabel": "Principal diagnosis",
     "secondaryLabel": "Secondary diagnoses",
     "observationsLabel": "Observations",
-    "footer": "INEO v2.0 - Medical diagnosis"
+    "footer": "OftalCore v2.0 - Medical diagnosis"
   },
   "spark": {
     "eyebrow": "DATA ANALYSIS",

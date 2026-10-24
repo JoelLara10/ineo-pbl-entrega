@@ -57,7 +57,7 @@ const LoginScreen = () => {
         <div className="icon-container">
           <MdLocalHospital size={70} color="#fff" />
         </div>
-        <h1 className="brand-title">INEO</h1>
+        <h1 className="brand-title">OftalCore</h1>
         <p className="brand-subtitle">{t('login.brandSubtitle')}</p>
       </div>
 
