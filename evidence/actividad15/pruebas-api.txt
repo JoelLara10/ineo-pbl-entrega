@@ -1,0 +1,11 @@
+..........................................                               [100%]
+============================== warnings summary ===============================
+tests/test_activity15_services.py::test_get_and_post_roundtrip
+  C:\9noCuatri\APP-MOVIL\ineo-pbl-entrega\backend\api_hospital\venv\Lib\site-packages\dateutil\tz\tz.py:37: DeprecationWarning: datetime.datetime.utcfromtimestamp() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.fromtimestamp(timestamp, datetime.UTC).
+    EPOCH = datetime.datetime.utcfromtimestamp(0)
+
+tests/test_activity15_services.py::test_get_and_post_roundtrip
+  <frozen importlib._bootstrap>:533: DeprecationWarning: the load_module() method is deprecated and slated for removal in Python 3.15; use exec_module() instead
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+42 passed, 2 warnings in 21.36s

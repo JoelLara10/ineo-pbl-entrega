@@ -1,0 +1,284 @@
+TAP version 13
+# Subtest: Joel HC-01: rechaza atención o expediente manipulados
+ok 1 - Joel HC-01: rechaza atención o expediente manipulados
+  ---
+  duration_ms: 6.927
+  type: 'test'
+  ...
+# Subtest: Joel HC-02: limita y normaliza la historia clínica
+ok 2 - Joel HC-02: limita y normaliza la historia clínica
+  ---
+  duration_ms: 1.4531
+  type: 'test'
+  ...
+# Subtest: Joel HC-03: oculta errores internos del servidor
+ok 3 - Joel HC-03: oculta errores internos del servidor
+  ---
+  duration_ms: 3.8995
+  type: 'test'
+  ...
+# Subtest: Zahid RX-01: rechaza una receta sin contexto clínico válido
+ok 4 - Zahid RX-01: rechaza una receta sin contexto clínico válido
+  ---
+  duration_ms: 1.5336
+  type: 'test'
+  ...
+# Subtest: Zahid RX-02: rechaza recetas incompletas o con más de 10 medicamentos
+ok 5 - Zahid RX-02: rechaza recetas incompletas o con más de 10 medicamentos
+  ---
+  duration_ms: 1.1221
+  type: 'test'
+  ...
+# Subtest: Zahid RX-03: devuelve mensajes seguros para falta de autorización
+ok 6 - Zahid RX-03: devuelve mensajes seguros para falta de autorización
+  ---
+  duration_ms: 0.8585
+  type: 'test'
+  ...
+# Subtest: Jaime MED-01: rechaza administración ligada a expediente inválido
+ok 7 - Jaime MED-01: rechaza administración ligada a expediente inválido
+  ---
+  duration_ms: 1.2252
+  type: 'test'
+  ...
+# Subtest: Jaime MED-02: exige datos completos y una fecha clínica válida
+ok 8 - Jaime MED-02: exige datos completos y una fecha clínica válida
+  ---
+  duration_ms: 5.5505
+  type: 'test'
+  ...
+# Subtest: Jaime MED-03: oculta el detalle técnico ante demasiados intentos
+ok 9 - Jaime MED-03: oculta el detalle técnico ante demasiados intentos
+  ---
+  duration_ms: 1.8538
+  type: 'test'
+  ...
+# Subtest: Jesús BAL-01: rechaza balance asociado a una atención manipulada
+ok 10 - Jesús BAL-01: rechaza balance asociado a una atención manipulada
+  ---
+  duration_ms: 2.9226
+  type: 'test'
+  ...
+# Subtest: Jesús BAL-02: rechaza volúmenes negativos, no numéricos o extremos
+ok 11 - Jesús BAL-02: rechaza volúmenes negativos, no numéricos o extremos
+  ---
+  duration_ms: 4.6142
+  type: 'test'
+  ...
+# Subtest: Jesús BAL-03: un error 500 nunca revela detalles de base de datos
+ok 12 - Jesús BAL-03: un error 500 nunca revela detalles de base de datos
+  ---
+  duration_ms: 2.1971
+  type: 'test'
+  ...
+# Subtest: Jesús BAL-04: interpreta los campos planos devueltos por la API móvil
+ok 13 - Jesús BAL-04: interpreta los campos planos devueltos por la API móvil
+  ---
+  duration_ms: 6.5601
+  type: 'test'
+  ...
+# Subtest: Jesús BAL-05: mantiene compatibilidad con balances anidados y calcula totales faltantes
+ok 14 - Jesús BAL-05: mantiene compatibilidad con balances anidados y calcula totales faltantes
+  ---
+  duration_ms: 0.6167
+  type: 'test'
+  ...
+# Subtest: A12-01 normaliza un registro remoto válido
+ok 15 - A12-01 normaliza un registro remoto válido
+  ---
+  duration_ms: 4.7555
+  type: 'test'
+  ...
+# Subtest: A12-02 rechaza campos obligatorios vacíos
+ok 16 - A12-02 rechaza campos obligatorios vacíos
+  ---
+  duration_ms: 4.0059
+  type: 'test'
+  ...
+# Subtest: A12-03 rechaza contexto manipulado y estados no autorizados
+ok 17 - A12-03 rechaza contexto manipulado y estados no autorizados
+  ---
+  duration_ms: 4.7262
+  type: 'test'
+  ...
+# Subtest: A12-04 limita textos clínicos a 1000 caracteres
+ok 18 - A12-04 limita textos clínicos a 1000 caracteres
+  ---
+  duration_ms: 3.611
+  type: 'test'
+  ...
+# Subtest: A12-05 no expone mensajes internos de la API
+ok 19 - A12-05 no expone mensajes internos de la API
+  ---
+  duration_ms: 1.5265
+  type: 'test'
+  ...
+# Subtest: A15 formulario válido normaliza el JSON y admite costo cero
+ok 20 - A15 formulario válido normaliza el JSON y admite costo cero
+  ---
+  duration_ms: 4.4543
+  type: 'test'
+  ...
+# Subtest: A15 formulario incompleto no produce datos para POST
+ok 21 - A15 formulario incompleto no produce datos para POST
+  ---
+  duration_ms: 0.7941
+  type: 'test'
+  ...
+# Subtest: A15 rechaza números negativos, infinitos y tipo inválido
+ok 22 - A15 rechaza números negativos, infinitos y tipo inválido
+  ---
+  duration_ms: 1.1837
+  type: 'test'
+  ...
+# Subtest: A15 errores de conexión, autorización y servidor son seguros
+ok 23 - A15 errores de conexión, autorización y servidor son seguros
+  ---
+  duration_ms: 2.5821
+  type: 'test'
+  ...
+# Subtest: A15 conexión rechazada produce un mensaje seguro con Axios real
+ok 24 - A15 conexión rechazada produce un mensaje seguro con Axios real
+  ---
+  duration_ms: 919.4582
+  type: 'test'
+  ...
+# Subtest: A15 una respuesta HTTP 500 real no revela detalles internos
+ok 25 - A15 una respuesta HTTP 500 real no revela detalles internos
+  ---
+  duration_ms: 40.7524
+  type: 'test'
+  ...
+# (node:5576) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: ADM-01: mantiene los datos administrativos solo en memoria
+ok 26 - ADM-01: mantiene los datos administrativos solo en memoria
+  ---
+  duration_ms: 26.4397
+  type: 'test'
+  ...
+# Subtest: ADM-01: elimina cache legado y conserva la sesion y otros datos
+ok 27 - ADM-01: elimina cache legado y conserva la sesion y otros datos
+  ---
+  duration_ms: 32.9408
+  type: 'test'
+  ...
+# Subtest: ADM-02: rechaza URL externas y rutas alteradas antes de descargar
+ok 28 - ADM-02: rechaza URL externas y rutas alteradas antes de descargar
+  ---
+  duration_ms: 24.4232
+  type: 'test'
+  ...
+# Subtest: ADM-03: rechaza traversal y nombres invalidos antes de descargar
+ok 29 - ADM-03: rechaza traversal y nombres invalidos antes de descargar
+  ---
+  duration_ms: 17.3849
+  type: 'test'
+  ...
+# Subtest: Regresion: conserva los cinco documentos validos en web y movil
+ok 30 - Regresion: conserva los cinco documentos validos en web y movil
+  ---
+  duration_ms: 19.1024
+  type: 'test'
+  ...
+# Subtest: patients: beds view loads all free and occupied beds, not only admission options
+ok 31 - patients: beds view loads all free and occupied beds, not only admission options
+  ---
+  duration_ms: 12.8251
+  type: 'test'
+  ...
+# Subtest: patient identity: incomplete records never receive demo identities or invented IDs
+ok 32 - patient identity: incomplete records never receive demo identities or invented IDs
+  ---
+  duration_ms: 18.0363
+  type: 'test'
+  ...
+# Subtest: production defaults to the main API
+ok 33 - production defaults to the main API
+  ---
+  duration_ms: 4.7215
+  type: 'test'
+  ...
+# Subtest: qa uses the QA API endpoint
+ok 34 - qa uses the QA API endpoint
+  ---
+  duration_ms: 1.0111
+  type: 'test'
+  ...
+# Subtest: production requires HTTPS
+ok 35 - production requires HTTPS
+  ---
+  duration_ms: 2.3073
+  type: 'test'
+  ...
+# Subtest: qa requires an explicit API URL
+ok 36 - qa requires an explicit API URL
+  ---
+  duration_ms: 2.611
+  type: 'test'
+  ...
+# Subtest: development accepts an emulator HTTP endpoint
+ok 37 - development accepts an emulator HTTP endpoint
+  ---
+  duration_ms: 4.075
+  type: 'test'
+  ...
+# Subtest: Cuidados de Enfermería contiene todas las traducciones en es
+ok 38 - Cuidados de Enfermería contiene todas las traducciones en es
+  ---
+  duration_ms: 10.0728
+  type: 'test'
+  ...
+# Subtest: Cuidados de Enfermería contiene todas las traducciones en en
+ok 39 - Cuidados de Enfermería contiene todas las traducciones en en
+  ---
+  duration_ms: 3.9991
+  type: 'test'
+  ...
+# Subtest: la vista traduce los estados y no muestra sus códigos internos
+ok 40 - la vista traduce los estados y no muestra sus códigos internos
+  ---
+  duration_ms: 4.256
+  type: 'test'
+  ...
+# (node:14052) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: native SecureStore usa una clave válida para guardar, leer y borrar el token
+ok 41 - native SecureStore usa una clave válida para guardar, leer y borrar el token
+  ---
+  duration_ms: 26.9476
+  type: 'test'
+  ...
+# Subtest: web conserva su clave existente en localStorage
+ok 42 - web conserva su clave existente en localStorage
+  ---
+  duration_ms: 9.7086
+  type: 'test'
+  ...
+# Subtest: JWT is never placed in a URL query string
+ok 43 - JWT is never placed in a URL query string
+  ---
+  duration_ms: 99.2695
+  type: 'test'
+  ...
+# Subtest: JWT is only accessed through secureStorage
+ok 44 - JWT is only accessed through secureStorage
+  ---
+  duration_ms: 48.9285
+  type: 'test'
+  ...
+# Subtest: SecureStore usa una clave nativa válida
+ok 45 - SecureStore usa una clave nativa válida
+  ---
+  duration_ms: 1.8836
+  type: 'test'
+  ...
+1..45
+# tests 45
+# suites 0
+# pass 45
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1628.2234
