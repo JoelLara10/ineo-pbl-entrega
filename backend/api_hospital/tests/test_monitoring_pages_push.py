@@ -7,6 +7,15 @@ from services import monitoring_push as push
 TOKEN = 'ExpoPushToken[synthetic_test_token_12345]'
 
 
+def test_pagination_preserves_existing_unique_patient_index(client, isolated_database):
+    isolated_database.pacientes.create_index('Id_exp', unique=True)
+    response = client.get('/api/v1/monitoring/patients?page=1', headers=headers())
+    assert response.status_code == 200
+    assert isolated_database.pacientes.index_information()['Id_exp_1']['unique'] is True
+    detail = client.get('/api/v1/monitoring/patients/1?history_page=1', headers=headers())
+    assert detail.status_code == 200
+
+
 def test_patient_pages_and_search(client, isolated_database):
     isolated_database.pacientes.insert_many([{'Id_exp': i, 'nom_pac': 'Paging', 'papell': str(i)} for i in range(1000, 1025)])
     first = client.get('/api/v1/monitoring/patients?page=1&page_size=10&q=Paging', headers=headers()).json
