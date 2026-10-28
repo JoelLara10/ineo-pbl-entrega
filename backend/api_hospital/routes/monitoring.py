@@ -11,6 +11,11 @@ monitoring_bp = Blueprint('monitoring', __name__)
 @token_required
 @role_required('admin', 'medico', 'enfermeria', 'enfermero')
 def patients():
+    if 'page' in request.args:
+        try:
+            return jsonify(service.patients_page(bounded('page', 1), bounded('page_size', 10, 50), search_term()))
+        except (ValueError, TypeError):
+            return jsonify(error='Paginación o filtro inválido'), 400
     return jsonify(success=True, data=[service.summary(p) for p in
         get_collection('pacientes').find().sort('Id_exp', -1).limit(100)])
 
@@ -21,6 +26,12 @@ def patient(pid):
     record = PatientModel.find_by_id(pid)
     if not record:
         return jsonify(error='Paciente no encontrado'), 404
+    if 'history_page' in request.args or 'alerts_page' in request.args:
+        try:
+            result = service.patient_page(record, bounded('history_page', 1), bounded('alerts_page', 1), bounded('page_size', 10, 50), request.args.get('history_before'))
+            return jsonify(success=True, data=result)
+        except (ValueError, TypeError, OverflowError):
+            return jsonify(error='Paginación o fecha inválida'), 400
     return jsonify(success=True, data=service.summary(record, history=True))
 
 @monitoring_bp.post('/monitoring/devices')
@@ -59,3 +70,30 @@ def ingest():
         return jsonify(error=str(error)), 400
 
 
+
+
+def bounded(key, default, maximum=100000):
+    value = int(request.args.get(key, default))
+    if not 1 <= value <= maximum:
+        raise ValueError(key)
+    return value
+
+
+def search_term():
+    value = request.args.get('q', '').strip()
+    if len(value) > 100:
+        raise ValueError('q')
+    return value
+
+
+@monitoring_bp.route('/monitoring/push-devices', methods=['PUT', 'DELETE'])
+@token_required
+@role_required('admin', 'medico', 'enfermeria', 'enfermero')
+def push_device():
+    from services import monitoring_push
+    data = request.get_json(silent=True)
+    try:
+        monitoring_push.register(g.user, data) if request.method == 'PUT' else monitoring_push.unregister(g.user, data)
+        return jsonify(success=True), 200
+    except (ValueError, TypeError):
+        return jsonify(error='Registro de notificaciones inválido'), 400
