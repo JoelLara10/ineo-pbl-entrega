@@ -53,6 +53,12 @@ def init_scheduler(app):
 
     flask_app = app
     scheduler = BackgroundScheduler()
+    from services.monitoring_push import process_outbox
+    def monitoring_notifications():
+        with app.app_context():
+            process_outbox()
+    scheduler.add_job(monitoring_notifications, 'interval', seconds=10,
+                      id='monitoring_push', max_instances=1, coalesce=True)
     scheduler.start()
 
     from utils.backups import cargar_config_automatizacion

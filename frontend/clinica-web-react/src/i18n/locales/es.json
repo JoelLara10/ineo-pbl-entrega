@@ -656,7 +656,7 @@
     "observationsLabel": "Observaciones:",
     "noObservations": "Sin observaciones",
     "notSpecified": "No especificado"
-  }, 
+  },
   "nursingFluidBalance": {
     "eyebrow": "ENFERMERÍA",
     "title": "Balance Hídrico",
@@ -1525,6 +1525,22 @@
       "high_heart_rate": "Pulso por encima del rango configurado",
       "low_spo2": "SpO₂ por debajo del rango configurado",
       "generic": "Alerta de monitoreo"
-    }
+    },
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "page": "Página {{page}} de {{pages}} · {{total}} registros",
+    "patientsPages": "Páginas de pacientes",
+    "search": "Buscar por nombre o expediente",
+    "refreshing": "Actualizando en segundo plano…",
+    "cached": "Mostrando datos guardados de esta sesión. Pueden estar desactualizados.",
+    "updated": "Consulta actualizada: {{time}}",
+    "pushEnable": "Activar notificaciones",
+    "pushDisable": "Desactivar notificaciones",
+    "pushEnabled": "Notificaciones activadas en este dispositivo.",
+    "pushDisabled": "Notificaciones desactivadas.",
+    "pushDenied": "Permiso de notificaciones denegado. Puedes habilitarlo en Ajustes del teléfono.",
+    "pushUnavailable": "Las notificaciones requieren un APK configurado con Firebase.",
+    "pushError": "No se pudieron activar las notificaciones. Intenta de nuevo.",
+    "pushInfo": "Recibe un aviso de nuevas alertas aunque la app esté cerrada."
   }
 }
