@@ -204,7 +204,10 @@ def ensure_monitoring_indexes():
             return
         database.monitoring_measurements.create_index([('patient_id', 1), ('timestamp', -1), ('_id', -1)])
         database.monitoring_alerts.create_index([('patient_id', 1), ('acknowledged', 1), ('timestamp', -1)])
-        database.pacientes.create_index('Id_exp')
+        # Reuse legacy unique indexes without changing their options or names.
+        patient_indexes = database.pacientes.index_information().values()
+        if not any(index.get('key') == [('Id_exp', 1)] for index in patient_indexes):
+            database.pacientes.create_index('Id_exp')
         _indexed_database = database
 
 
