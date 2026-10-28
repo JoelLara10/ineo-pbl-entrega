@@ -4,6 +4,8 @@ import hashlib
 import math
 import os
 import secrets
+import re
+from threading import Lock
 from bson import ObjectId
 from pymongo import ReturnDocument
 from utils.database import get_collection, serialize_doc
@@ -157,7 +159,7 @@ def ingest(device, data, fall_only=False):
             'alerts': [item for item in generated if item]}
 
 
-def summary(patient, history=False):
+def summary(patient, history=False, include_alerts=True):
     pid = patient['Id_exp']
     device = get_collection('monitoring_devices').find_one({'patient_id': pid, 'enabled': True})
     latest = get_collection('monitoring_measurements').find_one({'patient_id': pid}, sort=[('timestamp', -1)])
@@ -165,7 +167,7 @@ def summary(patient, history=False):
               'name': ' '.join(str(patient.get(key) or '') for key in ('nom_pac', 'papell', 'sapell')).strip(),
               'device': output(device), 'latest': output(latest),
               'alerts': [output(item) for item in get_collection('monitoring_alerts').find(
-                  {'patient_id': pid, 'acknowledged': False}).sort('timestamp', -1).limit(50)]}
+                  {'patient_id': pid, 'acknowledged': False}).sort('timestamp', -1).limit(50)] if include_alerts else []}
     if device:
         seen = device.get('last_seen')
         result['device']['online'] = bool(device.get('online', False) and seen and seen.replace(tzinfo=timezone.utc) > now() - timedelta(seconds=30))
@@ -188,3 +190,81 @@ def acknowledge(identifier, user_id):
         'acknowledged_by': str(user_id)}})
     return output(collection.find_one({'_id': oid}))
 
+
+
+_indexed_database = None
+_index_lock = Lock()
+
+
+def ensure_monitoring_indexes():
+    global _indexed_database
+    database = get_collection('monitoring_measurements').database
+    with _index_lock:
+        if database == _indexed_database:
+            return
+        database.monitoring_measurements.create_index([('patient_id', 1), ('timestamp', -1), ('_id', -1)])
+        database.monitoring_alerts.create_index([('patient_id', 1), ('acknowledged', 1), ('timestamp', -1)])
+        database.pacientes.create_index('Id_exp')
+        _indexed_database = database
+
+
+def pagination(page, size, total):
+    pages = max(1, (total + size - 1) // size)
+    return {'page': min(page, pages), 'page_size': size, 'total': total, 'total_pages': pages}
+
+
+def patients_page(page=1, size=10, search=''):
+    ensure_monitoring_indexes()
+    query = {}
+    if search:
+        fields = ['nom_pac', 'papell', 'sapell']
+        query = {'$or': [{field: {'$regex': re.escape(search), '$options': 'i'}} for field in fields]}
+        record = search.removeprefix('OFTALCORE-').removeprefix('oftalcore-')
+        if record.isdigit():
+            query['$or'].append({'Id_exp': int(record)})
+    patients = get_collection('pacientes')
+    meta = pagination(page, size, patients.count_documents(query))
+    records = list(patients.find(query, {'Id_exp':1,'nom_pac':1,'papell':1,'sapell':1}).sort('Id_exp', -1).skip((meta['page'] - 1) * size).limit(size))
+    ids = [p['Id_exp'] for p in records]
+    devices = {d['patient_id']: d for d in get_collection('monitoring_devices').find({'patient_id': {'$in': ids}, 'enabled': True})}
+    latest = {d['_id']: d['reading'] for d in get_collection('monitoring_measurements').aggregate([
+        {'$match': {'patient_id': {'$in': ids}}}, {'$sort': {'patient_id': 1, 'timestamp': -1, '_id': -1}},
+        {'$group': {'_id': '$patient_id', 'reading': {'$first': '$$ROOT'}}}])}
+    counts = {d['_id']: d['count'] for d in get_collection('monitoring_alerts').aggregate([
+        {'$match': {'patient_id': {'$in': ids}, 'acknowledged': False}},
+        {'$group': {'_id': '$patient_id', 'count': {'$sum': 1}}}])}
+    data = []
+    for patient in records:
+        pid = patient['Id_exp']
+        device, reading = devices.get(pid), latest.get(pid)
+        item = {'patient_id': pid, 'name': ' '.join(str(patient.get(k) or '') for k in ('nom_pac', 'papell', 'sapell')).strip(),
+                'device': output(device), 'latest': output(reading), 'alerts': [], 'pending_alert_count': counts.get(pid, 0)}
+        if device:
+            seen = device.get('last_seen')
+            item['device']['online'] = bool(device.get('online') and seen and seen.replace(tzinfo=timezone.utc) > now() - timedelta(seconds=30))
+        if reading:
+            item['latest']['stale'] = reading['timestamp'].replace(tzinfo=timezone.utc) < now() - timedelta(seconds=30)
+        data.append(item)
+    return {'success': True, 'data': data, 'pagination': meta}
+
+
+def patient_page(patient, history_page=1, alerts_page=1, size=10, history_before=None):
+    ensure_monitoring_indexes()
+    result = summary(patient, include_alerts=False)
+    pid = patient['Id_exp']
+    before = datetime.fromisoformat(history_before.replace('Z', '+00:00')) if history_before else now()
+    if before.tzinfo is None:
+        raise ValueError('history_before requiere zona horaria')
+    history_filter = {'patient_id': pid, 'timestamp': {'$lte': before}}
+    collection = get_collection('monitoring_measurements')
+    meta = pagination(history_page, size, collection.count_documents(history_filter))
+    meta['as_of'] = before.isoformat()
+    result['history'] = [output(d) for d in collection.find(history_filter).sort([('timestamp', -1), ('_id', -1)]).skip((meta['page'] - 1) * size).limit(size)]
+    result['history_pagination'] = meta
+    collection = get_collection('monitoring_alerts')
+    alert_filter = {'patient_id': pid, 'acknowledged': False}
+    meta = pagination(alerts_page, size, collection.count_documents(alert_filter))
+    result['alerts'] = [output(d) for d in collection.find(alert_filter).sort([('timestamp', -1), ('_id', -1)]).skip((meta['page'] - 1) * size).limit(size)]
+    result['alerts_pagination'] = meta
+    result['pending_alert_count'] = meta['total']
+    return result
