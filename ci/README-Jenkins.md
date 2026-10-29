@@ -118,3 +118,13 @@ Se usan esperas explícitas por elementos y estados, según la documentación de
 - PBL-37: evidencia parcial para CP-S10-OAT-01/02/03 con la dependencia simulada;
   CP-S10-OAT-04 (limpieza IaC) pendiente.
 - Se conservan responsables y estados de Azure; no se cierran historias por esta demo.
+
+## Correcciones UAT del 29 de octubre
+Se agregan 13 regresiones visuales y funcionales: los tres formularios en modo
+claro y oscuro, botones de Analytics, camas por rol y hora de los tres historiales.
+El pipeline actual incorpora además cinco controles de fechas de API y cinco de
+formato web. Total actual: 111 comprobaciones (68 API, 12 web, 10 OAT, 20 Selenium
+y 1 control). Los builds antiguos de 81 y 88 conservan sus resultados originales.
+La interfaz mantiene su diseño claro con color-scheme only light. Las marcas de
+registro se guardan en UTC explícito y las horas se presentan en America/Mexico_City.
+Administración puede consultar camas; la edición sigue reservada al administrador.

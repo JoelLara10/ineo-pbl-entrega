@@ -46,7 +46,7 @@ def demo_system(tmp_path_factory):
         processes.append(p)
         return p
     try:
-        api = launch([sys.executable, str(ROOT / 'ci/demo_api.py'), '--ready-file', str(ready)], ROOT)
+        api = launch([sys.executable, str(ROOT / 'ci/demo_api.py'), '--ready-file', str(ready), '--uat-regressions'], ROOT)
         deadline = time.monotonic() + 50
         while not ready.exists():
             assert api.poll() is None, 'No inició la API sintética'

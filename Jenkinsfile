@@ -27,12 +27,12 @@ pipeline {
         }
         stage('Regresion API sprint 3 / Azure 9') {
             steps { ws(env.DEMO_ROOT) { dir('backend/api_hospital') {
-                bat '"%DEMO_PYTHON%" -m pytest tests/test_sprint9_uat_readiness.py tests/test_sprint9_jesus.py tests/test_sprint9_zahid.py -v -p no:cacheprovider --basetemp=../../%REPORT_DIR%/tmp-api --junitxml=../../%REPORT_DIR%/api.xml'
+                bat '"%DEMO_PYTHON%" -m pytest tests/test_sprint9_uat_readiness.py tests/test_sprint9_jesus.py tests/test_sprint9_zahid.py tests/test_uat_clinical_dates.py -v -p no:cacheprovider --basetemp=../../%REPORT_DIR%/tmp-api --junitxml=../../%REPORT_DIR%/api.xml'
             } } }
         }
         stage('Regresion web de Joel') {
             steps { ws(env.DEMO_ROOT) { dir('frontend/clinica-web-react') {
-                bat 'call npm test -- src/pages/spark/__tests__/Sprint9Joel.test.jsx --reporter=default --reporter=junit --outputFile=../../%REPORT_DIR%/web.xml'
+                bat 'call npm test -- src/pages/spark/__tests__/Sprint9Joel.test.jsx src/tests/uat-history-timezone.test.js --reporter=default --reporter=junit --outputFile=../../%REPORT_DIR%/web.xml'
             } } }
         }
         stage('OAT salud y recuperacion') {

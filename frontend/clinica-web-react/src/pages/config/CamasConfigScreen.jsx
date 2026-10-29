@@ -3,6 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FiChevronLeft, FiChevronRight, FiEdit2, FiSave, FiSearch, FiTrash2, FiX } from 'react-icons/fi';
 import ConfigHeader from './ConfigHeader';
+import { useAuth } from '../../context/AuthContext';
 import api from '../../services/api';
 import { paginate, pages } from './configCache';
 import './ConfigStyles.css';
@@ -11,6 +12,8 @@ const ITEMS_PER_PAGE = 8;
 const emptyForm = { numero: '', area: 'Hospitalizado', tipo_habitacion: 'General', piso: '', seccion: '', ocupada: 0 };
 export default function CamasConfigScreen() {
   const { t } = useTranslation();
+  const { user } = useAuth();
+  const canManage = user?.role === 'admin';
   const [camas, setCamas] = useState([]);
   const [form, setForm] = useState(emptyForm);
   const [editingId, setEditingId] = useState(null);
@@ -84,7 +87,7 @@ export default function CamasConfigScreen() {
     <main className="config-page config-polished">
       <ConfigHeader title={t('config.headerBeds')} />
       <section className="config-content">
-        <form className="config-card config-main-card" onSubmit={save}>
+        {canManage && <form className="config-card config-main-card" onSubmit={save}>
           <div className="config-card-header"><h2>{editingId !== null ? t('config.editBed') : t('config.registerBed')}</h2></div>
           <div className="config-card-body">
             <div className="config-section-box">
@@ -104,8 +107,10 @@ export default function CamasConfigScreen() {
             </div>
             {message && <div className="config-alert">{message}</div>}
           </div>
-        </form>
+        </form>}
 
+        {!canManage && <p className="config-muted">{t('config.bedsReadOnly')}</p>}
+        {!canManage && message && <div role="alert" className="config-alert">{message}</div>}
         <div className="config-list-heading">
           <div><h2 className="config-section-title">{t('config.bedsRegistered')}</h2><p className="config-muted">{t('config.bedCount', { count: filtered.length })}</p></div>
           <div className="config-search"><FiSearch className="config-search-icon" /><input className="config-input" value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }} placeholder={t('config.searchBed')} /></div>
@@ -114,12 +119,12 @@ export default function CamasConfigScreen() {
         {loading && <div className="config-card">{t('config.loadingBeds')}</div>}
         {!loading && <div className="config-table-wrap">
           <table className="config-table">
-            <thead><tr><th>ID</th><th>{t('config.bedNumber')}</th><th>{t('config.bedArea')}</th><th>{t('config.room')}</th><th>{t('config.bedFloor')}</th><th>{t('config.bedSection')}</th><th>{t('config.bedStatus')}</th><th>{t('administrative.patient')}</th><th>{t('config.actions')}</th></tr></thead>
+            <thead><tr><th>ID</th><th>{t('config.bedNumber')}</th><th>{t('config.bedArea')}</th><th>{t('config.room')}</th><th>{t('config.bedFloor')}</th><th>{t('config.bedSection')}</th><th>{t('config.bedStatus')}</th><th>{t('administrative.patient')}</th>{canManage && <th>{t('config.actions')}</th>}</tr></thead>
             <tbody>{visibleBeds.map((cama) => <tr key={cama.id_cama}>
               <td>{cama.id_cama}</td><td><strong>{cama.numero}</strong></td><td>{cama.area}</td><td>{cama.tipo_habitacion || 'N/A'}</td><td>{cama.piso || 'N/A'}</td><td>{cama.seccion || 'N/A'}</td>
               <td><span className={`config-badge ${cama.ocupada ? 'danger' : 'success'}`}>{cama.ocupada ? t('config.bedOccupied') : t('config.bedFree')}</span></td>
               <td>{cama.current_patient?.nombre || '—'}</td>
-              <td><div className="config-actions compact"><button className="config-btn warning icon-only" type="button" title={t('config.edit')} onClick={() => edit(cama)}><FiEdit2 /></button><button className="config-btn danger icon-only" type="button" title={t('config.delete')} onClick={() => remove(cama)}><FiTrash2 /></button></div></td>
+              {canManage && <td><div className="config-actions compact"><button className="config-btn warning icon-only" type="button" title={t('config.edit')} onClick={() => edit(cama)}><FiEdit2 /></button><button className="config-btn danger icon-only" type="button" title={t('config.delete')} onClick={() => remove(cama)}><FiTrash2 /></button></div></td>}
             </tr>)}</tbody>
           </table>
           {!visibleBeds.length && <div className="config-empty">{t('config.bedsEmpty')}</div>}
