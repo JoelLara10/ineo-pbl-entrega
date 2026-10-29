@@ -36,3 +36,7 @@ uploads/
 temp/
 *.log
 backend/api_hospital/api-hospital.env
+
+# Jenkins local demo reports (archived by each build)
+reports/
+outputs-preflight.xml
