@@ -39,4 +39,5 @@ backend/api_hospital/api-hospital.env
 
 # Jenkins local demo reports (archived by each build)
 reports/
+**/*@tmp/
 outputs-preflight.xml
