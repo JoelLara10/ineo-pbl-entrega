@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.241" timestamp="2026-10-28T22:22:11.816693-06:00" hostname="DESKTOP-812BAG9"><testcase classname="ci.test_gate_demo" name="test_controlled_failure_blocks_promotion" time="0.004"><failure message="AssertionError: FALLO CONTROLADO solicitado: Jenkins debe fallar y omitir promocion. No es un defecto del sistema ni un resultado UAT.&#10;assert 'true' != 'true'&#10; +  where 'true' = &lt;built-in method lower of str object at 0x0000015A787191D0&gt;()&#10; +    where &lt;built-in method lower of str object at 0x0000015A787191D0&gt; = 'true'.lower&#10; +      where 'true' = &lt;function getenv at 0x0000015A789EA160&gt;('INEO_FORCE_FAILURE', 'false')&#10; +        where &lt;function getenv at 0x0000015A789EA160&gt; = os.getenv">def test_controlled_failure_blocks_promotion():
+&gt;       assert os.getenv('INEO_FORCE_FAILURE', 'false').lower() != 'true', (
+            'FALLO CONTROLADO solicitado: Jenkins debe fallar y omitir promocion. '
+            'No es un defecto del sistema ni un resultado UAT.'
+        )
+E       AssertionError: FALLO CONTROLADO solicitado: Jenkins debe fallar y omitir promocion. No es un defecto del sistema ni un resultado UAT.
+E       assert 'true' != 'true'
+E        +  where 'true' = &lt;built-in method lower of str object at 0x0000015A787191D0&gt;()
+E        +    where &lt;built-in method lower of str object at 0x0000015A787191D0&gt; = 'true'.lower
+E        +      where 'true' = &lt;function getenv at 0x0000015A789EA160&gt;('INEO_FORCE_FAILURE', 'false')
+E        +        where &lt;function getenv at 0x0000015A789EA160&gt; = os.getenv
+
+ci\test_gate_demo.py:6: AssertionError</failure></testcase></testsuite></testsuites>
