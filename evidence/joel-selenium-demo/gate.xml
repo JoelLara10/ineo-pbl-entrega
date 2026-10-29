@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="0" skipped="0" tests="1" time="0.108" timestamp="2026-10-28T22:43:48.244454-06:00" hostname="DESKTOP-812BAG9"><testcase classname="ci.test_gate_demo" name="test_controlled_failure_blocks_promotion" time="0.001" /></testsuite></testsuites>

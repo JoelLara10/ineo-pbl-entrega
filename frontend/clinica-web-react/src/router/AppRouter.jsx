@@ -131,6 +131,7 @@ export default function AppRouter() {
                         <Route path="censo" element={<CensoScreen />} />
                         <Route path="corte-caja" element={<CorteCajaScreen />} />
                         <Route path="camas" element={<Navigate to="/config/camas" replace />} />
+                        <Route path="config/camas" element={<CamasConfigScreen />} />
                       </>
                     )}
 
@@ -198,7 +199,6 @@ export default function AppRouter() {
                         <Route path="config" element={<ConfigScreen />} />
                         <Route path="config/general" element={<GeneralSettingsScreen />} />
                         <Route path="config/usuarios" element={<UsuariosConfigScreen />} />
-                        <Route path="config/camas" element={<CamasConfigScreen />} />
                         <Route path="config/servicios" element={<ServiciosConfigScreen />} />
                         <Route path="config/diagnosticos" element={<DiagnosticosConfigScreen />} />
                         <Route path="config/automatizacion" element={<AutomationConfigScreen />} />

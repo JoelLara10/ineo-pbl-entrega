@@ -1,0 +1,1101 @@
+Lanzada por el usuario joel-demo
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins  in C:\9noCuatri\examen-vini\app-web-unidad2\outputs\jenkins-runtime\home\workspace\OftalCore-Joel-Demo
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] timeout
+Timeout set to expire in 15 Min
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Identificar version)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] ws
+Running in C:/9noCuatri/examen-vini/app-web-unidad2/sprint9-review
+[Pipeline] {
+[Pipeline] bat
+
+C:\9noCuatri\examen-vini\app-web-unidad2\sprint9-review>git rev-parse HEAD 
+a8e214421260fff7f25a8409be17ff7d38a0198e
+[Pipeline] bat
+
+C:\9noCuatri\examen-vini\app-web-unidad2\sprint9-review>if not exist "reports/build-3" mkdir "reports/build-3" 
+[Pipeline] bat
+
+C:\9noCuatri\examen-vini\app-web-unidad2\sprint9-review>git rev-parse HEAD  1>"reports/build-3\source-sha.txt" 
+[Pipeline] bat
+
+C:\9noCuatri\examen-vini\app-web-unidad2\sprint9-review>git diff --binary  1>"reports/build-3\working-tree.patch" 
+[Pipeline] }
+[Pipeline] // ws
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Regresion API sprint 3 / Azure 9)
+[Pipeline] ws
+Running in C:/9noCuatri/examen-vini/app-web-unidad2/sprint9-review
+[Pipeline] {
+[Pipeline] dir
+Running in C:/9noCuatri/examen-vini/app-web-unidad2/sprint9-review\backend\api_hospital
+[Pipeline] {
+[Pipeline] bat
+
+C:\9noCuatri\examen-vini\app-web-unidad2\sprint9-review\backend\api_hospital>"C:/9noCuatri/examen-vini/app-web-unidad2/outputs/jenkins-runtime/venv/Scripts/python.exe" -m pytest tests/test_sprint9_uat_readiness.py tests/test_sprint9_jesus.py tests/test_sprint9_zahid.py -v --junitxml=../../reports/build-3/api.xml 
+============================= test session starts =============================
+platform win32 -- Python 3.12.1, pytest-9.2.0, pluggy-1.7.0 -- C:\9noCuatri\examen-vini\app-web-unidad2\outputs\jenkins-runtime\venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\9noCuatri\examen-vini\app-web-unidad2\sprint9-review\backend\api_hospital
+plugins: cov-7.1.0
+collecting ... collected 63 items
+
+tests/test_sprint9_uat_readiness.py::test_cp_uat_001_save_and_read_synthetic_assessment PASSED [  1%]
+tests/test_sprint9_uat_readiness.py::test_cp_uat_001_missing_attention_is_not_saved PASSED [  3%]
+tests/test_sprint9_uat_readiness.py::test_cp_uat_001_session_required[get] PASSED [  4%]
+tests/test_sprint9_uat_readiness.py::test_cp_uat_001_session_required[post] PASSED [  6%]
+tests/test_sprint9_uat_readiness.py::test_cp_uat_001_empty_assessment_must_not_persist PASSED [  7%]
+tests/test_sprint9_uat_readiness.py::test_cp_uat_001_invalid_fields_do_not_write_or_allocate_id[patch0] PASSED [  9%]
+tests/test_sprint9_uat_readiness.py::test_cp_uat_001_invalid_fields_do_not_write_or_allocate_id[patch1] PASSED [ 11%]
+tests/test_sprint9_uat_readiness.py::test_cp_uat_001_invalid_fields_do_not_write_or_allocate_id[patch2] PASSED [ 12%]
+tests/test_sprint9_uat_readiness.py::test_cp_uat_001_invalid_fields_do_not_write_or_allocate_id[patch3] PASSED [ 14%]
+tests/test_sprint9_uat_readiness.py::test_cp_uat_001_invalid_fields_do_not_write_or_allocate_id[patch4] PASSED [ 15%]
+tests/test_sprint9_uat_readiness.py::test_cp_uat_001_invalid_fields_do_not_write_or_allocate_id[patch5] PASSED [ 17%]
+tests/test_sprint9_uat_readiness.py::test_cp_uat_001_invalid_fields_do_not_write_or_allocate_id[patch6] PASSED [ 19%]
+tests/test_sprint9_uat_readiness.py::test_cp_uat_001_accepts_score_or_description_and_trims_fields[0] PASSED [ 20%]
+tests/test_sprint9_uat_readiness.py::test_cp_uat_001_accepts_score_or_description_and_trims_fields[10] PASSED [ 22%]
+tests/test_sprint9_uat_readiness.py::test_cp_uat_001_accepts_score_or_description_and_trims_fields[2.5] PASSED [ 23%]
+tests/test_sprint9_uat_readiness.py::test_cp_uat_001_accepts_score_or_description_and_trims_fields[Sin dolor] PASSED [ 25%]
+tests/test_sprint9_uat_readiness.py::test_cp_uat_001_accepts_score_or_description_and_trims_fields[Dolor leve al movimiento] PASSED [ 26%]
+tests/test_sprint9_uat_readiness.py::test_cp_uat_002_authenticated_known_indicators[analytics] PASSED [ 28%]
+tests/test_sprint9_uat_readiness.py::test_cp_uat_002_authenticated_known_indicators[met] PASSED [ 30%]
+tests/test_sprint9_uat_readiness.py::test_cp_uat_002_authenticated_known_indicators[clinical] PASSED [ 31%]
+tests/test_sprint9_uat_readiness.py::test_cp_uat_002_authenticated_known_indicators[unsupervised] PASSED [ 33%]
+tests/test_sprint9_jesus.py::test_cp_ut_001_auth_valid_and_invalid_credentials[payload0-200] PASSED [ 34%]
+tests/test_sprint9_jesus.py::test_cp_ut_001_auth_valid_and_invalid_credentials[payload1-401] PASSED [ 36%]
+tests/test_sprint9_jesus.py::test_cp_ut_001_auth_valid_and_invalid_credentials[payload2-400] PASSED [ 38%]
+tests/test_sprint9_jesus.py::test_cp_ut_002_admin_endpoint_applies_role_permissions[admin-200] PASSED [ 39%]
+tests/test_sprint9_jesus.py::test_cp_ut_002_admin_endpoint_applies_role_permissions[medico-403] PASSED [ 41%]
+tests/test_sprint9_jesus.py::test_cp_ut_002_admin_endpoint_applies_role_permissions[enfermero-403] PASSED [ 42%]
+tests/test_sprint9_jesus.py::test_cp_ut_002_admin_endpoint_applies_role_permissions[estudios-403] PASSED [ 44%]
+tests/test_sprint9_jesus.py::test_cp_ut_003_study_file_extension_validation[resultado.pdf-True] PASSED [ 46%]
+tests/test_sprint9_jesus.py::test_cp_ut_003_study_file_extension_validation[radiografia.PNG-True] PASSED [ 47%]
+tests/test_sprint9_jesus.py::test_cp_ut_003_study_file_extension_validation[informe.docx-True] PASSED [ 49%]
+tests/test_sprint9_jesus.py::test_cp_ut_003_study_file_extension_validation[sin-extension-False] PASSED [ 50%]
+tests/test_sprint9_jesus.py::test_cp_ut_003_study_file_extension_validation[script.exe-False] PASSED [ 52%]
+tests/test_sprint9_jesus.py::test_cp_ut_003_study_file_extension_validation[archivo.pdf.exe-False] PASSED [ 53%]
+tests/test_sprint9_jesus.py::test_cp_ut_003_rejected_upload_does_not_persist_file ERROR [ 55%]
+tests/test_sprint9_jesus.py::test_cp_ut_003_valid_upload_uses_temporary_storage[resultado.pdf] ERROR [ 57%]
+tests/test_sprint9_jesus.py::test_cp_ut_003_valid_upload_uses_temporary_storage[radiografia.PNG] ERROR [ 58%]
+tests/test_sprint9_jesus.py::test_cp_ut_003_missing_file_does_not_persist[data0] ERROR [ 60%]
+tests/test_sprint9_jesus.py::test_cp_ut_003_missing_file_does_not_persist[data1] ERROR [ 61%]
+tests/test_sprint9_jesus.py::test_cp_ut_002_upload_denied_before_persistence[medico] PASSED [ 63%]
+tests/test_sprint9_jesus.py::test_cp_ut_002_upload_denied_before_persistence[enfermero] PASSED [ 65%]
+tests/test_sprint9_jesus.py::test_cp_ut_004_clinical_analytics_schema_and_values[empty] PASSED [ 66%]
+tests/test_sprint9_jesus.py::test_cp_ut_004_clinical_analytics_schema_and_values[partial] PASSED [ 68%]
+tests/test_sprint9_jesus.py::test_cp_ut_004_clinical_analytics_schema_and_values[valid] PASSED [ 69%]
+tests/test_sprint9_jesus.py::test_cp_ut_004_clinical_analytics_rejects_unauthorized_roles[enfermero] PASSED [ 71%]
+tests/test_sprint9_jesus.py::test_cp_ut_004_clinical_analytics_rejects_unauthorized_roles[estudios] PASSED [ 73%]
+tests/test_sprint9_zahid.py::test_pbl11_metadata_snapshot[analytics] PASSED [ 74%]
+tests/test_sprint9_zahid.py::test_pbl11_metadata_snapshot[met] PASSED    [ 76%]
+tests/test_sprint9_zahid.py::test_pbl11_metadata_snapshot[clinical] PASSED [ 77%]
+tests/test_sprint9_zahid.py::test_pbl11_metadata_snapshot[unsupervised] PASSED [ 79%]
+tests/test_sprint9_zahid.py::test_pbl11_unknown_and_failed_rerun_preserves_metadata PASSED [ 80%]
+tests/test_sprint9_zahid.py::test_pbl11_legacy_result_exposes_unknown_source_dates PASSED [ 82%]
+tests/test_sprint9_zahid.py::test_pbl25_preferences_idempotent_and_isolated PASSED [ 84%]
+tests/test_sprint9_zahid.py::test_pbl25_rejects_non_allowlisted_payloads[None] PASSED [ 85%]
+tests/test_sprint9_zahid.py::test_pbl25_rejects_non_allowlisted_payloads[payload1] PASSED [ 87%]
+tests/test_sprint9_zahid.py::test_pbl25_rejects_non_allowlisted_payloads[payload2] PASSED [ 88%]
+tests/test_sprint9_zahid.py::test_pbl25_rejects_non_allowlisted_payloads[payload3] PASSED [ 90%]
+tests/test_sprint9_zahid.py::test_pbl25_rejects_non_allowlisted_payloads[payload4] PASSED [ 92%]
+tests/test_sprint9_zahid.py::test_pbl25_revoked_or_inactive_accounts_cannot_sync PASSED [ 93%]
+tests/test_sprint9_zahid.py::test_pbl38_gate_requires_results_evidence_approval_and_no_open_defects ERROR [ 95%]
+tests/test_sprint9_zahid.py::test_pbl38_latest_failure_wins_and_external_approval_blocked ERROR [ 96%]
+tests/test_sprint9_zahid.py::test_pbl09_dated_projection_retains_utc_day_without_identifiers PASSED [ 98%]
+tests/test_sprint9_zahid.py::test_pbl38_cli_scope_leaves_other_owners_pending ERROR [100%]
+
+=================================== ERRORS ====================================
+___ ERROR at setup of test_cp_ut_003_rejected_upload_does_not_persist_file ____
+
+cls = <class '_pytest.runner.CallInfo'>
+func = <function call_and_report.<locals>.<lambda> at 0x00000203CDD763E0>
+when = 'setup'
+reraise = (<class '_pytest.outcomes.Exit'>, <class 'KeyboardInterrupt'>)
+
+    @classmethod
+    def from_call(
+        cls,
+        func: Callable[[], TResult],
+        when: Literal["collect", "setup", "call", "teardown"],
+        reraise: type[BaseException] | tuple[type[BaseException], ...] | None = None,
+    ) -> CallInfo[TResult]:
+        """Call func, wrapping the result in a CallInfo.
+    
+        :param func:
+            The function to call. Called without arguments.
+        :type func: Callable[[], _pytest.runner.TResult]
+        :param when:
+            The phase in which the function is called.
+        :param reraise:
+            Exception or exceptions that shall propagate if raised by the
+            function, instead of being wrapped in the CallInfo.
+        """
+        excinfo = None
+        instant = timing.Instant()
+        try:
+>           result: TResult | None = func()
+                                     ^^^^^^
+
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\runner.py:361: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\runner.py:250: in <lambda>
+    lambda: runtest_hook(item=item, **kwds),
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\pluggy\_caller.py:197: in __call__
+    return self._hookexec(
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\pluggy\_manager.py:183: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\logging.py:871: in pytest_runtest_setup
+    yield
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\capture.py:901: in pytest_runtest_setup
+    return (yield)
+            ^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\runner.py:170: in pytest_runtest_setup
+    item.session._setupstate.setup(item)
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\runner.py:536: in setup
+    col.setup()
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\python.py:1801: in setup
+    self._request._fillfixtures()
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:877: in _fillfixtures
+    item.funcargs[argname] = self.getfixturevalue(argname)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:701: in getfixturevalue
+    fixturedef = self._get_active_fixturedef(argname)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:797: in _get_active_fixturedef
+    fixturedef.execute(request=subrequest)
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:1301: in execute
+    result: FixtureValue = ihook.pytest_fixture_setup(
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\pluggy\_caller.py:197: in __call__
+    return self._hookexec(
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\pluggy\_manager.py:183: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\setuponly.py:36: in pytest_fixture_setup
+    return (yield)
+            ^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:1407: in pytest_fixture_setup
+    result = call_fixture_func(fixturefunc, request, kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:1067: in call_fixture_func
+    fixture_result = next(generator)
+                     ^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\tmpdir.py:338: in tmp_path
+    path = _mk_tmp(request, tmp_path_factory)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\tmpdir.py:325: in _mk_tmp
+    return factory.mktemp(name, numbered=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\tmpdir.py:138: in mktemp
+    basename = self._ensure_relative_to_basetemp(basename)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\tmpdir.py:118: in _ensure_relative_to_basetemp
+    if (self.getbasetemp() / basename).resolve().parent != self.getbasetemp():
+        ^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\tmpdir.py:253: in getbasetemp
+    basetemp = make_numbered_dir_with_cleanup(
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\pathlib.py:464: in make_numbered_dir_with_cleanup
+    raise e
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\pathlib.py:445: in make_numbered_dir_with_cleanup
+    p = make_numbered_dir(root, prefix, mode)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\pathlib.py:272: in make_numbered_dir
+    max_existing = max(map(parse_num, find_suffixes(root, prefix)), default=-1)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\pathlib.py:231: in extract_suffixes
+    for entry in iter:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+root = WindowsPath('C:/Users/JOEL LARA/AppData/Local/Temp/pytest-of-JOEL LARA')
+prefix = 'pytest-'
+
+    def find_prefixed(root: Path, prefix: str) -> Iterator[os.DirEntry[str]]:
+        """Find all elements in root that begin with the prefix, case-insensitive."""
+        l_prefix = prefix.lower()
+>       for x in os.scandir(root):
+                 ^^^^^^^^^^^^^^^^
+E       PermissionError: [WinError 5] Acceso denegado: 'C:\\Users\\JOEL LARA\\AppData\\Local\\Temp\\pytest-of-JOEL LARA'
+
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\pathlib.py:219: PermissionError
+_ ERROR at setup of test_cp_ut_003_valid_upload_uses_temporary_storage[resultado.pdf] _
+
+cls = <class '_pytest.runner.CallInfo'>
+func = <function call_and_report.<locals>.<lambda> at 0x00000203CDD768E0>
+when = 'setup'
+reraise = (<class '_pytest.outcomes.Exit'>, <class 'KeyboardInterrupt'>)
+
+    @classmethod
+    def from_call(
+        cls,
+        func: Callable[[], TResult],
+        when: Literal["collect", "setup", "call", "teardown"],
+        reraise: type[BaseException] | tuple[type[BaseException], ...] | None = None,
+    ) -> CallInfo[TResult]:
+        """Call func, wrapping the result in a CallInfo.
+    
+        :param func:
+            The function to call. Called without arguments.
+        :type func: Callable[[], _pytest.runner.TResult]
+        :param when:
+            The phase in which the function is called.
+        :param reraise:
+            Exception or exceptions that shall propagate if raised by the
+            function, instead of being wrapped in the CallInfo.
+        """
+        excinfo = None
+        instant = timing.Instant()
+        try:
+>           result: TResult | None = func()
+                                     ^^^^^^
+
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\runner.py:361: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\runner.py:250: in <lambda>
+    lambda: runtest_hook(item=item, **kwds),
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\pluggy\_caller.py:197: in __call__
+    return self._hookexec(
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\pluggy\_manager.py:183: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\logging.py:871: in pytest_runtest_setup
+    yield
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\capture.py:901: in pytest_runtest_setup
+    return (yield)
+            ^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\runner.py:170: in pytest_runtest_setup
+    item.session._setupstate.setup(item)
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\runner.py:536: in setup
+    col.setup()
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\python.py:1801: in setup
+    self._request._fillfixtures()
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:877: in _fillfixtures
+    item.funcargs[argname] = self.getfixturevalue(argname)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:701: in getfixturevalue
+    fixturedef = self._get_active_fixturedef(argname)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:797: in _get_active_fixturedef
+    fixturedef.execute(request=subrequest)
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:1301: in execute
+    result: FixtureValue = ihook.pytest_fixture_setup(
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\pluggy\_caller.py:197: in __call__
+    return self._hookexec(
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\pluggy\_manager.py:183: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\setuponly.py:36: in pytest_fixture_setup
+    return (yield)
+            ^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:1407: in pytest_fixture_setup
+    result = call_fixture_func(fixturefunc, request, kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:1067: in call_fixture_func
+    fixture_result = next(generator)
+                     ^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\tmpdir.py:338: in tmp_path
+    path = _mk_tmp(request, tmp_path_factory)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\tmpdir.py:325: in _mk_tmp
+    return factory.mktemp(name, numbered=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\tmpdir.py:138: in mktemp
+    basename = self._ensure_relative_to_basetemp(basename)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\tmpdir.py:118: in _ensure_relative_to_basetemp
+    if (self.getbasetemp() / basename).resolve().parent != self.getbasetemp():
+        ^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\tmpdir.py:253: in getbasetemp
+    basetemp = make_numbered_dir_with_cleanup(
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\pathlib.py:464: in make_numbered_dir_with_cleanup
+    raise e
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\pathlib.py:445: in make_numbered_dir_with_cleanup
+    p = make_numbered_dir(root, prefix, mode)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\pathlib.py:272: in make_numbered_dir
+    max_existing = max(map(parse_num, find_suffixes(root, prefix)), default=-1)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\pathlib.py:231: in extract_suffixes
+    for entry in iter:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+root = WindowsPath('C:/Users/JOEL LARA/AppData/Local/Temp/pytest-of-JOEL LARA')
+prefix = 'pytest-'
+
+    def find_prefixed(root: Path, prefix: str) -> Iterator[os.DirEntry[str]]:
+        """Find all elements in root that begin with the prefix, case-insensitive."""
+        l_prefix = prefix.lower()
+>       for x in os.scandir(root):
+                 ^^^^^^^^^^^^^^^^
+E       PermissionError: [WinError 5] Acceso denegado: 'C:\\Users\\JOEL LARA\\AppData\\Local\\Temp\\pytest-of-JOEL LARA'
+
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\pathlib.py:219: PermissionError
+_ ERROR at setup of test_cp_ut_003_valid_upload_uses_temporary_storage[radiografia.PNG] _
+
+cls = <class '_pytest.runner.CallInfo'>
+func = <function call_and_report.<locals>.<lambda> at 0x00000203CDF993A0>
+when = 'setup'
+reraise = (<class '_pytest.outcomes.Exit'>, <class 'KeyboardInterrupt'>)
+
+    @classmethod
+    def from_call(
+        cls,
+        func: Callable[[], TResult],
+        when: Literal["collect", "setup", "call", "teardown"],
+        reraise: type[BaseException] | tuple[type[BaseException], ...] | None = None,
+    ) -> CallInfo[TResult]:
+        """Call func, wrapping the result in a CallInfo.
+    
+        :param func:
+            The function to call. Called without arguments.
+        :type func: Callable[[], _pytest.runner.TResult]
+        :param when:
+            The phase in which the function is called.
+        :param reraise:
+            Exception or exceptions that shall propagate if raised by the
+            function, instead of being wrapped in the CallInfo.
+        """
+        excinfo = None
+        instant = timing.Instant()
+        try:
+>           result: TResult | None = func()
+                                     ^^^^^^
+
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\runner.py:361: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\runner.py:250: in <lambda>
+    lambda: runtest_hook(item=item, **kwds),
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\pluggy\_caller.py:197: in __call__
+    return self._hookexec(
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\pluggy\_manager.py:183: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\logging.py:871: in pytest_runtest_setup
+    yield
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\capture.py:901: in pytest_runtest_setup
+    return (yield)
+            ^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\runner.py:170: in pytest_runtest_setup
+    item.session._setupstate.setup(item)
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\runner.py:536: in setup
+    col.setup()
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\python.py:1801: in setup
+    self._request._fillfixtures()
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:877: in _fillfixtures
+    item.funcargs[argname] = self.getfixturevalue(argname)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:701: in getfixturevalue
+    fixturedef = self._get_active_fixturedef(argname)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:797: in _get_active_fixturedef
+    fixturedef.execute(request=subrequest)
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:1301: in execute
+    result: FixtureValue = ihook.pytest_fixture_setup(
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\pluggy\_caller.py:197: in __call__
+    return self._hookexec(
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\pluggy\_manager.py:183: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\setuponly.py:36: in pytest_fixture_setup
+    return (yield)
+            ^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:1407: in pytest_fixture_setup
+    result = call_fixture_func(fixturefunc, request, kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:1067: in call_fixture_func
+    fixture_result = next(generator)
+                     ^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\tmpdir.py:338: in tmp_path
+    path = _mk_tmp(request, tmp_path_factory)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\tmpdir.py:325: in _mk_tmp
+    return factory.mktemp(name, numbered=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\tmpdir.py:138: in mktemp
+    basename = self._ensure_relative_to_basetemp(basename)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\tmpdir.py:118: in _ensure_relative_to_basetemp
+    if (self.getbasetemp() / basename).resolve().parent != self.getbasetemp():
+        ^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\tmpdir.py:253: in getbasetemp
+    basetemp = make_numbered_dir_with_cleanup(
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\pathlib.py:464: in make_numbered_dir_with_cleanup
+    raise e
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\pathlib.py:445: in make_numbered_dir_with_cleanup
+    p = make_numbered_dir(root, prefix, mode)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\pathlib.py:272: in make_numbered_dir
+    max_existing = max(map(parse_num, find_suffixes(root, prefix)), default=-1)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\pathlib.py:231: in extract_suffixes
+    for entry in iter:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+root = WindowsPath('C:/Users/JOEL LARA/AppData/Local/Temp/pytest-of-JOEL LARA')
+prefix = 'pytest-'
+
+    def find_prefixed(root: Path, prefix: str) -> Iterator[os.DirEntry[str]]:
+        """Find all elements in root that begin with the prefix, case-insensitive."""
+        l_prefix = prefix.lower()
+>       for x in os.scandir(root):
+                 ^^^^^^^^^^^^^^^^
+E       PermissionError: [WinError 5] Acceso denegado: 'C:\\Users\\JOEL LARA\\AppData\\Local\\Temp\\pytest-of-JOEL LARA'
+
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\pathlib.py:219: PermissionError
+____ ERROR at setup of test_cp_ut_003_missing_file_does_not_persist[data0] ____
+
+cls = <class '_pytest.runner.CallInfo'>
+func = <function call_and_report.<locals>.<lambda> at 0x00000203CDF9A5C0>
+when = 'setup'
+reraise = (<class '_pytest.outcomes.Exit'>, <class 'KeyboardInterrupt'>)
+
+    @classmethod
+    def from_call(
+        cls,
+        func: Callable[[], TResult],
+        when: Literal["collect", "setup", "call", "teardown"],
+        reraise: type[BaseException] | tuple[type[BaseException], ...] | None = None,
+    ) -> CallInfo[TResult]:
+        """Call func, wrapping the result in a CallInfo.
+    
+        :param func:
+            The function to call. Called without arguments.
+        :type func: Callable[[], _pytest.runner.TResult]
+        :param when:
+            The phase in which the function is called.
+        :param reraise:
+            Exception or exceptions that shall propagate if raised by the
+            function, instead of being wrapped in the CallInfo.
+        """
+        excinfo = None
+        instant = timing.Instant()
+        try:
+>           result: TResult | None = func()
+                                     ^^^^^^
+
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\runner.py:361: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\runner.py:250: in <lambda>
+    lambda: runtest_hook(item=item, **kwds),
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\pluggy\_caller.py:197: in __call__
+    return self._hookexec(
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\pluggy\_manager.py:183: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\logging.py:871: in pytest_runtest_setup
+    yield
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\capture.py:901: in pytest_runtest_setup
+    return (yield)
+            ^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\runner.py:170: in pytest_runtest_setup
+    item.session._setupstate.setup(item)
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\runner.py:536: in setup
+    col.setup()
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\python.py:1801: in setup
+    self._request._fillfixtures()
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:877: in _fillfixtures
+    item.funcargs[argname] = self.getfixturevalue(argname)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:701: in getfixturevalue
+    fixturedef = self._get_active_fixturedef(argname)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:797: in _get_active_fixturedef
+    fixturedef.execute(request=subrequest)
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:1301: in execute
+    result: FixtureValue = ihook.pytest_fixture_setup(
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\pluggy\_caller.py:197: in __call__
+    return self._hookexec(
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\pluggy\_manager.py:183: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\setuponly.py:36: in pytest_fixture_setup
+    return (yield)
+            ^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:1407: in pytest_fixture_setup
+    result = call_fixture_func(fixturefunc, request, kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:1067: in call_fixture_func
+    fixture_result = next(generator)
+                     ^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\tmpdir.py:338: in tmp_path
+    path = _mk_tmp(request, tmp_path_factory)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\tmpdir.py:325: in _mk_tmp
+    return factory.mktemp(name, numbered=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\tmpdir.py:138: in mktemp
+    basename = self._ensure_relative_to_basetemp(basename)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\tmpdir.py:118: in _ensure_relative_to_basetemp
+    if (self.getbasetemp() / basename).resolve().parent != self.getbasetemp():
+        ^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\tmpdir.py:253: in getbasetemp
+    basetemp = make_numbered_dir_with_cleanup(
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\pathlib.py:464: in make_numbered_dir_with_cleanup
+    raise e
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\pathlib.py:445: in make_numbered_dir_with_cleanup
+    p = make_numbered_dir(root, prefix, mode)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\pathlib.py:272: in make_numbered_dir
+    max_existing = max(map(parse_num, find_suffixes(root, prefix)), default=-1)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\pathlib.py:231: in extract_suffixes
+    for entry in iter:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+root = WindowsPath('C:/Users/JOEL LARA/AppData/Local/Temp/pytest-of-JOEL LARA')
+prefix = 'pytest-'
+
+    def find_prefixed(root: Path, prefix: str) -> Iterator[os.DirEntry[str]]:
+        """Find all elements in root that begin with the prefix, case-insensitive."""
+        l_prefix = prefix.lower()
+>       for x in os.scandir(root):
+                 ^^^^^^^^^^^^^^^^
+E       PermissionError: [WinError 5] Acceso denegado: 'C:\\Users\\JOEL LARA\\AppData\\Local\\Temp\\pytest-of-JOEL LARA'
+
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\pathlib.py:219: PermissionError
+____ ERROR at setup of test_cp_ut_003_missing_file_does_not_persist[data1] ____
+
+cls = <class '_pytest.runner.CallInfo'>
+func = <function call_and_report.<locals>.<lambda> at 0x00000203CDF9BBA0>
+when = 'setup'
+reraise = (<class '_pytest.outcomes.Exit'>, <class 'KeyboardInterrupt'>)
+
+    @classmethod
+    def from_call(
+        cls,
+        func: Callable[[], TResult],
+        when: Literal["collect", "setup", "call", "teardown"],
+        reraise: type[BaseException] | tuple[type[BaseException], ...] | None = None,
+    ) -> CallInfo[TResult]:
+        """Call func, wrapping the result in a CallInfo.
+    
+        :param func:
+            The function to call. Called without arguments.
+        :type func: Callable[[], _pytest.runner.TResult]
+        :param when:
+            The phase in which the function is called.
+        :param reraise:
+            Exception or exceptions that shall propagate if raised by the
+            function, instead of being wrapped in the CallInfo.
+        """
+        excinfo = None
+        instant = timing.Instant()
+        try:
+>           result: TResult | None = func()
+                                     ^^^^^^
+
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\runner.py:361: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\runner.py:250: in <lambda>
+    lambda: runtest_hook(item=item, **kwds),
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\pluggy\_caller.py:197: in __call__
+    return self._hookexec(
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\pluggy\_manager.py:183: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\logging.py:871: in pytest_runtest_setup
+    yield
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\capture.py:901: in pytest_runtest_setup
+    return (yield)
+            ^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\runner.py:170: in pytest_runtest_setup
+    item.session._setupstate.setup(item)
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\runner.py:536: in setup
+    col.setup()
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\python.py:1801: in setup
+    self._request._fillfixtures()
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:877: in _fillfixtures
+    item.funcargs[argname] = self.getfixturevalue(argname)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:701: in getfixturevalue
+    fixturedef = self._get_active_fixturedef(argname)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:797: in _get_active_fixturedef
+    fixturedef.execute(request=subrequest)
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:1301: in execute
+    result: FixtureValue = ihook.pytest_fixture_setup(
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\pluggy\_caller.py:197: in __call__
+    return self._hookexec(
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\pluggy\_manager.py:183: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\setuponly.py:36: in pytest_fixture_setup
+    return (yield)
+            ^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:1407: in pytest_fixture_setup
+    result = call_fixture_func(fixturefunc, request, kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:1067: in call_fixture_func
+    fixture_result = next(generator)
+                     ^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\tmpdir.py:338: in tmp_path
+    path = _mk_tmp(request, tmp_path_factory)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\tmpdir.py:325: in _mk_tmp
+    return factory.mktemp(name, numbered=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\tmpdir.py:138: in mktemp
+    basename = self._ensure_relative_to_basetemp(basename)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\tmpdir.py:118: in _ensure_relative_to_basetemp
+    if (self.getbasetemp() / basename).resolve().parent != self.getbasetemp():
+        ^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\tmpdir.py:253: in getbasetemp
+    basetemp = make_numbered_dir_with_cleanup(
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\pathlib.py:464: in make_numbered_dir_with_cleanup
+    raise e
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\pathlib.py:445: in make_numbered_dir_with_cleanup
+    p = make_numbered_dir(root, prefix, mode)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\pathlib.py:272: in make_numbered_dir
+    max_existing = max(map(parse_num, find_suffixes(root, prefix)), default=-1)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\pathlib.py:231: in extract_suffixes
+    for entry in iter:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+root = WindowsPath('C:/Users/JOEL LARA/AppData/Local/Temp/pytest-of-JOEL LARA')
+prefix = 'pytest-'
+
+    def find_prefixed(root: Path, prefix: str) -> Iterator[os.DirEntry[str]]:
+        """Find all elements in root that begin with the prefix, case-insensitive."""
+        l_prefix = prefix.lower()
+>       for x in os.scandir(root):
+                 ^^^^^^^^^^^^^^^^
+E       PermissionError: [WinError 5] Acceso denegado: 'C:\\Users\\JOEL LARA\\AppData\\Local\\Temp\\pytest-of-JOEL LARA'
+
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\pathlib.py:219: PermissionError
+_ ERROR at setup of test_pbl38_gate_requires_results_evidence_approval_and_no_open_defects _
+
+cls = <class '_pytest.runner.CallInfo'>
+func = <function call_and_report.<locals>.<lambda> at 0x00000203CD9B7600>
+when = 'setup'
+reraise = (<class '_pytest.outcomes.Exit'>, <class 'KeyboardInterrupt'>)
+
+    @classmethod
+    def from_call(
+        cls,
+        func: Callable[[], TResult],
+        when: Literal["collect", "setup", "call", "teardown"],
+        reraise: type[BaseException] | tuple[type[BaseException], ...] | None = None,
+    ) -> CallInfo[TResult]:
+        """Call func, wrapping the result in a CallInfo.
+    
+        :param func:
+            The function to call. Called without arguments.
+        :type func: Callable[[], _pytest.runner.TResult]
+        :param when:
+            The phase in which the function is called.
+        :param reraise:
+            Exception or exceptions that shall propagate if raised by the
+            function, instead of being wrapped in the CallInfo.
+        """
+        excinfo = None
+        instant = timing.Instant()
+        try:
+>           result: TResult | None = func()
+                                     ^^^^^^
+
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\runner.py:361: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\runner.py:250: in <lambda>
+    lambda: runtest_hook(item=item, **kwds),
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\pluggy\_caller.py:197: in __call__
+    return self._hookexec(
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\pluggy\_manager.py:183: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\logging.py:871: in pytest_runtest_setup
+    yield
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\capture.py:901: in pytest_runtest_setup
+    return (yield)
+            ^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\runner.py:170: in pytest_runtest_setup
+    item.session._setupstate.setup(item)
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\runner.py:536: in setup
+    col.setup()
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\python.py:1801: in setup
+    self._request._fillfixtures()
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:877: in _fillfixtures
+    item.funcargs[argname] = self.getfixturevalue(argname)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:701: in getfixturevalue
+    fixturedef = self._get_active_fixturedef(argname)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:797: in _get_active_fixturedef
+    fixturedef.execute(request=subrequest)
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:1301: in execute
+    result: FixtureValue = ihook.pytest_fixture_setup(
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\pluggy\_caller.py:197: in __call__
+    return self._hookexec(
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\pluggy\_manager.py:183: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\setuponly.py:36: in pytest_fixture_setup
+    return (yield)
+            ^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:1407: in pytest_fixture_setup
+    result = call_fixture_func(fixturefunc, request, kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:1067: in call_fixture_func
+    fixture_result = next(generator)
+                     ^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\tmpdir.py:338: in tmp_path
+    path = _mk_tmp(request, tmp_path_factory)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\tmpdir.py:325: in _mk_tmp
+    return factory.mktemp(name, numbered=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\tmpdir.py:138: in mktemp
+    basename = self._ensure_relative_to_basetemp(basename)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\tmpdir.py:118: in _ensure_relative_to_basetemp
+    if (self.getbasetemp() / basename).resolve().parent != self.getbasetemp():
+        ^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\tmpdir.py:253: in getbasetemp
+    basetemp = make_numbered_dir_with_cleanup(
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\pathlib.py:464: in make_numbered_dir_with_cleanup
+    raise e
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\pathlib.py:445: in make_numbered_dir_with_cleanup
+    p = make_numbered_dir(root, prefix, mode)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\pathlib.py:272: in make_numbered_dir
+    max_existing = max(map(parse_num, find_suffixes(root, prefix)), default=-1)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\pathlib.py:231: in extract_suffixes
+    for entry in iter:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+root = WindowsPath('C:/Users/JOEL LARA/AppData/Local/Temp/pytest-of-JOEL LARA')
+prefix = 'pytest-'
+
+    def find_prefixed(root: Path, prefix: str) -> Iterator[os.DirEntry[str]]:
+        """Find all elements in root that begin with the prefix, case-insensitive."""
+        l_prefix = prefix.lower()
+>       for x in os.scandir(root):
+                 ^^^^^^^^^^^^^^^^
+E       PermissionError: [WinError 5] Acceso denegado: 'C:\\Users\\JOEL LARA\\AppData\\Local\\Temp\\pytest-of-JOEL LARA'
+
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\pathlib.py:219: PermissionError
+_ ERROR at setup of test_pbl38_latest_failure_wins_and_external_approval_blocked _
+
+cls = <class '_pytest.runner.CallInfo'>
+func = <function call_and_report.<locals>.<lambda> at 0x00000203CD9B6CA0>
+when = 'setup'
+reraise = (<class '_pytest.outcomes.Exit'>, <class 'KeyboardInterrupt'>)
+
+    @classmethod
+    def from_call(
+        cls,
+        func: Callable[[], TResult],
+        when: Literal["collect", "setup", "call", "teardown"],
+        reraise: type[BaseException] | tuple[type[BaseException], ...] | None = None,
+    ) -> CallInfo[TResult]:
+        """Call func, wrapping the result in a CallInfo.
+    
+        :param func:
+            The function to call. Called without arguments.
+        :type func: Callable[[], _pytest.runner.TResult]
+        :param when:
+            The phase in which the function is called.
+        :param reraise:
+            Exception or exceptions that shall propagate if raised by the
+            function, instead of being wrapped in the CallInfo.
+        """
+        excinfo = None
+        instant = timing.Instant()
+        try:
+>           result: TResult | None = func()
+                                     ^^^^^^
+
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\runner.py:361: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\runner.py:250: in <lambda>
+    lambda: runtest_hook(item=item, **kwds),
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\pluggy\_caller.py:197: in __call__
+    return self._hookexec(
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\pluggy\_manager.py:183: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\logging.py:871: in pytest_runtest_setup
+    yield
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\capture.py:901: in pytest_runtest_setup
+    return (yield)
+            ^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\runner.py:170: in pytest_runtest_setup
+    item.session._setupstate.setup(item)
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\runner.py:536: in setup
+    col.setup()
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\python.py:1801: in setup
+    self._request._fillfixtures()
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:877: in _fillfixtures
+    item.funcargs[argname] = self.getfixturevalue(argname)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:701: in getfixturevalue
+    fixturedef = self._get_active_fixturedef(argname)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:797: in _get_active_fixturedef
+    fixturedef.execute(request=subrequest)
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:1301: in execute
+    result: FixtureValue = ihook.pytest_fixture_setup(
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\pluggy\_caller.py:197: in __call__
+    return self._hookexec(
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\pluggy\_manager.py:183: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\setuponly.py:36: in pytest_fixture_setup
+    return (yield)
+            ^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:1407: in pytest_fixture_setup
+    result = call_fixture_func(fixturefunc, request, kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:1067: in call_fixture_func
+    fixture_result = next(generator)
+                     ^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\tmpdir.py:338: in tmp_path
+    path = _mk_tmp(request, tmp_path_factory)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\tmpdir.py:325: in _mk_tmp
+    return factory.mktemp(name, numbered=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\tmpdir.py:138: in mktemp
+    basename = self._ensure_relative_to_basetemp(basename)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\tmpdir.py:118: in _ensure_relative_to_basetemp
+    if (self.getbasetemp() / basename).resolve().parent != self.getbasetemp():
+        ^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\tmpdir.py:253: in getbasetemp
+    basetemp = make_numbered_dir_with_cleanup(
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\pathlib.py:464: in make_numbered_dir_with_cleanup
+    raise e
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\pathlib.py:445: in make_numbered_dir_with_cleanup
+    p = make_numbered_dir(root, prefix, mode)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\pathlib.py:272: in make_numbered_dir
+    max_existing = max(map(parse_num, find_suffixes(root, prefix)), default=-1)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\pathlib.py:231: in extract_suffixes
+    for entry in iter:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+root = WindowsPath('C:/Users/JOEL LARA/AppData/Local/Temp/pytest-of-JOEL LARA')
+prefix = 'pytest-'
+
+    def find_prefixed(root: Path, prefix: str) -> Iterator[os.DirEntry[str]]:
+        """Find all elements in root that begin with the prefix, case-insensitive."""
+        l_prefix = prefix.lower()
+>       for x in os.scandir(root):
+                 ^^^^^^^^^^^^^^^^
+E       PermissionError: [WinError 5] Acceso denegado: 'C:\\Users\\JOEL LARA\\AppData\\Local\\Temp\\pytest-of-JOEL LARA'
+
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\pathlib.py:219: PermissionError
+_____ ERROR at setup of test_pbl38_cli_scope_leaves_other_owners_pending ______
+
+cls = <class '_pytest.runner.CallInfo'>
+func = <function call_and_report.<locals>.<lambda> at 0x00000203CD9B7380>
+when = 'setup'
+reraise = (<class '_pytest.outcomes.Exit'>, <class 'KeyboardInterrupt'>)
+
+    @classmethod
+    def from_call(
+        cls,
+        func: Callable[[], TResult],
+        when: Literal["collect", "setup", "call", "teardown"],
+        reraise: type[BaseException] | tuple[type[BaseException], ...] | None = None,
+    ) -> CallInfo[TResult]:
+        """Call func, wrapping the result in a CallInfo.
+    
+        :param func:
+            The function to call. Called without arguments.
+        :type func: Callable[[], _pytest.runner.TResult]
+        :param when:
+            The phase in which the function is called.
+        :param reraise:
+            Exception or exceptions that shall propagate if raised by the
+            function, instead of being wrapped in the CallInfo.
+        """
+        excinfo = None
+        instant = timing.Instant()
+        try:
+>           result: TResult | None = func()
+                                     ^^^^^^
+
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\runner.py:361: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\runner.py:250: in <lambda>
+    lambda: runtest_hook(item=item, **kwds),
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\pluggy\_caller.py:197: in __call__
+    return self._hookexec(
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\pluggy\_manager.py:183: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\logging.py:871: in pytest_runtest_setup
+    yield
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\capture.py:901: in pytest_runtest_setup
+    return (yield)
+            ^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\runner.py:170: in pytest_runtest_setup
+    item.session._setupstate.setup(item)
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\runner.py:536: in setup
+    col.setup()
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\python.py:1801: in setup
+    self._request._fillfixtures()
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:877: in _fillfixtures
+    item.funcargs[argname] = self.getfixturevalue(argname)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:701: in getfixturevalue
+    fixturedef = self._get_active_fixturedef(argname)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:797: in _get_active_fixturedef
+    fixturedef.execute(request=subrequest)
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:1301: in execute
+    result: FixtureValue = ihook.pytest_fixture_setup(
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\pluggy\_caller.py:197: in __call__
+    return self._hookexec(
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\pluggy\_manager.py:183: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\setuponly.py:36: in pytest_fixture_setup
+    return (yield)
+            ^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:1407: in pytest_fixture_setup
+    result = call_fixture_func(fixturefunc, request, kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\fixtures.py:1067: in call_fixture_func
+    fixture_result = next(generator)
+                     ^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\tmpdir.py:338: in tmp_path
+    path = _mk_tmp(request, tmp_path_factory)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\tmpdir.py:325: in _mk_tmp
+    return factory.mktemp(name, numbered=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\tmpdir.py:138: in mktemp
+    basename = self._ensure_relative_to_basetemp(basename)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\tmpdir.py:118: in _ensure_relative_to_basetemp
+    if (self.getbasetemp() / basename).resolve().parent != self.getbasetemp():
+        ^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\tmpdir.py:253: in getbasetemp
+    basetemp = make_numbered_dir_with_cleanup(
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\pathlib.py:464: in make_numbered_dir_with_cleanup
+    raise e
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\pathlib.py:445: in make_numbered_dir_with_cleanup
+    p = make_numbered_dir(root, prefix, mode)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\pathlib.py:272: in make_numbered_dir
+    max_existing = max(map(parse_num, find_suffixes(root, prefix)), default=-1)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\pathlib.py:231: in extract_suffixes
+    for entry in iter:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+root = WindowsPath('C:/Users/JOEL LARA/AppData/Local/Temp/pytest-of-JOEL LARA')
+prefix = 'pytest-'
+
+    def find_prefixed(root: Path, prefix: str) -> Iterator[os.DirEntry[str]]:
+        """Find all elements in root that begin with the prefix, case-insensitive."""
+        l_prefix = prefix.lower()
+>       for x in os.scandir(root):
+                 ^^^^^^^^^^^^^^^^
+E       PermissionError: [WinError 5] Acceso denegado: 'C:\\Users\\JOEL LARA\\AppData\\Local\\Temp\\pytest-of-JOEL LARA'
+
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\pathlib.py:219: PermissionError
+============================== warnings summary ===============================
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\cacheprovider.py:487
+  C:\9noCuatri\examen-vini\app-web-unidad2\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\cacheprovider.py:487: PytestCacheWarning: could not create cache path C:\9noCuatri\examen-vini\app-web-unidad2\sprint9-review\backend\api_hospital\.pytest_cache\v\cache\nodeids: [WinError 5] Acceso denegado: 'C:\\9noCuatri\\examen-vini\\app-web-unidad2\\sprint9-review\\backend\\api_hospital\\.pytest_cache\\v\\cache'
+    config.cache.set("cache/nodeids", sorted(str(n) for n in self.cached_nodeids))
+
+..\..\..\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\cacheprovider.py:439
+  C:\9noCuatri\examen-vini\app-web-unidad2\outputs\jenkins-runtime\venv\Lib\site-packages\_pytest\cacheprovider.py:439: PytestCacheWarning: could not create cache path C:\9noCuatri\examen-vini\app-web-unidad2\sprint9-review\backend\api_hospital\.pytest_cache\v\cache\lastfailed: [WinError 5] Acceso denegado: 'C:\\9noCuatri\\examen-vini\\app-web-unidad2\\sprint9-review\\backend\\api_hospital\\.pytest_cache\\v\\cache'
+    config.cache.set("cache/lastfailed", current_lastfailed)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- generated xml file: C:\9noCuatri\examen-vini\app-web-unidad2\sprint9-review\reports\build-3\api.xml -
+=========================== short test summary info ===========================
+ERROR tests/test_sprint9_jesus.py::test_cp_ut_003_rejected_upload_does_not_persist_file - PermissionError: [WinError 5] Acceso denegado: 'C:\\Users\\JOEL LARA\\AppData\\Local\\Temp\\pytest-of-JOEL LARA'
+ERROR tests/test_sprint9_jesus.py::test_cp_ut_003_valid_upload_uses_temporary_storage[resultado.pdf] - PermissionError: [WinError 5] Acceso denegado: 'C:\\Users\\JOEL LARA\\AppData\\Local\\Temp\\pytest-of-JOEL LARA'
+ERROR tests/test_sprint9_jesus.py::test_cp_ut_003_valid_upload_uses_temporary_storage[radiografia.PNG] - PermissionError: [WinError 5] Acceso denegado: 'C:\\Users\\JOEL LARA\\AppData\\Local\\Temp\\pytest-of-JOEL LARA'
+ERROR tests/test_sprint9_jesus.py::test_cp_ut_003_missing_file_does_not_persist[data0] - PermissionError: [WinError 5] Acceso denegado: 'C:\\Users\\JOEL LARA\\AppData\\Local\\Temp\\pytest-of-JOEL LARA'
+ERROR tests/test_sprint9_jesus.py::test_cp_ut_003_missing_file_does_not_persist[data1] - PermissionError: [WinError 5] Acceso denegado: 'C:\\Users\\JOEL LARA\\AppData\\Local\\Temp\\pytest-of-JOEL LARA'
+ERROR tests/test_sprint9_zahid.py::test_pbl38_gate_requires_results_evidence_approval_and_no_open_defects - PermissionError: [WinError 5] Acceso denegado: 'C:\\Users\\JOEL LARA\\AppData\\Local\\Temp\\pytest-of-JOEL LARA'
+ERROR tests/test_sprint9_zahid.py::test_pbl38_latest_failure_wins_and_external_approval_blocked - PermissionError: [WinError 5] Acceso denegado: 'C:\\Users\\JOEL LARA\\AppData\\Local\\Temp\\pytest-of-JOEL LARA'
+ERROR tests/test_sprint9_zahid.py::test_pbl38_cli_scope_leaves_other_owners_pending - PermissionError: [WinError 5] Acceso denegado: 'C:\\Users\\JOEL LARA\\AppData\\Local\\Temp\\pytest-of-JOEL LARA'
+================== 55 passed, 2 warnings, 8 errors in 16.81s ==================
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // ws
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Regresion web de Joel)
+Stage "Regresion web de Joel" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (OAT salud y recuperacion)
+Stage "OAT salud y recuperacion" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Ensayo de bloqueo)
+Stage "Ensayo de bloqueo" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Promocion de demostracion)
+Stage "Promocion de demostracion" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] ws
+Running in C:/9noCuatri/examen-vini/app-web-unidad2/sprint9-review
+[Pipeline] {
+[Pipeline] junit
+Grabando resultados de tests
+[Checks API] No suitable checks publisher found.
+[Pipeline] archiveArtifacts
+Guardando archivos
+[Pipeline] }
+[Pipeline] // ws
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // timeout
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+ERROR: script returned exit code 1
+Finished: FAILURE

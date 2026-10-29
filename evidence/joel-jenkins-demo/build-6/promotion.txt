@@ -1,0 +1,1 @@
+Controles aprobados. Candidato SOLO de demostracion local; no despliegue ni aceptacion UAT.

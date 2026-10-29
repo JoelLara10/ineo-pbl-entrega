@@ -210,6 +210,7 @@
     "filesAvailable": "{{count}} archivos disponibles"
   },
   "config": {
+    "bedsReadOnly": "Consulta de camas. Solo un administrador puede registrar, editar o eliminar.",
     "title": "Configuración del Sistema",
     "subtitle": "Administra módulos, catálogos, usuarios, respaldos y parámetros del sistema OftalCore.",
     "bedManagement": "Gestión de Camas",

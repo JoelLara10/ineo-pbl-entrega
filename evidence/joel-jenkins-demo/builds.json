@@ -1,0 +1,47 @@
+{
+  "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+  "builds": [
+    {
+      "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+      "duration": 133672,
+      "number": 6,
+      "result": "SUCCESS",
+      "url": "http://127.0.0.1:8081/job/OftalCore-Joel-Demo/6/"
+    },
+    {
+      "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+      "duration": 123485,
+      "number": 5,
+      "result": "FAILURE",
+      "url": "http://127.0.0.1:8081/job/OftalCore-Joel-Demo/5/"
+    },
+    {
+      "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+      "duration": 92211,
+      "number": 4,
+      "result": "SUCCESS",
+      "url": "http://127.0.0.1:8081/job/OftalCore-Joel-Demo/4/"
+    },
+    {
+      "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+      "duration": 22803,
+      "number": 3,
+      "result": "FAILURE",
+      "url": "http://127.0.0.1:8081/job/OftalCore-Joel-Demo/3/"
+    },
+    {
+      "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+      "duration": 4519,
+      "number": 2,
+      "result": "FAILURE",
+      "url": "http://127.0.0.1:8081/job/OftalCore-Joel-Demo/2/"
+    },
+    {
+      "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+      "duration": 9552,
+      "number": 1,
+      "result": "FAILURE",
+      "url": "http://127.0.0.1:8081/job/OftalCore-Joel-Demo/1/"
+    }
+  ]
+}
