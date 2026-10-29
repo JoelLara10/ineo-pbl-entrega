@@ -210,6 +210,7 @@
     "filesAvailable": "{{count}} files available"
   },
   "config": {
+    "bedsReadOnly": "Bed viewing only. An administrator is required to create, edit or delete beds.",
     "title": "System Settings",
     "subtitle": "Manage modules, catalogs, users, backups and OftalCore system parameters.",
     "bedManagement": "Bed Management",

@@ -1,0 +1,209 @@
+{
+  "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+  "actions": [
+    {
+      "_class": "hudson.model.ParametersAction",
+      "parameters": [
+        {
+          "_class": "hudson.model.StringParameterValue",
+          "name": "PROJECT_DIR",
+          "value": "C:/9noCuatri/examen-vini/app-web-unidad2/sprint9-review"
+        },
+        {
+          "_class": "hudson.model.StringParameterValue",
+          "name": "PYTHON_EXE",
+          "value": "C:/9noCuatri/examen-vini/app-web-unidad2/outputs/jenkins-runtime/venv/Scripts/python.exe"
+        },
+        {
+          "_class": "hudson.model.BooleanParameterValue",
+          "name": "FORZAR_FALLO",
+          "value": false
+        }
+      ]
+    },
+    {
+      "_class": "hudson.model.CauseAction",
+      "causes": [
+        {
+          "_class": "hudson.model.Cause$UserIdCause",
+          "shortDescription": "Lanzada por el usuario joel-demo",
+          "userId": "joel-demo",
+          "userName": "joel-demo"
+        }
+      ]
+    },
+    {
+      "_class": "org.jenkinsci.plugins.workflow.libs.LibrariesAction"
+    },
+    {},
+    {
+      "_class": "org.jenkinsci.plugins.workflow.cps.EnvActionImpl"
+    },
+    {
+      "_class": "hudson.tasks.junit.TestResultAction",
+      "failCount": 0,
+      "skipCount": 0,
+      "totalCount": 88,
+      "urlName": "testReport"
+    },
+    {},
+    {},
+    {},
+    {
+      "_class": "org.jenkinsci.plugins.displayurlapi.actions.RunDisplayAction"
+    },
+    {
+      "_class": "org.jenkinsci.plugins.pipeline.modeldefinition.actions.RestartDeclarativePipelineAction"
+    },
+    {},
+    {
+      "_class": "org.jenkinsci.plugins.workflow.job.views.FlowGraphAction"
+    },
+    {},
+    {}
+  ],
+  "artifacts": [
+    {
+      "displayPath": null,
+      "fileName": "api.xml",
+      "relativePath": "reports/build-7/api.xml"
+    },
+    {
+      "displayPath": null,
+      "fileName": "gate.xml",
+      "relativePath": "reports/build-7/gate.xml"
+    },
+    {
+      "displayPath": null,
+      "fileName": "oat.xml",
+      "relativePath": "reports/build-7/oat.xml"
+    },
+    {
+      "displayPath": null,
+      "fileName": "promotion.txt",
+      "relativePath": "reports/build-7/promotion.txt"
+    },
+    {
+      "displayPath": null,
+      "fileName": "SEL-06-error-conexion-formulario-conservado.png",
+      "relativePath": "reports/build-7/screenshots/SEL-06-error-conexion-formulario-conservado.png"
+    },
+    {
+      "displayPath": null,
+      "fileName": "SEL-07-operacion-clinica-bloqueada-offline.png",
+      "relativePath": "reports/build-7/screenshots/SEL-07-operacion-clinica-bloqueada-offline.png"
+    },
+    {
+      "displayPath": null,
+      "fileName": "test_sel_01_private_route_requires_login.json",
+      "relativePath": "reports/build-7/screenshots/test_sel_01_private_route_requires_login.json"
+    },
+    {
+      "displayPath": null,
+      "fileName": "test_sel_01_private_route_requires_login.png",
+      "relativePath": "reports/build-7/screenshots/test_sel_01_private_route_requires_login.png"
+    },
+    {
+      "displayPath": null,
+      "fileName": "test_sel_02_wrong_password_is_rejected.json",
+      "relativePath": "reports/build-7/screenshots/test_sel_02_wrong_password_is_rejected.json"
+    },
+    {
+      "displayPath": null,
+      "fileName": "test_sel_02_wrong_password_is_rejected.png",
+      "relativePath": "reports/build-7/screenshots/test_sel_02_wrong_password_is_rejected.png"
+    },
+    {
+      "displayPath": null,
+      "fileName": "test_sel_03_login_and_assessment_navigation.json",
+      "relativePath": "reports/build-7/screenshots/test_sel_03_login_and_assessment_navigation.json"
+    },
+    {
+      "displayPath": null,
+      "fileName": "test_sel_03_login_and_assessment_navigation.png",
+      "relativePath": "reports/build-7/screenshots/test_sel_03_login_and_assessment_navigation.png"
+    },
+    {
+      "displayPath": null,
+      "fileName": "test_sel_04_save_and_revisit_persisted_assessment.json",
+      "relativePath": "reports/build-7/screenshots/test_sel_04_save_and_revisit_persisted_assessment.json"
+    },
+    {
+      "displayPath": null,
+      "fileName": "test_sel_04_save_and_revisit_persisted_assessment.png",
+      "relativePath": "reports/build-7/screenshots/test_sel_04_save_and_revisit_persisted_assessment.png"
+    },
+    {
+      "displayPath": null,
+      "fileName": "test_sel_05_invalid_pain_is_not_saved.json",
+      "relativePath": "reports/build-7/screenshots/test_sel_05_invalid_pain_is_not_saved.json"
+    },
+    {
+      "displayPath": null,
+      "fileName": "test_sel_05_invalid_pain_is_not_saved.png",
+      "relativePath": "reports/build-7/screenshots/test_sel_05_invalid_pain_is_not_saved.png"
+    },
+    {
+      "displayPath": null,
+      "fileName": "test_sel_06_api_connection_failure_reports_error_and_retry_recovers.json",
+      "relativePath": "reports/build-7/screenshots/test_sel_06_api_connection_failure_reports_error_and_retry_recovers.json"
+    },
+    {
+      "displayPath": null,
+      "fileName": "test_sel_06_api_connection_failure_reports_error_and_retry_recovers.png",
+      "relativePath": "reports/build-7/screenshots/test_sel_06_api_connection_failure_reports_error_and_retry_recovers.png"
+    },
+    {
+      "displayPath": null,
+      "fileName": "test_sel_07_offline_mode_blocks_clinical_writes_and_reconnects.json",
+      "relativePath": "reports/build-7/screenshots/test_sel_07_offline_mode_blocks_clinical_writes_and_reconnects.json"
+    },
+    {
+      "displayPath": null,
+      "fileName": "test_sel_07_offline_mode_blocks_clinical_writes_and_reconnects.png",
+      "relativePath": "reports/build-7/screenshots/test_sel_07_offline_mode_blocks_clinical_writes_and_reconnects.png"
+    },
+    {
+      "displayPath": null,
+      "fileName": "selenium.xml",
+      "relativePath": "reports/build-7/selenium.xml"
+    },
+    {
+      "displayPath": null,
+      "fileName": "source-sha.txt",
+      "relativePath": "reports/build-7/source-sha.txt"
+    },
+    {
+      "displayPath": null,
+      "fileName": "web.xml",
+      "relativePath": "reports/build-7/web.xml"
+    },
+    {
+      "displayPath": null,
+      "fileName": "working-tree.patch",
+      "relativePath": "reports/build-7/working-tree.patch"
+    }
+  ],
+  "building": false,
+  "description": null,
+  "displayName": "#7",
+  "duration": 216951,
+  "estimatedDuration": 147611,
+  "executor": null,
+  "fullDisplayName": "OftalCore-Joel-Demo #7",
+  "id": "7",
+  "keepLog": false,
+  "number": 7,
+  "queueId": 13,
+  "result": "SUCCESS",
+  "timestamp": 1793248813696,
+  "url": "http://127.0.0.1:8081/job/OftalCore-Joel-Demo/7/",
+  "changeSets": [],
+  "culprits": [],
+  "inProgress": false,
+  "nextBuild": null,
+  "previousBuild": {
+    "number": 6,
+    "url": "http://127.0.0.1:8081/job/OftalCore-Joel-Demo/6/"
+  }
+}

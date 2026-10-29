@@ -122,6 +122,18 @@ def create_app():
         }), 200
     
     # Ruta raíz
+    @app.route('/ready', methods=['GET'])
+    def readiness_check():
+        # Liveness (/health) and dependency readiness are separate controls.
+        from pymongo.errors import PyMongoError
+        from utils.database import db_instance
+        try:
+            db_instance.db.command('ping')
+        except PyMongoError:
+            # Never expose database URIs, credentials or exception details.
+            return jsonify({'status': 'not_ready', 'database': 'unavailable'}), 503
+        return jsonify({'status': 'ready', 'database': 'available'}), 200
+
     @app.route('/', methods=['GET'])
     def root():
         return jsonify({

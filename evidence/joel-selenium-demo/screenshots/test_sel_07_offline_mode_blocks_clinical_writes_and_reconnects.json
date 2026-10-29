@@ -1,0 +1,7 @@
+{
+  "case": "test_sel_07_offline_mode_blocks_clinical_writes_and_reconnects",
+  "result": "passed",
+  "url": "http://127.0.0.1:51804/enfermeria/valoracion",
+  "browser": "156.0.8078.73",
+  "scope": "Real web/API HTTP; synthetic in-memory Mongo; technical execution, not human UAT"
+}

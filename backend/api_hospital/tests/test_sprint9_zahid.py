@@ -147,7 +147,7 @@ def test_pbl38_cli_scope_leaves_other_owners_pending(tmp_path, monkeypatch):
     monkeypatch.setattr(module, 'ROOT', tmp_path)
     evidence = tmp_path / 'tests.xml'
     evidence.write_text('<testsuite><testcase classname="suite" name="PBL09"/></testsuite>')
-    (tmp_path / 'review.md').write_text('Revisión técnica automatizada, no UAT.')
+    (tmp_path / 'review.md').write_text('Revisión técnica automatizada, no UAT.', encoding='utf-8')
     manifest = tmp_path / 'manifest.json'
     manifest.write_text(json.dumps({'sprint':'Sprint 9', 'stories':[
         {'id':'PBL-09','title':'Joel','requirements':['REQ-09'],'cases':['PBL09'],

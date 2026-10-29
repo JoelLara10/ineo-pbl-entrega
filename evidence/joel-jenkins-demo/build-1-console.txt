@@ -1,0 +1,105 @@
+Lanzada por el usuario joel-demo
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins  in C:\9noCuatri\examen-vini\app-web-unidad2\outputs\jenkins-runtime\home\workspace\OftalCore-Joel-Demo
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] timeout
+Timeout set to expire in 15 Min
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Identificar version)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] ws
+Running in C:/9noCuatri/examen-vini/app-web-unidad2/sprint9-review
+[Pipeline] {
+[Pipeline] bat
+
+C:\9noCuatri\examen-vini\app-web-unidad2\sprint9-review>git rev-parse HEAD 
+a8e214421260fff7f25a8409be17ff7d38a0198e
+[Pipeline] bat
+
+C:\9noCuatri\examen-vini\app-web-unidad2\sprint9-review>if not exist reports/build-1 mkdir reports/build-1 
+La sintaxis del comando no es correcta.
+[Pipeline] }
+[Pipeline] // ws
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Regresion API sprint 3 / Azure 9)
+Stage "Regresion API sprint 3 / Azure 9" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Regresion web de Joel)
+Stage "Regresion web de Joel" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (OAT salud y recuperacion)
+Stage "OAT salud y recuperacion" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Ensayo de bloqueo)
+Stage "Ensayo de bloqueo" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Promocion de demostracion)
+Stage "Promocion de demostracion" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] ws
+Running in C:/9noCuatri/examen-vini/app-web-unidad2/sprint9-review
+[Pipeline] {
+[Pipeline] junit
+Grabando resultados de tests
+No se encontraron ficheros con resultados de tests. ¿Hay algun error en la configuración?
+[Pipeline] }
+[Pipeline] // ws
+[Pipeline] }
+[Pipeline] // script
+Error when executing always post condition:
+Also:   org.jenkinsci.plugins.workflow.actions.ErrorAction$ErrorId: 6ddfd191-71f5-4a35-91f3-e90b9e19c1ca
+hudson.AbortException: No se encontraron ficheros con resultados de tests. ¿Hay algun error en la configuración?
+	at PluginClassLoader for junit//hudson.tasks.junit.JUnitParser$ParseResultCallable.invoke(JUnitParser.java:294)
+	at hudson.FilePath.act(FilePath.java:1226)
+	at hudson.FilePath.act(FilePath.java:1209)
+	at PluginClassLoader for junit//hudson.tasks.junit.JUnitParser.parseResult(JUnitParser.java:187)
+	at PluginClassLoader for junit//hudson.tasks.junit.JUnitResultArchiver.parse(JUnitResultArchiver.java:181)
+	at PluginClassLoader for junit//hudson.tasks.junit.JUnitResultArchiver.parseAndSummarize(JUnitResultArchiver.java:306)
+	at PluginClassLoader for junit//hudson.tasks.junit.JUnitResultArchiver.parseAndSummarize(JUnitResultArchiver.java:276)
+	at PluginClassLoader for junit//hudson.tasks.junit.pipeline.JUnitResultsStepExecution.run(JUnitResultsStepExecution.java:62)
+	at PluginClassLoader for junit//hudson.tasks.junit.pipeline.JUnitResultsStepExecution.run(JUnitResultsStepExecution.java:27)
+	at PluginClassLoader for workflow-step-api//org.jenkinsci.plugins.workflow.steps.SynchronousNonBlockingStepExecution.lambda$start$0(SynchronousNonBlockingStepExecution.java:49)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // timeout
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+ERROR: script returned exit code 1
+Finished: FAILURE
