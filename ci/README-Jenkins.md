@@ -19,6 +19,39 @@ La promoción es un marcador local; no fusiona ramas, no publica servicios ni
 constituye aceptación UAT. Cada build usa una carpeta distinta para impedir que
 se publiquen reportes antiguos como si fueran nuevos.
 
+## Recorridos Selenium incorporados
+
+La etapa **Selenium recorridos del usuario** ejecuta Chrome contra el React y
+la API reales del repositorio, en puertos temporales locales. Mongo sigue siendo
+sintético (mongomock). No utiliza cuentas ni datos de producción.
+
+Activar `MOSTRAR_NAVEGADOR` para ver Chrome actuar. `CHROMEDRIVER_EXE` indica el
+controlador compatible con Chrome, o queda vacío para usar Selenium Manager.
+El Jenkins local ya tiene el controlador configurado.
+
+| Caso | Criterio comprobado en pantalla |
+|---|---|
+| SEL-01 | Ruta privada sin sesión devuelve al acceso. |
+| SEL-02 | Contraseña incorrecta muestra credenciales inválidas. |
+| SEL-03 | Acceso de enfermería y navegación a valoración del paciente sintético. |
+| SEL-04 | Guardado y consulta del mismo registro tras recargar la página. |
+| SEL-05 | Dolor 11 muestra validación y no crea una valoración. |
+| SEL-06 | Fallo de conexión a la API muestra error, conserva el formulario y permite reintentar. |
+| SEL-07 | Modo offline bloquea el formulario clínico; reconectar vuelve a habilitarlo. |
+
+SEL-06 bloquea la conexión al endpoint de guardado sin desconectar todo Chrome.
+SEL-07 comprueba por separado el modo offline limitado, que desmonta el formulario:
+no se afirma que conserve borradores. PNG y JSON por caso se guardan en
+**Artifacts / screenshots**; `selenium.xml` alimenta **Test Result**.
+
+Las acciones manuales del profesor en otra sesión no se registran automáticamente.
+Debe iniciar **Build with Parameters** para generar resultados nuevos. Son
+recorridos técnicos: la aceptación humana UAT se registra aparte.
+
+El pipeline ampliado ejecuta **88 comprobaciones**: 63 API + 7 componentes web +
+10 OAT + 7 Selenium + 1 control del bloqueo. Las ejecuciones antiguas de 81
+conservan su alcance original.
+
 ## Etapas y alcance
 
 | Etapa | Evidencia y límites |
@@ -61,6 +94,19 @@ python -m pytest tests/test_oat_joel.py tests/test_oat_http_joel.py -v
 
 Los ensayos del pipeline tienen timeout de 15 minutos. Si falta una dependencia,
 el reporte o el agente, corregir la causa y repetir; no registrar un aprobado.
+
+Para ejecutar solo Selenium desde la raíz del repositorio:
+
+```powershell
+$env:PYTHONUTF8='1'
+$env:CHROMEDRIVER_EXE='C:/ruta/chromedriver.exe'
+$env:INEO_SHOW_BROWSER='true'
+New-Item -ItemType Directory -Force reports/selenium-local | Out-Null
+python -m pytest ci/selenium -v -p no:cacheprovider --basetemp=reports/selenium-local/tmp --junitxml=reports/selenium-local/selenium.xml
+```
+
+Se usan esperas explícitas por elementos y estados, según la documentación de
+[Selenium](https://www.selenium.dev/documentation/webdriver/waits/).
 
 ## Relación con Azure
 
