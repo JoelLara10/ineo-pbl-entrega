@@ -1,3 +1,5 @@
+import { currentClinicSettings } from '../utils/branding';
+
 const STORAGE_KEY = 'ineo_config_module';
 
 const defaultData = {
@@ -24,7 +26,7 @@ const defaultData = {
   },
 
   general: {
-    nombreClinica: 'INEO Hospital',
+    nombreClinica: 'OftalCore Hospital',
     telefono: '722 000 0000',
     direccion: 'Toluca, México',
     moneda: 'MXN',
@@ -52,9 +54,11 @@ function readAll() {
     return defaultData;
   }
 
+  const saved = JSON.parse(raw);
   return {
     ...defaultData,
-    ...JSON.parse(raw),
+    ...saved,
+    general: currentClinicSettings(saved.general || defaultData.general),
   };
 }
 

@@ -197,7 +197,7 @@ export default function Sidebar({ isOpen, onClose }) {
   }
 
   const moduleItems = [];
-  if (isAdmin || isMedico || isEnfermeria) moduleItems.push({ name: 'Monitoreo de pacientes', icon: 'pulse-outline', path: '/monitoreo', requiresPatient: false });
+  if (isAdmin || isMedico || isEnfermeria) moduleItems.push({ name: t('patientMonitoring.title'), icon: 'pulse-outline', path: '/monitoreo', requiresPatient: false });
   if (isAdmin || role === 'administrativo')
     moduleItems.push({ name: t('sidebar.administration'), icon: 'settings-outline', path: '/admin',       requiresPatient: false });
   if (isAdmin || role === 'administrativo')
@@ -230,7 +230,7 @@ export default function Sidebar({ isOpen, onClose }) {
       {/* Header */}
       <div className="sidebar-header">
         <div className="brand-row">
-          <span className="brand-title">INEO</span>
+          <span className="brand-title">OftalCore</span>
           <span className="brand-version">v2.0</span>
         </div>
         <div className="user-info">

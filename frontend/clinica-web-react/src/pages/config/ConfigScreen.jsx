@@ -21,7 +21,7 @@ export default function ConfigScreen() {
 
   return (
     <main className="config-page config-polished">
-      <ConfigHeader title={t('config.title')} showBack={false} />
+      <ConfigHeader title={t('config.title')} onBack={() => navigate("/")} />
       <section className="config-content">
         <div className="config-cards-grid">
           {cards.map((item) => (

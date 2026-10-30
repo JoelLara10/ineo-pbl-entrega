@@ -1,0 +1,287 @@
+Lanzada por el usuario joel-demo
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins  in C:\9noCuatri\examen-vini\app-web-unidad2\outputs\jenkins-runtime\home\workspace\OftalCore-Joel-Demo
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] timeout
+Timeout set to expire in 15 Min
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Identificar version)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] ws
+Running in C:/9noCuatri/examen-vini/app-web-unidad2/sprint9-review
+[Pipeline] {
+[Pipeline] bat
+
+C:\9noCuatri\examen-vini\app-web-unidad2\sprint9-review>git rev-parse HEAD 
+6911037542b4e6da62885f05e346818a4bec74b5
+[Pipeline] bat
+
+C:\9noCuatri\examen-vini\app-web-unidad2\sprint9-review>if not exist "reports/build-7" mkdir "reports/build-7" 
+[Pipeline] bat
+
+C:\9noCuatri\examen-vini\app-web-unidad2\sprint9-review>git rev-parse HEAD  1>"reports/build-7\source-sha.txt" 
+[Pipeline] bat
+
+C:\9noCuatri\examen-vini\app-web-unidad2\sprint9-review>git diff --binary  1>"reports/build-7\working-tree.patch" 
+[Pipeline] }
+[Pipeline] // ws
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Regresion API sprint 3 / Azure 9)
+[Pipeline] ws
+Running in C:/9noCuatri/examen-vini/app-web-unidad2/sprint9-review
+[Pipeline] {
+[Pipeline] dir
+Running in C:/9noCuatri/examen-vini/app-web-unidad2/sprint9-review\backend\api_hospital
+[Pipeline] {
+[Pipeline] bat
+
+C:\9noCuatri\examen-vini\app-web-unidad2\sprint9-review\backend\api_hospital>"C:/9noCuatri/examen-vini/app-web-unidad2/outputs/jenkins-runtime/venv/Scripts/python.exe" -m pytest tests/test_sprint9_uat_readiness.py tests/test_sprint9_jesus.py tests/test_sprint9_zahid.py -v -p no:cacheprovider --basetemp=../../reports/build-7/tmp-api --junitxml=../../reports/build-7/api.xml 
+============================= test session starts =============================
+platform win32 -- Python 3.12.1, pytest-9.2.0, pluggy-1.7.0 -- C:\9noCuatri\examen-vini\app-web-unidad2\outputs\jenkins-runtime\venv\Scripts\python.exe
+rootdir: C:\9noCuatri\examen-vini\app-web-unidad2\sprint9-review\backend\api_hospital
+plugins: cov-7.1.0
+collecting ... collected 63 items
+
+tests/test_sprint9_uat_readiness.py::test_cp_uat_001_save_and_read_synthetic_assessment PASSED [  1%]
+tests/test_sprint9_uat_readiness.py::test_cp_uat_001_missing_attention_is_not_saved PASSED [  3%]
+tests/test_sprint9_uat_readiness.py::test_cp_uat_001_session_required[get] PASSED [  4%]
+tests/test_sprint9_uat_readiness.py::test_cp_uat_001_session_required[post] PASSED [  6%]
+tests/test_sprint9_uat_readiness.py::test_cp_uat_001_empty_assessment_must_not_persist PASSED [  7%]
+tests/test_sprint9_uat_readiness.py::test_cp_uat_001_invalid_fields_do_not_write_or_allocate_id[patch0] PASSED [  9%]
+tests/test_sprint9_uat_readiness.py::test_cp_uat_001_invalid_fields_do_not_write_or_allocate_id[patch1] PASSED [ 11%]
+tests/test_sprint9_uat_readiness.py::test_cp_uat_001_invalid_fields_do_not_write_or_allocate_id[patch2] PASSED [ 12%]
+tests/test_sprint9_uat_readiness.py::test_cp_uat_001_invalid_fields_do_not_write_or_allocate_id[patch3] PASSED [ 14%]
+tests/test_sprint9_uat_readiness.py::test_cp_uat_001_invalid_fields_do_not_write_or_allocate_id[patch4] PASSED [ 15%]
+tests/test_sprint9_uat_readiness.py::test_cp_uat_001_invalid_fields_do_not_write_or_allocate_id[patch5] PASSED [ 17%]
+tests/test_sprint9_uat_readiness.py::test_cp_uat_001_invalid_fields_do_not_write_or_allocate_id[patch6] PASSED [ 19%]
+tests/test_sprint9_uat_readiness.py::test_cp_uat_001_accepts_score_or_description_and_trims_fields[0] PASSED [ 20%]
+tests/test_sprint9_uat_readiness.py::test_cp_uat_001_accepts_score_or_description_and_trims_fields[10] PASSED [ 22%]
+tests/test_sprint9_uat_readiness.py::test_cp_uat_001_accepts_score_or_description_and_trims_fields[2.5] PASSED [ 23%]
+tests/test_sprint9_uat_readiness.py::test_cp_uat_001_accepts_score_or_description_and_trims_fields[Sin dolor] PASSED [ 25%]
+tests/test_sprint9_uat_readiness.py::test_cp_uat_001_accepts_score_or_description_and_trims_fields[Dolor leve al movimiento] PASSED [ 26%]
+tests/test_sprint9_uat_readiness.py::test_cp_uat_002_authenticated_known_indicators[analytics] PASSED [ 28%]
+tests/test_sprint9_uat_readiness.py::test_cp_uat_002_authenticated_known_indicators[met] PASSED [ 30%]
+tests/test_sprint9_uat_readiness.py::test_cp_uat_002_authenticated_known_indicators[clinical] PASSED [ 31%]
+tests/test_sprint9_uat_readiness.py::test_cp_uat_002_authenticated_known_indicators[unsupervised] PASSED [ 33%]
+tests/test_sprint9_jesus.py::test_cp_ut_001_auth_valid_and_invalid_credentials[payload0-200] PASSED [ 34%]
+tests/test_sprint9_jesus.py::test_cp_ut_001_auth_valid_and_invalid_credentials[payload1-401] PASSED [ 36%]
+tests/test_sprint9_jesus.py::test_cp_ut_001_auth_valid_and_invalid_credentials[payload2-400] PASSED [ 38%]
+tests/test_sprint9_jesus.py::test_cp_ut_002_admin_endpoint_applies_role_permissions[admin-200] PASSED [ 39%]
+tests/test_sprint9_jesus.py::test_cp_ut_002_admin_endpoint_applies_role_permissions[medico-403] PASSED [ 41%]
+tests/test_sprint9_jesus.py::test_cp_ut_002_admin_endpoint_applies_role_permissions[enfermero-403] PASSED [ 42%]
+tests/test_sprint9_jesus.py::test_cp_ut_002_admin_endpoint_applies_role_permissions[estudios-403] PASSED [ 44%]
+tests/test_sprint9_jesus.py::test_cp_ut_003_study_file_extension_validation[resultado.pdf-True] PASSED [ 46%]
+tests/test_sprint9_jesus.py::test_cp_ut_003_study_file_extension_validation[radiografia.PNG-True] PASSED [ 47%]
+tests/test_sprint9_jesus.py::test_cp_ut_003_study_file_extension_validation[informe.docx-True] PASSED [ 49%]
+tests/test_sprint9_jesus.py::test_cp_ut_003_study_file_extension_validation[sin-extension-False] PASSED [ 50%]
+tests/test_sprint9_jesus.py::test_cp_ut_003_study_file_extension_validation[script.exe-False] PASSED [ 52%]
+tests/test_sprint9_jesus.py::test_cp_ut_003_study_file_extension_validation[archivo.pdf.exe-False] PASSED [ 53%]
+tests/test_sprint9_jesus.py::test_cp_ut_003_rejected_upload_does_not_persist_file PASSED [ 55%]
+tests/test_sprint9_jesus.py::test_cp_ut_003_valid_upload_uses_temporary_storage[resultado.pdf] PASSED [ 57%]
+tests/test_sprint9_jesus.py::test_cp_ut_003_valid_upload_uses_temporary_storage[radiografia.PNG] PASSED [ 58%]
+tests/test_sprint9_jesus.py::test_cp_ut_003_missing_file_does_not_persist[data0] PASSED [ 60%]
+tests/test_sprint9_jesus.py::test_cp_ut_003_missing_file_does_not_persist[data1] PASSED [ 61%]
+tests/test_sprint9_jesus.py::test_cp_ut_002_upload_denied_before_persistence[medico] PASSED [ 63%]
+tests/test_sprint9_jesus.py::test_cp_ut_002_upload_denied_before_persistence[enfermero] PASSED [ 65%]
+tests/test_sprint9_jesus.py::test_cp_ut_004_clinical_analytics_schema_and_values[empty] PASSED [ 66%]
+tests/test_sprint9_jesus.py::test_cp_ut_004_clinical_analytics_schema_and_values[partial] PASSED [ 68%]
+tests/test_sprint9_jesus.py::test_cp_ut_004_clinical_analytics_schema_and_values[valid] PASSED [ 69%]
+tests/test_sprint9_jesus.py::test_cp_ut_004_clinical_analytics_rejects_unauthorized_roles[enfermero] PASSED [ 71%]
+tests/test_sprint9_jesus.py::test_cp_ut_004_clinical_analytics_rejects_unauthorized_roles[estudios] PASSED [ 73%]
+tests/test_sprint9_zahid.py::test_pbl11_metadata_snapshot[analytics] PASSED [ 74%]
+tests/test_sprint9_zahid.py::test_pbl11_metadata_snapshot[met] PASSED    [ 76%]
+tests/test_sprint9_zahid.py::test_pbl11_metadata_snapshot[clinical] PASSED [ 77%]
+tests/test_sprint9_zahid.py::test_pbl11_metadata_snapshot[unsupervised] PASSED [ 79%]
+tests/test_sprint9_zahid.py::test_pbl11_unknown_and_failed_rerun_preserves_metadata PASSED [ 80%]
+tests/test_sprint9_zahid.py::test_pbl11_legacy_result_exposes_unknown_source_dates PASSED [ 82%]
+tests/test_sprint9_zahid.py::test_pbl25_preferences_idempotent_and_isolated PASSED [ 84%]
+tests/test_sprint9_zahid.py::test_pbl25_rejects_non_allowlisted_payloads[None] PASSED [ 85%]
+tests/test_sprint9_zahid.py::test_pbl25_rejects_non_allowlisted_payloads[payload1] PASSED [ 87%]
+tests/test_sprint9_zahid.py::test_pbl25_rejects_non_allowlisted_payloads[payload2] PASSED [ 88%]
+tests/test_sprint9_zahid.py::test_pbl25_rejects_non_allowlisted_payloads[payload3] PASSED [ 90%]
+tests/test_sprint9_zahid.py::test_pbl25_rejects_non_allowlisted_payloads[payload4] PASSED [ 92%]
+tests/test_sprint9_zahid.py::test_pbl25_revoked_or_inactive_accounts_cannot_sync PASSED [ 93%]
+tests/test_sprint9_zahid.py::test_pbl38_gate_requires_results_evidence_approval_and_no_open_defects PASSED [ 95%]
+tests/test_sprint9_zahid.py::test_pbl38_latest_failure_wins_and_external_approval_blocked PASSED [ 96%]
+tests/test_sprint9_zahid.py::test_pbl09_dated_projection_retains_utc_day_without_identifiers PASSED [ 98%]
+tests/test_sprint9_zahid.py::test_pbl38_cli_scope_leaves_other_owners_pending PASSED [100%]
+
+- generated xml file: C:\9noCuatri\examen-vini\app-web-unidad2\sprint9-review\reports\build-7\api.xml -
+============================= 63 passed in 31.59s =============================
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // ws
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Regresion web de Joel)
+[Pipeline] ws
+Running in C:/9noCuatri/examen-vini/app-web-unidad2/sprint9-review
+[Pipeline] {
+[Pipeline] dir
+Running in C:/9noCuatri/examen-vini/app-web-unidad2/sprint9-review\frontend\clinica-web-react
+[Pipeline] {
+[Pipeline] bat
+
+C:\9noCuatri\examen-vini\app-web-unidad2\sprint9-review\frontend\clinica-web-react>call npm test -- src/pages/spark/__tests__/Sprint9Joel.test.jsx --reporter=default --reporter=junit --outputFile=../../reports/build-7/web.xml 
+npm notice run ineo-web@0.0.0 test
+npm notice run vitest run src/pages/spark/__tests__/Sprint9Joel.test.jsx --reporter=default --reporter=junit --outputFile=../../reports/build-7/web.xml
+
+ RUN  v4.1.11 C:/9noCuatri/examen-vini/app-web-unidad2/sprint9-review/frontend/clinica-web-react
+
+ ✓ src/pages/spark/__tests__/Sprint9Joel.test.jsx (7 tests) 1289ms
+     ✓ muestra valor, unidad, nivel textual y contexto clínico accesible  333ms
+     ✓ renders the synthetic response captured from authenticated API and real Spark  381ms
+
+ Test Files  1 passed (1)
+      Tests  7 passed (7)
+   Start at  22:40:54
+   Duration  6.23s (transform 543ms, setup 0ms, import 1.49s, tests 1.29s, environment 2.63s)
+
+JUNIT report written to C:/9noCuatri/examen-vini/app-web-unidad2/sprint9-review/reports/build-7/web.xml
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // ws
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (OAT salud y recuperacion)
+[Pipeline] ws
+Running in C:/9noCuatri/examen-vini/app-web-unidad2/sprint9-review
+[Pipeline] {
+[Pipeline] dir
+Running in C:/9noCuatri/examen-vini/app-web-unidad2/sprint9-review\backend\api_hospital
+[Pipeline] {
+[Pipeline] bat
+
+C:\9noCuatri\examen-vini\app-web-unidad2\sprint9-review\backend\api_hospital>"C:/9noCuatri/examen-vini/app-web-unidad2/outputs/jenkins-runtime/venv/Scripts/python.exe" -m pytest tests/test_oat_joel.py tests/test_oat_http_joel.py -v -p no:cacheprovider --basetemp=../../reports/build-7/tmp-oat --junitxml=../../reports/build-7/oat.xml 
+============================= test session starts =============================
+platform win32 -- Python 3.12.1, pytest-9.2.0, pluggy-1.7.0 -- C:\9noCuatri\examen-vini\app-web-unidad2\outputs\jenkins-runtime\venv\Scripts\python.exe
+rootdir: C:\9noCuatri\examen-vini\app-web-unidad2\sprint9-review\backend\api_hospital
+plugins: cov-7.1.0
+collecting ... collected 10 items
+
+tests/test_oat_joel.py::test_oat_liveness_has_version_and_timestamp PASSED [ 10%]
+tests/test_oat_joel.py::test_oat_ready_when_database_responds PASSED     [ 20%]
+tests/test_oat_joel.py::test_oat_database_failure_is_503_and_sanitized[ConnectionFailure] PASSED [ 30%]
+tests/test_oat_joel.py::test_oat_database_failure_is_503_and_sanitized[ServerSelectionTimeoutError] PASSED [ 40%]
+tests/test_oat_joel.py::test_oat_dependency_recovers_without_restarting_api PASSED [ 50%]
+tests/test_oat_joel.py::test_oat_health_checks_do_not_mutate_patient_data PASSED [ 60%]
+tests/test_oat_http_joel.py::test_oat_http_health_and_readiness PASSED   [ 70%]
+tests/test_oat_http_joel.py::test_oat_http_dependency_outage_does_not_leak_credentials PASSED [ 80%]
+tests/test_oat_http_joel.py::test_oat_http_controlled_restart_on_same_port PASSED [ 90%]
+tests/test_oat_http_joel.py::test_oat_http_requires_session_for_clinical_records PASSED [100%]
+
+- generated xml file: C:\9noCuatri\examen-vini\app-web-unidad2\sprint9-review\reports\build-7\oat.xml -
+======================== 10 passed in 61.21s (0:01:01) ========================
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // ws
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Selenium recorridos del usuario)
+[Pipeline] ws
+Running in C:/9noCuatri/examen-vini/app-web-unidad2/sprint9-review
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] bat
+
+C:\9noCuatri\examen-vini\app-web-unidad2\sprint9-review>"C:/9noCuatri/examen-vini/app-web-unidad2/outputs/jenkins-runtime/venv/Scripts/python.exe" -m pytest ci/selenium -v -p no:cacheprovider --basetemp=reports/build-7/tmp-selenium --junitxml=reports/build-7/selenium.xml 
+============================= test session starts =============================
+platform win32 -- Python 3.12.1, pytest-9.2.0, pluggy-1.7.0 -- C:\9noCuatri\examen-vini\app-web-unidad2\outputs\jenkins-runtime\venv\Scripts\python.exe
+rootdir: C:\9noCuatri\examen-vini\app-web-unidad2\sprint9-review
+plugins: cov-7.1.0
+collecting ... collected 7 items
+
+ci/selenium/test_user_journeys.py::test_sel_01_private_route_requires_login PASSED [ 14%]
+ci/selenium/test_user_journeys.py::test_sel_02_wrong_password_is_rejected PASSED [ 28%]
+ci/selenium/test_user_journeys.py::test_sel_03_login_and_assessment_navigation PASSED [ 42%]
+ci/selenium/test_user_journeys.py::test_sel_04_save_and_revisit_persisted_assessment PASSED [ 57%]
+ci/selenium/test_user_journeys.py::test_sel_05_invalid_pain_is_not_saved PASSED [ 71%]
+ci/selenium/test_user_journeys.py::test_sel_06_api_connection_failure_reports_error_and_retry_recovers PASSED [ 85%]
+ci/selenium/test_user_journeys.py::test_sel_07_offline_mode_blocks_clinical_writes_and_reconnects PASSED [100%]
+
+- generated xml file: C:\9noCuatri\examen-vini\app-web-unidad2\sprint9-review\reports\build-7\selenium.xml -
+======================== 7 passed in 95.93s (0:01:35) =========================
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // ws
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Ensayo de bloqueo)
+[Pipeline] ws
+Running in C:/9noCuatri/examen-vini/app-web-unidad2/sprint9-review
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] bat
+
+C:\9noCuatri\examen-vini\app-web-unidad2\sprint9-review>"C:/9noCuatri/examen-vini/app-web-unidad2/outputs/jenkins-runtime/venv/Scripts/python.exe" -m pytest ci/test_gate_demo.py -v -p no:cacheprovider --junitxml=reports/build-7/gate.xml 
+============================= test session starts =============================
+platform win32 -- Python 3.12.1, pytest-9.2.0, pluggy-1.7.0 -- C:\9noCuatri\examen-vini\app-web-unidad2\outputs\jenkins-runtime\venv\Scripts\python.exe
+rootdir: C:\9noCuatri\examen-vini\app-web-unidad2\sprint9-review
+plugins: cov-7.1.0
+collecting ... collected 1 item
+
+ci/test_gate_demo.py::test_controlled_failure_blocks_promotion PASSED    [100%]
+
+- generated xml file: C:\9noCuatri\examen-vini\app-web-unidad2\sprint9-review\reports\build-7\gate.xml -
+============================== 1 passed in 0.20s ==============================
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // ws
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Promocion de demostracion)
+[Pipeline] ws
+Running in C:/9noCuatri/examen-vini/app-web-unidad2/sprint9-review
+[Pipeline] {
+[Pipeline] writeFile
+[Pipeline] }
+[Pipeline] // ws
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] ws
+Running in C:/9noCuatri/examen-vini/app-web-unidad2/sprint9-review
+[Pipeline] {
+[Pipeline] junit
+Grabando resultados de tests
+[Checks API] No suitable checks publisher found.
+[Pipeline] archiveArtifacts
+Guardando archivos
+[Pipeline] }
+[Pipeline] // ws
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // timeout
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS

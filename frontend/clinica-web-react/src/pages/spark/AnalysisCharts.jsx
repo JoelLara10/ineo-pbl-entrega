@@ -52,8 +52,9 @@ export function AnalysisChart({ chart, period, filters, generatedAt }) {
     } catch { setExportError(true); } finally { setExporting(false); }
   };
   return <figure className="analysis-chart" style={{ '--analysis-color': color }} aria-labelledby={titleId}>
-    <header><div><h2 id={titleId}>{title}</h2><p>{hint}</p></div><span className="analysis-unit">{unit}</span></header>
-    <p className="analysis-chart-scope">{scope} · {source}</p>
+    <header><div><h2 id={titleId}>{title}</h2></div><span className="analysis-unit">{tr('unit')}: {unit}</span></header>
+    <p className="analysis-chart-scope">{scope}</p>
+    <details className="analysis-chart-description"><summary>{tr('chartDetails')}</summary><p>{hint}</p><p>{source}</p></details>
     {!rows.length ? <p className="analysis-no-data" role="status">{tr('empty')}</p> : <>
       {isLine ? <div className="analysis-plot"><svg className="analysis-line" viewBox="0 0 800 295" role="img" aria-label={`${title} (${unit})`}>
         <title>{title}</title><desc>{hint} · {unit}</desc>

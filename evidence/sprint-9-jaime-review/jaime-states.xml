@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="7" failures="0" errors="0" time="0.7427483">
+    <testsuite name="src/pages/spark/SparkAnalysisScreen.test.jsx" timestamp="2026-10-22T19:10:17.546Z" hostname="DESKTOP-812BAG9" tests="7" failures="0" errors="0" skipped="0" time="0.7427483">
+        <testcase classname="src/pages/spark/SparkAnalysisScreen.test.jsx" name="SparkAnalysisScreen — PBL-04 &gt; muestra el estado sin ejecutar y permite ejecutar" time="0.365683">
+        </testcase>
+        <testcase classname="src/pages/spark/SparkAnalysisScreen.test.jsx" name="SparkAnalysisScreen — PBL-04 &gt; muestra el estado sin datos cuando la ejecución terminó vacía" time="0.0714108">
+        </testcase>
+        <testcase classname="src/pages/spark/SparkAnalysisScreen.test.jsx" name="SparkAnalysisScreen — PBL-04 &gt; muestra un mensaje de conexión cuando la API no responde" time="0.0759831">
+        </testcase>
+        <testcase classname="src/pages/spark/SparkAnalysisScreen.test.jsx" name="SparkAnalysisScreen — PBL-04 &gt; muestra el estado de procesamiento" time="0.0453115">
+        </testcase>
+        <testcase classname="src/pages/spark/SparkAnalysisScreen.test.jsx" name="SparkAnalysisScreen — PBL-04 &gt; muestra el fallo y permite volver a ejecutar" time="0.0630433">
+        </testcase>
+        <testcase classname="src/pages/spark/SparkAnalysisScreen.test.jsx" name="SparkAnalysisScreen — PBL-04 &gt; muestra los resultados cuando existen datos" time="0.0558255">
+        </testcase>
+        <testcase classname="src/pages/spark/SparkAnalysisScreen.test.jsx" name="SparkAnalysisScreen — PBL-04 &gt; permite regresar al panel de Analytics" time="0.0605454">
+        </testcase>
+    </testsuite>
+</testsuites>

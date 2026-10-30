@@ -1,6 +1,7 @@
+import { clearMonitoringCache } from './monitoringCache';
 // Clinical responses live only in memory while online, never in browser storage.
 const entries = new Map();
-export function clearClinicalCache() { entries.clear(); }
+export function clearClinicalCache() { entries.clear(); clearMonitoringCache(); }
 export function removeClinicalCache(key) { entries.delete(key); }
 export function invalidateClinicalPrefix(prefix) { for (const key of entries.keys()) if (key.startsWith(prefix)) entries.delete(key); }
 export function getClinicalCache(key) {

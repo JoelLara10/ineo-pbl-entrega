@@ -1,10 +1,10 @@
 {
-  "sprint": "Sprint 9 — OftalCore — Joel y Zahid; Jaime y Jesús pendientes",
+  "sprint": "Sprint 9 - evidencia técnica y UAT simulada de Jaime",
   "stories": [
     {
       "id": "PBL-04",
       "azure_id": 281,
-      "title": "Estados de Analytics — rama de Jaime pendiente de integración",
+      "title": "Estados de Analytics integrados sin perder funciones actuales",
       "owner": "Jaime",
       "requirements": [
         "REQ-06",
@@ -16,13 +16,14 @@
         328
       ],
       "cases": [
-        "PBL-04 validación integrada de la rama feature/sprint9"
+        "SparkAnalysisScreen"
       ],
       "defects": [],
       "approval": {
-        "by": null,
-        "at": null,
-        "evidence": null
+        "by": "Codex - revisión técnica solicitada por Joel",
+        "at": "2026-10-22",
+        "kind": "technical",
+        "evidence": "docs/sprints/sprint-9/PBL-33-README.md"
       }
     },
     {
@@ -226,7 +227,7 @@
     {
       "id": "PBL-33",
       "azure_id": 438,
-      "title": "UAT y acta de aceptación — pendiente de Jaime",
+      "title": "UAT original documentada y revalidación simulada por agente",
       "owner": "Jaime",
       "requirements": [
         "REQ-17",
@@ -240,14 +241,22 @@
         481
       ],
       "cases": [
-        "CP-UAT-001 ejecución y acta",
-        "CP-UAT-002 ejecución y acta"
+        "test_cp_uat_001",
+        "test_cp_uat_002"
       ],
       "defects": [],
       "approval": {
         "by": null,
         "at": null,
         "evidence": null
+      },
+      "simulation": {
+        "by": "Codex",
+        "at": "2026-10-22",
+        "status": "passed",
+        "human_approval": false,
+        "evidence": "evidence/sprint-9-jaime-fix/simulation.json",
+        "report": "docs/sprints/sprint-9/Correccion-UAT-Simulada-Sprint9.pdf"
       }
     },
     {

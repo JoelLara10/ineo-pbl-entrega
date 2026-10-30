@@ -1,0 +1,44 @@
+{
+  "date": "2026-10-22",
+  "executor": "Codex",
+  "mode": "agent_simulation_requested_by_Joel",
+  "human_approval": false,
+  "environment": {
+    "frontend": "http://127.0.0.1:5189",
+    "api": "http://127.0.0.1:5019/api/v1",
+    "mongo": "127.0.0.1:27029/ineo_test_uat_simulation",
+    "engine": "real lightweight engine; synthetic source data; no Java/Spark in browser simulation"
+  },
+  "cases": [
+    {
+      "id": "CP-UAT-001",
+      "role": "enfermero",
+      "result": "passed_agent_simulation",
+      "observed": [
+        "Login enfermeria.test; four active synthetic patients visible",
+        "Selected synthetic attention 1, expediente 1",
+        "Empty mandatory field blocked by browser validation",
+        "Pain 11 rejected with visible validation message; no history record",
+        "Pain 2 and complete assessment saved; history showed exactly one record",
+        "Record remained after Recargar; no production database used"
+      ],
+      "evidence": ["capturas/01-pacientes.jpg", "capturas/03-valoracion-guardada.jpg", "backend.xml"]
+    },
+    {
+      "id": "CP-UAT-002",
+      "role": "administrativo",
+      "result": "passed_agent_simulation",
+      "observed": [
+        "Login administrativo.test; only administrative and analysis modules available",
+        "All four analysis pages loaded real synthetic results",
+        "Unit of measure explicitly labelled; supporting explanation expandable",
+        "Selected 2026-01-05 through 2026-01-10 with equal-period comparison",
+        "Current count 4, previous count 4, absolute change 0, percentage change 0%"
+      ],
+      "interpretation_by_agent": "Cuatro atenciones en seis días, igual conteo que del 30/12/2025 al 04/01/2026. La unidad es atenciones, no pacientes únicos. El conteo igual no demuestra igual carga diaria.",
+      "proposed_action_by_agent": "Revisar la distribución por fecha y área antes de ajustar recursos y contrastar el siguiente periodo de igual duración.",
+      "clarity_by_agent": "Explicit units and optional explanatory text are understandable in the simulated task; human usability not measured.",
+      "evidence": ["capturas/04-unidades-explicacion.jpg", "capturas/analytics-general.txt", "capturas/clinica.txt", "capturas/patrones.txt", "frontend.xml"]
+    }
+  ]
+}

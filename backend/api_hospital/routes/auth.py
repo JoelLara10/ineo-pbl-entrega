@@ -144,6 +144,8 @@ def change_password():
 @token_required
 def logout():
     revoke_current_token(g.user)
+    from services.monitoring_push import logout_session
+    logout_session(g.user.get('jti'))
     return jsonify({'message': 'Sesión cerrada exitosamente'}), 200
 
 

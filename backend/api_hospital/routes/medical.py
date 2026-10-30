@@ -3,9 +3,11 @@ from flask import Blueprint, request, jsonify, g
 from middleware.auth_middleware import token_required, role_required
 from utils.database import get_db, serialize_doc, get_next_sequence
 from bson import ObjectId
-from datetime import datetime
+from datetime import datetime, timezone
 from services.medical_service import MedicalService
+from utils.clinical_dates import serialize_clinical_record
 from utils.nursing_care_validation import validate_nursing_care_payload
+from utils.nursing_assessment_validation import validate_nursing_assessment
 
 medical_bp = Blueprint('medical', __name__, url_prefix='/medical')
 
@@ -284,7 +286,7 @@ def save_historia_clinica(id_atencion, Id_exp):
             'pat_alergias': data.get('pat_alergias', ''),
             'pat_oculares': data.get('pat_oculares', ''),
             'pat_cirugias': data.get('pat_cirugias', ''),
-            'fecha_registro': datetime.now(),
+            'fecha_registro': datetime.now(timezone.utc),
             'id_medico': ObjectId(g.user['user_id'])
         }
         
@@ -321,7 +323,7 @@ def get_historia_clinica(id_atencion, Id_exp):
         if not historia:
             return jsonify({}), 200
         
-        return jsonify(serialize_doc(historia)), 200
+        return jsonify(serialize_clinical_record(historia)), 200
         
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -387,7 +389,7 @@ def get_diagnosis(id_atencion):
         if not diagnosis:
             return jsonify({}), 200
         
-        return jsonify(serialize_doc(diagnosis)), 200
+        return jsonify(serialize_clinical_record(diagnosis)), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
@@ -409,7 +411,7 @@ def add_diagnosis(id_atencion):
             'diagnostico_principal': data.get('diagnostico_principal', ''),
             'diagnosticos_secundarios': data.get('diagnosticos_secundarios', ''),
             'observaciones': data.get('observaciones', ''),
-            'fecha_registro': datetime.now(),
+            'fecha_registro': datetime.now(timezone.utc),
             'id_medico': ObjectId(g.user['user_id'])
         }
         
@@ -467,7 +469,7 @@ def get_diagnosis_history(id_atencion):
         # Ordenar por fecha (más reciente primero)
         result.sort(key=lambda x: x.get('fecha_registro') or x.get('fecha_modificacion'), reverse=True)
         
-        return jsonify([serialize_doc(r) for r in result]), 200
+        return jsonify([serialize_clinical_record(r) for r in result]), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
     
@@ -488,7 +490,7 @@ def get_prescriptions(id_atencion):
             if medico:
                 p['medico_nombre'] = medico.get('nombre', '') + ' ' + medico.get('papell', '')
         
-        return jsonify([serialize_doc(p) for p in prescriptions]), 200
+        return jsonify([serialize_clinical_record(p) for p in prescriptions]), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
@@ -507,12 +509,12 @@ def add_prescription(id_atencion):
             'id_atencion': id_atencion,
             'medicamentos': data.get('medicamentos', []),
             'id_medico': ObjectId(g.user['user_id']),
-            'fecha_registro': datetime.now()
+            'fecha_registro': datetime.now(timezone.utc)
         }
         
         db['recetas'].insert_one(prescription)
         
-        return jsonify(serialize_doc(prescription)), 201
+        return jsonify(serialize_clinical_record(prescription)), 201
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
@@ -543,7 +545,7 @@ def add_nursing_note(id_atencion):
             'Id_exp': atencion['Id_exp'],
             'nota': data.get('nota_enfermeria', ''),
             'id_enfermero': ObjectId(g.user['user_id']),
-            'fecha_registro': datetime.now()
+            'fecha_registro': datetime.now(timezone.utc)
         }
         
         db['nursing_notes'].insert_one(nursing_note)
@@ -593,7 +595,7 @@ def get_nursing_notes(id_atencion):
         
         notes = list(db['nursing_notes'].aggregate(pipeline))
         
-        return jsonify([serialize_doc(n) for n in notes]), 200
+        return jsonify([serialize_clinical_record(n) for n in notes]), 200
         
     except Exception as e:
         print(f"Error en get_nursing_notes: {e}")
@@ -622,7 +624,7 @@ def add_medication(id_atencion):
             'Id_exp': atencion['Id_exp'],
             'medicamentos': data.get('medicamentos', []),
             'id_enfermero': ObjectId(g.user['user_id']),
-            'fecha_registro': datetime.now()
+            'fecha_registro': datetime.now(timezone.utc)
         }
         
         db['medications'].insert_one(medication_record)
@@ -672,7 +674,7 @@ def get_medications(id_atencion):
         
         records = list(db['medications'].aggregate(pipeline))
         
-        return jsonify([serialize_doc(r) for r in records]), 200
+        return jsonify([serialize_clinical_record(r) for r in records]), 200
         
     except Exception as e:
         print(f"Error en get_medications: {e}")
@@ -695,26 +697,23 @@ def add_nursing_assessment(id_atencion):
     """
     try:
         db = get_db()
-        data = request.get_json() or {}
+        data = request.get_json(silent=True)
 
         atencion = db['atencion'].find_one({'id_atencion': id_atencion})
         if not atencion:
             return jsonify({'error': 'Atención no encontrada'}), 404
 
+        assessment, error = validate_nursing_assessment(data)
+        if error:
+            return jsonify({'error': error}), 400
+
         assessment_record = {
             'id_valoracion': get_next_sequence('nursing_assessment_id'),
             'id_atencion': id_atencion,
             'Id_exp': atencion['Id_exp'],
-            'valoracion': {
-                'estado_general': data.get('estado_general', ''),
-                'dolor': data.get('dolor', ''),
-                'movilidad': data.get('movilidad', ''),
-                'riesgo_caidas': data.get('riesgo_caidas', ''),
-                'riesgo_upp': data.get('riesgo_upp', ''),
-                'observaciones': data.get('observaciones', ''),
-            },
+            'valoracion': assessment,
             'id_enfermero': ObjectId(g.user['user_id']),
-            'fecha_registro': datetime.now()
+            'fecha_registro': datetime.now(timezone.utc)
         }
 
         db['nursing_assessment'].insert_one(assessment_record)
@@ -759,7 +758,7 @@ def get_nursing_assessment(id_atencion):
         ]
 
         records = list(db['nursing_assessment'].aggregate(pipeline))
-        return jsonify([serialize_doc(r) for r in records]), 200
+        return jsonify([serialize_clinical_record(r) for r in records]), 200
     except Exception as e:
         print(f"Error en get_nursing_assessment: {e}")
         return jsonify({'error': str(e)}), 500
@@ -801,7 +800,7 @@ def add_fluid_balance(id_atencion):
             'balance_neto': total_ingresos - total_egresos,
             'observaciones': data.get('observaciones', ''),
             'id_enfermero': ObjectId(g.user['user_id']),
-            'fecha_registro': datetime.now()
+            'fecha_registro': datetime.now(timezone.utc)
         }
 
         db['fluid_balance'].insert_one(balance_record)
@@ -853,7 +852,7 @@ def get_fluid_balance(id_atencion):
         ]
 
         records = list(db['fluid_balance'].aggregate(pipeline))
-        return jsonify([serialize_doc(r) for r in records]), 200
+        return jsonify([serialize_clinical_record(r) for r in records]), 200
     except Exception as e:
         print(f"Error en get_fluid_balance: {e}")
         return jsonify({'error': str(e)}), 500
@@ -884,7 +883,7 @@ def add_nursing_care(id_atencion):
             'Id_exp': atencion['Id_exp'],
             **normalized,
             'id_enfermero': ObjectId(g.user['user_id']),
-            'fecha_registro': datetime.now()
+            'fecha_registro': datetime.now(timezone.utc)
         }
         db['nursing_care'].insert_one(care_record)
         return jsonify({
@@ -933,7 +932,7 @@ def get_nursing_care(id_atencion):
             {'$sort': {'fecha_registro': -1}}
         ]
         records = list(db['nursing_care'].aggregate(pipeline))
-        return jsonify([serialize_doc(r) for r in records]), 200
+        return jsonify([serialize_clinical_record(r) for r in records]), 200
     except Exception:
         # Respuesta controlada para no filtrar la infraestructura.
         print("Error interno al consultar cuidados de enfermería")

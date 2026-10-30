@@ -61,3 +61,5 @@
 .config-polished .config-table{min-width:760px}
 }
 @media(prefers-reduced-motion:reduce){.config-page.config-polished *,.config-page.config-polished *::before,.config-page.config-polished *::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+
+.config-header-modern .config-title{color:#fff}

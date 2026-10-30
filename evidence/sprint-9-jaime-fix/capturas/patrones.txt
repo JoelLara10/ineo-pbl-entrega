@@ -1,0 +1,201 @@
+Volver
+Actualizar
+Ejecutar análisis
+ANÁLISIS DE DATOS
+Patrones en los datos
+
+Agrupaciones y patrones detectados en los datos.
+
+Explorar los indicadores
+Desde
+Hasta
+Área
+Todas las áreas
+Ambulatorio
+Limpiar filtros
+
+Las fechas incluyen ambos días y se interpretan en UTC. Selecciona hasta cinco años y pulsa Ejecutar análisis para aplicar los filtros.
+
+Vigencia Del Análisis
+Fecha de generación
+22/10/2026, 01:27 p.m.
+Última actualización de la fuente
+05/01/2026, 06:00 a.m.
+Procesamiento
+Motor de bajo consumo
+Periodo analizado
+05/01/2026 — 05/01/2026
+
+Fechas de origen en UTC; horas mostradas en tu zona local.
+
+Filtros del resultado mostrado: Todas las áreas · Todo el historial disponible
+
+Descargar indicadores y tablas (CSV)
+Observaciones utilizadas
+8
+Observaciones
+Grupos identificados
+2
+Grupos
+Observaciones excluidas
+0
+Observaciones
+Tamaño de los grupos
+Unidad de medida: Observaciones
+
+Periodo de los registros: 05/01/2026 – 05/01/2026 · Área: Todas las áreas
+
+Cómo leer la gráfica y fuente de datos
+Categoría
+0
+2
+4
+Observaciones
+Grupo 1
+4
+Grupo 2
+4
+PNG
+SVG
+CSV
+Observaciones · La escala incluye el cero; los valores se muestran en la gráfica y en la tabla.
+Ver tabla de datos
+Información conservada en la proyección
+Unidad de medida: %
+
+Periodo de los registros: 05/01/2026 – 05/01/2026 · Área: Todas las áreas
+
+Cómo leer la gráfica y fuente de datos
+Categoría
+0
+50
+100
+%
+PC1
+100
+PC2
+0
+PNG
+SVG
+CSV
+% · La escala incluye el cero; los valores se muestran en la gráfica y en la tabla.
+Ver tabla de datos
+Promedio de frecuencia cardiaca por grupo
+Unidad de medida: lpm
+
+Periodo de los registros: 05/01/2026 – 05/01/2026 · Área: Todas las áreas
+
+Cómo leer la gráfica y fuente de datos
+Categoría
+0
+46.25
+92.5
+lpm
+Grupo 1
+92.5
+Grupo 2
+72.5
+
+Promedio general de las observaciones utilizadas: 82.5 lpm
+
+PNG
+SVG
+CSV
+lpm · La escala incluye el cero; los valores se muestran en la gráfica y en la tabla.
+Ver tabla de datos
+Promedio de frecuencia respiratoria por grupo
+Unidad de medida: rpm
+
+Periodo de los registros: 05/01/2026 – 05/01/2026 · Área: Todas las áreas
+
+Cómo leer la gráfica y fuente de datos
+Categoría
+0
+9.25
+18.5
+rpm
+Grupo 1
+18.5
+Grupo 2
+14.5
+
+Promedio general de las observaciones utilizadas: 16.5 rpm
+
+PNG
+SVG
+CSV
+rpm · La escala incluye el cero; los valores se muestran en la gráfica y en la tabla.
+Ver tabla de datos
+Promedio de temperatura por grupo
+Unidad de medida: °C
+
+Periodo de los registros: 05/01/2026 – 05/01/2026 · Área: Todas las áreas
+
+Cómo leer la gráfica y fuente de datos
+Categoría
+0
+18.33
+36.65
+°C
+Grupo 1
+36.65
+Grupo 2
+36.25
+
+Promedio general de las observaciones utilizadas: 36.45 °C
+
+PNG
+SVG
+CSV
+°C · La escala incluye el cero; los valores se muestran en la gráfica y en la tabla.
+Ver tabla de datos
+Promedio de saturación de oxígeno por grupo
+Unidad de medida: %
+
+Periodo de los registros: 05/01/2026 – 05/01/2026 · Área: Todas las áreas
+
+Cómo leer la gráfica y fuente de datos
+Categoría
+0
+48.75
+97.5
+%
+Grupo 1
+93.5
+Grupo 2
+97.5
+
+Promedio general de las observaciones utilizadas: 95.5 %
+
+PNG
+SVG
+CSV
+% · La escala incluye el cero; los valores se muestran en la gráfica y en la tabla.
+Ver tabla de datos
+
+Datos agregados del análisis guardado. Actualizar consulta el último resultado; Ejecutar análisis vuelve a calcularlo con la base de datos. Las atenciones y observaciones pueden corresponder a un mismo paciente.
+
+Cómo interpretar y usar estos resultados
+
+Cada grupo reúne observaciones completas con signos vitales similares. Los números de grupo identifican conjuntos y pueden cambiar entre ejecuciones. Los grupos no equivalen a diagnósticos ni a pacientes únicos.
+
+Se utilizaron 8 de 8 observaciones; 0 se excluyeron por datos incompletos o no utilizables.
+
+Antes de formular una decisión: Compara los promedios de cada grupo con el promedio general de las observaciones utilizadas. Revisa las exclusiones antes de decidir si hace falta mejorar la captura o investigar un patrón.
+
+Grupo 1 · 4 Observaciones
+
+Estos promedios describen las observaciones del grupo. La línea discontinua de cada gráfica de perfil marca el promedio general como referencia.
+
+Frecuencia cardiaca: 92.5 lpm
+Frecuencia respiratoria: 18.5 rpm
+Saturación de oxígeno: 93.5 %
+Temperatura: 36.65 °C
+Grupo 2 · 4 Observaciones
+
+Estos promedios describen las observaciones del grupo. La línea discontinua de cada gráfica de perfil marca el promedio general como referencia.
+
+Frecuencia cardiaca: 72.5 lpm
+Frecuencia respiratoria: 14.5 rpm
+Saturación de oxígeno: 97.5 %
+Temperatura: 36.25 °C

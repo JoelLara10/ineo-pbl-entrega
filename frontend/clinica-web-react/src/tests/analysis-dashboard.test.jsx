@@ -49,3 +49,16 @@ it('shows empty and migration states explicitly', () => {
   view.unmount(); show({});
   expect(screen.getByRole('status')).toHaveTextContent('Pulsa Ejecutar análisis');
 });
+
+it.each([['es', 'Unidad de medida: Atenciones', 'Cómo leer la gráfica y fuente de datos'],
+  ['en', 'Unit of measure: Encounters', 'How to read the chart and data source']])(
+  'keeps units explicit and makes supporting text optional in %s', (language, unit, details) => {
+    show(data([chart('attentionStatus', [{ label: 'ABIERTA', value: 4 }])]), language);
+    expect(screen.getByText(unit)).toBeVisible();
+    const disclosure = screen.getByText(details).closest('details');
+    expect(disclosure).not.toHaveAttribute('open');
+    fireEvent.click(screen.getByText(details));
+    expect(disclosure).toHaveAttribute('open');
+    expect(screen.getByText(/Fuente:|Source:/)).toBeVisible();
+  },
+);

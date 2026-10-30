@@ -4,7 +4,7 @@
     "username": "Usuario",
     "password": "Contraseña",
     "loginButton": "Iniciar Sesión",
-    "footer": "INEO v2.0 - Sistema de Gestión Hospitalaria",
+    "footer": "OftalCore v2.0 - Sistema de Gestión Hospitalaria",
     "errorEmptyFields": "Por favor ingresa usuario y contraseña",
     "errorCredentials": "Credenciales incorrectas"
   },
@@ -98,10 +98,10 @@
     "loading": "Cargando pacientes...",
     "offlineMessage": "Sin conexión. Se muestran los datos guardados previamente.",
     "errorMessage": "No se pudieron cargar los pacientes del módulo médico.",
-    "footer": "INEO v2.0 - Sistema de Gestión Hospitalaria"
+    "footer": "OftalCore v2.0 - Sistema de Gestión Hospitalaria"
   },
   "nursing": {
-    "headerEyebrow": "INEO",
+    "headerEyebrow": "OftalCore",
     "headerTitle": "Módulo de Enfermería",
     "greeting": "Hola, Enf. {{name}}",
     "totalPatients": "Total de pacientes: {{count}}",
@@ -118,7 +118,7 @@
     "loading": "Cargando pacientes...",
     "offlineMessage": "Sin conexión. Se muestran los datos guardados previamente.",
     "errorMessage": "No se pudieron cargar los pacientes de enfermería.",
-    "footer": "INEO v2.0 - Sistema de Gestión Hospitalaria"
+    "footer": "OftalCore v2.0 - Sistema de Gestión Hospitalaria"
   },
   "studies": {
     "module": "Estudios",
@@ -158,7 +158,7 @@
     "loading": "Cargando...",
     "loadingStudies": "Cargando estudios...",
     "secureFooter": "Datos seguros • Todos los derechos reservados",
-    "hospitalFooter": "INEO v2.0 - Sistema de Gestión Hospitalaria",
+    "hospitalFooter": "OftalCore v2.0 - Sistema de Gestión Hospitalaria",
     "missingExamId": "Falta el ID del examen",
     "loadInfoError": "No se pudo cargar la información: {{error}}",
     "couldNotLoadInfo": "No se pudo cargar la información.",
@@ -210,8 +210,9 @@
     "filesAvailable": "{{count}} archivos disponibles"
   },
   "config": {
+    "bedsReadOnly": "Consulta de camas. Solo un administrador puede registrar, editar o eliminar.",
     "title": "Configuración del Sistema",
-    "subtitle": "Administra módulos, catálogos, usuarios, respaldos y parámetros del sistema INEO.",
+    "subtitle": "Administra módulos, catálogos, usuarios, respaldos y parámetros del sistema OftalCore.",
     "bedManagement": "Gestión de Camas",
     "bedManagementDesc": "Administra la disponibilidad y asignación de camas hospitalarias",
     "staffManagement": "Usuarios del Sistema",
@@ -282,6 +283,11 @@
     "serviceUpdated": "Servicio actualizado correctamente.",
     "serviceDeleted": "Servicio eliminado correctamente.",
     "serviceRequired": "Captura clave, descripción y precio.",
+    "serviceInvalidData": "Revisa los datos: la clave puede estar registrada, el costo debe ser no negativo y el IVA debe estar entre 0 y 100.",
+    "serviceSaving": "Guardando servicio...",
+    "serviceSessionExpired": "La sesión expiró. Inicia sesión nuevamente.",
+    "serviceForbidden": "No tienes permiso para realizar esta operación.",
+    "serviceConnectionError": "No hay conexión con el servidor. Inténtalo de nuevo.",
     "serviceDuplicate": "Ya existe un servicio con esa clave.",
     "serviceSaveError": "No se pudo guardar el servicio.",
     "serviceDeleteError": "No se pudo eliminar el servicio.",
@@ -443,7 +449,7 @@
     "serviceTypeLaboratory": "Laboratorio",
     "serviceTypeImaging": "Gabinete",
     "serviceTypeHospitalization": "Hospitalización",
-    "serviceProviderIneo": "INEO",
+    "serviceProviderOftalCore": "OftalCore",
     "serviceProviderExternal": "Proveedor externo",
     "serviceGroupHospital": "Servicios hospitalarios",
     "serviceGroupImaging": "Imagenología",
@@ -521,7 +527,7 @@
     "enterAtLeastOne": "Ingrese al menos un signo vital",
     "saveError": "No se pudieron guardar los signos vitales",
     "selectPatientFirst": "Selecciona un paciente antes de registrar signos vitales.",
-    "footer": "INEO v2.0 - Registro de signos vitales",
+    "footer": "OftalCore v2.0 - Registro de signos vitales",
     "ta": "Presión arterial (TA)",
     "fc": "Frecuencia cardíaca (FC)",
     "fr": "Frecuencia respiratoria (FR)",
@@ -549,7 +555,7 @@
     "selectPatientFirst": "Selecciona un paciente antes de registrar una nota de enfermería.",
     "noteLabel": "Nota",
     "noContent": "Sin contenido",
-    "footer": "INEO v2.0 - Registro de notas de enfermería"
+    "footer": "OftalCore v2.0 - Registro de notas de enfermería"
   },
   "nursingMeds": {
     "eyebrow": "ENFERMERÍA",
@@ -577,13 +583,16 @@
     "minOneMedication": "Debe agregar al menos un medicamento",
     "minOneMedicationAlert": "Debe tener al menos un medicamento",
     "saveError": "No se pudo guardar la administración",
-    "footer": "INEO v2.0 - Administración de medicamentos",
+    "footer": "OftalCore v2.0 - Administración de medicamentos",
     "dosisLabel": "Dosis:",
     "frecuenciaLabel": "Frecuencia:",
     "viaLabel": "Vía:",
     "fechaLabel": "Fecha:"
   },
   "nursingAssessment": {
+    "requiredFields": "Completa todos los campos de la valoración; las observaciones son opcionales.",
+    "requiredHint": "Todos los campos son obligatorios salvo las observaciones. Dolor: de 0 a 10 o una descripción.",
+    "invalidPain": "El dolor numérico debe estar entre 0 y 10; también puedes escribir una descripción.",
     "eyebrow": "ENFERMERÍA",
     "title": "Valoración de Enfermería",
     "selectedPatient": "Paciente seleccionado",
@@ -601,7 +610,7 @@
     "noRecords": "Sin registros",
     "saveSuccess": "Valoración de enfermería guardada correctamente",
     "saveError": "No se pudo guardar la valoración de enfermería",
-    "footer": "INEO v2.0 - Valoración de enfermería",
+    "footer": "OftalCore v2.0 - Valoración de enfermería",
     "generalStateLabel": "Estado general:",
     "painLabel": "Dolor:",
     "mobilityLabel": "Movilidad:",
@@ -634,7 +643,7 @@
     "historyError": "No se pudo cargar el historial de cuidados",
     "saveSuccess": "Cuidados de enfermería guardados correctamente",
     "saveError": "No se pudo guardar el cuidado de enfermería",
-    "footer": "INEO v2.0 - Cuidados de enfermería",
+    "footer": "OftalCore v2.0 - Cuidados de enfermería",
     "diagnosisLabel": "Diagnóstico:",
     "objectivesLabel": "Objetivos:",
     "interventionsLabel": "Intervenciones:",
@@ -666,7 +675,7 @@
     "noRecords": "Sin registros",
     "saveSuccess": "Balance hídrico guardado correctamente",
     "saveError": "No se pudo guardar el balance hídrico",
-    "footer": "INEO v2.0 - Balance hídrico",
+    "footer": "OftalCore v2.0 - Balance hídrico",
     "inputsLabel": "Ingresos:",
     "outputsLabel": "Egresos:",
     "netBalance": "Balance neto:",
@@ -696,7 +705,7 @@
     "cancel": "Cancelar",
     "save": "Guardar Historia Clínica",
     "saving": "Guardando...",
-    "footer": "INEO v2.0 - Historia clínica"
+    "footer": "OftalCore v2.0 - Historia clínica"
   },
   "prescription": {
     "selectPatientFirst": "Selecciona un paciente antes de generar una receta médica.",
@@ -722,7 +731,7 @@
     "history": "Historial de Recetas",
     "loadingHistory": "Cargando historial...",
     "noPrescriptions": "Aún no hay recetas registradas.",
-    "footer": "INEO v2.0 - Prescripción médica",
+    "footer": "OftalCore v2.0 - Prescripción médica",
     "recetas": "recetas",
     "dosisLabel": "Dosis:",
     "frecuenciaLabel": "Frecuencia:",
@@ -748,7 +757,7 @@
     "history": "Historial",
     "loadingHistory": "Cargando historial...",
     "noRequests": "Sin solicitudes previas.",
-    "footer": "INEO v2.0 - Laboratorio"
+    "footer": "OftalCore v2.0 - Laboratorio"
   },
   "imagingExams": {
     "selectPatientFirst": "Selecciona un paciente antes de solicitar estudios de gabinete.",
@@ -769,7 +778,7 @@
     "history": "Historial",
     "loadingHistory": "Cargando historial...",
     "noRequests": "Sin solicitudes previas.",
-    "footer": "INEO v2.0 - Gabinete"
+    "footer": "OftalCore v2.0 - Gabinete"
   },
   "nursingDetail": {
     "eyebrow": "ENFERMERÍA",
@@ -802,7 +811,7 @@
     "fluidBalanceSub": "Control de ingresos y egresos",
     "nursingCare": "Cuidados de Enfermería",
     "nursingCareSub": "Plan y evolución de cuidados",
-    "footer": "INEO v2.0 - Seguimiento de paciente en enfermería"
+    "footer": "OftalCore v2.0 - Seguimiento de paciente en enfermería"
   },
   "printDocs": {
     "selectPatientFirst": "Selecciona un paciente antes de imprimir documentos.",
@@ -826,7 +835,7 @@
     "preparing": "Preparando...",
     "print": "Imprimir",
     "docsNote": "Los documentos se abrirán en una nueva pestaña como PDF listos para impresión.",
-    "footer": "INEO v2.0 - Impresión de documentos",
+    "footer": "OftalCore v2.0 - Impresión de documentos",
     "recentHistory": "Últimos documentos impresos",
     "lastDocuments": "Últimos {{count}}",
     "noPrintHistory": "Todavía no se han impreso documentos.",
@@ -854,7 +863,7 @@
     "physician": "Médico:",
     "observations": "Observaciones:",
     "noObservations": "Sin observaciones",
-    "footer": "INEO v2.0 - Consulta de resultados"
+    "footer": "OftalCore v2.0 - Consulta de resultados"
   },
   "medicalDetail": {
     "errorNotFound": "No se encontró la referencia completa del paciente. Regresa al panel médico y selecciónalo nuevamente.",
@@ -892,7 +901,7 @@
     "resultsSub": "Estudios y documentos",
     "print": "Imprimir",
     "printSub": "PDF y documentos",
-    "footer": "INEO v2.0 - Seguimiento médico del paciente"
+    "footer": "OftalCore v2.0 - Seguimiento médico del paciente"
   },
   "medicalSoap": {
     "selectPatientFirst": "Selecciona un paciente antes de registrar una nota médica.",
@@ -914,7 +923,7 @@
     "history": "Historial de Notas Médicas",
     "loadingHistory": "Cargando historial...",
     "noNotes": "No hay notas médicas previas.",
-    "footer": "INEO v2.0 - Nota médica SOAP"
+    "footer": "OftalCore v2.0 - Nota médica SOAP"
   },
   "medicalDiagnosis": {
     "selectPatientFirst": "Selecciona un paciente antes de registrar diagnóstico.",
@@ -940,7 +949,7 @@
     "principalLabel": "Diagnóstico principal",
     "secondaryLabel": "Diagnósticos secundarios",
     "observationsLabel": "Observaciones",
-    "footer": "INEO v2.0 - Diagnóstico médico"
+    "footer": "OftalCore v2.0 - Diagnóstico médico"
   },
   "spark": {
     "eyebrow": "ANÁLISIS DE DATOS",
@@ -1002,7 +1011,7 @@
       },
       "processing": {
         "title": "Análisis en proceso",
-        "hint": "Puedes actualizar ahora o esperar a la actualización automática."
+        "hint": "El análisis continúa ejecutándose. Puedes actualizar el estado o esperar a la actualización automática."
       },
       "notRun": {
         "title": "Análisis sin ejecutar",
@@ -1011,12 +1020,12 @@
       },
       "empty": {
         "title": "No se encontraron datos",
-        "hint": "La ejecución terminó, pero no produjo datos para mostrar.",
+        "hint": "La consulta terminó correctamente, pero no hay datos para mostrar.",
         "action": "Actualizar resultados"
       },
       "offline": {
         "title": "Sin conexión con el servicio de análisis",
-        "hint": "Revisa la conexión con la API y vuelve a intentarlo."
+        "hint": "No fue posible comunicarse con la API. Revisa la conexión e inténtalo nuevamente."
       },
       "failed": {
         "title": "El análisis falló",
@@ -1226,6 +1235,8 @@
     "logout": "Cerrar sesión local"
   },
   "analysisDashboard": {
+    "unit": "Unidad de medida",
+    "chartDetails": "Cómo leer la gráfica y fuente de datos",
     "summary": "Indicadores principales",
     "group": "Grupo",
     "period": "Periodo de los registros",
@@ -1455,5 +1466,82 @@
       "stale": "El resultado cambió desde que abriste la vista. Actualiza el análisis antes de guardar tu evaluación.",
       "loading": "Recuperando tu evaluación…"
     }
+  },
+  "patientMonitoring": {
+    "title": "Monitoreo de pacientes",
+    "subtitle": "Lecturas del ESP32 y alertas pendientes · actualización cada 10 segundos",
+    "listSubtitle": "Seguimiento de lecturas y alertas",
+    "patientSubtitle": "Lecturas y seguimiento del paciente",
+    "description": "Lecturas del ESP32 y alertas. Se actualizan cada 10 segundos mientras esta pantalla está abierta.",
+    "refresh": "Actualizar",
+    "allPatients": "Todos los pacientes",
+    "backPatients": "Volver a pacientes",
+    "backHome": "Volver al inicio",
+    "loading": "Cargando monitoreo…",
+    "empty": "No hay pacientes disponibles para monitoreo.",
+    "loadError": "No se pudo actualizar el monitoreo. Las lecturas mostradas pueden estar desactualizadas.",
+    "provisionError": "No se pudo asociar el dispositivo. Revisa el identificador y que no esté asignado a otro paciente.",
+    "ackError": "No se pudo reconocer la alerta. Intenta nuevamente.",
+    "device": "Dispositivo",
+    "unassigned": "Sin asignar",
+    "lastReading": "Última lectura",
+    "pulse": "Pulso",
+    "pulseUnit": "lpm",
+    "oxygen": "SpO₂",
+    "movement": "Movimiento",
+    "detected": "Detectado",
+    "resting": "En reposo",
+    "sensorTemperature": "Temperatura del sensor",
+    "noReading": "Sin lectura",
+    "noDate": "Sin fecha",
+    "sensorNote": "La temperatura corresponde al sensor, no a la temperatura corporal.",
+    "pendingCount": "Alertas pendientes: {{count}}",
+    "viewDetails": "Ver lecturas y alertas",
+    "assignDevice": "Asociar ESP32",
+    "assignHelp": "El identificador debe coincidir con el firmware. Si ya está asociado a este paciente, se renueva la credencial y debes actualizarla en el ESP32.",
+    "deviceId": "Identificador del dispositivo",
+    "generateCredential": "Asociar y generar credencial",
+    "credentialHelp": "Guarda esta credencial para configurar el ESP32. Solo se muestra tras generarla.",
+    "hideCredential": "Ocultar credencial",
+    "alerts": "Alertas",
+    "noAlerts": "Sin alertas registradas.",
+    "acknowledged": "Reconocida",
+    "pendingReview": "Pendiente de revisión",
+    "saving": "Guardando…",
+    "acknowledge": "Reconocer alerta",
+    "history": "Historial reciente",
+    "noHistory": "Sin mediciones registradas.",
+    "date": "Fecha",
+    "states": {
+      "unassigned": "Sin dispositivo asignado",
+      "noReadings": "Sin lecturas",
+      "offline": "Dispositivo desconectado",
+      "stale": "Lectura desactualizada",
+      "noContact": "Sin contacto con el sensor",
+      "recent": "Lectura reciente"
+    },
+    "alertTypes": {
+      "fall": "Posible caída detectada",
+      "low_heart_rate": "Pulso por debajo del rango configurado",
+      "high_heart_rate": "Pulso por encima del rango configurado",
+      "low_spo2": "SpO₂ por debajo del rango configurado",
+      "generic": "Alerta de monitoreo"
+    },
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "page": "Página {{page}} de {{pages}} · {{total}} registros",
+    "patientsPages": "Páginas de pacientes",
+    "search": "Buscar por nombre o expediente",
+    "refreshing": "Actualizando en segundo plano…",
+    "cached": "Mostrando datos guardados de esta sesión. Pueden estar desactualizados.",
+    "updated": "Consulta actualizada: {{time}}",
+    "pushEnable": "Activar notificaciones",
+    "pushDisable": "Desactivar notificaciones",
+    "pushEnabled": "Notificaciones activadas en este dispositivo.",
+    "pushDisabled": "Notificaciones desactivadas.",
+    "pushDenied": "Permiso de notificaciones denegado. Puedes habilitarlo en Ajustes del teléfono.",
+    "pushUnavailable": "Las notificaciones requieren un APK configurado con Firebase.",
+    "pushError": "No se pudieron activar las notificaciones. Intenta de nuevo.",
+    "pushInfo": "Recibe un aviso de nuevas alertas aunque la app esté cerrada."
   }
 }
