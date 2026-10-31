@@ -1,0 +1,59 @@
+pipeline {
+    agent any
+    options { disableConcurrentBuilds(); timeout(time: 25, unit: 'MINUTES'); buildDiscarder(logRotator(numToKeepStr: '30')) }
+    triggers { pollSCM('H/5 * * * *') }
+    parameters {
+        string(name: 'SOURCE_BRANCH', defaultValue: 'develop', description: 'Rama remota a revisar; el checkout es independiente de las pruebas UAT locales')
+        string(name: 'SECURITY_PYTHON', defaultValue: 'python', description: 'Python con ci/requirements-security.txt instalado')
+        string(name: 'TEST_PYTHON', defaultValue: 'python', description: 'Python con dependencias API y tests instalados')
+        string(name: 'CA_BUNDLE', defaultValue: '', description: 'Opcional: certificados de confianza del equipo; nunca desactiva TLS')
+    }
+    environment { PYTHONUTF8 = '1' }
+    stages {
+        stage('Obtener codigo remoto') {
+            steps { script {
+                if (!isUnix()) {
+                    bat 'git init .'
+                    bat 'git config http.sslBackend schannel'
+                }
+                withEnv(params.CA_BUNDLE?.trim() ? ["GIT_SSL_CAINFO=${params.CA_BUNDLE}"] : []) {
+                    checkout([$class: 'GitSCM', branches: [[name: "*/${params.SOURCE_BRANCH}"]],
+                        userRemoteConfigs: [[url: 'https://github.com/JoelLara10/ineo-pbl-entrega.git']],
+                        extensions: [[$class: 'DisableRemotePoll']]])
+                }
+            } }
+        }
+        stage('Validar politica del gate') {
+            steps { script {
+                if (isUnix()) { sh '"$TEST_PYTHON" -m pytest ci/test_security_gate.py -q' }
+                else { bat '"%TEST_PYTHON%" -m pytest ci/test_security_gate.py -q' }
+            } }
+        }
+        stage('Preparar web') {
+            steps { dir('frontend/clinica-web-react') {
+                script { withEnv(params.CA_BUNDLE?.trim() ? ["NODE_EXTRA_CA_CERTS=${params.CA_BUNDLE}"] : []) {
+                    if (isUnix()) { sh 'npm ci' } else { bat 'call npm ci' }
+                } }
+            } }
+        }
+        stage('Analizar seguridad y codigo') {
+            steps { script {
+                env.SECURITY_REPORT = 'reports/security/build-' + env.BUILD_NUMBER
+                withEnv(params.CA_BUNDLE?.trim() ? ["REQUESTS_CA_BUNDLE=${params.CA_BUNDLE}", "PIP_CERT=${params.CA_BUNDLE}", "NODE_EXTRA_CA_CERTS=${params.CA_BUNDLE}"] : []) {
+                    if (isUnix()) { sh '"$SECURITY_PYTHON" ci/security_review.py --out "$SECURITY_REPORT" --test-python "$TEST_PYTHON"' }
+                    else { bat '"%SECURITY_PYTHON%" ci/security_review.py --out "%SECURITY_REPORT%" --test-python "%TEST_PYTHON%"' }
+                }
+            } }
+        }
+    }
+    post {
+        always {
+            script {
+                if (env.SECURITY_REPORT) {
+                    junit testResults: env.SECURITY_REPORT + '/*.xml', allowEmptyResults: false
+                    archiveArtifacts artifacts: env.SECURITY_REPORT + '/*', allowEmptyArchive: false
+                }
+            }
+        }
+    }
+}

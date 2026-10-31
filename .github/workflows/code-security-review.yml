@@ -1,0 +1,40 @@
+name: Code and Security Review
+on:
+  pull_request:
+    branches: [develop, qa, main]
+  push:
+    branches: [develop, qa, main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  security-code-gates:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/clinica-web-react/package-lock.json
+      - name: Install Python scanners and API tests
+        run: python -m pip install -r ci/requirements-security.txt -r backend/api_hospital/requirements.txt -r backend/api_hospital/requirements-test.txt
+      - name: Install web dependencies
+        working-directory: frontend/clinica-web-react
+        run: npm ci
+      - name: Execute independent code and security checks
+        run: python ci/security_review.py --out reports/security/github
+      - name: Verify gate rejection and fixture exception policy
+        if: always()
+        run: python -m pytest ci/test_security_gate.py
+      - name: Preserve evidence even when a gate fails
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-code-reports
+          path: reports/security/github/
+          if-no-files-found: error
