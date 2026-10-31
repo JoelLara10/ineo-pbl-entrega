@@ -195,7 +195,7 @@ def get_vital_signs_pdf(id_signos):
     except Exception as e:
         print(f"Error generando PDF de signos vitales: {e}")
         traceback.print_exc()
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Error interno del servidor'}), 500
 
 
 # ==================== PDF DE NOTA MÉDICA ====================
@@ -281,7 +281,7 @@ def get_medical_note_pdf(id_nota):
     except Exception as e:
         print(f"Error generando PDF de nota médica: {e}")
         traceback.print_exc()
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Error interno del servidor'}), 500
 
 
 # ==================== PDF DE DIAGNÓSTICO ====================
@@ -363,7 +363,7 @@ def get_diagnosis_pdf(id_diagnostico):
     except Exception as e:
         print(f"Error generando PDF de diagnóstico: {e}")
         traceback.print_exc()
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Error interno del servidor'}), 500
 
 
 # ==================== PDF DE RECETA ====================
@@ -449,7 +449,7 @@ def get_prescription_pdf(id_receta):
     except Exception as e:
         print(f"Error generando PDF de receta: {e}")
         traceback.print_exc()
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Error interno del servidor'}), 500
 
 
 # ==================== PDF DE LABORATORIO ====================
@@ -572,7 +572,7 @@ def get_lab_pdf(id_examen):
     except Exception as e:
         print(f"Error generando PDF de laboratorio: {e}")
         traceback.print_exc()
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Error interno del servidor'}), 500
 
 
 # ==================== PDF DE GABINETE ====================
@@ -677,7 +677,7 @@ def get_imaging_pdf(id_examen):
     except Exception as e:
         print(f"Error generando PDF de gabinete: {e}")
         traceback.print_exc()
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Error interno del servidor'}), 500
 
 
 # ==================== ENDPOINT DE PRUEBA ====================

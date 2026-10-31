@@ -6,6 +6,7 @@ from datetime import datetime, date
 from bson import ObjectId
 from services.exam_service import ExamService
 from werkzeug.utils import secure_filename
+from utils.safe_files import confined_file
 import os
 
 exams_bp = Blueprint('exams', __name__, url_prefix='/exams')
@@ -26,7 +27,7 @@ def get_exam_catalog():
         ).sort('nombre', 1))
         return jsonify([serialize_doc(c) for c in catalog]), 200
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Error interno del servidor'}), 500
 
 # ---------- SOLICITAR EXÁMENES ----------
 @exams_bp.route('/request', methods=['POST'])
@@ -80,7 +81,7 @@ def request_exams():
                 })
         return jsonify({'message': 'Exámenes solicitados correctamente', 'id_examen': id_examen}), 201
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Error interno del servidor'}), 500
 
 # ---------- CONSULTAR SOLICITUDES POR ATENCIÓN ----------
 @exams_bp.route('/requested/<int:id_atencion>', methods=['GET'])
@@ -131,7 +132,7 @@ def get_requested_exams(id_atencion):
             serialized.append(r)
         return jsonify(serialized), 200
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Error interno del servidor'}), 500
 
 # ---------- TEST ----------
 @exams_bp.route('/test', methods=['GET'])
@@ -266,7 +267,7 @@ def get_patient_exams(id_atencion):
         results = list(db['examenes'].aggregate(pipeline))
         return jsonify([serialize_doc(r) for r in results]), 200
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Error interno del servidor'}), 500
 
 @exams_bp.route('/<int:id_examen>/results/file', methods=['GET'])
 @token_required
@@ -387,7 +388,7 @@ def upload_exam_results_multiple(id_examen):
         print(f"Error en upload_exam_results: {e}")
         import traceback
         traceback.print_exc()
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Error interno del servidor'}), 500
     
 
 
@@ -432,7 +433,7 @@ def get_exam_info(id_examen):
             return jsonify({'error': 'Solicitud no encontrada'}), 404
         return jsonify(results[0]), 200
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Error interno del servidor'}), 500
 
 
 
@@ -455,7 +456,7 @@ def get_exam_edit_info(id_examen):
         print(f"Error en get_exam_edit_info: {e}")
         import traceback
         traceback.print_exc()
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Error interno del servidor'}), 500
 
 
 
@@ -480,7 +481,7 @@ def update_exam_results_edit(id_examen):
         print(f"Error en update_exam_results_edit: {e}")
         import traceback
         traceback.print_exc()
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Error interno del servidor'}), 500
     
 
 @exams_bp.route('/<int:id_examen>/files', methods=['GET'])
@@ -497,7 +498,7 @@ def get_exam_files(id_examen):
         print(f"Error en get_exam_files: {e}")
         import traceback
         traceback.print_exc()
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Error interno del servidor'}), 500
     
 
 # ===================================================================
@@ -525,7 +526,7 @@ def delete_exam_results(id_examen):
         print(f"Error en delete_exam_results: {e}")
         import traceback
         traceback.print_exc()
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Error interno del servidor'}), 500
     
 
 
@@ -546,13 +547,17 @@ def download_exam_file(filename):
         abort(400, 'Tipo de examen no válido')
 
     # Carpeta base donde se guardan los archivos
-    base_dir = os.path.join('static', 'resultados', tipo.lower())
+    base_dir = ('static/resultados/laboratorio' if tipo == 'LABORATORIO'
+                else 'static/resultados/gabinete')
     if not os.path.exists(base_dir):
         abort(404, 'Carpeta no encontrada')
 
     # Verificar que el archivo existe y está dentro de la carpeta permitida
-    safe_path = os.path.join(base_dir, filename)
-    if not os.path.isfile(safe_path):
+    try:
+        safe_path = confined_file(base_dir, filename)
+    except ValueError:
+        abort(404, 'Archivo no encontrado')
+    if not safe_path.is_file():
         abort(404, 'Archivo no encontrado')
 
     # Servir el archivo con send_from_directory (evita path traversal)

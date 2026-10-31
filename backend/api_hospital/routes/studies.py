@@ -3,6 +3,7 @@ from middleware.auth_middleware import token_required, role_required
 from services.study_service import StudyService
 from werkzeug.utils import secure_filename
 from utils.database import get_collection, get_db, serialize_doc
+from utils.safe_files import confined_file
 import os
 
 studies_bp = Blueprint('studies', __name__, url_prefix='/studies')
@@ -142,8 +143,11 @@ def get_study_file(filename):
     """Obtiene archivo de resultado"""
     # Buscar en ambas carpetas
     for folder in [UPLOAD_FOLDER_GAB, UPLOAD_FOLDER_LAB]:
-        filepath = os.path.join(folder, filename)
-        if os.path.exists(filepath):
+        try:
+            filepath = confined_file(folder, filename)
+        except ValueError:
+            return jsonify({'error': 'Archivo no encontrado'}), 404
+        if filepath.is_file():
             return send_file(filepath, as_attachment=False)
     
     return jsonify({'error': 'Archivo no encontrado'}), 404

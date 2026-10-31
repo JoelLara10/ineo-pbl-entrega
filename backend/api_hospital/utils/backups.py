@@ -15,6 +15,7 @@ from reportlab.lib.units import inch
 from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
 
 from utils.database import get_db
+from utils.safe_files import confined_file
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 BACKUP_DIR = BASE_DIR / 'backups'
@@ -37,10 +38,7 @@ class RestoreError(Exception):
 
 
 def _safe_backup_path(filename):
-    safe_name = Path(filename or '').name
-    if safe_name != filename:
-        raise ValueError('Nombre de respaldo inválido')
-    path = BACKUP_DIR / safe_name
+    path = confined_file(BACKUP_DIR, filename)
     if path.suffix.lower() not in {'.json', '.zip', '.xlsx', '.pdf'}:
         raise ValueError('Formato de respaldo inválido')
     if not path.is_file():
@@ -166,7 +164,7 @@ def realizar_backup(tipo='completa', formato='json', colecciones=None, es_automa
     label = 'automatico' if es_automatico else 'manual'
     timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
     extension = 'zip' if formato == 'csv' else formato
-    backup_path = BACKUP_DIR / f'backup_{label}_{tipo}_{timestamp}.{extension}'
+    backup_path = confined_file(BACKUP_DIR, f'backup_{label}_{tipo}_{timestamp}.{extension}')
 
     if formato == 'json':
         payload = {
@@ -361,7 +359,7 @@ def restaurar_backup(filename):
         except Exception as exc:
             failed.append({
                 'collection': collection_name,
-                'error': str(exc),
+                'error': 'No se pudo restaurar la colección',
             })
 
     if failed:
@@ -389,7 +387,8 @@ def list_backups():
     result = []
     for path in BACKUP_DIR.iterdir():
         if (
-            not path.is_file()
+            path.is_symlink()
+            or not path.is_file()
             or not path.name.startswith('backup_')
             or path.suffix.lower() not in {'.json', '.zip', '.xlsx', '.pdf'}
         ):
@@ -421,7 +420,7 @@ def limpiar_backups(keep=MAX_BACKUPS):
         groups.setdefault(group, []).append(backup)
     for backups in groups.values():
         for backup in backups[keep:]:
-            (BACKUP_DIR / backup['filename']).unlink(missing_ok=True)
+            confined_file(BACKUP_DIR, backup['filename']).unlink(missing_ok=True)
 
 
 def cargar_config_automatizacion():
@@ -446,4 +445,4 @@ def check_db_health():
         get_db().command('ping')
         return {'status': 'ok', 'message': 'MongoDB conectado'}
     except Exception as exc:
-        return {'status': 'error', 'message': str(exc)}
+        return {'status': 'error', 'message': 'MongoDB temporalmente no disponible'}
