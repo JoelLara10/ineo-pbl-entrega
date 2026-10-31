@@ -77,6 +77,9 @@ def main():
                 findings = finding_locations(scan, reviewed)
                 rc = 1 if findings else 0
                 stdout = json.dumps({'unreviewed_findings': findings, 'reviewed_fixture_count': len(reviewed)}, indent=2)
+                if findings:
+                    print('Unreviewed detector locations: ' + ', '.join(
+                        str(item['file']) + ':' + str(item['line']) for item in findings), flush=True)
                 detail = f'{len(findings)} unreviewed suspected secrets'
             elif mode == 'audit':
                 report = json.loads(stdout)
