@@ -9,6 +9,7 @@
 # Python
 venv/
 .venv/
+.security-api/
 __pycache__/
 *.pyc
 .pytest_cache/

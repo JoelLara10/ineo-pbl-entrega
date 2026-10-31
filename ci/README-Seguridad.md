@@ -21,7 +21,10 @@ independiente; conserva los últimos 30 builds y no modifica los jobs de UAT.
 
 Preparar Python 3.12 con `ci/requirements-security.txt`, otro Python con los
 requirements de API/tests y Node 22. Parámetros SECURITY_PYTHON y TEST_PYTHON
-identifican esos ejecutables. CA_BUNDLE es opcional para equipos que usan el
+identifican esos ejecutables. Jenkins crea un entorno API aislado en el workspace,
+instala los requirements del checkout y ejecuta pip check antes de probar; no usa
+las versiones antiguas del Python de demostración para validar dependencias nuevas.
+CA_BUNDLE es opcional para equipos que usan el
 almacén corporativo de confianza; no se deshabilita la verificación TLS.
 
 ```text
@@ -60,3 +63,8 @@ El análisis funciona sin una suscripción o clave de un modelo de IA. Esto es
 análisis automatizado de código, no un agente de IA que cambia código sin revisión.
 Revisar el informe, corregir en rama, ejecutar regresión y seguir develop → qa →
 main con la aceptación correspondiente. No es aceptación UAT ni despliegue.
+
+Las regresiones de seguridad incluyen traversal y symlinks en archivos, borrado
+de adjuntos de otro examen, excepciones internas, inyección en logs y peticiones
+de formularios con identificadores manipulados. Las pruebas del guardián de memoria
+comprueban por separado la terminación de procesos Windows y POSIX.
