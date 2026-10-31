@@ -1,0 +1,764 @@
+[
+  {
+    "file": ".github/workflows/api-ci.yml",
+    "type": "Secret Keyword",
+    "hashed_secret": "23dbd7a2322ecda0f1d50fedfd4428061ece733d",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": ".github/workflows/api-ci.yml",
+    "type": "Secret Keyword",
+    "hashed_secret": "3620a1805b3cc5e6550d0b698c8855e9692025ac",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "backend/api_hospital/tests/conftest.py",
+    "type": "Secret Keyword",
+    "hashed_secret": "4c48d8a2529abc9c423e95cdee5bb5a562c6def9",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "backend/api_hospital/tests/test_auth.py",
+    "type": "Secret Keyword",
+    "hashed_secret": "0a4f8b93faad504007df78c9acb6f93ea6cc8c53",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "backend/api_hospital/tests/test_auth.py",
+    "type": "Secret Keyword",
+    "hashed_secret": "fbbfd0ff3db7fc141f8fa3d74e14925a679279d8",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "backend/api_hospital/tests/test_auth.py",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "960903f95946e89e7a21ab56be937700ab2fcc15",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "backend/api_hospital/tests/test_auth.py",
+    "type": "Secret Keyword",
+    "hashed_secret": "7096d4b74c8557b4e00cc8065cbd3f95431fd04b",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "backend/api_hospital/tests/test_oat_joel.py",
+    "type": "Basic Auth Credentials",
+    "hashed_secret": "751eb16d9d6040bba762e8ad580ba3431dec2fcf",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "backend/api_hospital/tests/test_security_hardening.py",
+    "type": "Secret Keyword",
+    "hashed_secret": "25f3c0679a7d5584b10fa8a1ad16f5c40e7e1e7a",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "backend/api_hospital/tests/test_security_hardening.py",
+    "type": "Secret Keyword",
+    "hashed_secret": "0a4f8b93faad504007df78c9acb6f93ea6cc8c53",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "backend/api_hospital/tests/test_security_hardening.py",
+    "type": "Secret Keyword",
+    "hashed_secret": "d863b2e34e4adb2c80276056eb08f7261d42b308",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "backend/api_hospital/tests/test_spark_contract.py",
+    "type": "Secret Keyword",
+    "hashed_secret": "3cc3525f9991c306409647b83d410a4fb6a8d3f8",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "backend/api_hospital/tests/test_sprint7_jesus.py",
+    "type": "Secret Keyword",
+    "hashed_secret": "ae2450117a3720057bdee4b39a3208b229ab1e1e",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "backend/api_hospital/tests/test_sprint9_jesus.py",
+    "type": "Secret Keyword",
+    "hashed_secret": "4c1c09f51f107442109f5ec4561c5dbee3b8471d",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "backend/api_hospital/tests/test_sprint9_jesus.py",
+    "type": "Secret Keyword",
+    "hashed_secret": "25f3c0679a7d5584b10fa8a1ad16f5c40e7e1e7a",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "backend/api_hospital/tests/test_sprint9_uat_readiness.py",
+    "type": "Secret Keyword",
+    "hashed_secret": "ae2450117a3720057bdee4b39a3208b229ab1e1e",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "ci/demo_api.py",
+    "type": "Secret Keyword",
+    "hashed_secret": "2331a6216eca07512d339031b51db6f9f2d843b1",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "ci/demo_api.py",
+    "type": "Basic Auth Credentials",
+    "hashed_secret": "751eb16d9d6040bba762e8ad580ba3431dec2fcf",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "ci/selenium/test_user_journeys.py",
+    "type": "Secret Keyword",
+    "hashed_secret": "ae2450117a3720057bdee4b39a3208b229ab1e1e",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "ci/selenium/test_user_journeys.py",
+    "type": "Secret Keyword",
+    "hashed_secret": "4c9edb324a4b340c2f0deda0bbbf4e9c09a29bf0",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "compose.test.yml",
+    "type": "Secret Keyword",
+    "hashed_secret": "a425de140276fd64ea594ec548bedac5da414477",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "docs/sprints/sprint-7/evidencia-pbl-28/resultados.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "58595d254d7046e0afbb3afab8c36ac3f24219fe",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "docs/sprints/sprint-9/PBL-27_ejecucion_corregida.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "d69eda248f34238cb32502bde6a9eff26e975962",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "docs/sprints/sprint-9/PBL-27_ejecucion_corregida.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "a367c1df6d616cfb9d44b9c3cc35257d155d2e9a",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "docs/sprints/sprint-9/PBL-27_ejecucion_corregida.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "9b85186f18363848dd0c9556cd46d97fdd969e6b",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "docs/sprints/sprint-9/PBL-27_ejecucion_corregida.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "0cb5c452fb8d0bdf88a60e85a87db1d33a520024",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-jenkins-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "18e00ec464d1adfde8b590a7c76ce444a105fdbc",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-jenkins-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "61fa421f4b6448211c1934f1a2857923c7bf8382",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-jenkins-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "4885f2916df0f44bc1b20c803ab1202790ef5277",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-jenkins-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "5d4fc5384021a5a9b9bb8002d03c4784e3d04f96",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-jenkins-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1150678d7809d3c03cda8dfcad41f4161cf2ca91",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-jenkins-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "dc74d1ae5e8bff11d6533821e47287c95f4b3b87",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-jenkins-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "87d3fe9ad1f47600548071efc5c368f9c0c281d9",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-jenkins-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "03deb9bca2635249fa225d737eeaab2a1a02d749",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-jenkins-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "ed640a8bec561ccb868f2915aabdb9dceab9724c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-jenkins-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "2b355a600f8de6b25de2db37cd75d30abab2e048",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-jenkins-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "3457761c193a1b98c2000b387e2cd72b6f2cd6e4",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-jenkins-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "280fca840d54a06b631f57e435e0c1205f3ecfe3",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-jenkins-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "13741f8f5152528197bf8632f33f6dd073f4887e",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-jenkins-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "3bc2af646ffe0649920a41e7a1162431a063abda",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-jenkins-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "408d406d2d6d929a77960c2dec63f70cedb29763",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-jenkins-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "2435094fe49a80e4d4ae34c2372db0893f810127",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-jenkins-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "51fd776dc83b3e0215eded351fb4ba68dc3bf617",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-jenkins-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "a30f89fccded492118e5b1dd7b14441175620bbb",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-jenkins-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "4d07ed0d2d22d6527327aa915ed9c06aef26bf84",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-jenkins-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "53ce8c0a9a58d2149390b0fa979ca63f89f3cf42",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-jenkins-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "244f421f896bdcdd2784dccf4eaf7c8dfd5189b5",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-jenkins-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "15ecd767e02f13c7ce78eeacb63c9c4e55e12d63",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-jenkins-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "0259242df56384e63c1451e4a55f2d074a7e0464",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-jenkins-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "36fb9502a55dc0112b4da5f3e5f7f20949daaf13",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-jenkins-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "8cd22161eacf916cae229e530715bd9bbb09b9e6",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-jenkins-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "7bc05844dca90ad6ba445b80ec9da01780bf2da5",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-selenium-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1b2e880374b8c9ed8a860504dd14dc1c0a8dd84a",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-selenium-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "8dc79bb09c696072fd765fbb3d77665a1edaf0db",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-selenium-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "ab9cd2778d743103363e2ce53cf13cb8481623cb",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-selenium-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "4e9b599ea53ae257cf6fb1304908d25aeacd2fe6",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-selenium-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "dc1f9d5b8cba2e1406ecb589f558f5e17622bd79",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-selenium-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "ce77aa700473473915fc67785c685dba3707d6f0",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-selenium-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "6fe661a9791637d533ecd112112cc908f571c824",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-selenium-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "26457519a4a362689e955a8a3fede7e21d4b5226",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-selenium-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "6f37213da3a9c079d9d63b895a2da45b08ef0934",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-selenium-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "8cd22161eacf916cae229e530715bd9bbb09b9e6",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-selenium-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "ae337ef9a00d2f001786b0b8c00fcf109a50f1d2",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-selenium-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "92c86f6fa4d7d98b951219687bdc2ccf10410908",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-selenium-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "8af41b79891f715c543e1df478b70ff6efabdf8f",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-selenium-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "f93ac69c6b73df65d00eb34265a863bcd28c84d6",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-selenium-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "244f421f896bdcdd2784dccf4eaf7c8dfd5189b5",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-selenium-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "f565a95f9502e08542ef6f132b70e0e476e0ac2c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-selenium-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "79517504364ff936c9cda48343dd0e34657d3049",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-selenium-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "a5d5aefde7a368bc9412bdc95ecba4de86bd6f7a",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-selenium-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "a0bfe26062cb1b587ebd2f3d9e094d399c54f2c8",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-selenium-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "942db5b3a0bb96b5a1801d34ee3b7a0f0705a8b9",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-selenium-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "0f57d029dcc46d23fbc6852da62580582c6dec7e",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-selenium-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "de7cf1d1530b71e4d4e9ffbb038dfe6acba9232f",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-selenium-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "eb42eddf781d462ad31e104d223c4b997c82ed31",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-selenium-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "6939e2e567db1a5f006c2a0e07f946ced42de668",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-selenium-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1cfd0f5489c216dbdd76d0507b8d6ab34d56e540",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-selenium-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "b96eb085488eab87ca20d18ed30ffb0c8b66a08a",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-selenium-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "cef51ba0d8096a0e948cb810fa0fbf3afb661cbf",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-selenium-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "ea863e2c2986664b44eff9765662f29095495adc",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-selenium-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "10d4d4856a0189ee445d3ae7943f83de8b962da7",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-selenium-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "f45dc1485f8d09b341cb8e585f32d42eec638bba",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/joel-selenium-demo/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "0e45ab5eddebd6cd86daff4e6b50eb97bcacb6da",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-9-jaime-fix/code-sha256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "0818fe4b07d51e678bb8226bb96189c91af40120",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-9-jaime-fix/code-sha256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "cd371d93caa2b77c453b27d3c6355a5a7ea1886b",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-9-jaime-fix/code-sha256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "c112516a5fd069f848502cb92a34b01993e4fb32",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-9-jaime-fix/code-sha256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "0731f6fb2ecdad9bd118dbc4844d2bccd2532413",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-9-jaime-fix/code-sha256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "daab23d85a47cf6607e5afd18e9dcbb1120c4344",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-9-jaime-fix/code-sha256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "2163b46bb51eb5365fd30c9ea0ee616b51ac837d",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-9-jaime-fix/code-sha256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "f80d03fd0eb61cc46546720f6f1cc03e5eb46bef",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-9-jaime-fix/code-sha256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "5fb0b04ea4d0f0d04f9f18cfcdabf0eb7c7ae5a4",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-9-jaime-fix/code-sha256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "b1a05e702585b4921c53454b11b7cf60a4aca09c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-9-jaime-fix/sha256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "56c54c6f8e401ceab107dbc9584d741920cbcdec",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-9-jaime-fix/sha256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "91d753306cf9b866383c167c08a9f3651f6c988e",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-9-jaime-fix/sha256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "b5179d5c38d7842869cf23320cb3d2eac63acf6d",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-9-jaime-fix/sha256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "b82fbe1ad75e2246f9c5cba74fff74473ec65a9a",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-9-jaime-fix/sha256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "56f97568f6c75adea135e0009878a948d73dad9e",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-9-jaime-fix/sha256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "9c6679c1ebd5a14fd92806754c9962644f3d2c35",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-9-jaime-fix/sha256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "79afbc0aa7b75920adc2d392ab2e5d052f4c60d9",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-9-jaime-fix/sha256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "ded21101c8c5b3ae55b77356f725e41efedc8e9c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-9-jaime-review/sha256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "d2eae51c8b8eae18c3e9735bb9d22699a9f53320",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-9-jaime-review/sha256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1dda9548a0035c8d3f26c9071dd82830d03f4549",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-9-jaime-review/sha256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "7640b8b6ba5a0284f5f2475c5ab551dd831aff98",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-9-jaime-review/sha256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "aae237fd08da9f73c36aea2d95511fc3577f233f",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-9-jaime-review/sha256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "2aa33fab56cf113e8943969f85f6e9dc404d1e36",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-9-jaime-review/sha256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "401d6c523fddb1c91072919fec9394f57f03bd11",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-9-jaime-review/sha256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "0d21c09508bc29c37d82cf5e9b834c525b8ef239",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-9-joel-zahid/alcance-tecnico.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "2d7ce35bb65dbda909e2dee0286cf84f015ff007",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-9-joel-zahid/alcance-tecnico.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "74e41bcbe69292c5a135d027cc6b8a7250aca273",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-9-joel-zahid/alcance-tecnico.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "557ec38ea88afacba158dc19539b652811b9e8f7",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-9-joel-zahid/alcance-tecnico.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "0bfe623691af25d9f155022e5f9ba9af1c2e7d96",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-9-joel-zahid/traceability.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "2d7ce35bb65dbda909e2dee0286cf84f015ff007",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-9-joel-zahid/traceability.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "74e41bcbe69292c5a135d027cc6b8a7250aca273",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-9-joel-zahid/traceability.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "557ec38ea88afacba158dc19539b652811b9e8f7",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-9-joel-zahid/traceability.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "0bfe623691af25d9f155022e5f9ba9af1c2e7d96",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-9-zahid/traceability.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "74c855ea8b687cd2a3c42fe97e40ca9e78217f42",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-9-zahid/traceability.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "15e496815d0fc860e19c32e5863dcbaefec5b7f4",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-9-zahid/traceability.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "3d25fd6fcf26b12716e9df6c45700cad4d319dac",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "frontend/clinica-web-react/src/i18n/locales/en.json",
+    "type": "Secret Keyword",
+    "hashed_secret": "8be3c943b1609fffbfc51aad666d0a04adf83c9d",
+    "reason": "Texto de interfaz traducido; no es credencial"
+  },
+  {
+    "file": "frontend/clinica-web-react/src/i18n/locales/en.json",
+    "type": "Secret Keyword",
+    "hashed_secret": "c67dd20ee842986086a0a915ddc2a279490130ed",
+    "reason": "Texto de interfaz traducido; no es credencial"
+  },
+  {
+    "file": "frontend/clinica-web-react/src/i18n/locales/en.json",
+    "type": "Secret Keyword",
+    "hashed_secret": "cf6a685e620bcaf1a0169bc9fc53c2d6664f550d",
+    "reason": "Texto de interfaz traducido; no es credencial"
+  },
+  {
+    "file": "frontend/clinica-web-react/src/i18n/locales/en.json",
+    "type": "Secret Keyword",
+    "hashed_secret": "91dd0c8e9cd139b14c4e5296dde44e45ccc063e6",
+    "reason": "Texto de interfaz traducido; no es credencial"
+  },
+  {
+    "file": "frontend/clinica-web-react/src/i18n/locales/en.json",
+    "type": "Secret Keyword",
+    "hashed_secret": "8c684290ce0b8a8e6cee79a145e17554064a4760",
+    "reason": "Texto de interfaz traducido; no es credencial"
+  },
+  {
+    "file": "frontend/clinica-web-react/src/i18n/locales/en.json",
+    "type": "Secret Keyword",
+    "hashed_secret": "526f3cee8c4fe0d16190de2076f344e580008042",
+    "reason": "Texto de interfaz traducido; no es credencial"
+  },
+  {
+    "file": "frontend/clinica-web-react/src/tests/auth-session.test.jsx",
+    "type": "Secret Keyword",
+    "hashed_secret": "01ee85f364fd0a345244d10a59d73b9f28b2e8da",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "frontend/clinica-web-react/src/tests/pbl33-user-registration.test.jsx",
+    "type": "Secret Keyword",
+    "hashed_secret": "d7eeeb25f271cadab6582e03b298b9c64d6671d8",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "frontend/clinica-web-react/src/tests/pbl33-user-registration.test.jsx",
+    "type": "Secret Keyword",
+    "hashed_secret": "61bf5f8f90b2eb9bb7fe16b64417753d9c15e601",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  }
+]
