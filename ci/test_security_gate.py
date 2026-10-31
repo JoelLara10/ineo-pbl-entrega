@@ -10,7 +10,7 @@ spec.loader.exec_module(module)
 
 def test_unreviewed_secret_blocks_gate():
     scan = {'results': {'source.py': [{'type': 'Secret Keyword', 'hashed_secret': 'new-hash', 'line_number': 8}]}}  # pragma: allowlist secret
-    assert module.secret_findings(scan, []) == [{'file': 'source.py', 'type': 'Secret Keyword', 'line': 8}]
+    assert module.finding_locations(scan, []) == [{'file': 'source.py', 'type': 'Secret Keyword', 'line': 8}]
 
 
 def test_exception_is_scoped_to_file_type_and_value_on_both_platforms():
@@ -20,7 +20,7 @@ def test_exception_is_scoped_to_file_type_and_value_on_both_platforms():
                               {'type': 'Secret Keyword', 'hashed_secret': 'changed-hash', 'line_number': 3}],  # pragma: allowlist secret
         'production.py': [{'type': 'Secret Keyword', 'hashed_secret': 'reviewed-hash', 'line_number': 4}],
     }}
-    assert [x['line'] for x in module.secret_findings(scan, reviewed)] == [3, 4]
+    assert [x['line'] for x in module.finding_locations(scan, reviewed)] == [3, 4]
 
 
 def test_exception_catalog_rejects_plaintext_or_additional_fields():

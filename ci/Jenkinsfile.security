@@ -12,8 +12,14 @@ pipeline {
     stages {
         stage('Obtener codigo remoto') {
             steps { script {
+                if (!isUnix()) {
+                    bat 'git init .'
+                    bat 'git config http.sslBackend schannel'
+                }
                 withEnv(params.CA_BUNDLE?.trim() ? ["GIT_SSL_CAINFO=${params.CA_BUNDLE}"] : []) {
-                    git branch: params.SOURCE_BRANCH, url: 'https://github.com/JoelLara10/ineo-pbl-entrega.git'
+                    checkout([$class: 'GitSCM', branches: [[name: "*/${params.SOURCE_BRANCH}"]],
+                        userRemoteConfigs: [[url: 'https://github.com/JoelLara10/ineo-pbl-entrega.git']],
+                        extensions: [[$class: 'DisableRemotePoll']]])
                 }
             } }
         }

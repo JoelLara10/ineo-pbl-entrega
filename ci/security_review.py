@@ -14,7 +14,7 @@ import xml.etree.ElementTree as ET
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def secret_findings(scan, reviewed):
+def finding_locations(scan, reviewed):
     """An exception matches one reviewed hash/type/file, never a whole directory."""
     allowed = {(x['file'], x['type'], x['hashed_secret']) for x in reviewed}
     return [{'file': name.replace('\\', '/'), 'type': hit['type'], 'line': hit['line_number']}
@@ -74,7 +74,7 @@ def main():
                     raise ValueError('Secret scanner failed')
                 reviewed = json.loads((ROOT / 'ci/security-reviewed-fixtures.json').read_text())
                 validate_reviewed(reviewed)
-                findings = secret_findings(scan, reviewed)
+                findings = finding_locations(scan, reviewed)
                 rc = 1 if findings else 0
                 stdout = json.dumps({'unreviewed_findings': findings, 'reviewed_fixture_count': len(reviewed)}, indent=2)
                 detail = f'{len(findings)} unreviewed suspected secrets'
