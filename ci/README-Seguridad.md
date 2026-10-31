@@ -33,6 +33,8 @@ Jenkins es local: apagado el equipo no ejecuta el polling. GitHub Actions tambi�
 ejecuta estos controles en cada PR/push hacia develop, qa y main. Los workflows
 existentes de API, web y seguridad se conservan. Un gate fallido se reporta como
 check fallido; el bloqueo obligatorio de merge depende de las reglas de rama.
+CodeQL añade análisis de seguridad de Python y JavaScript en GitHub y publica los
+hallazgos en Security and quality del repositorio.
 
 ## Secretos y excepciones
 
@@ -42,6 +44,10 @@ publica su valor: solo archivo/tipo/línea. Las excepciones exactas en
 textos traducidos y SHA/checksums de evidencias revisados. Coinciden por ruta,
 tipo y hash, no por directorio completo. Una credencial nueva o un valor cambiado
 falla. No actualizar automáticamente las excepciones para obtener un build verde.
+El propio catálogo se excluye de la detección, pero se valida su esquema: solo
+rutas existentes, tipos permitidos, hashes SHA1 y motivos revisados. No admite
+valores de credenciales. Los literales falsos de las pruebas del gate se anotan
+únicamente en sus cuatro líneas con `pragma: allowlist secret`.
 El análisis no reemplaza rotar una credencial real si se descubre una filtración
 ni incluye el historial completo de Git.
 

@@ -9,15 +9,15 @@ spec.loader.exec_module(module)
 
 
 def test_unreviewed_secret_blocks_gate():
-    scan = {'results': {'source.py': [{'type': 'Secret Keyword', 'hashed_secret': 'new-hash', 'line_number': 8}]}}
+    scan = {'results': {'source.py': [{'type': 'Secret Keyword', 'hashed_secret': 'new-hash', 'line_number': 8}]}}  # pragma: allowlist secret
     assert module.secret_findings(scan, []) == [{'file': 'source.py', 'type': 'Secret Keyword', 'line': 8}]
 
 
 def test_exception_is_scoped_to_file_type_and_value_on_both_platforms():
-    reviewed = [{'file': 'tests/fixture.py', 'type': 'Secret Keyword', 'hashed_secret': 'reviewed-hash'}]
+    reviewed = [{'file': 'tests/fixture.py', 'type': 'Secret Keyword', 'hashed_secret': 'reviewed-hash'}]  # pragma: allowlist secret
     scan = {'results': {
         'tests\\fixture.py': [{'type': 'Secret Keyword', 'hashed_secret': 'reviewed-hash', 'line_number': 2},
-                              {'type': 'Secret Keyword', 'hashed_secret': 'changed-hash', 'line_number': 3}],
+                              {'type': 'Secret Keyword', 'hashed_secret': 'changed-hash', 'line_number': 3}],  # pragma: allowlist secret
         'production.py': [{'type': 'Secret Keyword', 'hashed_secret': 'reviewed-hash', 'line_number': 4}],
     }}
     assert [x['line'] for x in module.secret_findings(scan, reviewed)] == [3, 4]
@@ -26,7 +26,7 @@ def test_exception_is_scoped_to_file_type_and_value_on_both_platforms():
 def test_exception_catalog_rejects_plaintext_or_additional_fields():
     with pytest.raises(ValueError):
         module.validate_reviewed([{'file': 'tests/demo.py', 'type': 'Secret Keyword',
-                                  'hashed_secret': 'plaintext-is-not-a-digest', 'reason': 'fixture'}])
+                                  'hashed_secret': 'plaintext-is-not-a-digest', 'reason': 'fixture'}])  # pragma: allowlist secret
     with pytest.raises(ValueError):
         module.validate_reviewed([{'file': 'tests/demo.py', 'type': 'Secret Keyword',
                                   'hashed_secret': '0' * 40, 'reason': 'fixture', 'secret': 'not allowed'}])

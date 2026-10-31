@@ -28,6 +28,8 @@ def validate_reviewed(reviewed):
             raise ValueError('Invalid reviewed fixture fields')
         if not re.fullmatch(r'[a-f0-9]{40}', item['hashed_secret']):
             raise ValueError('Fixture exception must contain a SHA1 digest, never its value')
+        if item['type'] not in {'Secret Keyword', 'Hex High Entropy String', 'Basic Auth Credentials'}:
+            raise ValueError('Unsupported fixture detector type')
         if item['reason'] not in {
             'SHA de version o checksum de evidencia; no es credencial',
             'Texto de interfaz traducido; no es credencial',
