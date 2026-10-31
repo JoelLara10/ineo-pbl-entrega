@@ -49,7 +49,7 @@ def create_patient():
         patient = PatientModel.create(data)
         return jsonify(patient), 201
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Error interno del servidor'}), 500
 
 @patients_bp.route('/<int:id_exp>', methods=['PUT'])
 @token_required
@@ -66,7 +66,7 @@ def update_patient(id_exp):
         updated = PatientModel.update(id_exp, data)
         return jsonify(updated), 200
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Error interno del servidor'}), 500
 
 @patients_bp.route('/<int:id_exp>/appointments', methods=['GET'])
 @token_required

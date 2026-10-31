@@ -17,7 +17,7 @@ def handle_exceptions(f):
         try:
             return f(*args, **kwargs)
         except Exception as e:
-            logger.error(f"Error en {f.__name__}: {str(e)}")
+            logger.error("Error in handler %s (%s)", f.__name__, type(e).__name__)
             return jsonify({'error': 'Error interno del servidor'}), 500
     return decorated
 
@@ -25,9 +25,7 @@ def log_request(f):
     """Decorador para loggear requests"""
     @wraps(f)
     def decorated(*args, **kwargs):
-        from flask import request, g
-        
-        logger.info(f"Request: {request.method} {request.path} - User: {getattr(g, 'user', {}).get('username', 'Anonymous')}")
+        logger.info("Request handler=%s", f.__name__)
         
         return f(*args, **kwargs)
     return decorated

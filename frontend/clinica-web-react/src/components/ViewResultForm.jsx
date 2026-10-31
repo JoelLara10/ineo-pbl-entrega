@@ -9,7 +9,8 @@ export default function ViewResultForm() {
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const id_examen = queryParams.get('id_examen');
+  const rawExamId = queryParams.get('id_examen') || '';
+  const id_examen = /^[1-9]\d{0,14}$/.test(rawExamId) ? encodeURIComponent(String(Number(rawExamId))) : '';
   const tipo = queryParams.get('tipo') || 'LABORATORIO';
 
   const [loading, setLoading] = useState(true);

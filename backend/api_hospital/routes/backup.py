@@ -3,6 +3,7 @@ import os
 from flask import Blueprint, jsonify, request, send_file
 from middleware.auth_middleware import role_required, token_required
 from scheduler.jobs import configure_backup_job
+from utils.safe_files import confined_file
 from utils.backups import (
     BACKUP_DIR,
     VALID_FORMATS,
@@ -56,7 +57,7 @@ def create_backup():
             'file': os.path.basename(backup_file),
         }), 201
     except (ValueError, OSError) as exc:
-        return jsonify({'error': str(exc)}), 400
+        return jsonify({'error': 'Solicitud de respaldo inválida'}), 400
 
 
 @backup_bp.route('/restore', methods=['POST'])
@@ -74,15 +75,15 @@ def restore_backup():
             'collections': restored,
         }), 200
     except FileNotFoundError as exc:
-        return jsonify({'error': str(exc)}), 404
+        return jsonify({'error': 'Solicitud de respaldo inválida'}), 404
     except RestoreError as exc:
         return jsonify({
-            'error': str(exc),
+            'error': 'No se pudieron restaurar todas las colecciones',
             'collections': exc.restored,
             'failed_collections': exc.failed,
         }), 409
     except (ValueError, OSError) as exc:
-        return jsonify({'error': str(exc)}), 400
+        return jsonify({'error': 'Solicitud de respaldo inválida'}), 400
 
 
 @backup_bp.route('/download/<path:filename>', methods=['GET'])
@@ -90,12 +91,12 @@ def restore_backup():
 @role_required('admin')
 def download_backup(filename):
     try:
-        backup_path = BACKUP_DIR / os.path.basename(filename)
-        if filename != backup_path.name or not backup_path.is_file():
+        backup_path = confined_file(BACKUP_DIR, filename)
+        if not backup_path.is_file():
             return jsonify({'error': 'Archivo no encontrado'}), 404
         return send_file(backup_path, as_attachment=True, download_name=backup_path.name)
-    except OSError as exc:
-        return jsonify({'error': str(exc)}), 400
+    except (OSError, ValueError):
+        return jsonify({'error': 'Archivo no encontrado'}), 404
 
 
 @backup_bp.route('/<path:filename>', methods=['DELETE'])
@@ -106,9 +107,9 @@ def delete_backup(filename):
         eliminar_backup(filename)
         return jsonify({'message': 'Respaldo eliminado'}), 200
     except FileNotFoundError as exc:
-        return jsonify({'error': str(exc)}), 404
+        return jsonify({'error': 'Solicitud de respaldo inválida'}), 404
     except (ValueError, OSError) as exc:
-        return jsonify({'error': str(exc)}), 400
+        return jsonify({'error': 'Solicitud de respaldo inválida'}), 400
 
 
 @backup_bp.route('/clean', methods=['POST'])
@@ -159,7 +160,7 @@ def update_automation():
         configure_backup_job(config)
         return jsonify(config), 200
     except (ValueError, TypeError) as exc:
-        return jsonify({'error': str(exc)}), 400
+        return jsonify({'error': 'Solicitud de respaldo inválida'}), 400
 
 
 @backup_bp.route('/health', methods=['GET'])

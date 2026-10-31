@@ -110,8 +110,10 @@ def main():
         '--exclude-files', r'^ci[/\\]security-reviewed-fixtures\.json$'], mode='secrets')
     run('web-static', [npm, 'run', 'lint'], ROOT / 'frontend/clinica-web-react')
     run('auth-web-tests', [npm, 'test', '--', 'src/tests/auth-session.test.jsx',
+        'src/tests/study-request-safety.test.jsx',
         '--reporter=default', '--reporter=junit', '--outputFile=' + str(out / 'auth-web.xml')], ROOT / 'frontend/clinica-web-react')
     run('security-api-tests', [args.test_python, '-m', 'pytest', 'tests/test_security_hardening.py',
+        'tests/test_security_remediation.py',
         '-v', '-p', 'no:cacheprovider', '--junitxml=' + str(out / 'security-api.xml')], ROOT / 'backend/api_hospital')
     suite = ET.Element('testsuite', name='Security and code gates', tests=str(len(results)),
                        failures=str(sum(not x['passed'] for x in results)))
