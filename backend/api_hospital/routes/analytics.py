@@ -51,7 +51,7 @@ def get_dashboard_stats():
         }), 200
         
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Error interno del servidor'}), 500
 @analytics_bp.route('/revenue', methods=['GET'])
 @token_required
 @role_required('admin')

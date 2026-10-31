@@ -1,5 +1,6 @@
 """Low-memory execution must retain real results without launching Java."""
 import json
+from types import SimpleNamespace
 from unittest.mock import Mock
 import pytest
 from services import analysis_resources as resources, spark_service as service
@@ -17,7 +18,7 @@ def test_small_container_uses_lightweight_even_when_host_has_ram(monkeypatch):
 
 def test_memory_limit_v2_is_respected(monkeypatch):
     def read(path):
-        return {'/sys/fs/cgroup/memory.max': '536870912', '/sys/fs/cgroup/memory.current': '209715200'}[str(path)]
+        return {'/sys/fs/cgroup/memory.max': '536870912', '/sys/fs/cgroup/memory.current': '209715200'}[path.as_posix()]
     monkeypatch.setattr(resources.Path, 'read_text', read)
     assert resources.memory_snapshot() == (512 * resources.MIB, 312 * resources.MIB)
 
@@ -91,16 +92,23 @@ def test_moment_silhouette_matches_brute_force_without_pairwise_matrix():
     assert silhouette(values, labels, 3) == pytest.approx(sum(expected) / len(expected))
 
 
-def test_pressure_kills_child(monkeypatch):
+@pytest.mark.parametrize('platform', ['nt', 'posix'])
+def test_pressure_kills_child(monkeypatch, platform):
     monkeypatch.setattr(service, 'choose_engine', lambda: 'lightweight')
     monkeypatch.setattr(service, 'memory_pressure', lambda: True)
     process = Mock(pid=321, returncode=None)
     monkeypatch.setattr(service.subprocess, 'Popen', Mock(return_value=process))
     kill = Mock()
-    monkeypatch.setattr(service.os, 'killpg', kill)
+    monkeypatch.setattr(service, 'os', SimpleNamespace(name=platform, environ=service.os.environ, killpg=kill))
+    monkeypatch.setattr(service, 'signal', SimpleNamespace(SIGKILL=9))
     with pytest.raises(service.SparkRuntimeError, match='proteger la memoria'):
         service.run_engine('clinical', [])
-    kill.assert_called_once_with(321, service.signal.SIGKILL)
+    if platform == 'posix':
+        kill.assert_called_once_with(321, 9)
+        process.kill.assert_not_called()
+    else:
+        process.kill.assert_called_once()
+        kill.assert_not_called()
     process.communicate.assert_called_once()
 
 
@@ -117,7 +125,8 @@ def test_failed_guard_retains_last_saved_analysis(monkeypatch):
     assert service.results('clinical')['summary']['total'] == 8
 
 
-def test_deadline_stops_the_whole_analysis_process(monkeypatch):
+@pytest.mark.parametrize('platform', ['nt', 'posix'])
+def test_deadline_stops_the_whole_analysis_process(monkeypatch, platform):
     monkeypatch.setattr(service, 'choose_engine', lambda: 'lightweight')
     monkeypatch.setattr(service, 'memory_pressure', lambda: False)
     clock = iter([0, 1, service.TIMEOUT + 1])
@@ -126,7 +135,13 @@ def test_deadline_stops_the_whole_analysis_process(monkeypatch):
     process.communicate.side_effect = [service.subprocess.TimeoutExpired('analysis', .25), ('', '')]
     monkeypatch.setattr(service.subprocess, 'Popen', Mock(return_value=process))
     kill = Mock()
-    monkeypatch.setattr(service.os, 'killpg', kill)
+    monkeypatch.setattr(service, 'os', SimpleNamespace(name=platform, environ=service.os.environ, killpg=kill))
+    monkeypatch.setattr(service, 'signal', SimpleNamespace(SIGKILL=9))
     with pytest.raises(service.SparkRuntimeError, match='excedió el límite'):
         service.run_engine('clinical', [])
-    kill.assert_called_once_with(456, service.signal.SIGKILL)
+    if platform == 'posix':
+        kill.assert_called_once_with(456, 9)
+        process.kill.assert_not_called()
+    else:
+        process.kill.assert_called_once()
+        kill.assert_not_called()

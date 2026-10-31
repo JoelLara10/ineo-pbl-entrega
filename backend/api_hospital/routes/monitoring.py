@@ -67,7 +67,7 @@ def ingest():
         fall_only = data.get('type') == 'fall'
         return jsonify(success=True, data=service.ingest(device, data, fall_only)), 201
     except ValueError as error:
-        return jsonify(error=str(error)), 400
+        return jsonify(error='Datos del dispositivo inválidos'), 400
 
 
 

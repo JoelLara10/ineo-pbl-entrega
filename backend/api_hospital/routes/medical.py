@@ -176,7 +176,7 @@ def get_medico_dashboard():
     except Exception as e:
         import traceback
         traceback.print_exc()
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Error interno del servidor'}), 500
 
 
 @medical_bp.route('/paciente/<int:id_atencion>/<int:Id_exp>', methods=['GET'])
@@ -252,7 +252,7 @@ def get_paciente(id_atencion, Id_exp):
         }), 200
         
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Error interno del servidor'}), 500
     
 
 @medical_bp.route('/historia-clinica/<int:id_atencion>/<int:Id_exp>', methods=['POST'])
@@ -305,7 +305,7 @@ def save_historia_clinica(id_atencion, Id_exp):
         
     except Exception as e:
         print(f"Error guardando historia clínica: {e}")
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Error interno del servidor'}), 500
 
 
 @medical_bp.route('/historia-clinica/<int:id_atencion>/<int:Id_exp>', methods=['GET'])
@@ -326,7 +326,7 @@ def get_historia_clinica(id_atencion, Id_exp):
         return jsonify(serialize_clinical_record(historia)), 200
         
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Error interno del servidor'}), 500
     
     
 @medical_bp.route('/appointments/<int:id_atencion>/vital-signs', methods=['POST'])
@@ -391,7 +391,7 @@ def get_diagnosis(id_atencion):
         
         return jsonify(serialize_clinical_record(diagnosis)), 200
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Error interno del servidor'}), 500
 
 
 @medical_bp.route('/appointments/<int:id_atencion>/diagnosis', methods=['POST'])
@@ -437,7 +437,7 @@ def add_diagnosis(id_atencion):
         
     except Exception as e:
         print(f"Error guardando diagnóstico: {e}")
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Error interno del servidor'}), 500
 
 
 @medical_bp.route('/appointments/<int:id_atencion>/diagnosis/history', methods=['GET'])
@@ -471,7 +471,7 @@ def get_diagnosis_history(id_atencion):
         
         return jsonify([serialize_clinical_record(r) for r in result]), 200
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Error interno del servidor'}), 500
     
 @medical_bp.route('/appointments/<int:id_atencion>/prescriptions', methods=['GET'])
 @token_required
@@ -492,7 +492,7 @@ def get_prescriptions(id_atencion):
         
         return jsonify([serialize_clinical_record(p) for p in prescriptions]), 200
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Error interno del servidor'}), 500
 
 
 @medical_bp.route('/appointments/<int:id_atencion>/prescriptions', methods=['POST'])
@@ -516,7 +516,7 @@ def add_prescription(id_atencion):
         
         return jsonify(serialize_clinical_record(prescription)), 201
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Error interno del servidor'}), 500
 
 ################################################################
 ############# enfermeria
@@ -559,7 +559,7 @@ def add_nursing_note(id_atencion):
         print(f"Error en add_nursing_note: {e}")
         import traceback
         traceback.print_exc()
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Error interno del servidor'}), 500
 
 
 @medical_bp.route('/appointments/<int:id_atencion>/nursing-notes', methods=['GET'])
@@ -599,7 +599,7 @@ def get_nursing_notes(id_atencion):
         
     except Exception as e:
         print(f"Error en get_nursing_notes: {e}")
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Error interno del servidor'}), 500
     
 @medical_bp.route('/appointments/<int:id_atencion>/medications', methods=['POST'])
 @token_required
@@ -638,7 +638,7 @@ def add_medication(id_atencion):
         print(f"Error en add_medication: {e}")
         import traceback
         traceback.print_exc()
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Error interno del servidor'}), 500
 
 
 @medical_bp.route('/appointments/<int:id_atencion>/medications', methods=['GET'])
@@ -678,7 +678,7 @@ def get_medications(id_atencion):
         
     except Exception as e:
         print(f"Error en get_medications: {e}")
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Error interno del servidor'}), 500
 
 
 def _nurse_name_projection():
@@ -726,7 +726,7 @@ def add_nursing_assessment(id_atencion):
         print(f"Error en add_nursing_assessment: {e}")
         import traceback
         traceback.print_exc()
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Error interno del servidor'}), 500
 
 
 @medical_bp.route('/appointments/<int:id_atencion>/nursing-assessment', methods=['GET'])
@@ -761,7 +761,7 @@ def get_nursing_assessment(id_atencion):
         return jsonify([serialize_clinical_record(r) for r in records]), 200
     except Exception as e:
         print(f"Error en get_nursing_assessment: {e}")
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Error interno del servidor'}), 500
 
 
 @medical_bp.route('/appointments/<int:id_atencion>/fluid-balance', methods=['POST'])
@@ -813,7 +813,7 @@ def add_fluid_balance(id_atencion):
         print(f"Error en add_fluid_balance: {e}")
         import traceback
         traceback.print_exc()
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Error interno del servidor'}), 500
 
 
 @medical_bp.route('/appointments/<int:id_atencion>/fluid-balance', methods=['GET'])
@@ -855,7 +855,7 @@ def get_fluid_balance(id_atencion):
         return jsonify([serialize_clinical_record(r) for r in records]), 200
     except Exception as e:
         print(f"Error en get_fluid_balance: {e}")
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Error interno del servidor'}), 500
 
 
 @medical_bp.route('/appointments/<int:id_atencion>/nursing-care', methods=['POST'])

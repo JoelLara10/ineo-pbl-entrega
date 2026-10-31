@@ -16,7 +16,8 @@ export default function UploadResultForm() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   
-  const id_examen = queryParams.get('id_examen');
+  const rawExamId = queryParams.get('id_examen') || '';
+  const id_examen = /^[1-9]\d{0,14}$/.test(rawExamId) ? encodeURIComponent(String(Number(rawExamId))) : '';
   const tipo = queryParams.get('tipo') || 'LABORATORIO';
   const pacienteParam = queryParams.get('paciente');
   const habitacionParam = queryParams.get('habitacion');
@@ -107,6 +108,10 @@ export default function UploadResultForm() {
   };
 
   const handleSubmit = async () => {
+    if (!id_examen) {
+      setError(t('studies.missingExamId'));
+      return;
+    }
     if (archivos.length === 0) {
       window.alert(t('studies.selectAtLeastOneFile'));
       return;

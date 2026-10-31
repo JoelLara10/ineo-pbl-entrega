@@ -16,7 +16,8 @@ export default function EditResultForm() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
 
-  const id_examen = queryParams.get('id_examen');
+  const rawExamId = queryParams.get('id_examen') || '';
+  const id_examen = /^[1-9]\d{0,14}$/.test(rawExamId) ? encodeURIComponent(String(Number(rawExamId))) : '';
   const tipo = queryParams.get('tipo') || 'LABORATORIO';
   const returnSection = queryParams.get('returnSection') || 'resultados_lab';
 
@@ -113,6 +114,10 @@ export default function EditResultForm() {
   };
 
   const handleSubmit = async () => {
+    if (!id_examen) {
+      setError(t('studies.missingExamId'));
+      return;
+    }
     const archivosExistentes = info.archivos.filter(
       (nombre) => !archivosAEliminar[nombre]
     );
