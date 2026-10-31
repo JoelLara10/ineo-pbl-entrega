@@ -46,8 +46,8 @@ tipo y hash, no por directorio completo. Una credencial nueva o un valor cambiad
 falla. No actualizar automáticamente las excepciones para obtener un build verde.
 El propio catálogo se excluye de la detección, pero se valida su esquema: solo
 rutas existentes, tipos permitidos, hashes SHA1 y motivos revisados. No admite
-valores de credenciales. Los literales falsos de las pruebas del gate se anotan
-únicamente en sus cuatro líneas con `pragma: allowlist secret`.
+valores de credenciales. Las pruebas del gate usan digests sintéticos generados
+en memoria y no contienen valores de credenciales.
 El análisis no reemplaza rotar una credencial real si se descubre una filtración
 ni incluye el historial completo de Git.
 
