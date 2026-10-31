@@ -4,6 +4,7 @@ from bson import ObjectId
 import os
 import re
 from werkzeug.utils import secure_filename
+from utils.safe_files import confined_file
 
 class ExamService:
 
@@ -357,8 +358,11 @@ class ExamService:
         upload_dir = 'uploads/exams'
         os.makedirs(upload_dir, exist_ok=True)
         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-        filename = f"exam_{id_examen}_{timestamp}_{file.filename}"
-        filepath = os.path.join(upload_dir, filename)
+        safe_name = secure_filename(file.filename or '')
+        if not safe_name:
+            raise ValueError('Nombre de archivo inválido')
+        filename = f"exam_{int(id_examen)}_{timestamp}_{safe_name}"
+        filepath = str(confined_file(upload_dir, filename))
         file.save(filepath)
         db = get_collection('examenes_det').database
         db['examenes_det'].update_one(
@@ -530,10 +534,15 @@ class ExamService:
         upload_folder = 'static/resultados/laboratorio' if exam_type.upper() == 'LABORATORIO' else 'static/resultados/gabinete'
         if delete_files:
             for nombre in delete_files:
-                if nombre in archivos_actuales:
-                    archivos_actuales.remove(nombre)
-                ruta = os.path.join(upload_folder, nombre)
-                if os.path.exists(ruta):
+                # Only files registered on this exam can be removed.
+                if nombre not in archivos_actuales:
+                    continue
+                try:
+                    ruta = confined_file(upload_folder, nombre)
+                except ValueError:
+                    continue
+                archivos_actuales.remove(nombre)
+                if ruta.is_file():
                     try:
                         os.remove(ruta)
                     except:
@@ -629,8 +638,11 @@ class ExamService:
                 for nombre in archivo.split(','):
                     nombre = nombre.strip()
                     if nombre:
-                        ruta = os.path.join(upload_folder, nombre)
-                        if os.path.exists(ruta):
+                        try:
+                            ruta = confined_file(upload_folder, nombre)
+                        except ValueError:
+                            continue
+                        if ruta.is_file():
                             try:
                                 os.remove(ruta)
                                 print(f"Archivo eliminado: {ruta}")

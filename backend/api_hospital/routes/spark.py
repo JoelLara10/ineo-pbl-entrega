@@ -82,9 +82,9 @@ def run(kind):
     try:
         current, created = service.start(kind, filters)
     except ValueError as invalid:
-        return error(str(invalid), 'invalid_request', 400)
+        return error('Solicitud de análisis inválida', 'invalid_request', 400)
     except service.SparkRuntimeError as conflict:
-        return error(str(conflict), 'analysis_busy', 409)
+        return error('El análisis ya se está ejecutando.', 'analysis_busy', 409)
     except RuntimeError:
         return error('Ejecutor no disponible.', 'unavailable', 503)
     return jsonify(contract_version=service.VERSION, status=current), 202 if created else 200
@@ -110,7 +110,7 @@ def analysis_review(kind):
     try:
         review = save_review(g.spark_user_id, kind, request.get_json(silent=True))
     except ValueError as invalid:
-        return error(str(invalid), 'invalid_review', 400)
+        return error('Revisión de análisis inválida', 'invalid_review', 400)
     except LookupError as stale:
-        return error(str(stale), 'stale_result', 409)
+        return error('El resultado ya no está disponible', 'stale_result', 409)
     return jsonify(saved=True, review=review), 200
