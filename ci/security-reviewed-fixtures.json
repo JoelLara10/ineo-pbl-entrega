@@ -760,5 +760,41 @@
     "type": "Secret Keyword",
     "hashed_secret": "61bf5f8f90b2eb9bb7fe16b64417753d9c15e601",
     "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "frontend/clinica-web-react/src/i18n/locales/es.json",
+    "type": "Secret Keyword",
+    "hashed_secret": "5a6d1c612954979ea99ee33dbb2d231b00f6ac0a",
+    "reason": "Texto de interfaz traducido; no es credencial"
+  },
+  {
+    "file": "frontend/clinica-web-react/src/i18n/locales/es.json",
+    "type": "Secret Keyword",
+    "hashed_secret": "b95d03a2faceaf98932af3c912c19df68bdb2084",
+    "reason": "Texto de interfaz traducido; no es credencial"
+  },
+  {
+    "file": "frontend/clinica-web-react/src/i18n/locales/es.json",
+    "type": "Secret Keyword",
+    "hashed_secret": "e4d2422687a5e161bc12c04e91c8a0ed48de1710",
+    "reason": "Texto de interfaz traducido; no es credencial"
+  },
+  {
+    "file": "frontend/clinica-web-react/src/i18n/locales/es.json",
+    "type": "Secret Keyword",
+    "hashed_secret": "c731fa11b41f647aa40d50f8cfcd6da6d7e88e91",
+    "reason": "Texto de interfaz traducido; no es credencial"
+  },
+  {
+    "file": "frontend/clinica-web-react/src/i18n/locales/es.json",
+    "type": "Secret Keyword",
+    "hashed_secret": "0d53f4632f3a63e8e471ec33ed9b9e6b7ea04218",
+    "reason": "Texto de interfaz traducido; no es credencial"
+  },
+  {
+    "file": "frontend/clinica-web-react/src/i18n/locales/es.json",
+    "type": "Secret Keyword",
+    "hashed_secret": "79537f2b3a39f902ddd7c30649355bf9982358d1",
+    "reason": "Texto de interfaz traducido; no es credencial"
   }
 ]

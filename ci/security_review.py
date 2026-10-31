@@ -57,7 +57,8 @@ def main():
         start = time.monotonic()
         try:
             proc = subprocess.run(command, cwd=cwd, capture_output=True, text=True,
-                                  encoding='utf8', errors='replace', timeout=600)
+                                  encoding='utf8', errors='replace', timeout=600,
+                                  env={**os.environ, 'PYTHONUTF8': '1'})
             rc, stdout, stderr = proc.returncode, proc.stdout, proc.stderr
             detail = 'Exit code ' + str(rc)
             if mode == 'bandit':
@@ -72,7 +73,7 @@ def main():
                 scan = json.loads(stdout)
                 if rc:
                     raise ValueError('Secret scanner failed')
-                reviewed = json.loads((ROOT / 'ci/security-reviewed-fixtures.json').read_text())
+                reviewed = json.loads((ROOT / 'ci/security-reviewed-fixtures.json').read_text(encoding='utf8'))
                 validate_reviewed(reviewed)
                 findings = finding_locations(scan, reviewed)
                 rc = 1 if findings else 0
