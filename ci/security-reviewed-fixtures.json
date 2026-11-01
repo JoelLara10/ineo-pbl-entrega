@@ -796,5 +796,12 @@
     "type": "Secret Keyword",
     "hashed_secret": "79537f2b3a39f902ddd7c30649355bf9982358d1",
     "reason": "Texto de interfaz traducido; no es credencial"
+  },
+  {
+    "file": "backend/api_hospital/tests/test_activity18_sync.py",
+    "type": "Secret Keyword",
+    "hashed_secret": "ae2450117a3720057bdee4b39a3208b229ab1e1e",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
   }
 ]
+
