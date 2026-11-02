@@ -38,6 +38,18 @@ def validate_reviewed(reviewed):
             raise ValueError('Fixture exception must have a relative path and review reason')
 
 
+
+def audit_status(report, returncode):
+    """Reject unavailable or incomplete audits instead of treating them as clean."""
+    if returncode not in (0, 1) or not isinstance(report, dict) or 'error' in report:
+        raise ValueError('Dependency scanner unavailable')
+    counts = report.get('metadata', {}).get('vulnerabilities', {})
+    if not all(type(counts.get(k)) is int and counts[k] >= 0 for k in ('high', 'critical')):
+        raise ValueError('Incomplete dependency scan')
+    failed = bool(counts['high'] or counts['critical'])
+    return int(failed), f"high={counts['high']}, critical={counts['critical']}; lower severities retained in report"
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--out', required=True)
@@ -84,11 +96,7 @@ def main():
                 detail = f'{len(findings)} unreviewed suspected secrets'
             elif mode == 'audit':
                 report = json.loads(stdout)
-                if 'error' in report or 'metadata' not in report:
-                    raise ValueError('npm audit did not return a valid complete report')
-                counts = report['metadata']['vulnerabilities']
-                rc = 1 if counts.get('high', 0) or counts.get('critical', 0) else 0
-                detail = f"high={counts.get('high', 0)}, critical={counts.get('critical', 0)}; lower severities retained in report"
+                rc, detail = audit_status(report, rc)
             (out / (name + ('.json' if mode != 'text' else '.log'))).write_text(stdout, encoding='utf8')
             # Commands here never contain credentials. Scanner stderr is operational metadata.
             (out / (name + '-stderr.log')).write_text(stderr, encoding='utf8')
@@ -97,7 +105,7 @@ def main():
             (out / (name + '-error.log')).write_text(detail, encoding='utf8')
         results.append({'name': name, 'passed': rc == 0, 'exit_code': rc,
                         'seconds': round(time.monotonic() - start, 3), 'detail': detail})
-        print(name + ': ' + ('PASS' if rc == 0 else 'FAIL') + ' — ' + detail, flush=True)
+        print(name + ': ' + ('PASS' if rc == 0 else 'FAIL') + ' â€” ' + detail, flush=True)
 
     run('python-static', [sys.executable, '-m', 'bandit', '-r', 'app.py', 'config.py',
         'middleware', 'models', 'routes', 'services', 'utils', 'security', 'scripts',
@@ -127,7 +135,7 @@ def main():
     (out / 'summary.json').write_text(json.dumps({'sha': sha, 'checks': results,
         'passed': all(x['passed'] for x in results)}, indent=2), encoding='utf8')
     (out / 'summary.md').write_text('# Security and code review\n\nSHA: ' + sha + '\n\n' +
-        '\n'.join('- ' + x['name'] + ': ' + ('PASS' if x['passed'] else 'FAIL') + ' — ' + x['detail'] for x in results) +
+        '\n'.join('- ' + x['name'] + ': ' + ('PASS' if x['passed'] else 'FAIL') + ' â€” ' + x['detail'] for x in results) +
         '\n\nAutomated checks do not establish human UAT acceptance or complete security assurance.\n', encoding='utf8')
     return 0 if all(x['passed'] for x in results) else 1
 

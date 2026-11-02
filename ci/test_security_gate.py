@@ -32,3 +32,19 @@ def test_exception_catalog_rejects_plaintext_or_additional_fields():
     with pytest.raises(ValueError):
         module.validate_reviewed([{'file': 'tests/demo.py', 'type': 'Secret Keyword',
                                   'hashed_secret': '0' * 40, 'reason': 'fixture', 'secret': 'not allowed'}])
+
+
+@pytest.mark.parametrize('report,code', [({}, 0), ({'metadata': {}}, 0),
+    ({'metadata': {'vulnerabilities': {'high': 0}}}, 0),
+    ({'metadata': {'vulnerabilities': {'high': False, 'critical': 0}}}, 0),
+    ({'metadata': {'vulnerabilities': {'high': -1, 'critical': 0}}}, 0),
+    ({'metadata': {'vulnerabilities': {'high': 0, 'critical': 0}}}, 2)])
+def test_audit_rejects_incomplete_or_unavailable_scan(report, code):
+    with pytest.raises(ValueError):
+        module.audit_status(report, code)
+
+
+@pytest.mark.parametrize('high,critical,expected', [(0, 0, 0), (1, 0, 1), (0, 1, 1)])
+def test_audit_enforces_severity_policy(high, critical, expected):
+    assert module.audit_status({'metadata': {'vulnerabilities': {
+        'high': high, 'critical': critical}}}, 1)[0] == expected
