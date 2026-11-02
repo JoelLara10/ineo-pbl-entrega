@@ -28,7 +28,10 @@ def main():
     for name in ('main.tf', '.terraform.lock.hcl'):
         shutil.copy2(Path(__file__).with_name(name), tf / name)
     run_id = 's10-' + uuid.uuid4().hex[:12]
-    env = dict(os.environ, TF_VAR_run_id=run_id, TF_IN_AUTOMATION='1')
+    with socket.socket() as reservation:
+        reservation.bind(('127.0.0.1', 0))
+        allocated_mongo_port = reservation.getsockname()[1]
+    env = dict(os.environ, TF_VAR_run_id=run_id, TF_VAR_mongo_port=str(allocated_mongo_port), TF_IN_AUTOMATION='1')
     records, processes, streams = [], [], []
     started = datetime.now(timezone.utc).isoformat()
 
@@ -50,6 +53,7 @@ def main():
             return command(['docker', 'run', '--rm',
                             '-v', f'{tf}:/work', '-v', '/var/run/docker.sock:/var/run/docker.sock',
                             '-w', '/work', '-e', f'TF_VAR_run_id={run_id}',
+                            '-e', f'TF_VAR_mongo_port={allocated_mongo_port}',
                             *certificates, 'hashicorp/terraform:1.13.5', *args], 'tf-' + args[0])
         return command(['terraform', f'-chdir={tf}', *args], 'tf-' + args[0])
 

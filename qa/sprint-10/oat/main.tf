@@ -10,6 +10,14 @@ terraform {
 
 provider "docker" {}
 
+variable "mongo_port" {
+  type = number
+  validation {
+    condition     = var.mongo_port >= 1024 && var.mongo_port <= 65535
+    error_message = "A non-privileged local test port is required."
+  }
+}
+
 variable "run_id" {
   type = string
   validation {
@@ -32,7 +40,7 @@ resource "docker_container" "mongo" {
   }
   ports {
     internal = 27017
-    external = 0
+    external = var.mongo_port
     ip       = "127.0.0.1"
   }
 }
