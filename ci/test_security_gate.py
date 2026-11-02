@@ -34,7 +34,7 @@ def test_exception_catalog_rejects_plaintext_or_additional_fields():
                                   'hashed_secret': '0' * 40, 'reason': 'fixture', 'secret': 'not allowed'}])
 
 
-@pytest.mark.parametrize('report,code', [({}, 0), ({'metadata': {}}, 0),
+@pytest.mark.parametrize('report,code', [({}, 0), ({'metadata': None}, 0), ({'metadata': {'vulnerabilities': None}}, 0), ({'metadata': {}}, 0),
     ({'metadata': {'vulnerabilities': {'high': 0}}}, 0),
     ({'metadata': {'vulnerabilities': {'high': False, 'critical': 0}}}, 0),
     ({'metadata': {'vulnerabilities': {'high': -1, 'critical': 0}}}, 0),
