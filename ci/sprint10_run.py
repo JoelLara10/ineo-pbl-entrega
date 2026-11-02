@@ -14,11 +14,13 @@ ROOT = Path(__file__).resolve().parents[1]
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--out', required=True)
-    parser.add_argument('--phase', choices=['metadata', 'quality', 'negative', 'oat', 'candidate'], required=True)
+    parser.add_argument('--phase', choices=['metadata', 'quality', 'negative', 'oat', 'security', 'candidate'], required=True)
     args = parser.parse_args()
     out = Path(args.out).resolve()
     out.mkdir(parents=True, exist_ok=True)
     env = dict(os.environ, PYTHONUTF8='1')
+    if env.get('CA_BUNDLE'):
+        env.update(PIP_CERT=env['CA_BUNDLE'], REQUESTS_CA_BUNDLE=env['CA_BUNDLE'], NODE_EXTRA_CA_CERTS=env['CA_BUNDLE'])
     npm = shutil.which('npm.cmd' if os.name == 'nt' else 'npm')
 
     def run(name, command, cwd=ROOT):
@@ -41,7 +43,7 @@ def main():
     elif args.phase == 'quality':
         web = ROOT / 'frontend/clinica-web-react'
         for name, command in [('translations',[npm,'run','check:i18n']), ('lint',[npm,'run','lint']),
-                              ('web-tests',[npm,'run','test:coverage','--','--reporter=default','--reporter=junit',f'--outputFile={out / "web.xml"}']),
+                              ('web-tests',[npm,'run','test:coverage','--','--maxWorkers=2','--testTimeout=15000','--reporter=default','--reporter=junit',f'--outputFile={out / "web.xml"}']),
                               ('build',[npm,'run','build']), ('bundle',[npm,'run','check:bundle'])]:
             run(name, command, web)
         shutil.copytree(web / 'coverage', out / 'web-coverage', dirs_exist_ok=True)
@@ -54,6 +56,8 @@ def main():
         run('negative-ut',[sys.executable,'-m','pytest','ci/test_gate_demo.py','-v',f'--junitxml={out / "negative-ut.xml"}'])
     elif args.phase == 'oat':
         run('oat',[sys.executable,'qa/sprint-10/oat/run_oat.py','--out',str(out / 'oat')])
+    elif args.phase == 'security':
+        run('security',[sys.executable,'ci/security_review.py','--out',str(out / 'security'),'--test-python',sys.executable])
     else:
         (out / 'candidate.txt').write_text('Technical candidate only. No deployment, merge or UAT acceptance.\n', encoding='utf8')
 

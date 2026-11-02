@@ -4,6 +4,7 @@ import logging
 import os
 from pathlib import Path
 import sys
+import secrets
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--mongo-port', type=int, required=True)
@@ -12,10 +13,10 @@ args = parser.parse_args()
 root = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(root / 'backend/api_hospital'))
 # Set before importing dotenv/config/database. Never inherit production settings.
+disposable_key = secrets.token_hex(32)
 os.environ.update(MONGO_URI=f'mongodb://127.0.0.1:{args.mongo_port}/',
                   MONGO_DB='ineo_test_s10', ENABLE_SCHEDULER='false',
-                  SECRET_KEY='sprint10-disposable-local-test-only-key',
-                  JWT_SECRET_KEY='sprint10-disposable-local-test-only-key')
+                  SECRET_KEY=disposable_key, JWT_SECRET_KEY=disposable_key)
 logging.basicConfig(level=logging.INFO)
 logging.getLogger('werkzeug').setLevel(logging.ERROR)
 from app import create_app

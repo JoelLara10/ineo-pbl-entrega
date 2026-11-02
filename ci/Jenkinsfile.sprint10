@@ -43,6 +43,12 @@ pipeline {
                 else { bat '"%TEST_PYTHON%" ci/sprint10_run.py --out "%S10_OUT%" --phase quality' }
             } }
         }
+        stage('Seguridad y dependencias') {
+            steps { script {
+                if (isUnix()) { sh '"$TEST_PYTHON" ci/sprint10_run.py --out "$S10_OUT" --phase security' }
+                else { bat '"%TEST_PYTHON%" ci/sprint10_run.py --out "%S10_OUT%" --phase security' }
+            } }
+        }
         stage('OAT Docker Terraform HTTP real') {
             steps { script {
                 if (isUnix()) { sh '"$TEST_PYTHON" ci/sprint10_run.py --out "$S10_OUT" --phase oat' }
