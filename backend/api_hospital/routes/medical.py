@@ -531,7 +531,12 @@ def add_nursing_note(id_atencion):
     """
     try:
         db = get_db()
-        data = request.get_json()
+        data = request.get_json(silent=True)
+        if not isinstance(data, dict):
+            return jsonify({'error': 'Solicitud de nota inválida'}), 400
+        note = data.get('nota_enfermeria')
+        if not isinstance(note, str) or not note.strip() or len(note.strip()) > 5000:
+            return jsonify({'error': 'La nota es obligatoria y admite hasta 5000 caracteres'}), 400
         
         # Verificar que la atención existe
         atencion = db['atencion'].find_one({'id_atencion': id_atencion})
@@ -543,7 +548,7 @@ def add_nursing_note(id_atencion):
             'id_nota': get_next_sequence('nursing_notes_id'),
             'id_atencion': id_atencion,
             'Id_exp': atencion['Id_exp'],
-            'nota': data.get('nota_enfermeria', ''),
+            'nota': note.strip(),
             'id_enfermero': ObjectId(g.user['user_id']),
             'fecha_registro': datetime.now(timezone.utc)
         }
@@ -556,9 +561,6 @@ def add_nursing_note(id_atencion):
         }), 201
         
     except Exception as e:
-        print(f"Error en add_nursing_note: {e}")
-        import traceback
-        traceback.print_exc()
         return jsonify({'error': 'Error interno del servidor'}), 500
 
 
