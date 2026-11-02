@@ -1,4 +1,5 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, g
+from uuid import uuid4
 from flask_cors import CORS
 import os
 from datetime import datetime
@@ -80,10 +81,15 @@ def create_app():
     @app.before_request
     def log_request_start():
         # No registrar query strings: pueden contener filtros o datos sensibles.
-        print(f">>> PETICIÓN: {request.method} {request.path}", flush=True)
+        g.request_id = uuid4().hex
+        # Log only the registered route, never user-controlled URL segments,
+        # query strings, bodies or authorization headers.
+        route = request.url_rule.rule if request.url_rule else 'unmatched'
+        app.logger.info('request id=%s method=%s route=%s', g.request_id, request.method, route)
 
     @app.after_request
     def add_security_headers(response):
+        response.headers['X-Request-ID'] = g.get('request_id', uuid4().hex)
         response.headers.setdefault('X-Content-Type-Options', 'nosniff')
         response.headers.setdefault('X-Frame-Options', 'DENY')
         response.headers.setdefault('Referrer-Policy', 'no-referrer')

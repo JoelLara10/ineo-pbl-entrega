@@ -1,0 +1,65 @@
+pipeline {
+    agent any
+    options { disableConcurrentBuilds(); timeout(time: 35, unit: 'MINUTES'); buildDiscarder(logRotator(numToKeepStr: '40')) }
+    triggers { pollSCM('H/2 * * * *') }
+    parameters {
+        string(name: 'SOURCE_BRANCH', defaultValue: 'feature/joel-sprint4-completo')
+        string(name: 'TEST_PYTHON', defaultValue: 'python')
+        string(name: 'CA_BUNDLE', defaultValue: '')
+        choice(name: 'SCENARIO', choices: ['normal', 'ut-failure', 'agent-unavailable'], description: 'Negative rehearsals must fail or abort and skip candidate')
+    }
+    environment { PYTHONUTF8 = '1'; S10_TERRAFORM_DOCKER = '1' }
+    stages {
+        stage('Checkout y trazabilidad Azure') {
+            steps { script {
+                if (!isUnix()) { bat 'git init .'; bat 'git config http.sslBackend schannel' }
+                checkout([$class:'GitSCM', branches:[[name:"*/${params.SOURCE_BRANCH}"]],
+                    userRemoteConfigs:[[url:'https://github.com/JoelLara10/ineo-pbl-entrega.git']],
+                    extensions:[[$class:'DisableRemotePoll']]])
+                env.S10_OUT = env.WORKSPACE + '/reports/sprint10/build-' + env.BUILD_NUMBER
+                env.SPRINT10_CAUSE = currentBuild.getBuildCauses().toString()
+                if (isUnix()) { sh '"$TEST_PYTHON" ci/sprint10_run.py --out "$S10_OUT" --phase metadata' }
+                else { bat '"%TEST_PYTHON%" ci/sprint10_run.py --out "%S10_OUT%" --phase metadata' }
+                currentBuild.description = 'PBL-37 #440 / PBL-47 #532 | Azure Sprint 10 | ' + params.SCENARIO
+            } }
+        }
+        stage('Ensayo agente no disponible') {
+            when { expression { params.SCENARIO == 'agent-unavailable' } }
+            steps { timeout(time:20, unit:'SECONDS') { node('ineo-sprint10-disposable-offline-agent') { error('This label must never execute') } } }
+        }
+        stage('Ensayo fallo UT') {
+            when { expression { params.SCENARIO == 'ut-failure' } }
+            steps { script { withEnv(['INEO_FORCE_FAILURE=true']) {
+                if (isUnix()) { sh '"$TEST_PYTHON" ci/sprint10_run.py --out "$S10_OUT" --phase negative' }
+                else { bat '"%TEST_PYTHON%" ci/sprint10_run.py --out "%S10_OUT%" --phase negative' }
+            } } }
+        }
+        stage('Lint UT contratos cobertura build') {
+            steps { script {
+                withEnv(params.CA_BUNDLE?.trim() ? ["NODE_EXTRA_CA_CERTS=${params.CA_BUNDLE}"] : []) {
+                    dir('frontend/clinica-web-react') { if (isUnix()) { sh 'npm ci' } else { bat 'call npm ci' } }
+                }
+                if (isUnix()) { sh '"$TEST_PYTHON" ci/sprint10_run.py --out "$S10_OUT" --phase quality' }
+                else { bat '"%TEST_PYTHON%" ci/sprint10_run.py --out "%S10_OUT%" --phase quality' }
+            } }
+        }
+        stage('OAT Docker Terraform HTTP real') {
+            steps { script {
+                if (isUnix()) { sh '"$TEST_PYTHON" ci/sprint10_run.py --out "$S10_OUT" --phase oat' }
+                else { bat '"%TEST_PYTHON%" ci/sprint10_run.py --out "%S10_OUT%" --phase oat' }
+            } }
+        }
+        stage('Candidato tecnico sin despliegue') {
+            steps { script {
+                if (isUnix()) { sh '"$TEST_PYTHON" ci/sprint10_run.py --out "$S10_OUT" --phase candidate' }
+                else { bat '"%TEST_PYTHON%" ci/sprint10_run.py --out "%S10_OUT%" --phase candidate' }
+            } }
+        }
+    }
+    post { always { script {
+        if (env.S10_OUT) {
+            junit testResults:'reports/sprint10/build-' + env.BUILD_NUMBER + '/*.xml,reports/sprint10/build-' + env.BUILD_NUMBER + '/oat/oat.xml', allowEmptyResults:true
+            archiveArtifacts artifacts:'reports/sprint10/build-' + env.BUILD_NUMBER + '/**', excludes:'**/.terraform/**,**/tmp-api/**,**/*.tfstate*', allowEmptyArchive:false
+        }
+    } } }
+}
