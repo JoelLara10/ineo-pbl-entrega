@@ -82,10 +82,8 @@ def create_app():
     def log_request_start():
         # No registrar query strings: pueden contener filtros o datos sensibles.
         g.request_id = uuid4().hex
-        # Log only the registered route, never user-controlled URL segments,
-        # query strings, bodies or authorization headers.
-        route = request.url_rule.rule if request.url_rule else 'unmatched'
-        app.logger.info('request id=%s method=%s route=%s', g.request_id, request.method, route)
+        # Correlate requests without recording client-provided input.
+        app.logger.info('request id=%s', g.request_id)
 
     @app.after_request
     def add_security_headers(response):

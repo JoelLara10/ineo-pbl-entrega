@@ -40,7 +40,7 @@ En Jenkins crear Pipeline con el contenido de `ci/Jenkinsfile.sprint10`, fijar T
 CI-01: causa SCM y SHA coincidentes. CI-02: resultado FAILURE, aserción UT visible y candidato ausente. CI-03: JUnit, logs y cobertura no vacíos y accesibles. CI-04: espera de agente no disponible termina por timeout y no produce candidato.
 OAT-01: /ready 200 con Mongo real, 503 sin Mongo, /health 200, recuperación 200. OAT-02: request ID generado presente en log; token/cabecera/ruta sintéticos ausentes. OAT-03: proceso API nuevo, mismo puerto, salud 200 y petición sin sesión 401; objetivo técnico de ensayo 45 segundos, sujeto a revisión operativa. OAT-04: Terraform destruye únicamente el estado privado de esta ejecución; cero contenedores con su etiqueta y contenedores ajenos siguen activos.
 
-La API registra el patrón de ruta registrado, no el path variable, query ni cuerpo. Genera X-Request-ID y nunca confía en el enviado por el cliente. El servidor de ensayo desactiva el access log de Werkzeug, que de otro modo imprimiría la URL sin sanitizar. En despliegues, revisar que proxy y servidor tampoco registren cuerpos o URLs sensibles.
+La API registra el identificador X-Request-ID que genera para cada petición. Mantiene los datos del cliente fuera de ese mensaje. El servidor de ensayo desactiva el access log de Werkzeug, que de otro modo imprimiría la URL sin sanitizar. En despliegues, revisar que proxy y servidor tampoco registren cuerpos o URLs sensibles.
 
 Reportes por build en `reports/sprint10/build-N/`. No versionar entornos, caché del proveedor ni estado Terraform. Guardar los JSON/XML/logs sanitizados originales y los Word por caso, informe y anexos. La cobertura obtenida se reporta como medición, no se presenta como cumplimiento del Quality Gate Sonar del equipo. El job de seguridad separado conserva sus controles y reportes; no se sustituye Sonar/JMeter de otros responsables.
 
@@ -53,3 +53,4 @@ Para recuperar un ensayo, detener solo el proceso API identificado por el runner
 ## Glosario
 
 CI: integración continua. OAT: aceptación operativa. SCM: control de código fuente. SHA: identificador del commit. JUnit: formato XML de resultados. IaC: infraestructura como código. Readiness: capacidad de atender con dependencias disponibles. UAT: aceptación funcional por usuario real.
+
