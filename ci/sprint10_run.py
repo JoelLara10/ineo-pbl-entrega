@@ -50,7 +50,8 @@ def main():
         run('api-tests',[sys.executable,'-m','pytest','tests','-q','--cov=.',
                          '--cov-report=term', f'--cov-report=xml:{out / "api-coverage.xml"}',
                          f'--junitxml={out / "api.xml"}', f'--basetemp={out / "tmp-api"}'], ROOT / 'backend/api_hospital')
-        run('policy-tests',[sys.executable,'-m','pytest','ci/test_security_gate.py','-q',f'--junitxml={out / "policy.xml"}'])
+        run('changed-coverage',[sys.executable,'ci/sprint10_coverage.py','--xml',str(out / 'api-coverage.xml'),'--out',str(out / 'changed-coverage.json')])
+        run('policy-tests',[sys.executable,'-m','pytest','ci/test_security_gate.py','ci/test_sprint10_coverage.py','-q',f'--junitxml={out / "policy.xml"}'])
     elif args.phase == 'negative':
         # Actual failing assertion in an isolated feature-branch rehearsal.
         run('negative-ut',[sys.executable,'-m','pytest','ci/test_gate_demo.py','-v',f'--junitxml={out / "negative-ut.xml"}'])

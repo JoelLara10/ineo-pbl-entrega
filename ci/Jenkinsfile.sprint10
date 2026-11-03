@@ -64,7 +64,7 @@ pipeline {
     }
     post { always { script {
         if (env.S10_OUT) {
-            junit testResults:'reports/sprint10/build-' + env.BUILD_NUMBER + '/*.xml,reports/sprint10/build-' + env.BUILD_NUMBER + '/oat/oat.xml', allowEmptyResults:true
+            junit testResults:'reports/sprint10/build-' + env.BUILD_NUMBER + '/web.xml,reports/sprint10/build-' + env.BUILD_NUMBER + '/api.xml,reports/sprint10/build-' + env.BUILD_NUMBER + '/policy.xml,reports/sprint10/build-' + env.BUILD_NUMBER + '/negative-ut.xml,reports/sprint10/build-' + env.BUILD_NUMBER + '/oat/oat.xml,reports/sprint10/build-' + env.BUILD_NUMBER + '/security/*.xml', allowEmptyResults:true
             archiveArtifacts artifacts:'reports/sprint10/build-' + env.BUILD_NUMBER + '/**', excludes:'**/.terraform/**,**/tmp-api/**,**/*.tfstate*', allowEmptyArchive:false
         }
     } } }
