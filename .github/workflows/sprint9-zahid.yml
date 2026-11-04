@@ -8,6 +8,7 @@ permissions:
   contents: read
 jobs:
   validation:
+    if: ${{ github.event_name != 'pull_request' || startsWith(github.head_ref, 'sprint-9') || startsWith(github.head_ref, 'fix/sprint9-') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7

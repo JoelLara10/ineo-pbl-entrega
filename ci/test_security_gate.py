@@ -12,7 +12,7 @@ DIGEST_B = 'b' * 40
 
 def test_unreviewed_secret_blocks_gate():
     scan = {'results': {'source.py': [{'type': 'Secret Keyword', 'hashed_secret': DIGEST_A, 'line_number': 8}]}}
-    assert module.finding_locations(scan, []) == [{'file': 'source.py', 'type': 'Secret Keyword', 'line': 8}]
+    assert module.finding_locations(scan, []) == [{'file': 'source.py', 'type': 'Secret Keyword', 'line': 8, 'fingerprint': DIGEST_A}]
 
 
 def test_exception_is_scoped_to_file_type_and_value_on_both_platforms():
@@ -48,3 +48,4 @@ def test_audit_rejects_incomplete_or_unavailable_scan(report, code):
 def test_audit_enforces_severity_policy(high, critical, expected):
     assert module.audit_status({'metadata': {'vulnerabilities': {
         'high': high, 'critical': critical}}}, 1)[0] == expected
+
