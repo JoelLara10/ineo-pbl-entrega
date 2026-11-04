@@ -10,6 +10,11 @@
 venv/
 .venv/
 .security-api/
+.terraform/
+*.tfstate
+*.tfstate.*
+qa/sprint-10/oat/terraform.tfvars
+reports/sprint10/
 __pycache__/
 *.pyc
 .pytest_cache/

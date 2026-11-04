@@ -54,6 +54,8 @@ def test_clinical_counts_partial_and_undated_values_correctly():
 @pytest.mark.parametrize('kind', service.TYPES)
 def test_low_memory_subprocess_completes_without_spark(kind, monkeypatch):
     monkeypatch.setenv('ANALYSIS_ENGINE', 'lightweight')
+    # Exercise a small container with enough headroom regardless of host load.
+    monkeypatch.setattr(resources, 'memory_snapshot', lambda: (512 * resources.MIB, 240 * resources.MIB))
     monkeypatch.setattr(service, 'runtime_error', Mock(side_effect=AssertionError('Must not launch Spark')))
     result = service.run_engine(kind, service.collect_source(kind))
     assert result['available']
