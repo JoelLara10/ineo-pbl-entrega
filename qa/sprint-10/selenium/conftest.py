@@ -23,7 +23,7 @@ def pytest_configure(config):
 
 @pytest.fixture(scope="function")
 def browser():
-    base_url = os.getenv("INEO_BASE_URL", "https://ineo-web-qa.vercel.app").rstrip("/")
+    base_url = (os.getenv("INEO_BASE_URL") or os.getenv("INEO_WEB_URL", "https://ineo-web-qa.vercel.app")).rstrip("/")
 
     options = ChromeOptions()
     options.add_argument("--window-size=1366,768")
@@ -53,4 +53,5 @@ def browser():
 
 @pytest.fixture(scope="session")
 def base_url():
-    return os.getenv("INEO_BASE_URL", "https://ineo-web-qa.vercel.app").rstrip("/")
+    return (os.getenv("INEO_BASE_URL") or os.getenv("INEO_WEB_URL", "https://ineo-web-qa.vercel.app")).rstrip("/")
+
