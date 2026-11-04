@@ -804,15 +804,15 @@
     "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
   },
   {
-    "file": "backend/api_hospital/tests/test_sprint10_contracts.py",
+    "file": "frontend/clinica-web-react/src/tests/sprint10-contract-sit.test.js",
     "type": "Secret Keyword",
     "hashed_secret": "ae2450117a3720057bdee4b39a3208b229ab1e1e",
     "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
   },
   {
-    "file": "frontend/clinica-web-react/src/tests/sprint10-contract-sit.test.js",
+    "file": "backend/api_hospital/tests/test_sprint10_contracts.py",
     "type": "Secret Keyword",
-    "hashed_secret": "ae2450117a3720057bdee4b39a3208b229ab1e1e",
+    "hashed_secret": "81f344a7686a80b4c5293e8fdc0b0160c82c06a8",
     "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
   }
 ]
