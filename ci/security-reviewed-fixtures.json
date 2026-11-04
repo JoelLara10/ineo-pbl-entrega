@@ -806,25 +806,13 @@
   {
     "file": ".github/workflows/sonarqube-quality.yml",
     "type": "Secret Keyword",
-    "hashed_secret": "7833f037dd66cb147bb58015d282826bcd99912b",
+    "hashed_secret": "23dbd7a2322ecda0f1d50fedfd4428061ece733d",
     "reason": "Referencia a secret de GitHub Actions sin valor literal."
   },
   {
     "file": ".github/workflows/sonarqube-quality.yml",
     "type": "Secret Keyword",
-    "hashed_secret": "46fdff4439991cd8a40082b25bae8b0b382c9a47",
-    "reason": "Referencia a secret de GitHub Actions sin valor literal."
-  },
-  {
-    "file": ".github/workflows/sonarqube-quality.yml",
-    "type": "Secret Keyword",
-    "hashed_secret": "08d6a8e53b36e0e7a27a0f88d0e380e52957508b",
-    "reason": "Referencia a secret de GitHub Actions sin valor literal."
-  },
-  {
-    "file": ".github/workflows/sonarqube-quality.yml",
-    "type": "Secret Keyword",
-    "hashed_secret": "087fc68aa64f31d12b199f05424cf4d9351343c7",
+    "hashed_secret": "3620a1805b3cc5e6550d0b698c8855e9692025ac",
     "reason": "Referencia a secret de GitHub Actions sin valor literal."
   }
 ]
