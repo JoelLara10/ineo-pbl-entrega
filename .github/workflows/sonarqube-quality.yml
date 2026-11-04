@@ -68,14 +68,14 @@ jobs:
         with:
           projectBaseDir: frontend/clinica-web-react
           args: >
-            -Dsonar.projectKey=INEO-Web
-            -Dsonar.projectName=INEO-Web
+            -Dsonar.projectKey=jaimediaz25
+            -Dsonar.projectName=jaimediaz25
             -Dsonar.sources=src
             -Dsonar.exclusions=**/node_modules/**,**/dist/**,**/coverage/**,**/*.test.js,**/*.test.jsx,**/*.spec.js,**/*.spec.jsx
             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
             -Dsonar.scm.revision=${{ github.sha }}
             -Dsonar.qualitygate.wait=true
-            -Dsonar.qualitygate.timeout=300
+            -Dsonar.qualitygate.timeout=300s
 
   sonar-api:
     name: SonarQube - API + coverage XML + Quality Gate
@@ -140,8 +140,8 @@ jobs:
         with:
           projectBaseDir: backend/api_hospital
           args: >
-            -Dsonar.projectKey=INEO-API
-            -Dsonar.projectName=INEO-API
+            -Dsonar.projectKey=jaimediaz25
+            -Dsonar.projectName=jaimediaz25
             -Dsonar.sources=.
             -Dsonar.tests=tests
             -Dsonar.exclusions=**/.venv/**,**/venv/**,**/__pycache__/**,**/.pytest_cache/**,**/tests/**,**/coverage.xml
