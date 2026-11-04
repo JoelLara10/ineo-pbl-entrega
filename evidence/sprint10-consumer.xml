@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="9" failures="0" errors="0" time="0.1376138">
+    <testsuite name="src/tests/sprint10-contract-sit.test.js" timestamp="2026-11-04T17:34:39.575Z" hostname="Galicia" tests="1" failures="0" errors="0" skipped="1" time="0">
+        <testcase classname="src/tests/sprint10-contract-sit.test.js" name="PBL-30 SIT React client - Flask - MongoDB &gt; logs in and consumes patients, studies, Analytics and all Spark types" time="0">
+            <skipped/>
+        </testcase>
+    </testsuite>
+    <testsuite name="src/tests/sprint7-zahid.test.jsx" timestamp="2026-11-04T17:34:39.578Z" hostname="Galicia" tests="8" failures="0" errors="0" skipped="0" time="0.1376138">
+        <testcase classname="src/tests/sprint7-zahid.test.jsx" name="Sprint 7 — Zahid: PBL-05-T5 y contrato consumidor Spark &gt; traduce todas las claves estáticas y dinámicas de Spark" time="0.0383184">
+        </testcase>
+        <testcase classname="src/tests/sprint7-zahid.test.jsx" name="Sprint 7 — Zahid: PBL-05-T5 y contrato consumidor Spark &gt; renderiza etiquetas y medidas reales en es" time="0.0836165">
+        </testcase>
+        <testcase classname="src/tests/sprint7-zahid.test.jsx" name="Sprint 7 — Zahid: PBL-05-T5 y contrato consumidor Spark &gt; renderiza etiquetas y medidas reales en en" time="0.0052228">
+        </testcase>
+        <testcase classname="src/tests/sprint7-zahid.test.jsx" name="Sprint 7 — Zahid: PBL-05-T5 y contrato consumidor Spark &gt; consume las rutas y formatos de analytics" time="0.0018718">
+        </testcase>
+        <testcase classname="src/tests/sprint7-zahid.test.jsx" name="Sprint 7 — Zahid: PBL-05-T5 y contrato consumidor Spark &gt; consume las rutas y formatos de met" time="0.0006377">
+        </testcase>
+        <testcase classname="src/tests/sprint7-zahid.test.jsx" name="Sprint 7 — Zahid: PBL-05-T5 y contrato consumidor Spark &gt; consume las rutas y formatos de clinical" time="0.0007427">
+        </testcase>
+        <testcase classname="src/tests/sprint7-zahid.test.jsx" name="Sprint 7 — Zahid: PBL-05-T5 y contrato consumidor Spark &gt; consume las rutas y formatos de unsupervised" time="0.0007471">
+        </testcase>
+        <testcase classname="src/tests/sprint7-zahid.test.jsx" name="Sprint 7 — Zahid: PBL-05-T5 y contrato consumidor Spark &gt; propaga errores de API para que la pantalla permita reintentar" time="0.0021294">
+        </testcase>
+    </testsuite>
+</testsuites>

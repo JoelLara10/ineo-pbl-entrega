@@ -42,3 +42,11 @@ backend/api_hospital/api-hospital.env
 reports/
 **/*@tmp/
 outputs-preflight.xml
+
+# Terraform state, plans and local configuration may contain sensitive values.
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+*.tfvars
+crash.log
