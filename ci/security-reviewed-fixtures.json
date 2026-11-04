@@ -802,6 +802,29 @@
     "type": "Secret Keyword",
     "hashed_secret": "ae2450117a3720057bdee4b39a3208b229ab1e1e",
     "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": ".github/workflows/sonarqube-quality.yml",
+    "type": "Secret Keyword",
+    "hashed_secret": "7833f037dd66cb147bb58015d282826bcd99912b",
+    "reason": "Referencia a secret de GitHub Actions sin valor literal."
+  },
+  {
+    "file": ".github/workflows/sonarqube-quality.yml",
+    "type": "Secret Keyword",
+    "hashed_secret": "46fdff4439991cd8a40082b25bae8b0b382c9a47",
+    "reason": "Referencia a secret de GitHub Actions sin valor literal."
+  },
+  {
+    "file": ".github/workflows/sonarqube-quality.yml",
+    "type": "Secret Keyword",
+    "hashed_secret": "08d6a8e53b36e0e7a27a0f88d0e380e52957508b",
+    "reason": "Referencia a secret de GitHub Actions sin valor literal."
+  },
+  {
+    "file": ".github/workflows/sonarqube-quality.yml",
+    "type": "Secret Keyword",
+    "hashed_secret": "087fc68aa64f31d12b199f05424cf4d9351343c7",
+    "reason": "Referencia a secret de GitHub Actions sin valor literal."
   }
 ]
-
