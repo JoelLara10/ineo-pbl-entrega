@@ -826,8 +826,8 @@
     "file": "backend/api_hospital/tests/test_sprint10_contracts.py",
     "type": "Secret Keyword",
     "hashed_secret": "81f344a7686a80b4c5293e8fdc0b0160c82c06a8",
-    "reason": "Dato sintetico de test o demo local; nunca usar en produccion",
-  }
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
 
   {
     "file": "frontend/clinica-web-react/src/tests/sprint10-contract-sit.test.js",
