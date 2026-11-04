@@ -814,5 +814,19 @@
     "type": "Secret Keyword",
     "hashed_secret": "3620a1805b3cc5e6550d0b698c8855e9692025ac",
     "reason": "Referencia a secret de GitHub Actions sin valor literal."
+  },
+
+  {
+    "file": "backend/api_hospital/tests/test_sprint10_contracts.py",
+    "type": "Secret Keyword",
+    "hashed_secret": "ae2450117a3720057bdee4b39a3208b229ab1e1e",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "backend/api_hospital/tests/test_sprint10_contracts.py",
+    "type": "Secret Keyword",
+    "hashed_secret": "81f344a7686a80b4c5293e8fdc0b0160c82c06a8",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
   }
+
 ]
