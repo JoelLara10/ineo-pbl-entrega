@@ -1,0 +1,169 @@
+name: INEO SonarQube Quality
+
+on:
+  push:
+    branches:
+      - "feature/sprint-10-jaime"
+      - "feature/**"
+      - develop
+      - qa
+      - main
+  pull_request:
+    branches:
+      - develop
+      - qa
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  sonar-web:
+    name: SonarQube - Web + LCOV + Quality Gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact commit
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/clinica-web-react/package-lock.json
+
+      - name: Install web dependencies
+        working-directory: frontend/clinica-web-react
+        run: npm ci
+
+      - name: Run tests and generate LCOV
+        working-directory: frontend/clinica-web-react
+        run: npm run test:coverage
+
+      - name: Verify LCOV exists
+        working-directory: frontend/clinica-web-react
+        run: |
+          test -s coverage/lcov.info
+          echo "LCOV generado correctamente"
+          ls -lh coverage/lcov.info
+
+      - name: Upload web coverage
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sonar-web-coverage
+          path: frontend/clinica-web-react/coverage/
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Analyze web and wait for Quality Gate
+        uses: SonarSource/sonarqube-scan-action@v6
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        with:
+          projectBaseDir: frontend/clinica-web-react
+          args: >
+            -Dsonar.projectKey=INEO-Web
+            -Dsonar.projectName=INEO-Web
+            -Dsonar.sources=src
+            -Dsonar.exclusions=**/node_modules/**,**/dist/**,**/coverage/**,**/*.test.js,**/*.test.jsx,**/*.spec.js,**/*.spec.jsx
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+            -Dsonar.scm.revision=${{ github.sha }}
+            -Dsonar.qualitygate.wait=true
+            -Dsonar.qualitygate.timeout=300
+
+  sonar-api:
+    name: SonarQube - API + coverage XML + Quality Gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact commit
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: backend/api_hospital/requirements*.txt
+
+      - name: Install API and test dependencies
+        working-directory: backend/api_hospital
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+          python -m pip install -r requirements-test.txt
+
+      - name: Run API tests and generate Cobertura XML
+        working-directory: backend/api_hospital
+        env:
+          MONGO_URI: mongodb://localhost:27017/
+          MONGO_DB: hospital_test
+          SECRET_KEY: ci-test-secret-key
+          JWT_SECRET_KEY: ci-test-jwt-secret-key
+        run: |
+          python -m pytest -v \
+            --cov=. \
+            --cov-report=term-missing \
+            --cov-report=xml:coverage.xml \
+            --junitxml=test-results.xml
+
+      - name: Verify API coverage XML
+        working-directory: backend/api_hospital
+        run: |
+          test -s coverage.xml
+          echo "Cobertura XML generado correctamente"
+          ls -lh coverage.xml
+
+      - name: Upload API coverage and test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sonar-api-coverage
+          path: |
+            backend/api_hospital/coverage.xml
+            backend/api_hospital/test-results.xml
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Analyze API and wait for Quality Gate
+        uses: SonarSource/sonarqube-scan-action@v6
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        with:
+          projectBaseDir: backend/api_hospital
+          args: >
+            -Dsonar.projectKey=INEO-API
+            -Dsonar.projectName=INEO-API
+            -Dsonar.sources=.
+            -Dsonar.tests=tests
+            -Dsonar.exclusions=**/.venv/**,**/venv/**,**/__pycache__/**,**/.pytest_cache/**,**/tests/**,**/coverage.xml
+            -Dsonar.python.coverage.reportPaths=coverage.xml
+            -Dsonar.scm.revision=${{ github.sha }}
+            -Dsonar.qualitygate.wait=true
+            -Dsonar.qualitygate.timeout=300
+
+  sonar-required:
+    name: SonarQube required checks
+    runs-on: ubuntu-latest
+    needs:
+      - sonar-web
+      - sonar-api
+    if: always()
+    steps:
+      - name: Require both Sonar analyses and Quality Gates
+        env:
+          WEB_RESULT: ${{ needs.sonar-web.result }}
+          API_RESULT: ${{ needs.sonar-api.result }}
+        run: |
+          echo "Web: ${WEB_RESULT}"
+          echo "API: ${API_RESULT}"
+          test "${WEB_RESULT}" = "success"
+          test "${API_RESULT}" = "success"
