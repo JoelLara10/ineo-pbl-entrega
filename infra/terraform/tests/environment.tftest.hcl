@@ -1,5 +1,14 @@
 mock_provider "docker" {}
 
+# Provider-backed test state is cleaned automatically after the test runs.
+run "provisioning_lifecycle" {
+  command = apply
+  assert {
+    condition     = output.mongo_uri == "mongodb://127.0.0.1:27029/"
+    error_message = "El ambiente debe conservar su URI de prueba."
+  }
+}
+
 run "isolated_environment" {
   command = plan
   assert {

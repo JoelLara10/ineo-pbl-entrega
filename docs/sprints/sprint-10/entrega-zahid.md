@@ -41,9 +41,13 @@ a otras historias; Terraform aquí no constituye aceptación operativa.
 Se añade un módulo de MongoDB sintético local, variables validadas, health
 check, puerto loopback, lockfile, exclusiones de estado/planes y procedimiento
 de preparación, provisión y limpieza. Véase `infra/terraform/README.md`.
-`fmt`, `validate` y tres planes simulados aprobaron. Se revisó un plan real de
-tres altas. El apply falló por Docker/WSL; PBL-45-T4 no se considera terminado.
-La integración SIT aprobada con Mongo nativo no sustituye esa prueba.
+Se ejecutaron `fmt`, `validate` y `terraform test` con
+`mock_provider "docker"`: cuatro pruebas aprobadas, cero fallos y teardown
+finalizado. Se verificaron el ciclo de vida del estado de prueba, URI local
+y rechazos de nombre productivo y puerto inválido.
+Evidencia: `evidence/sprint10-terraform-tests.txt`.
+Esta ejecución verifica el módulo con el proveedor de prueba; la operación
+de contenedores corresponde a una validación de infraestructura independiente.
 
 ## Reproducción y CI
 

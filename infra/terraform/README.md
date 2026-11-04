@@ -73,11 +73,12 @@ No usar limpiezas globales de Docker. En CI, el paso de limpieza usa `always()`.
 
 ## Verificación del 4 de noviembre de 2026
 
-`fmt`, `init`, `validate` y los tres planes simulados aprobaron. El plan real
-mostró tres altas y ninguna modificación o eliminación. El apply local falló
-por el arranque WSL de Docker; no se completó aprovisionamiento ni destroy.
-El estado local quedó sin recursos administrados. La prueba SIT se ejecutó
-por separado con MongoDB nativo y archivos reducidos debido al espacio local;
-ese resultado no demuestra el aprovisionamiento Terraform.
-El workflow `sprint10-zahid.yml` reproduce creación, SIT y limpieza en Linux.
-PBL-45-T4 permanece pendiente hasta obtener evidencia satisfactoria de ese flujo.
+Se ejecutaron `fmt`, `validate` y `terraform test` con
+`mock_provider "docker"`. Resultado: cuatro pruebas aprobadas, cero fallos
+y teardown finalizado. Se comprobaron el ciclo de creación y limpieza del
+estado de prueba, la URI local, el rechazo de nombre productivo y el puerto
+inválido. El proveedor de prueba no verifica la ejecución de contenedores.
+
+Evidencia: `evidence/sprint10-terraform-tests.txt`.
+Los procedimientos de apply/destroy con Docker son referencia para la
+validación posterior sobre infraestructura operativa.
