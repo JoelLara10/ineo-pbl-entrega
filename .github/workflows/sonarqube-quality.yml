@@ -1,4 +1,5 @@
-name: INEO SonarQube Quality
+
+name: INEO SonarQube Quality - API
 
 on:
   push:
@@ -8,11 +9,13 @@ on:
       - develop
       - qa
       - main
+
   pull_request:
     branches:
       - develop
       - qa
       - main
+
   workflow_dispatch:
 
 permissions:
@@ -21,8 +24,21 @@ permissions:
 
 jobs:
   sonar-api:
-    name: SonarQube - API + coverage XML + Quality Gate
+    name: SonarQube - API + Coverage + Quality Gate
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    services:
+      mongodb:
+        image: mongo:7
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "mongosh --eval 'db.adminCommand(\"ping\")'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - name: Checkout exact commit
         uses: actions/checkout@v4
@@ -43,7 +59,7 @@ jobs:
           python -m pip install -r requirements.txt
           python -m pip install -r requirements-test.txt
 
-      - name: Run API tests and generate Cobertura XML
+      - name: Run API tests and generate coverage XML
         working-directory: backend/api_hospital
         env:
           MONGO_URI: mongodb://localhost:27017/
@@ -61,10 +77,10 @@ jobs:
         working-directory: backend/api_hospital
         run: |
           test -s coverage.xml
-          echo "Cobertura XML generado correctamente"
+          echo "Coverage XML generated successfully"
           ls -lh coverage.xml
 
-      - name: Upload API coverage and test report
+      - name: Upload API coverage and test reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -95,15 +111,22 @@ jobs:
             -Dsonar.qualitygate.timeout=300
 
   sonar-required:
-    name: SonarQube required checks
+    name: SonarQube required check - API
     runs-on: ubuntu-latest
     needs:
       - sonar-api
     if: always()
+
     steps:
-      - name: Require both Sonar analyses and Quality Gates
+      - name: Verify API analysis and Quality Gate
         env:
           API_RESULT: ${{ needs.sonar-api.result }}
         run: |
-          echo "API: ${API_RESULT}"
-          test "${API_RESULT}" = "success"
+          echo "API analysis result: ${API_RESULT}"
+
+          if [ "${API_RESULT}" != "success" ]; then
+            echo "ERROR: API analysis or Quality Gate failed."
+            exit 1
+          fi
+
+          echo "SUCCESS: API analysis and Quality Gate passed."
