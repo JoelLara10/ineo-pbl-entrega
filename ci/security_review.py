@@ -34,6 +34,7 @@ def validate_reviewed(reviewed):
             'SHA de version o checksum de evidencia; no es credencial',
             'Texto de interfaz traducido; no es credencial',
             'Dato sintetico de test o demo local; nunca usar en produccion',
+            'Referencia a secret de GitHub Actions sin valor literal.',
         } or not item['file'] or item['file'].startswith('/') or '..' in item['file'].split('/') or not (ROOT / item['file']).is_file():
             raise ValueError('Fixture exception must have a relative path and review reason')
 
