@@ -17,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 def finding_locations(scan, reviewed):
     """An exception matches one reviewed hash/type/file, never a whole directory."""
     allowed = {(x['file'], x['type'], x['hashed_secret']) for x in reviewed}
-    return [{'file': name.replace('\\', '/'), 'type': hit['type'], 'line': hit['line_number']}
+    return [{'file': name.replace('\\', '/'), 'type': hit['type'], 'line': hit['line_number'], 'fingerprint': hit['hashed_secret']}
             for name, hits in scan.get('results', {}).items() for hit in hits
             if (name.replace('\\', '/'), hit['type'], hit['hashed_secret']) not in allowed]
 
@@ -96,7 +96,7 @@ def main():
                 stdout = json.dumps({'unreviewed_findings': findings, 'reviewed_fixture_count': len(reviewed)}, indent=2)
                 if findings:
                     print('Unreviewed detector locations: ' + ', '.join(
-                        str(item['file']) + ':' + str(item['line']) for item in findings), flush=True)
+                        str(item['file']) + ':' + str(item['line']) + ' [' + str(item['type']) + ':' + str(item['fingerprint']) + ']' for item in findings), flush=True)
                 detail = f'{len(findings)} unreviewed suspected secrets'
             elif mode == 'audit':
                 report = json.loads(stdout)
@@ -146,3 +146,4 @@ def main():
 
 if __name__ == '__main__':
     raise SystemExit(main())
+
