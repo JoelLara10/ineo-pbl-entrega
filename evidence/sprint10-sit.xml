@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="1" failures="0" errors="0" time="0.4701929">
+    <testsuite name="src/tests/sprint10-contract-sit.test.js" timestamp="2026-11-04T17:36:04.814Z" hostname="Galicia" tests="1" failures="0" errors="0" skipped="0" time="0.4701929">
+        <testcase classname="src/tests/sprint10-contract-sit.test.js" name="PBL-30 SIT React client - Flask - MongoDB &gt; logs in and consumes patients, studies, Analytics and all Spark types" time="0.4620045">
+        </testcase>
+    </testsuite>
+</testsuites>

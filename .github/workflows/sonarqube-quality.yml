@@ -106,6 +106,7 @@ jobs:
             -Dsonar.tests=tests
             -Dsonar.exclusions=**/.venv/**,**/venv/**,**/__pycache__/**,**/.pytest_cache/**,**/tests/**,**/coverage.xml
             -Dsonar.python.coverage.reportPaths=coverage.xml
+            -Dsonar.coverage.exclusions=testing/contract_server.py
             -Dsonar.scm.revision=${{ github.sha }}
             -Dsonar.qualitygate.wait=true
             -Dsonar.qualitygate.timeout=300
