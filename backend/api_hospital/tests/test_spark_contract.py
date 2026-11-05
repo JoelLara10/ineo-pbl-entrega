@@ -171,12 +171,15 @@ def test_timeout_retains_previous_result(monkeypatch):
 
 
 def test_missing_pyspark_fails_fast_with_actionable_message(monkeypatch):
+    # Test the Spark prerequisite, independent of host RAM and auto fallback.
+    monkeypatch.setattr(service, 'choose_engine', lambda: 'spark')
     monkeypatch.setattr(service.importlib.util, 'find_spec', lambda _name: None)
     with pytest.raises(service.SparkRuntimeError, match='PySpark no está instalado'):
         service.run_engine('analytics', [])
 
 
 def test_missing_java_fails_fast_with_actionable_message(monkeypatch):
+    monkeypatch.setattr(service, 'choose_engine', lambda: 'spark')
     monkeypatch.setattr(service.importlib.util, 'find_spec', lambda _name: object())
     monkeypatch.setattr(service.shutil, 'which', lambda _name: None)
     with pytest.raises(service.SparkRuntimeError, match='Java no está disponible'):
