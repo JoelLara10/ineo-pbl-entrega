@@ -17,7 +17,8 @@ ROOT = Path(__file__).resolve().parents[1]
 def finding_locations(scan, reviewed):
     """An exception matches one reviewed hash/type/file, never a whole directory."""
     allowed = {(x['file'], x['type'], x['hashed_secret']) for x in reviewed}
-    return [{'file': name.replace('\\', '/'), 'type': hit['type'], 'line': hit['line_number']}
+    # Report only the SHA-1 fingerprint, never the detector's plaintext value.
+    return [{'file': name.replace('\\', '/'), 'type': hit['type'], 'line': hit['line_number'], 'fingerprint': hit['hashed_secret']}
             for name, hits in scan.get('results', {}).items() for hit in hits
             if (name.replace('\\', '/'), hit['type'], hit['hashed_secret']) not in allowed]
 
@@ -34,8 +35,24 @@ def validate_reviewed(reviewed):
             'SHA de version o checksum de evidencia; no es credencial',
             'Texto de interfaz traducido; no es credencial',
             'Dato sintetico de test o demo local; nunca usar en produccion',
+            'Referencia a secret de GitHub Actions sin valor literal.',
         } or not item['file'] or item['file'].startswith('/') or '..' in item['file'].split('/') or not (ROOT / item['file']).is_file():
             raise ValueError('Fixture exception must have a relative path and review reason')
+
+
+
+def audit_status(report, returncode):
+    """Reject unavailable or incomplete audits instead of treating them as clean."""
+    if returncode not in (0, 1) or not isinstance(report, dict) or 'error' in report:
+        raise ValueError('Dependency scanner unavailable')
+    metadata = report.get('metadata')
+    if not isinstance(metadata, dict) or not isinstance(metadata.get('vulnerabilities'), dict):
+        raise ValueError('Incomplete dependency scan')
+    counts = metadata['vulnerabilities']
+    if not all(type(counts.get(k)) is int and counts[k] >= 0 for k in ('high', 'critical')):
+        raise ValueError('Incomplete dependency scan')
+    failed = bool(counts['high'] or counts['critical'])
+    return int(failed), f"high={counts['high']}, critical={counts['critical']}; lower severities retained in report"
 
 
 def main():
@@ -80,15 +97,11 @@ def main():
                 stdout = json.dumps({'unreviewed_findings': findings, 'reviewed_fixture_count': len(reviewed)}, indent=2)
                 if findings:
                     print('Unreviewed detector locations: ' + ', '.join(
-                        str(item['file']) + ':' + str(item['line']) for item in findings), flush=True)
+                        str(item['file']) + ':' + str(item['line']) + ' [' + str(item['type']) + ':' + str(item['fingerprint']) + ']' for item in findings), flush=True)
                 detail = f'{len(findings)} unreviewed suspected secrets'
             elif mode == 'audit':
                 report = json.loads(stdout)
-                if 'error' in report or 'metadata' not in report:
-                    raise ValueError('npm audit did not return a valid complete report')
-                counts = report['metadata']['vulnerabilities']
-                rc = 1 if counts.get('high', 0) or counts.get('critical', 0) else 0
-                detail = f"high={counts.get('high', 0)}, critical={counts.get('critical', 0)}; lower severities retained in report"
+                rc, detail = audit_status(report, rc)
             (out / (name + ('.json' if mode != 'text' else '.log'))).write_text(stdout, encoding='utf8')
             # Commands here never contain credentials. Scanner stderr is operational metadata.
             (out / (name + '-stderr.log')).write_text(stderr, encoding='utf8')
@@ -134,3 +147,6 @@ def main():
 
 if __name__ == '__main__':
     raise SystemExit(main())
+
+
+

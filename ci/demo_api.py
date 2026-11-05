@@ -10,6 +10,7 @@ parser.add_argument('--ready-file', type=Path, required=True)
 parser.add_argument('--port', type=int, default=0)
 parser.add_argument('--database-down', action='store_true')
 parser.add_argument('--uat-regressions', action='store_true')
+parser.add_argument('--activity18', action='store_true')
 args = parser.parse_args()
 os.environ.update(MONGO_URI='mongodb://127.0.0.1:1/', MONGO_DB='ineo_test_oat_demo',
                   SECRET_KEY='synthetic-oat-only-never-production', ENABLE_SCHEDULER='false')
@@ -21,6 +22,17 @@ from testing.seed import reset
 db_instance.client = mongomock.MongoClient()
 db_instance.db = db_instance.client['ineo_test_oat_demo']
 reset(db_instance.db)
+if args.activity18:
+    from bson import ObjectId
+    from datetime import datetime, timezone
+    db_instance.db.atencion.update_one({'id_atencion': 1}, {'$set': {'area': 'Ambulatorio'}})
+    db_instance.db.pacientes.update_one({'Id_exp': 1}, {'$set': {'sapell': 'DEMOSTRACION'}})
+    db_instance.db.nursing_notes.insert_one({
+        'id_nota': 100, 'id_atencion': 1, 'Id_exp': 1,
+        'nota': 'Registro inicial sintético para consulta de sincronización',
+        'id_enfermero': ObjectId(f'{3:024x}'), 'fecha_registro': datetime.now(timezone.utc),
+    })
+    db_instance.db.counters.insert_one({'_id': 'nursing_notes_id', 'seq': 100})
 if args.uat_regressions:
     from bson import ObjectId
     from datetime import datetime
