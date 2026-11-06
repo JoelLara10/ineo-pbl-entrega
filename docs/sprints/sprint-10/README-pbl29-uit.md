@@ -48,10 +48,32 @@ npm run test:coverage -- src/tests/pbl29-uit-enfermeria-analytics.test.jsx
 
 ## Selenium / UAT
 
+Las credenciales QA no están versionadas ni tienen valores predeterminados. Proporciónalas al proceso desde un gestor de secretos o variables locales del entorno; no las escribas en el repositorio, capturas, comandos registrados ni reportes. `INEO_USER` e `INEO_PASSWORD` son obligatorias. `INEO_ADMIN_USER` e `INEO_ADMIN_PASSWORD` son opcionales y solo se usan juntas para Analytics.
+
+PowerShell:
+
+```powershell
+$env:INEO_BASE_URL = "http://127.0.0.1:5173"
+$env:INEO_USER = Read-Host "Usuario de QA"
+$securePassword = Read-Host "Contraseña de QA" -AsSecureString
+$env:INEO_PASSWORD = [System.Net.NetworkCredential]::new("", $securePassword).Password
+pytest qa/sprint-10/selenium/test_pbl29_uat.py -v --tb=short
+Remove-Item Env:INEO_USER, Env:INEO_PASSWORD
+Remove-Variable securePassword
+```
+
+El caso UI-05 emula la preferencia oscura de Chrome y comprueba que los controles visibles mantengan contraste WCAG AA (4.5:1) con el esquema claro forzado por la aplicación.
+
 ```bash
 export INEO_BASE_URL=http://127.0.0.1:5173
 export INEO_SCREENSHOT_DIR=evidence/sprint-10/uat/screenshots
+read -r -p 'Usuario QA: ' INEO_USER
+export INEO_USER
+read -r -s -p 'Contraseña QA: ' INEO_PASSWORD
+export INEO_PASSWORD
+printf '\n'
 pytest qa/sprint-10/selenium/test_pbl29_uat.py -v --tb=short
+unset INEO_USER INEO_PASSWORD
 ```
 
 ## Datos sintéticos

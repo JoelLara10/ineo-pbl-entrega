@@ -1,0 +1,35 @@
+{
+  "case": "CP-S10-SIT-01",
+  "timestamp_utc": "2026-11-06T02:06:28.129753+00:00",
+  "sha": "f0d7280b74d38e6a1b22ec3b59f182b92404ebf4",
+  "api": "http://127.0.0.1:5029",
+  "database": "ineo_test_s10",
+  "data": {
+    "create_status": 201,
+    "read_status": 200,
+    "identifier": 10,
+    "expected": {
+      "curp": "SINTB81493CC",
+      "papell": "PRUEBA",
+      "nom_pac": "PACIENTE SINTETICO",
+      "fecnac": "2000-01-01"
+    },
+    "persisted": {
+      "curp": "SINTB81493CC",
+      "papell": "PRUEBA",
+      "nom_pac": "PACIENTE SINTETICO"
+    },
+    "api_record": {
+      "Id_exp": 10,
+      "created_at": "2026-11-05T20:06:28.055000",
+      "curp": "SINTB81493CC",
+      "email": "",
+      "fecnac": "2000-01-01T00:00:00",
+      "id": "6aed362437b12cfa87f25c1a",
+      "nom_pac": "PACIENTE SINTETICO",
+      "papell": "PRUEBA",
+      "sapell": "",
+      "tel": ""
+    }
+  }
+}

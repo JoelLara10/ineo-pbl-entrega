@@ -1,0 +1,6 @@
+Terraform v1.16.4
+on windows_amd64
++ provider registry.terraform.io/kreuzwerker/docker v3.9.0
+
+Your version of Terraform is out of date! The latest version
+is 1.17.1. You can update by downloading from https://developer.hashicorp.com/terraform/install

@@ -1,0 +1,6 @@
+
+Success! 0 passed, 0 failed.
+
+Warning: Unknown test file
+
+The specified test file, tests/negative.tftest.hcl, could not be found.

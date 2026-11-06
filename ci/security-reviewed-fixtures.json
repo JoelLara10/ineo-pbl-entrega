@@ -815,7 +815,6 @@
     "hashed_secret": "3620a1805b3cc5e6550d0b698c8855e9692025ac",
     "reason": "Referencia a secret de GitHub Actions sin valor literal."
   },
-
   {
     "file": "backend/api_hospital/tests/test_sprint10_contracts.py",
     "type": "Secret Keyword",
@@ -828,11 +827,1456 @@
     "hashed_secret": "81f344a7686a80b4c5293e8fdc0b0160c82c06a8",
     "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
   },
-
   {
     "file": "frontend/clinica-web-react/src/tests/sprint10-contract-sit.test.js",
     "type": "Secret Keyword",
     "hashed_secret": "ae2450117a3720057bdee4b39a3208b229ab1e1e",
     "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "de71502460ebfd7e7bb011b117dcd90be0fa7226",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "0b2b1ecb81617cecc4be6bf1ada02ba316d0ded7",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "54fd4fa72a98e966b5e423e5c0f647460a597339",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "244f421f896bdcdd2784dccf4eaf7c8dfd5189b5",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "4077a7faa77512b63009ef1d4399a19464548ad0",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "2340b1245e809535db073cd644187aabd8dd6dc8",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "33315e653354710951741e9ebab7087d4d2d257e",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "d50aa6038ecb9e62d277eac780e1c3aaf3ff173f",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "319b73d49d2ea94a6e003e60a00f206cb4f3df9f",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "921a0835a0d3d3cb37352d6d6fb0ac6e13ce5cd8",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "f09681c58ce36bd56b85bd2a6636f26519766be5",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "6c72909dcc3d5271ebeeab9ad21c6dd26229aa69",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "6965267bc59f5d45267e23bddf618d50198e9b3a",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "d10eee83d19b82b92a16cdad40445e44b8cfbf83",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "957e8d613292094eeb818b4bb2e2dff6ef23504d",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "30c99a398d2d8c3b7f6a7075f97aba7cea8b8e38",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "3dbe7ed3fb166a93b8cccb1034b7bc2353b221f5",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "21a1092d43ec403c74aefbff83b9cf901378366d",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "2a806480e3eefa4ed21fafbb878f7bad562986c7",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "0a701f7793b64409c6b13371474a4f484acb2ab2",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "916a1cd79fc120f068a377762b41d544446417a6",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "14c8eff099182a053a1badd92737d455f2ebd254",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "31cc48e12a69d18e9568ed77351a5631c7efb01c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "ced3fc8e6ccada3984eaadf1dee7fcd8f7ae9590",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "54cfb3b2469eb1abc38936c0e95d38c2f34a4059",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "c3d4ecb3380832c4eaadee01f76ab8a730df1a37",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "0ceb349140a40cd95e2e40e198fc497d8baeb361",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1806685276b0fc4b244bcc89b8a17c83a144f81e",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "6621d92f4205602a6963eeb34aea948feebabe85",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "dc04efcd69fecb78b428f0d0fa58777d221c04a2",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "2491ca201dc2825dbfb7f8696dd4d905ba21597b",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "e4df4ba317e0d70e3e691c83d2cfca5c673ff64a",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "f3d7d5be0c83a6eed98fad333dc2718377f177cf",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "7f137cea5e21026849047efc2417eb24180f0286",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "6d747612763c04e32d04db306f4d2349670aea2e",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "3f6f376a445f46a028fca21d33a37706a2eebb61",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "97468c9f2cf1001d77c8d9518241c8e1d98e1161",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "3d8a6a377315103ad4478a9da92761b9fd9eace8",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "6c9d6e34944bd9fa883609c419c2351232633911",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "b80035d897c25dbacec194bde4258a20a1e48949",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1f27b7f908bc3813ad28d45ecbd7346073b0fc90",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "bc62abf9d191f2fb174a8bd96f4d95ee36630de6",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "e4a5aacf9db3eacb0b333f6d14fe690ab5078068",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "ad63955b69ebfb6d1760e1d803160c906dc46e14",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1930a488a29a86d0c672b157e1b37f2e0a5ea1d2",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "122689a332af8a8a76a58b86fb5d74fd037d36b9",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "2cc234443da8666d2f0f4d5ff8693cd49820a00d",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "0e2dc0b8c65f01abad704def9693f6109d79643b",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "b0627782405a14ea5dd360b633fe0e3739aa5188",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1e7204a13014f002a1751f7c5e1febd48d99f8a2",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "6a1a7684b4084982b33b4f55dd6f4bbd2b1b3640",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "bc3af4d4daeccb035ac6cd15e90a883e64578f82",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "adbc83300528e7307b55ac848fcce78a4ad9cc1d",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "c3927aad82c25ab178caa742d553b162da45c572",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "832b6dbca9caa74eee8a662cc2dedba5d061a839",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "6e16c14734ce7c4bb74250deed0633aa33e97fae",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "c182f85a8290fa9420c304b5d60afe53fd3d7c05",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "cb61ec96d5344d51e93fbd75c9428e9d65eb1eb5",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "303ff4603dade5e00dd9dea63eff05b3d16ac2a1",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "2b6058a27236c6783d0e560d1423b263fdae589c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "c77221719c79990adee383b73bbfd1bbd26ee5d1",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "3fa08bd5503df06afb5f2788b2bb02d9d72157d2",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "bfaed030e5c118c2d2058ef937229caf61151fd4",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "73754d3b51216aa57999cb66220855133242c7a9",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "97818812656011240bda50e70e3e5a3a1932cdde",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "079b2132a51d936c18941323dfe8de57e3b1dcc8",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "0e55967c891a525ad0a2d3dcb4dc68c974719907",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "5fe4efeb8e1a6028053854ca9f3f7d97dfb66648",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "0d4f104740f9de8e47b47b085e8a51cb25fce4cf",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "7115bad6a51b5932b547884540dd112b82d21642",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "15d247e672513901381741da0d630e5d13ad8277",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "be97287e4340a9389f4eeea31c791a886ec2fb7e",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1ae789ff963a3a386ec03c7acd04df7876f08078",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "5a56617a0804ff9b97d742c51ba07b4b8817b2a2",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "30822b0149fc27a6630c9de39394f6fb219166a8",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "cca1f368f4a14112a8e2a7fe071e64a59c36bc73",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "46861b16f794c7b02e15e3f65f09bcea77a28a98",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "82465ef877eb45fcf3374bf830617ff5ef68cfab",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "ab7f5af88939fa6fca5ea1679c80255fbd157b0f",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "f60e50cf52fda67dbde1e9886850aceac72aedb2",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "8ce3279ce714e309097b985105869310ba068d35",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "c48c72c5cf6ce5a7134033191d72400c100dbb73",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "c48be877f5ab1984409b2ec0045b0cc4f9d51aaa",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "e3b22fd559433803d629ac7e5ad65f0f39208cf7",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "4702bcb66676c834ac0ee0aaf718edd5d0cbf82c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "013a633f38d6832dd0fa272a5638f0bca6f76273",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "87e9e36d371ca5c012da74ed4aae08ac2c91bd3a",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "99d700451044721eb44cef2fe8733376fb50d61f",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "23f55e36787b048bb94d5fb91a674ede259b9a40",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "e8ea4e8f4980a6686d96996455de9edf91cb58f3",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1cb7ab7707d7ff4052ddac17070fcd8dfb1d7a7e",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "02d8ea509efe783069a765ccc837554c899bf220",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "7b64ae414d21016699d86d13ddeb8aa2455f64fd",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "c9bd54300cc72ceeb8978cbe8ae83e50c0449fef",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "85530dfd0ef0f3961e65ebc6c89927eb2e4ef139",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "b86dcc322eabb51e40df5bf2a71ea2521136e19b",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "3a14a9a402b413a0d61a76e30467aac39789a2ce",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "e87a39d3eb8a244e8d9e3dfbec0f9b137362c164",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "842b177a9bb6dc0fa07f4c78cfe208b7a81b0ebc",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "6658e909392661cfa00cfef291bc4b4e8c1815af",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1b2d0b2f74d384065e690beffa85bc1f7bd2990c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "e25335dfe5139f8cbbb4ba366700f0cd786a36c7",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "d363550e7c0c3c47ab2871786ee30c762c4b633f",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "ed79e6e7228064bf616b7eeb6ecb55c154183b16",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "8e4a9ea44a988ee13b4ecefb1f4495adf6494270",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "ced798db68918c4218ba2351c6aa65d700955696",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "f76bb5f7304012a8a46a01135ebe178b88bf61af",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "d7e8212191c578deffc4f139a26c1581fec56569",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "dc1ec9b61bc8a350140e288839d207cfbcf61c7e",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "bc31083a92fb626839cd5b3c3b869d8227e21eba",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "418413fedd30697e759d594c77cf8b7d024cdaf7",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "c98cc5f41b8eb642813fb9d508996c81ce1c53f5",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "8b8c970a633e3a00aa9cb2bcca662548d9f74e24",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "acfc44b60030045021367ae17e594e11704e6844",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "cae8b9f0502fe711ed76a7abc24bcb04c29b924a",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "8096d9f84c71bdfb7479c0ffb6c9a05146063197",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1e7de17ff3ce6fbe41a24b6399e3e0771052dbf3",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "a14556126de1579100f268a2cd60c829f33cde23",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "0c763e9d1b67075052bcc204257f1b96bf36c62a",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "56b0d058b073a129ca377308a1621e84f0187db7",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "f1f0e06ab13f238ed379d3981af5836e07a776cd",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "753ccb9a61582ef427a937d6176e7d07d15d54d9",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "e580bd92ee74ad7021e95f26e1417b22c50636af",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "08e3b690e323bf25326a6158e35a46837a7a960b",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "bc19e65c0cae0d25286eab25713b85696546ad06",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "89d1f45452c0d1a5cadc707a6a5f590cf332bbd2",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "5614631f2a2baa27054a7e082e81dfc54b1557a6",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "f5e1b028633f7921880c3e38b245ec74fd3372e2",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "15bd601530fc8ee97e1d7692c8b24f05a679b172",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "b620a607702c391df4d10b45b8198e1fba6c909a",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "8430527ab0c6549df89ae2c299b053f73c433dac",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "eae654219696af19410874690e170e22fbe7e4d5",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "d5648f0ad2828e560fbfc8982f4c34358658bbe5",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "9d627407e5713209777d95f3065e26612e9b7774",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "737b16fc5ffc13ceae03c32f97fdbddc72c6c77a",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "2ace04632c708f900fa509ee7fea61656002106d",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "177014157d11167b9d16e696e3b190f8d51d5222",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "79943072cea24fa9ab15baabe1a120fe4f3906c7",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "3ab9cb0d0055c1bbf00940d43cddccbf00a8606d",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "6e4e75c15b6de5b6e9a5d63862e1b43759cf14ae",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "9b4061f78a324ba3b97eaf9b5b88590d01999213",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "cd66d8bfd3a114cf5feb24a877902f7f0a2af2c1",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "95253756f416bf8ac448adfbbd32101a9aafe710",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1e1c37a7be355af2c68cb502e2875a02d80289fa",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "e6b5c6bc5d53b48d53afd53047310122cb802b1a",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "70f6177424d7139a07f4c3550adfc871f183b7f8",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "45d7593aa577e343a12f266ec00e9940dc904958",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "c427c07fedcd1e45fc64a5a4e717f65b84a16069",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1019815966352af37f568a8a18700b85f06a5b66",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "6cfbf5f06e332e29cfe06f3855971107003c803e",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "8db1e9d99986b4c228f605bc6616365c3e743e07",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "80309b4d898278a3557c6a087ab9323abbfe81b0",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "7f418aa80b0b56f1dbbd24d9c5f14e99975a00b4",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "88bac2703496d88eaa44a1459bb74aab4fce622e",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "e7b88b50d7d46a7f5f963fc66e7b06a972da9f64",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "32b7baeafe09983f2f6a9af1cfd356fa762734c1",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "90c4a19c170cecaa63e865f4725594af91a6bc42",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "9bd73f1c84675f68c429a638fc7f71f2cffac887",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "5a6912c476d604d659db77488f6a1874b171005b",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "ac2c50112c80baae46ad7d019554bb1ae297cc8b",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "2f46179ddec597f85508024d9c62ab8cd6863476",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "198c13f1dc21d522e24bb159d47cba3c8f6d1380",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "6ac15efb1278c5a2010bd133a992971402e2a681",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "9bc9b153ff816ea507d5fa93aaa9f74f4a7ce77b",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "df990981f1965675842738584bd614942d348fb9",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "3241afd7fc0ac6e904116f419b00634049093812",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "c80d1f388c43c3b332bb9243df45f05be4a25d2f",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "d8bd9cb5112352985286dcf21d7a04fb0145abaf",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "ce8ac68d149dba9538abcbf29f4dd1c89820f2f7",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "a2b060f13fc1d0a0e018ad93c2376eb05e4ada96",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "2f8da4968709f675214f92771c5ba55807606d67",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "36be3c7997771206f81d44c92e13fd1384bfbe4c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "81ab70c9956a7da44a0c456fb0e0579ed2eb8d82",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "500ab9e13162869bc512216fb2263b51e2c28c11",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "da487d21e4d5dd4a21e330a202288fd772fab360",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "3366ed70345faf311702238eb161c923c07b5658",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "4549915b20a6da66aa7745f92d1fbe88b687640b",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "8d33f2003611f1f3b1b643fa90d23218a5515480",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "e6eb4c929783258adc05c8a87725903f952dfe15",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "48c7982600036c1485f542ff623a424f3d50707e",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "0c3ff49f9881a7fdc702e249498f80a89d98d71f",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "dc57be98682fbe2ca70577486cfc44de0d8dbd43",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "6c59677586b6aec6d5630f9594249ddeffec654b",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "e49c1b42685c48950a4c2b03df6b0d604adbecfb",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1e55c47c0f97abd001899baaa32152addb7392a4",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "d2f1001f6005a40ca584cfa29909e60d32e501c0",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "9443fdde66df5ca7b17d9b03aa2a0ad866d19a96",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "724840dabaffee44907cf6d8d1593e0d3a2d2b27",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "8f95df38e57d4366026b2c79ee3a51f8168707b1",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "fd4cb722dc5c9fdf0b40967356e82dc9c4c47812",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "c88f0e1ceb4cdf90818ace1d818b20fedfd1c432",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "06de1cf13240ed211d03a807415989d512e0c5d3",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "36ad61c1c25bc08d4b2ea9ecd6188d5e84a2a61e",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "8b1dbcf2f70f441ab7fe28a3afb51fedb4397839",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "fd58a27e0c0995b17779fb94be892cfeb8a67e2e",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "dec0d57ed5dbd943ad006b55fc81a95ed2bd90d5",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "80f2b087dc8d38b1988a2b6ab7250f9ee2b3b754",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "0808f60cf8e28f32d306cf7571d2e7c57c424181",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "471391936b684d3dd16e0e99502c4dcbad16ddb5",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "08e3dea5aa25a0e9d1d1a72b44b85d6dc5ebbae4",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "96ecb65cc9b29c37e99b863d0f2460ef1f2e94f3",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "b291c90a8c8fbe28b9190a1b7b040acf25557fa1",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "47936db1d83ff93cca73710e87ce0e82683e4593",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "d206fc2eb9fe877a0b69b750fd30404c119738de",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "3d4914f50efbf5bf686d12fc183c4769361c95e2",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "ed89ff6e961a5dfe2bb62c0c6fdbcf2fa60ef0e0",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "70a0dd4ae565b379a1d80fcd96345f9de73b36e0",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "db7f65f10f2d313d33c36796727bc2b531cf755d",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "2813dd167833c48d750357463dd6eff184bd4ef5",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "074ce7bc17511b2793d3e4d27e62731a2291f647",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "25a8b71683e6bd09f1b1f0df110e7f184b197078",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "07ad93b47ef2048934ace592d592be838f09130e",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "87817c96bba555144253a081896366b70504960a",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "58c55446d664c8a1761c5102e117622c64c574ee",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "df5d5fa4dc0d518ba83abdbc6f1842c951e48e70",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "49d2e75ee45df2be69b8883e35ba9f3d7b7344c1",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "a7901f12bc87f112ef2e7ab78912876cbbb0c7f9",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "d1e37c46c45a781b7551b989afc9e76b2d9bec73",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "a4fae7016a3a45c785ffb813a350fba4878c6275",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "7598e133a4676261b419c5813b51bb54df1adb5f",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "4fadc8f65e59bd5a401734b0cb987aaa08840091",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "0275911f0cf88dbc6e88661f6a9f55880bc940bf",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "4f3be6a4c5e8f736ab3dc20e81935a52d32ef758",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "9e9c6af1dc276e0f4f889176659fccb8775b07a0",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "b2ab784c74c6bccf7f85a934a1f8a617b160850c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "cc6449b5d2c49c53775bfaa56c44b1a3a931d0a5",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "9859c89a1da5118f68d5a62bf072afab89d04bdb",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/SHA256.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "d5da2076cd973f3257f4cd9f8bfc080f565e20fc",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/cases.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "b958049c8ae39628a21a329da0456c1283e50297",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/cases.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "9c024487490dc5cd758c8abf56cf407a9a5c154a",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/cases.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "8526a1d4588cee94852934436a24e78bbbcf2e04",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/iac/cleanup-summary.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "8526a1d4588cee94852934436a24e78bbbcf2e04",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/iac/destroy.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "ab4b9aa60730a8b79b5c26dda0d4c7a6f4076dd6",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/iac/destroy.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "a9b5039e30b5ec712bc21935c7215d1afcd93e47",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/iac/provision-summary.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "b958049c8ae39628a21a329da0456c1283e50297",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/perf/campaign.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "9c024487490dc5cd758c8abf56cf407a9a5c154a",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/sit/CP-S10-SIT-01.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "8526a1d4588cee94852934436a24e78bbbcf2e04",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/sit/CP-S10-SIT-01.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "5ef2efb780bd67ab905592716cae64544c9839e9",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/sit/CP-S10-SIT-02.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "8526a1d4588cee94852934436a24e78bbbcf2e04",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/sit/CP-S10-SIT-03.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "8526a1d4588cee94852934436a24e78bbbcf2e04",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-10/campaign-583-584/sit/CP-S10-SIT-04.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "8526a1d4588cee94852934436a24e78bbbcf2e04",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
   }
 ]
