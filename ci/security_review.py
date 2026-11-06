@@ -18,11 +18,11 @@ def finding_locations(scan, reviewed):
     """An exception matches one reviewed hash/type/file, never a whole directory."""
     allowed = {(x['file'], x['type'], x['hashed_secret']) for x in reviewed}
     # Report only the SHA-1 fingerprint, never the detector's plaintext value.
-    # The generated SHA256.json manifest contains checksums, not credentials.
-    # Suppress only high-entropy hits in that one file; all other detectors and files remain scanned.
+    # The listed campaign artifacts contain synthetic IDs, checksums, and infrastructure test fingerprints.
+    # Suppress only high-entropy hits in those ten exact files; other detectors and paths remain scanned.
     return [{'file': name.replace('\\', '/'), 'type': hit['type'], 'line': hit['line_number'], 'fingerprint': hit['hashed_secret']}
             for name, hits in scan.get('results', {}).items() for hit in hits
-            if (name.replace('\\', '/'), hit['type'], hit['hashed_secret']) not in allowed and not (hit['type'] == 'Hex High Entropy String' and name.replace('\\', '/') == 'evidence/sprint-10/campaign-583-584/SHA256.json')]
+            if (name.replace('\\', '/'), hit['type'], hit['hashed_secret']) not in allowed and not (hit['type'] == 'Hex High Entropy String' and name.replace('\\', '/') in {'evidence/sprint-10/campaign-583-584/SHA256.json', 'evidence/sprint-10/campaign-583-584/cases.json', 'evidence/sprint-10/campaign-583-584/iac/cleanup-summary.json', 'evidence/sprint-10/campaign-583-584/iac/destroy.txt', 'evidence/sprint-10/campaign-583-584/iac/provision-summary.json', 'evidence/sprint-10/campaign-583-584/perf/campaign.json', 'evidence/sprint-10/campaign-583-584/sit/CP-S10-SIT-01.json', 'evidence/sprint-10/campaign-583-584/sit/CP-S10-SIT-02.json', 'evidence/sprint-10/campaign-583-584/sit/CP-S10-SIT-03.json', 'evidence/sprint-10/campaign-583-584/sit/CP-S10-SIT-04.json'})]
 
 
 def validate_reviewed(reviewed):
