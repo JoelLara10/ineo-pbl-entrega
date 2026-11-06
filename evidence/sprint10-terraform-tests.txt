@@ -1,0 +1,9 @@
+tests\environment.tftest.hcl... in progress
+  run "provisioning_lifecycle"... pass
+  run "isolated_environment"... pass
+  run "reject_production_name"... pass
+  run "reject_invalid_port"... pass
+tests\environment.tftest.hcl... tearing down
+tests\environment.tftest.hcl... pass
+
+Success! 4 passed, 0 failed.

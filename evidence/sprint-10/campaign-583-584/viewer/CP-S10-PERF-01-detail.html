@@ -1,0 +1,37 @@
+<!doctype html><meta charset="utf-8"><title>CP-S10-PERF-01</title><style>body{font:17px Arial;margin:28px;color:#182333;max-width:1150px}h1{font-size:27px}h2{font-size:19px}pre{font:14px Consolas;white-space:pre-wrap;background:#f0f3f6;padding:18px;border:1px solid #bbc5ce}section{padding:12px 0;border-bottom:1px solid #ddd}.ok{font-size:19px;color:#07582c}small{color:#455;word-break:break-all}</style><h1>CP-S10-PERF-01 — Smoke autenticado API</h1><small>Ejecutor: Marcelino Zahid Galicia Bonifacio<br>Registro: 2026-11-05T20:11:28-06:00<br>SHA probado: 46dc3a46bff52506be64e530d3945e15f445bd00<br>API y MongoDB locales reales. Azure #584.</small><h2>Criterio</h2><p>p95 ≤ 2000 ms y errores ≤ 1 %, umbrales confirmados por el ejecutor</p><h2>Resultado comprobado</h2><p class="ok">53 solicitudes; 0 errores; p95 119.0 ms; throughput 0.9101 solicitudes/s; gate=0.</p><h2>Extracto del archivo original perf/smoke/execution.txt</h2><pre>WARN StatusConsoleListener The use of package scanning to locate plugins is deprecated and will be removed in a future release
+WARN StatusConsoleListener The use of package scanning to locate plugins is deprecated and will be removed in a future release
+WARN StatusConsoleListener The use of package scanning to locate plugins is deprecated and will be removed in a future release
+WARN StatusConsoleListener The use of package scanning to locate plugins is deprecated and will be removed in a future release
+Creating summariser &lt;summary&gt;
+Created the tree successfully using [repo]\qa\sprint-10\jmeter\api.jmx
+Starting standalone test @ 2026 Nov 5 20:02:24 CST (1793930544838)
+Waiting for possible Shutdown/StopTestNow/HeapDump/ThreadDump message on port 4445
+summary +      2 in 00:00:05 =    0.4/s Avg:   106 Min:    93 Max:   119 Err:     0 (0.00%) Active: 1 Started: 1 Finished: 0
+summary +     28 in 00:00:30 =    0.9/s Avg:    52 Min:    25 Max:   115 Err:     0 (0.00%) Active: 1 Started: 1 Finished: 0
+summary =     30 in 00:00:35 =    0.9/s Avg:    56 Min:    25 Max:   119 Err:     0 (0.00%)
+summary +     23 in 00:00:25 =    0.9/s Avg:    62 Min:    22 Max:   178 Err:     0 (0.00%) Active: 0 Started: 1 Finished: 1
+summary =     53 in 00:01:00 =    0.9/s Avg:    59 Min:    22 Max:   178 Err:     0 (0.00%)
+Tidying up ...    @ 2026 Nov 5 20:03:25 CST (1793930605732)
+... end of run
+</pre><small>Se conserva el reporte original completo. Captura del visor de evidencias; no es una terminal recreada.</small><h2>Extracto del archivo original perf/smoke/results.jtl</h2><pre>1793930583078,34,analytics,200,OK,Usuarios autenticados 1-1,text,true,,622,562,1,1,http://127.0.0.1:5029/api/v1/analytics/dashboard,33,0,2
+1793930584126,45,spark_overview,200,OK,Usuarios autenticados 1-1,text,true,,1389,557,1,1,http://127.0.0.1:5029/api/v1/spark/overview,44,0,1
+1793930585185,148,patients,200,OK,Usuarios autenticados 1-1,text,true,,4820,551,1,1,http://127.0.0.1:5029/api/v1/patients,148,0,2
+1793930586351,69,studies,200,OK,Usuarios autenticados 1-1,text,true,,479,557,1,1,http://127.0.0.1:5029/api/v1/studies/counts,69,0,3
+1793930587425,36,analytics,200,OK,Usuarios autenticados 1-1,text,true,,622,562,1,1,http://127.0.0.1:5029/api/v1/analytics/dashboard,35,0,2
+1793930588476,50,spark_overview,200,OK,Usuarios autenticados 1-1,text,true,,1389,557,1,1,http://127.0.0.1:5029/api/v1/spark/overview,50,0,2
+1793930589538,95,patients,200,OK,Usuarios autenticados 1-1,text,true,,4820,551,1,1,http://127.0.0.1:5029/api/v1/patients,95,0,2
+1793930590647,25,studies,200,OK,Usuarios autenticados 1-1,text,true,,479,557,1,1,http://127.0.0.1:5029/api/v1/studies/counts,25,0,3
+1793930591678,178,analytics,200,OK,Usuarios autenticados 1-1,text,true,,622,562,1,1,http://127.0.0.1:5029/api/v1/analytics/dashboard,178,0,3
+1793930592858,52,spark_overview,200,OK,Usuarios autenticados 1-1,text,true,,1389,557,1,1,http://127.0.0.1:5029/api/v1/spark/overview,51,0,3
+1793930593915,109,patients,200,OK,Usuarios autenticados 1-1,text,true,,4820,551,1,1,http://127.0.0.1:5029/api/v1/patients,108,0,2
+1793930595039,25,studies,200,OK,Usuarios autenticados 1-1,text,true,,479,557,1,1,http://127.0.0.1:5029/api/v1/studies/counts,24,0,1
+1793930596068,44,analytics,200,OK,Usuarios autenticados 1-1,text,true,,622,562,1,1,http://127.0.0.1:5029/api/v1/analytics/dashboard,44,0,3
+1793930597129,60,spark_overview,200,OK,Usuarios autenticados 1-1,text,true,,1389,557,1,1,http://127.0.0.1:5029/api/v1/spark/overview,60,0,3
+1793930598207,107,patients,200,OK,Usuarios autenticados 1-1,text,true,,4820,551,1,1,http://127.0.0.1:5029/api/v1/patients,107,0,3
+1793930599327,22,studies,200,OK,Usuarios autenticados 1-1,text,true,,479,557,1,1,http://127.0.0.1:5029/api/v1/studies/counts,22,0,1
+1793930600362,39,analytics,200,OK,Usuarios autenticados 1-1,text,true,,622,562,1,1,http://127.0.0.1:5029/api/v1/analytics/dashboard,38,0,2
+1793930601407,48,spark_overview,200,OK,Usuarios autenticados 1-1,text,true,,1389,557,1,1,http://127.0.0.1:5029/api/v1/spark/overview,48,0,3
+1793930602465,101,patients,200,OK,Usuarios autenticados 1-1,text,true,,4820,551,1,1,http://127.0.0.1:5029/api/v1/patients,100,0,2
+1793930603572,26,studies,200,OK,Usuarios autenticados 1-1,text,true,,479,557,1,1,http://127.0.0.1:5029/api/v1/studies/counts,25,0,2
+1793930604606,36,analytics,200,OK,Usuarios autenticados 1-1,text,true,,622,562,1,1,http://127.0.0.1:5029/api/v1/analytics/dashboard,36,0,2
+1793930605655,60,spark_overview,200,OK,Usuarios autenticados 1-1,text,true,,1389,557,1,1,http://127.0.0.1:5029/api/v1/spark/overview,60,0,4</pre><small>Se conserva el reporte original completo. Captura del visor de evidencias; no es una terminal recreada.</small>

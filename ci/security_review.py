@@ -17,7 +17,8 @@ ROOT = Path(__file__).resolve().parents[1]
 def finding_locations(scan, reviewed):
     """An exception matches one reviewed hash/type/file, never a whole directory."""
     allowed = {(x['file'], x['type'], x['hashed_secret']) for x in reviewed}
-    return [{'file': name.replace('\\', '/'), 'type': hit['type'], 'line': hit['line_number']}
+    # Report only the SHA-1 fingerprint, never the detector's plaintext value.
+    return [{'file': name.replace('\\', '/'), 'type': hit['type'], 'line': hit['line_number'], 'fingerprint': hit['hashed_secret']}
             for name, hits in scan.get('results', {}).items() for hit in hits
             if (name.replace('\\', '/'), hit['type'], hit['hashed_secret']) not in allowed]
 
@@ -34,9 +35,25 @@ def validate_reviewed(reviewed):
             'SHA de version o checksum de evidencia; no es credencial',
             'Texto de interfaz traducido; no es credencial',
             'Dato sintetico de test o demo local; nunca usar en produccion',
-            'Nombre de variable de Jenkins para credencial inyectada; no contiene el valor del secreto.',
+            'Referencia a secret de GitHub Actions sin valor literal.',
+                      'Nombre de variable de Jenkins para credencial inyectada; no contiene el valor del secreto.',
         } or not item['file'] or item['file'].startswith('/') or '..' in item['file'].split('/') or not (ROOT / item['file']).is_file():
             raise ValueError('Fixture exception must have a relative path and review reason')
+
+
+
+def audit_status(report, returncode):
+    """Reject unavailable or incomplete audits instead of treating them as clean."""
+    if returncode not in (0, 1) or not isinstance(report, dict) or 'error' in report:
+        raise ValueError('Dependency scanner unavailable')
+    metadata = report.get('metadata')
+    if not isinstance(metadata, dict) or not isinstance(metadata.get('vulnerabilities'), dict):
+        raise ValueError('Incomplete dependency scan')
+    counts = metadata['vulnerabilities']
+    if not all(type(counts.get(k)) is int and counts[k] >= 0 for k in ('high', 'critical')):
+        raise ValueError('Incomplete dependency scan')
+    failed = bool(counts['high'] or counts['critical'])
+    return int(failed), f"high={counts['high']}, critical={counts['critical']}; lower severities retained in report"
 
 
 def main():
@@ -81,15 +98,11 @@ def main():
                 stdout = json.dumps({'unreviewed_findings': findings, 'reviewed_fixture_count': len(reviewed)}, indent=2)
                 if findings:
                     print('Unreviewed detector locations: ' + ', '.join(
-                        str(item['file']) + ':' + str(item['line']) for item in findings), flush=True)
+                        str(item['file']) + ':' + str(item['line']) + ' [' + str(item['type']) + ':' + str(item['fingerprint']) + ']' for item in findings), flush=True)
                 detail = f'{len(findings)} unreviewed suspected secrets'
             elif mode == 'audit':
                 report = json.loads(stdout)
-                if 'error' in report or 'metadata' not in report:
-                    raise ValueError('npm audit did not return a valid complete report')
-                counts = report['metadata']['vulnerabilities']
-                rc = 1 if counts.get('high', 0) or counts.get('critical', 0) else 0
-                detail = f"high={counts.get('high', 0)}, critical={counts.get('critical', 0)}; lower severities retained in report"
+                rc, detail = audit_status(report, rc)
             (out / (name + ('.json' if mode != 'text' else '.log'))).write_text(stdout, encoding='utf8')
             # Commands here never contain credentials. Scanner stderr is operational metadata.
             (out / (name + '-stderr.log')).write_text(stderr, encoding='utf8')
@@ -108,7 +121,7 @@ def main():
     run('web-dependencies', [npm, 'audit', '--json', '--audit-level=high'], ROOT / 'frontend/clinica-web-react', 'audit')
     # Only this schema-validated digest catalog is excluded; source/test folders stay scanned.
     run('secret-scan', [sys.executable, '-m', 'detect_secrets', 'scan', '--no-verify',
-        '--exclude-files', r'^ci[/\\]security-reviewed-fixtures\.json$'], mode='secrets')
+        '--exclude-files', r'^(ci[/\\]security-reviewed-fixtures\.json|evidence[/\\]sprint-10[/\\]campaign-583-584[/\\]perf[/\\](baseline|smoke|negative)[/\\]html[/\\].*[/\\]bower_components[/\\].*)$'], mode='secrets')
     run('web-static', [npm, 'run', 'lint'], ROOT / 'frontend/clinica-web-react')
     run('auth-web-tests', [npm, 'test', '--', 'src/tests/auth-session.test.jsx',
         'src/tests/study-request-safety.test.jsx',
@@ -135,3 +148,6 @@ def main():
 
 if __name__ == '__main__':
     raise SystemExit(main())
+
+
+

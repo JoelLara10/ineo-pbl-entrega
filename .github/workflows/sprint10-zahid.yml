@@ -1,0 +1,63 @@
+name: Sprint 10 contracts and infrastructure
+on:
+  push:
+    branches: [feature/sprint-zahid-10]
+  pull_request:
+    branches: [develop]
+permissions:
+  contents: read
+jobs:
+  contract-sit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: '1.16.4'
+      - name: Terraform format initialization validation and plan
+        working-directory: infra/terraform
+        run: |
+          terraform fmt -check -recursive
+          terraform init -input=false
+          terraform validate
+          terraform test
+          terraform plan -input=false -out=environment.tfplan
+      - name: Provision isolated database
+        working-directory: infra/terraform
+        run: terraform apply -input=false environment.tfplan
+      - name: Install dependencies
+        run: |
+          pip install -r backend/api_hospital/requirements.txt -r backend/api_hospital/requirements-test.txt
+          npm ci --prefix frontend/clinica-web-react
+      - name: Provider contracts and mutation guards
+        working-directory: backend/api_hospital
+        run: python -m pytest tests/test_contract_schema_unit.py tests/test_sprint10_contracts.py tests/test_spark_contract.py tests/test_sprint8_zahid.py -q --junitxml=../../evidence/sprint10-contracts.xml
+      - name: Start synthetic API
+        working-directory: backend/api_hospital
+        run: |
+          python -m testing.contract_server > /tmp/ineo-contract-server.log 2>&1 &
+          for attempt in $(seq 1 30); do
+            if curl --fail http://127.0.0.1:5029/ready; then exit 0; fi
+            sleep 2
+          done
+          exit 1
+      - name: Real consumer integration
+        working-directory: frontend/clinica-web-react
+        env:
+          RUN_CONTRACT_SIT: '1'
+        run: npx vitest run src/tests/sprint10-contract-sit.test.js --reporter=default --reporter=junit --outputFile=../../evidence/sprint10-sit.xml
+      - name: Destroy only the disposable Terraform environment
+        if: always()
+        working-directory: infra/terraform
+        run: terraform destroy -auto-approve -input=false
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sprint10-zahid-evidence
+          path: evidence/sprint10-*.xml

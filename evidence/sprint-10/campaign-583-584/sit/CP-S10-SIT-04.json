@@ -1,0 +1,26 @@
+{
+  "case": "CP-S10-SIT-04",
+  "timestamp_utc": "2026-11-06T02:06:29.658230+00:00",
+  "sha": "f0d7280b74d38e6a1b22ec3b59f182b92404ebf4",
+  "api": "http://127.0.0.1:5029",
+  "database": "ineo_test_s10",
+  "data": {
+    "origins": [
+      {
+        "origin": "http://localhost:5173",
+        "preflight_status": 200,
+        "allow_origin": "http://localhost:5173",
+        "allow_credentials": null,
+        "actual_status": 200
+      },
+      {
+        "origin": "https://untrusted.invalid",
+        "preflight_status": 200,
+        "allow_origin": null,
+        "allow_credentials": null,
+        "actual_status": 200
+      }
+    ],
+    "without_session": 401
+  }
+}
