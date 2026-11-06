@@ -19,7 +19,7 @@ RUTA_VALORACION = os.getenv(
 )
 
 USERNAME = os.getenv("ENFERMERIA_LOGIN_USR")
-PASSWORD = os.getenv("ENFERMERIA_LOGIN_PSW")
+PASSWORD = os.getenv("ENFERMERIA_AUTH_VALUE")
 
 SCREENSHOTS = Path("qa/sprint-10/screenshots")
 SCREENSHOTS.mkdir(parents=True, exist_ok=True)
@@ -42,7 +42,7 @@ def test_ui_04_valoracion_sin_paciente():
     )
 
     assert PASSWORD, (
-        "Jenkins no proporcionó ENFERMERIA_LOGIN_PSW"
+        "Jenkins no proporcionó ENFERMERIA_AUTH_VALUE"
     )
 
     navegador = crear_navegador()
