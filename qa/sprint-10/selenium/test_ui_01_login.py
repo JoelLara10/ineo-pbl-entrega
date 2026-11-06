@@ -14,7 +14,7 @@ URL = os.getenv(
 )
 
 USERNAME = os.getenv("ADMIN_LOGIN_USR")
-PASSWORD = os.getenv("ADMIN_LOGIN_PSW")
+PASSWORD = os.getenv("ADMIN_AUTH_VALUE")
 
 SCREENSHOTS = Path("qa/sprint-10/screenshots")
 SCREENSHOTS.mkdir(parents=True, exist_ok=True)
@@ -66,7 +66,7 @@ def test_ui_01_inicio_y_cierre_de_sesion():
     )
 
     assert PASSWORD, (
-        "Jenkins no proporcionó ADMIN_LOGIN_PSW"
+        "Jenkins no proporcionó ADMIN_AUTH_VALUE"
     )
 
     driver = crear_navegador()
