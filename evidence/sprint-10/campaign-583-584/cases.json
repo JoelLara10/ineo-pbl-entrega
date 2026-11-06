@@ -130,7 +130,7 @@
     "actual": "Preflight y GET reales: origen QA permitido, origen externo sin Allow-Origin, credenciales CORS no ampliadas y solicitud sin sesión=401.",
     "files": [
       "sit/CP-S10-SIT-04.json",
-      "sit-rerun.xml"
+      "sit-assigned.xml"
     ],
     "sha": "f0d7280b74d38e6a1b22ec3b59f182b92404ebf4",
     "date": "2026-11-05T20:11:28-06:00",

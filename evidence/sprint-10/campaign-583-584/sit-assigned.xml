@@ -1,0 +1,2 @@
+<?xml version='1.0' encoding='utf8'?>
+<testsuite name="Extracto asignado CP-S10-SIT-04" tests="1" failures="0" errors="0" skipped="0" time="0.399"><testcase classname="sit.test_real_contracts" name="test_cp_s10_sit_04_cors_and_credentials" time="0.399" /></testsuite>
