@@ -44,7 +44,7 @@
               <collectionProp name="Arguments.arguments">
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{"username":"admin.test","password":"Prueba-Sprint7!"}</stringProp>
+                  <stringProp name="Argument.value">{"username":"${__env(INEO_QA_USERNAME)}","password":"${__env(INEO_QA_PASSWORD)}"}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
               </collectionProp>

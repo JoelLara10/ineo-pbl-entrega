@@ -37,3 +37,9 @@ powershell -ExecutionPolicy Bypass -File qa/sprint-10/security/run_security_chec
 
 Un caso omitido por variables faltantes queda Bloqueado, no Aprobado. Copie los reportes y capturas reales en `evidence/sprint-10/<CP-ID>/ejecucion-AAAA-MM-DD-build/`.
 
+
+
+
+## JMeter (PERF-01 a PERF-03)
+
+Antes de ejecutar, define las variables de entorno `INEO_QA_USERNAME` e `INEO_QA_PASSWORD`. No guardes credenciales en `api.jmx`, archivos de propiedades ni evidencias. `build_plan.py` usa `__env(...)` para leerlas. Instala JMeter 5.6.3 y ejecuta `python qa/sprint-10/jmeter/run.py`. Si faltan las credenciales, la prueba SIT autenticada queda bloqueada y no debe registrarse como aprobada.

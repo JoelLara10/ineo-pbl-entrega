@@ -74,7 +74,7 @@ try {
 
 once, ot = component(gt, 'OnceOnlyController', 'Login por usuario', gui='OnceOnlyControllerGui')
 login = sampler(ot, 'login', '/api/v1/auth/login', 'POST',
-                '{"username":"admin.test","password":"Prueba-Sprint7!"}',
+                '{"username":"${__env(INEO_QA_USERNAME)}","password":"${__env(INEO_QA_PASSWORD)}"}',
                 "assert data.token instanceof String; assert data.token.length() > 20")
 extractor, _ = component(login, 'JSONPostProcessor', 'Token en memoria', gui='JSONPostProcessorGui')
 for key,value in [('referenceNames','token'),('jsonPathExprs','$.token'),('match_numbers','1'),('defaultValues','INVALID')]:

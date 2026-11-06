@@ -1,5 +1,6 @@
 """SIT through real HTTP, database persistence, schema and async worker."""
 import json
+import os
 from datetime import datetime, timezone
 import subprocess
 import time
@@ -40,8 +41,12 @@ def db():
 
 @pytest.fixture(scope='module')
 def auth():
+    username = os.getenv('INEO_QA_USERNAME')
+    password = os.getenv('INEO_QA_PASSWORD')
+    if not username or not password:
+        pytest.skip('BLOCKED: define INEO_QA_USERNAME e INEO_QA_PASSWORD para SIT autenticado')
     response = requests.post(BASE + '/api/v1/auth/login', json={
-        'username': 'admin.test', 'password': 'Prueba-Sprint7!'}, timeout=20)
+        'username': username, 'password': password}, timeout=20)
     assert response.status_code == 200
     validate('auth_login', response.json())
     class SessionHeaders(dict):
