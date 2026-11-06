@@ -1,0 +1,58 @@
+{
+  "metrics": {
+    "samples": 53,
+    "errors": 0,
+    "error_rate": 0.0,
+    "p95_ms": 119.0,
+    "throughput_requests_per_second": 0.9101056065939727,
+    "duration_seconds": 58.235
+  },
+  "per_label": {
+    "analytics": {
+      "samples": 13,
+      "errors": 0,
+      "error_rate": 0.0,
+      "p95_ms": 178.0,
+      "throughput_requests_per_second": 0.25269214321813166,
+      "duration_seconds": 51.446
+    },
+    "login": {
+      "samples": 1,
+      "errors": 0,
+      "error_rate": 0.0,
+      "p95_ms": 119.0,
+      "throughput_requests_per_second": 8.403361344537815,
+      "duration_seconds": 0.119
+    },
+    "patients": {
+      "samples": 13,
+      "errors": 0,
+      "error_rate": 0.0,
+      "p95_ms": 148.0,
+      "throughput_requests_per_second": 0.2515479876160991,
+      "duration_seconds": 51.68
+    },
+    "spark_overview": {
+      "samples": 13,
+      "errors": 0,
+      "error_rate": 0.0,
+      "p95_ms": 60.0,
+      "throughput_requests_per_second": 0.25256450108797013,
+      "duration_seconds": 51.472
+    },
+    "studies": {
+      "samples": 13,
+      "errors": 0,
+      "error_rate": 0.0,
+      "p95_ms": 69.0,
+      "throughput_requests_per_second": 0.25224106484535685,
+      "duration_seconds": 51.538
+    }
+  },
+  "thresholds": {
+    "p95_ms": 2000,
+    "max_error_rate": 0.01
+  },
+  "thresholds_confirmed_by_executor": true,
+  "passed": true
+}

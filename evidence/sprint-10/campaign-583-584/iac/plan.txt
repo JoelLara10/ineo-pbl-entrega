@@ -1,0 +1,100 @@
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # module.test_database.docker_container.mongo will be created
+  + resource "docker_container" "mongo" {
+      + attach                                      = false
+      + bridge                                      = (known after apply)
+      + command                                     = (known after apply)
+      + container_logs                              = (known after apply)
+      + container_read_refresh_timeout_milliseconds = 15000
+      + entrypoint                                  = (known after apply)
+      + env                                         = (known after apply)
+      + exit_code                                   = (known after apply)
+      + hostname                                    = (known after apply)
+      + id                                          = (known after apply)
+      + image                                       = (known after apply)
+      + init                                        = (known after apply)
+      + ipc_mode                                    = (known after apply)
+      + log_driver                                  = (known after apply)
+      + logs                                        = false
+      + memory_reservation                          = 0
+      + must_run                                    = true
+      + name                                        = "ineo-test-sprint10"
+      + network_data                                = (known after apply)
+      + network_mode                                = "bridge"
+      + read_only                                   = false
+      + remove_volumes                              = true
+      + restart                                     = "no"
+      + rm                                          = false
+      + runtime                                     = (known after apply)
+      + security_opts                               = (known after apply)
+      + shm_size                                    = (known after apply)
+      + start                                       = true
+      + stdin_open                                  = false
+      + stop_signal                                 = (known after apply)
+      + stop_timeout                                = (known after apply)
+      + tty                                         = false
+      + wait                                        = true
+      + wait_timeout                                = 180
+
+      + healthcheck {
+          + interval       = "5s"
+          + retries        = 20
+          + start_interval = "0s"
+          + start_period   = "10s"
+          + test           = [
+              + "CMD",
+              + "mongosh",
+              + "--quiet",
+              + "--eval",
+              + "db.adminCommand('ping').ok",
+            ]
+          + timeout        = "5s"
+        }
+
+      + labels (known after apply)
+
+      + ports {
+          + external = 27029
+          + internal = 27017
+          + ip       = "127.0.0.1"
+          + protocol = "tcp"
+        }
+
+      + volumes {
+          + container_path = "/data/db"
+          + volume_name    = "ineo-test-sprint10-synthetic"
+            # (2 unchanged attributes hidden)
+        }
+    }
+
+  # module.test_database.docker_image.mongo will be created
+  + resource "docker_image" "mongo" {
+      + id           = (known after apply)
+      + image_id     = (known after apply)
+      + keep_locally = true
+      + name         = "mongo:7.0.16"
+      + repo_digest  = (known after apply)
+    }
+
+  # module.test_database.docker_volume.synthetic will be created
+  + resource "docker_volume" "synthetic" {
+      + driver     = (known after apply)
+      + id         = (known after apply)
+      + mountpoint = (known after apply)
+      + name       = "ineo-test-sprint10-synthetic"
+    }
+
+Plan: 3 to add, 0 to change, 0 to destroy.
+
+─────────────────────────────────────────────────────────────────────────────
+
+Saved the plan to: real-qa.tfplan
+
+To perform exactly these actions, run the following command to apply:
+    terraform apply "real-qa.tfplan"

@@ -1,0 +1,21 @@
+module.test_database.docker_image.mongo: Creating...
+module.test_database.docker_volume.synthetic: Creating...
+module.test_database.docker_volume.synthetic: Creation complete after 1s [id=ineo-test-sprint10-synthetic]
+module.test_database.docker_image.mongo: Still creating... [00m10s elapsed]
+module.test_database.docker_image.mongo: Still creating... [00m20s elapsed]
+module.test_database.docker_image.mongo: Still creating... [00m30s elapsed]
+module.test_database.docker_image.mongo: Still creating... [00m40s elapsed]
+module.test_database.docker_image.mongo: Still creating... [00m50s elapsed]
+module.test_database.docker_image.mongo: Still creating... [01m00s elapsed]
+module.test_database.docker_image.mongo: Still creating... [01m10s elapsed]
+module.test_database.docker_image.mongo: Still creating... [01m20s elapsed]
+module.test_database.docker_image.mongo: Creation complete after 1m27s [id=sha256:c630c59342c1493d50345136df2af14a76b9e827dd5316bfabee07a0880a5f3amongo:7.0.16]
+module.test_database.docker_container.mongo: Creating...
+module.test_database.docker_container.mongo: Still creating... [00m10s elapsed]
+module.test_database.docker_container.mongo: Creation complete after 18s [id=fb765b3f8ddccb96c47a5b0467c4f44b8aed27fdd3e666c0bbca20299619c103]
+
+Apply complete! Resources: 3 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+mongo_uri = "mongodb://127.0.0.1:27029/"

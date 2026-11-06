@@ -1,0 +1,36 @@
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform planned the following actions, but then encountered a problem:
+
+  # module.test_database.docker_image.mongo will be created
+  + resource "docker_image" "mongo" {
+      + id           = (known after apply)
+      + image_id     = (known after apply)
+      + keep_locally = true
+      + name         = "mongo:7.0.16"
+      + repo_digest  = (known after apply)
+    }
+
+  # module.test_database.docker_volume.synthetic will be created
+  + resource "docker_volume" "synthetic" {
+      + driver     = (known after apply)
+      + id         = (known after apply)
+      + mountpoint = (known after apply)
+      + name       = "ineo-test-sprint10-synthetic"
+    }
+
+Plan: 2 to add, 0 to change, 0 to destroy.
+
+Error: Invalid value for variable
+
+  on main.tf line 16:
+  16: variable "mongo_port" {
+    ├────────────────
+    │ var.mongo_port is 70000
+
+El puerto debe ser un entero entre 1024 y 65535.
+
+This was checked by the validation rule at main.tf:19,3-13.

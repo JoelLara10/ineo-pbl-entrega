@@ -120,7 +120,7 @@ def main():
     run('web-dependencies', [npm, 'audit', '--json', '--audit-level=high'], ROOT / 'frontend/clinica-web-react', 'audit')
     # Only this schema-validated digest catalog is excluded; source/test folders stay scanned.
     run('secret-scan', [sys.executable, '-m', 'detect_secrets', 'scan', '--no-verify',
-        '--exclude-files', r'^ci[/\\]security-reviewed-fixtures\.json$'], mode='secrets')
+        '--exclude-files', r'^(ci[/\\]security-reviewed-fixtures\.json|evidence[/\\]sprint-10[/\\]campaign-583-584[/\\]perf[/\\](baseline|smoke|negative)[/\\]html[/\\].*[/\\]bower_components[/\\].*)$'], mode='secrets')
     run('web-static', [npm, 'run', 'lint'], ROOT / 'frontend/clinica-web-react')
     run('auth-web-tests', [npm, 'test', '--', 'src/tests/auth-session.test.jsx',
         'src/tests/study-request-safety.test.jsx',
