@@ -1,0 +1,140 @@
+[
+  {
+    "id": "CP-S10-IAC-01",
+    "name": "Formato y configuración válida",
+    "task": 583,
+    "pbl": "PBL-45",
+    "expected": "fmt y validate con código 0",
+    "actual": "fmt=0; validate=0. Configuración válida.",
+    "files": [
+      "iac/fmt.txt",
+      "iac/validate.txt",
+      "iac/provision-summary.json"
+    ],
+    "sha": "241c1741c5fb477a328a43bcaef16fbade895a4f",
+    "date": "2026-11-05T20:11:28-06:00",
+    "executor": "Marcelino Zahid Galicia Bonifacio",
+    "status": "Aprobado en ejecución técnica; revisión de Jesús pendiente"
+  },
+  {
+    "id": "CP-S10-IAC-02",
+    "name": "Variables inválidas rechazadas",
+    "task": 583,
+    "pbl": "PBL-45",
+    "expected": "Nombre vacío y puertos inválidos rechazados sin apply",
+    "actual": "3 negativos aprobados en terraform test; planes de nombre vacío y puerto 70000 rechazados con código 1.",
+    "files": [
+      "iac/negative-cases.txt",
+      "iac/invalid-empty-name.txt",
+      "iac/invalid-port.txt"
+    ],
+    "sha": "241c1741c5fb477a328a43bcaef16fbade895a4f",
+    "date": "2026-11-05T20:11:28-06:00",
+    "executor": "Marcelino Zahid Galicia Bonifacio",
+    "status": "Aprobado en ejecución técnica; revisión de Jesús pendiente"
+  },
+  {
+    "id": "CP-S10-IAC-03",
+    "name": "Plan del ambiente aislado",
+    "task": 583,
+    "pbl": "PBL-45",
+    "expected": "Solo recursos QA; ninguna referencia a producción",
+    "actual": "Plan real: 3 altas, 0 cambios, 0 bajas. Imagen MongoDB, volumen sintético y contenedor; puerto 127.0.0.1:27029.",
+    "files": [
+      "iac/plan.txt",
+      "iac/plan-json.txt"
+    ],
+    "sha": "241c1741c5fb477a328a43bcaef16fbade895a4f",
+    "date": "2026-11-05T20:11:28-06:00",
+    "executor": "Marcelino Zahid Galicia Bonifacio",
+    "status": "Aprobado en ejecución técnica; revisión de Jesús pendiente"
+  },
+  {
+    "id": "CP-S10-IAC-04",
+    "name": "Aprovisionamiento idempotente",
+    "task": 583,
+    "pbl": "PBL-45",
+    "expected": "Apply correcto; segundo plan sin cambios; limpieza comprobada",
+    "actual": "Apply=0 con wait=true y health check MongoDB; segundo plan=0 (No changes). Destroy y estado vacío documentados.",
+    "files": [
+      "iac/apply.txt",
+      "iac/idempotency.txt",
+      "iac/destroy.txt",
+      "iac/cleanup-summary.json"
+    ],
+    "sha": "241c1741c5fb477a328a43bcaef16fbade895a4f",
+    "date": "2026-11-05T20:11:28-06:00",
+    "executor": "Marcelino Zahid Galicia Bonifacio",
+    "status": "Aprobado en ejecución técnica; revisión de Jesús pendiente"
+  },
+  {
+    "id": "CP-S10-PERF-01",
+    "name": "Smoke autenticado API",
+    "task": 584,
+    "pbl": "PBL-30",
+    "expected": "p95 ≤ 2000 ms y errores ≤ 1 %, umbrales confirmados por el ejecutor",
+    "actual": "53 solicitudes; 0 errores; p95 119.0 ms; throughput 0.9101 solicitudes/s; gate=0.",
+    "files": [
+      "perf/smoke/metrics.json",
+      "perf/smoke/execution.txt",
+      "perf/smoke/results.jtl",
+      "perf/smoke/html/index.html"
+    ],
+    "sha": "46dc3a46bff52506be64e530d3945e15f445bd00",
+    "date": "2026-11-05T20:11:28-06:00",
+    "executor": "Marcelino Zahid Galicia Bonifacio",
+    "status": "Aprobado en ejecución técnica; revisión de Jesús pendiente"
+  },
+  {
+    "id": "CP-S10-PERF-02",
+    "name": "Carga basal de consultas",
+    "task": 584,
+    "pbl": "PBL-30",
+    "expected": "p95 ≤ 2000 ms y errores ≤ 1 %, umbrales confirmados por el ejecutor",
+    "actual": "898 solicitudes; 0 errores; p95 279.0 ms; throughput 4.3047 solicitudes/s; gate=0.",
+    "files": [
+      "perf/baseline/metrics.json",
+      "perf/baseline/execution.txt",
+      "perf/baseline/results.jtl",
+      "perf/baseline/html/index.html"
+    ],
+    "sha": "46dc3a46bff52506be64e530d3945e15f445bd00",
+    "date": "2026-11-05T20:11:28-06:00",
+    "executor": "Marcelino Zahid Galicia Bonifacio",
+    "status": "Aprobado en ejecución técnica; revisión de Jesús pendiente"
+  },
+  {
+    "id": "CP-S10-PERF-03",
+    "name": "Control de errores medidos",
+    "task": 584,
+    "pbl": "PBL-30",
+    "expected": "Gate=1 al detectar ruta inválida; separado de carga nominal",
+    "actual": "5 solicitudes; 1 errores; p95 157.0 ms; throughput 1.6567 solicitudes/s; gate=1.",
+    "files": [
+      "perf/negative/metrics.json",
+      "perf/negative/execution.txt",
+      "perf/negative/results.jtl",
+      "perf/negative/html/index.html"
+    ],
+    "sha": "46dc3a46bff52506be64e530d3945e15f445bd00",
+    "date": "2026-11-05T20:11:28-06:00",
+    "executor": "Marcelino Zahid Galicia Bonifacio",
+    "status": "Aprobado en ejecución técnica; revisión de Jesús pendiente"
+  },
+  {
+    "id": "CP-S10-SIT-04",
+    "name": "CORS y credenciales",
+    "task": 584,
+    "pbl": "PBL-30",
+    "expected": "Solo origen QA con cabeceras CORS; sin sesión HTTP 401",
+    "actual": "Preflight y GET reales: origen QA permitido, origen externo sin Allow-Origin, credenciales CORS no ampliadas y solicitud sin sesión=401.",
+    "files": [
+      "sit/CP-S10-SIT-04.json",
+      "sit-rerun.xml"
+    ],
+    "sha": "f0d7280b74d38e6a1b22ec3b59f182b92404ebf4",
+    "date": "2026-11-05T20:11:28-06:00",
+    "executor": "Marcelino Zahid Galicia Bonifacio",
+    "status": "Aprobado en ejecución técnica; revisión de Jesús pendiente"
+  }
+]

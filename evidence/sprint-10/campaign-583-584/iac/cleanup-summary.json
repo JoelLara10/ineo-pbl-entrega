@@ -1,0 +1,24 @@
+{
+  "timestamp_utc": "2026-11-06T02:10:17.818604+00:00",
+  "tested_sha": "f0d7280b74d38e6a1b22ec3b59f182b92404ebf4",
+  "executor": "Marcelino Zahid Galicia Bonifacio",
+  "method": "Terraform with real local Docker provider",
+  "steps": [
+    {
+      "step": "destroy",
+      "exit_code": 0,
+      "expected_codes": [
+        0
+      ],
+      "passed": true
+    },
+    {
+      "step": "empty-state",
+      "exit_code": 0,
+      "expected_codes": [
+        0
+      ],
+      "passed": true
+    }
+  ]
+}

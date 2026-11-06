@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="4" time="9.090" timestamp="2026-11-05T20:02:09.314342-06:00" hostname="Galicia"><testcase classname="sit.test_real_contracts" name="test_cp_s10_sit_01_patient_persistence" time="0.185"><failure message="assert None">db = Database(MongoClient(host=['127.0.0.1:27029'], document_class=dict, tz_aware=False, connect=True, serverselectiontimeoutms=5000), 'ineo_test_s10')
+auth = {'Authorization': 'Bearer [REDACTED]'}
+
+    def test_cp_s10_sit_01_patient_persistence(db, auth):
+        suffix = uuid.uuid4().hex[:8].upper()
+        payload = {'curp': 'SINT' + suffix, 'papell': 'PRUEBA',
+                   'nom_pac': 'PACIENTE SINTETICO', 'fecnac': '2000-01-01'}
+        response = requests.post(BASE + '/api/v1/patients', json=payload, headers=auth, timeout=20)
+        assert response.status_code == 201, response.text
+        patient = response.json()
+        identifier = patient.get('Id_exp') or patient.get('id_exp') or patient.get('id')
+&gt;       assert identifier
+E       assert None
+
+qa\sprint-10\sit\test_real_contracts.py:45: AssertionError</failure></testcase><testcase classname="sit.test_real_contracts" name="test_cp_s10_sit_02_assessment_contract" time="0.211" /><testcase classname="sit.test_real_contracts" name="test_cp_s10_sit_03_spark_worker_and_result" time="0.665"><failure message="AssertionError: ['pending', 'running', 'failed']&#10;assert 'failed' == 'completed'&#10;  &#10;  - completed&#10;  + failed">db = Database(MongoClient(host=['127.0.0.1:27029'], document_class=dict, tz_aware=False, connect=True, serverselectiontimeoutms=5000), 'ineo_test_s10')
+auth = {'Authorization': 'Bearer [REDACTED]'}
+
+    def test_cp_s10_sit_03_spark_worker_and_result(db, auth):
+        db.spark_jobs.delete_many({'_id': 'analytics'})
+        expected = db.atencion.count_documents({})
+        started = time.monotonic()
+        run = requests.post(BASE + '/api/v1/spark/run/analytics', headers=auth, timeout=20)
+        assert run.status_code == 202, run.text
+        validate('spark_run', run.json())
+        states = [run.json()['status']['state']]
+        while time.monotonic() - started &lt; 120:
+            status = requests.get(BASE + '/api/v1/spark/status/analytics', headers=auth, timeout=20)
+            assert status.status_code == 200
+            value = status.json()
+            validate('spark_status', value)
+            states.append(value['state'])
+            if value['state'] in ('completed', 'failed'):
+                break
+            time.sleep(.25)
+&gt;       assert states[-1] == 'completed', states
+E       AssertionError: ['pending', 'running', 'failed']
+E       assert 'failed' == 'completed'
+E         
+E         - completed
+E         + failed
+
+qa\sprint-10\sit\test_real_contracts.py:88: AssertionError</failure></testcase><testcase classname="sit.test_real_contracts" name="test_cp_s10_sit_04_cors_and_credentials" time="0.335" /></testsuite></testsuites>

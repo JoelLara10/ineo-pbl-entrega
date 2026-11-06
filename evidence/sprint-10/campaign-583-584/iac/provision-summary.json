@@ -1,0 +1,96 @@
+{
+  "timestamp_utc": "2026-11-06T02:00:35.782895+00:00",
+  "tested_sha": "241c1741c5fb477a328a43bcaef16fbade895a4f",
+  "executor": "Marcelino Zahid Galicia Bonifacio",
+  "method": "Terraform with real local Docker provider",
+  "steps": [
+    {
+      "step": "terraform-version",
+      "exit_code": 0,
+      "expected_codes": [
+        0
+      ],
+      "passed": true
+    },
+    {
+      "step": "fmt",
+      "exit_code": 0,
+      "expected_codes": [
+        0
+      ],
+      "passed": true
+    },
+    {
+      "step": "validate",
+      "exit_code": 0,
+      "expected_codes": [
+        0
+      ],
+      "passed": true
+    },
+    {
+      "step": "negative-cases",
+      "exit_code": 0,
+      "expected_codes": [
+        0
+      ],
+      "passed": true
+    },
+    {
+      "step": "invalid-empty-name",
+      "exit_code": 1,
+      "expected_codes": [
+        1
+      ],
+      "passed": true
+    },
+    {
+      "step": "invalid-port",
+      "exit_code": 1,
+      "expected_codes": [
+        1
+      ],
+      "passed": true
+    },
+    {
+      "step": "plan",
+      "exit_code": 0,
+      "expected_codes": [
+        0
+      ],
+      "passed": true
+    },
+    {
+      "step": "plan-json",
+      "exit_code": 0,
+      "expected_codes": [
+        0
+      ],
+      "passed": true
+    },
+    {
+      "step": "apply",
+      "exit_code": 0,
+      "expected_codes": [
+        0
+      ],
+      "passed": true
+    },
+    {
+      "step": "idempotency",
+      "exit_code": 0,
+      "expected_codes": [
+        0
+      ],
+      "passed": true
+    },
+    {
+      "step": "state",
+      "exit_code": 0,
+      "expected_codes": [
+        0
+      ],
+      "passed": true
+    }
+  ]
+}
