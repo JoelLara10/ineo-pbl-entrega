@@ -34,6 +34,9 @@ pipeline {
                     if not exist qa\\sprint-10\\screenshots (
                         mkdir qa\\sprint-10\\screenshots
                     )
+
+                    del /q qa\\sprint-10\\reports\\*.xml 2>nul
+                    del /q qa\\sprint-10\\screenshots\\*.png 2>nul
                 '''
             }
         }
@@ -47,8 +50,8 @@ pipeline {
                     withCredentials([
                         usernamePassword(
                             credentialsId: 'ineo-admin-login',
-                            usernameVariable: 'admin',
-                            passwordVariable: '123456789'
+                            usernameVariable: 'ADMIN_LOGIN_USR',
+                            passwordVariable: 'ADMIN_LOGIN_PSW'
                         )
                     ]) {
                         bat '''
@@ -71,8 +74,8 @@ pipeline {
                     withCredentials([
                         usernamePassword(
                             credentialsId: 'ineo-enfermeria-login',
-                            usernameVariable: 'Jess',
-                            passwordVariable: '123456789J15ads05'
+                            usernameVariable: 'ENFERMERIA_LOGIN_USR',
+                            passwordVariable: 'ENFERMERIA_LOGIN_PSW'
                         )
                     ]) {
                         bat '''
@@ -95,8 +98,8 @@ pipeline {
                     withCredentials([
                         usernamePassword(
                             credentialsId: 'ineo-admin-login',
-                            usernameVariable: 'admin',
-                            passwordVariable: '123456789'
+                            usernameVariable: 'ADMIN_LOGIN_USR',
+                            passwordVariable: 'ADMIN_LOGIN_PSW'
                         )
                     ]) {
                         bat '''
@@ -118,9 +121,9 @@ pipeline {
                 ) {
                     withCredentials([
                         usernamePassword(
-                            credentialsId: 'ineo-admin-login',
-                            usernameVariable: 'admin',
-                            passwordVariable: '123456789'
+                            credentialsId: 'ineo-enfermeria-login',
+                            usernameVariable: 'ENFERMERIA_LOGIN_USR',
+                            passwordVariable: 'ENFERMERIA_LOGIN_PSW'
                         )
                     ]) {
                         bat '''
