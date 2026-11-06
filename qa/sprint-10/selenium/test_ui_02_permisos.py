@@ -18,8 +18,8 @@ RUTA_ADMINISTRATIVA = os.getenv(
     "/configuracion",
 )
 
-USERNAME = os.getenv("ENFERMERIA_LOGIN_USR")
-PASSWORD = os.getenv("ENFERMERIA_LOGIN_PSW")
+USERNAME = os.getenv("Jess")
+PASSWORD = os.getenv("123456789J15ads05")
 
 SCREENSHOTS = Path("qa/sprint-10/screenshots")
 SCREENSHOTS.mkdir(parents=True, exist_ok=True)

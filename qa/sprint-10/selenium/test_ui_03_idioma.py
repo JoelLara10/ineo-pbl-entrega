@@ -14,8 +14,8 @@ URL_LOGIN = os.getenv(
     "https://ineo-web-qa.vercel.app/login",
 )
 
-USERNAME = os.getenv("ADMIN_LOGIN_USR")
-PASSWORD = os.getenv("ADMIN_LOGIN_PSW")
+USERNAME = os.getenv("admin")
+PASSWORD = os.getenv("123456789")
 
 SCREENSHOTS = Path("qa/sprint-10/screenshots")
 SCREENSHOTS.mkdir(parents=True, exist_ok=True)
