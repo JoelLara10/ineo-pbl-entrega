@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 
 from selenium import webdriver
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -17,8 +18,8 @@ RUTA_VALORACION = os.getenv(
     "/enfermeria/valoracion",
 )
 
-USERNAME = os.getenv("Jess")
-PASSWORD = os.getenv("123456789J15ads05")
+USERNAME = os.getenv("ENFERMERIA_LOGIN_USR")
+PASSWORD = os.getenv("ENFERMERIA_LOGIN_PSW")
 
 SCREENSHOTS = Path("qa/sprint-10/screenshots")
 SCREENSHOTS.mkdir(parents=True, exist_ok=True)
@@ -45,24 +46,26 @@ def test_ui_04_valoracion_sin_paciente():
     )
 
     navegador = crear_navegador()
-    espera = WebDriverWait(navegador, 30)
 
     try:
         navegador.get(URL_LOGIN)
 
-        usuario = espera.until(
+        usuario = WebDriverWait(navegador, 30).until(
             EC.visibility_of_element_located(
                 (By.NAME, "ineo-login-username")
             )
         )
 
-        contrasena = espera.until(
+        contrasena = WebDriverWait(navegador, 30).until(
             EC.visibility_of_element_located(
                 (By.NAME, "ineo-login-password")
             )
         )
 
+        usuario.clear()
         usuario.send_keys(USERNAME)
+
+        contrasena.clear()
         contrasena.send_keys(PASSWORD)
 
         navegador.find_element(
@@ -70,10 +73,21 @@ def test_ui_04_valoracion_sin_paciente():
             "//button[contains(., 'Iniciar Sesión')]",
         ).click()
 
-        WebDriverWait(navegador, 90).until(
-            lambda driver:
-            "/login" not in driver.current_url
-        )
+        try:
+            WebDriverWait(navegador, 90).until(
+                lambda driver:
+                "/login" not in driver.current_url
+            )
+
+        except TimeoutException:
+            navegador.save_screenshot(
+                str(SCREENSHOTS / "ui-04-error-login.png")
+            )
+
+            raise AssertionError(
+                "No fue posible iniciar sesión con el usuario "
+                "de enfermería. Consulta ui-04-error-login.png."
+            )
 
         url_base = URL_LOGIN.split("/login")[0]
         navegador.get(f"{url_base}{RUTA_VALORACION}")
@@ -85,32 +99,63 @@ def test_ui_04_valoracion_sin_paciente():
             ) == "complete"
         )
 
-        titulo = WebDriverWait(navegador, 30).until(
-            EC.visibility_of_element_located(
-                (
-                    By.XPATH,
-                    "//h1[contains(., 'Valoración') "
-                    "or contains(., 'Assessment')]",
+        try:
+            titulo = WebDriverWait(navegador, 30).until(
+                EC.visibility_of_element_located(
+                    (
+                        By.XPATH,
+                        "//h1[contains(., 'Valoración') "
+                        "or contains(., 'Valoracion') "
+                        "or contains(., 'Assessment')]",
+                    )
                 )
             )
-        )
+
+        except TimeoutException:
+            navegador.save_screenshot(
+                str(
+                    SCREENSHOTS
+                    / "ui-04-pantalla-no-encontrada.png"
+                )
+            )
+
+            raise AssertionError(
+                "No se encontró la pantalla de valoración. "
+                f"URL actual: {navegador.current_url}. "
+                "Consulta ui-04-pantalla-no-encontrada.png."
+            )
 
         assert titulo.is_displayed(), (
-            "La pantalla de valoración no se mostró"
+            "La pantalla de valoración no se mostró."
         )
 
-        boton_guardar = WebDriverWait(
-            navegador,
-            30,
-        ).until(
-            EC.presence_of_element_located(
-                (
-                    By.XPATH,
-                    "//button[contains(., 'Guardar') "
-                    "or contains(., 'Save')]",
+        try:
+            boton_guardar = WebDriverWait(
+                navegador,
+                30,
+            ).until(
+                EC.presence_of_element_located(
+                    (
+                        By.XPATH,
+                        "//button[contains(., 'Guardar') "
+                        "or contains(., 'Save')]",
+                    )
                 )
             )
-        )
+
+        except TimeoutException:
+            navegador.save_screenshot(
+                str(
+                    SCREENSHOTS
+                    / "ui-04-boton-guardar-no-encontrado.png"
+                )
+            )
+
+            raise AssertionError(
+                "No se encontró el botón Guardar o Save. "
+                "Consulta la captura "
+                "ui-04-boton-guardar-no-encontrado.png."
+            )
 
         navegador.save_screenshot(
             str(
@@ -122,7 +167,7 @@ def test_ui_04_valoracion_sin_paciente():
         assert not boton_guardar.is_enabled(), (
             "El botón Guardar debería permanecer "
             "deshabilitado cuando no existe un paciente "
-            "seleccionado"
+            "seleccionado."
         )
 
         contenido = navegador.page_source.lower()
@@ -132,11 +177,13 @@ def test_ui_04_valoracion_sin_paciente():
             or "atencion: n/a" in contenido
             or "attention: n/a" in contenido
             or "exp: n/a" in contenido
+            or "seleccione un paciente" in contenido
+            or "select a patient" in contenido
         )
 
         assert paciente_no_seleccionado, (
-            "La pantalla no indicó que falta el expediente "
-            "o la atención del paciente"
+            "La pantalla no indicó que falta seleccionar "
+            "el expediente o la atención del paciente."
         )
 
     finally:

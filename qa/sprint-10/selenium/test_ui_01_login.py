@@ -13,8 +13,8 @@ URL = os.getenv(
     "https://ineo-web-qa.vercel.app/login",
 )
 
-USERNAME = os.getenv("admin")
-PASSWORD = os.getenv("123456789")
+USERNAME = os.getenv("ADMIN_LOGIN_USR")
+PASSWORD = os.getenv("ADMIN_LOGIN_PSW")
 
 SCREENSHOTS = Path("qa/sprint-10/screenshots")
 SCREENSHOTS.mkdir(parents=True, exist_ok=True)
@@ -73,7 +73,6 @@ def test_ui_01_inicio_y_cierre_de_sesion():
     wait = WebDriverWait(driver, 30)
 
     try:
-        # Abrir la pantalla de inicio de sesión.
         driver.get(URL)
 
         usuario = wait.until(
@@ -105,12 +104,12 @@ def test_ui_01_inicio_y_cierre_de_sesion():
 
         boton_login.click()
 
-        # Esperar a que la aplicación abandone la ruta /login.
         try:
             WebDriverWait(driver, 90).until(
                 lambda navegador:
                 "/login" not in navegador.current_url
             )
+
         except TimeoutException:
             driver.save_screenshot(
                 str(SCREENSHOTS / "ui-01-error-login.png")
@@ -147,7 +146,6 @@ def test_ui_01_inicio_y_cierre_de_sesion():
             str(SCREENSHOTS / "ui-01-login-correcto.png")
         )
 
-        # Localizar la opción para cerrar sesión.
         cerrar_sesion = buscar_cerrar_sesion(driver)
 
         if cerrar_sesion is None:
@@ -174,7 +172,6 @@ def test_ui_01_inicio_y_cierre_de_sesion():
             cerrar_sesion,
         )
 
-        # La aplicación muestra una alerta de confirmación.
         try:
             alerta = WebDriverWait(driver, 15).until(
                 EC.alert_is_present()
@@ -206,7 +203,6 @@ def test_ui_01_inicio_y_cierre_de_sesion():
                 "no apareció la alerta de confirmación."
             )
 
-        # Comprobar que regresó a la pantalla de acceso.
         WebDriverWait(driver, 60).until(
             EC.visibility_of_element_located(
                 (By.NAME, "ineo-login-username")
@@ -223,7 +219,6 @@ def test_ui_01_inicio_y_cierre_de_sesion():
         )
 
     finally:
-        # Si queda una alerta abierta por algún error, intenta cerrarla.
         try:
             driver.switch_to.alert.dismiss()
         except Exception:

@@ -14,8 +14,8 @@ URL_LOGIN = os.getenv(
     "https://ineo-web-qa.vercel.app/login",
 )
 
-USERNAME = os.getenv("admin")
-PASSWORD = os.getenv("123456789")
+USERNAME = os.getenv("ADMIN_LOGIN_USR")
+PASSWORD = os.getenv("ADMIN_LOGIN_PSW")
 
 SCREENSHOTS = Path("qa/sprint-10/screenshots")
 SCREENSHOTS.mkdir(parents=True, exist_ok=True)
@@ -122,12 +122,11 @@ def test_ui_03_persistencia_del_idioma():
     )
 
     navegador = crear_navegador()
-    espera = WebDriverWait(navegador, 30)
 
     try:
         navegador.get(URL_LOGIN)
 
-        espera.until(
+        WebDriverWait(navegador, 30).until(
             EC.visibility_of_element_located(
                 (By.NAME, "ineo-login-username")
             )
@@ -143,10 +142,21 @@ def test_ui_03_persistencia_del_idioma():
             "//button[contains(., 'Iniciar Sesión')]",
         ).click()
 
-        WebDriverWait(navegador, 90).until(
-            lambda driver:
-            "/login" not in driver.current_url
-        )
+        try:
+            WebDriverWait(navegador, 90).until(
+                lambda driver:
+                "/login" not in driver.current_url
+            )
+
+        except TimeoutException:
+            navegador.save_screenshot(
+                str(SCREENSHOTS / "ui-03-error-login.png")
+            )
+
+            raise AssertionError(
+                "No fue posible iniciar sesión con el usuario "
+                "administrador. Consulta ui-03-error-login.png."
+            )
 
         navegador.save_screenshot(
             str(SCREENSHOTS / "ui-03-panel-inicial.png")
@@ -184,6 +194,7 @@ def test_ui_03_persistencia_del_idioma():
                     lambda driver:
                     buscar_opcion_ingles(driver)
                 )
+
             except TimeoutException:
                 navegador.save_screenshot(
                     str(

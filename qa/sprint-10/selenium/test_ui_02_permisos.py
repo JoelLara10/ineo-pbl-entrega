@@ -3,6 +3,7 @@ from pathlib import Path
 
 import pytest
 from selenium import webdriver
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -18,8 +19,8 @@ RUTA_ADMINISTRATIVA = os.getenv(
     "/configuracion",
 )
 
-USERNAME = os.getenv("Jess")
-PASSWORD = os.getenv("123456789J15ads05")
+USERNAME = os.getenv("ENFERMERIA_LOGIN_USR")
+PASSWORD = os.getenv("ENFERMERIA_LOGIN_PSW")
 
 SCREENSHOTS = Path("qa/sprint-10/screenshots")
 SCREENSHOTS.mkdir(parents=True, exist_ok=True)
@@ -32,13 +33,14 @@ def crear_navegador():
     opciones.add_argument("--disable-gpu")
     opciones.add_argument("--no-sandbox")
     opciones.add_argument("--disable-dev-shm-usage")
+
     return webdriver.Chrome(options=opciones)
 
 
 def test_ui_02_restriccion_por_rol():
     if not USERNAME or not PASSWORD:
-        pytest.skip(
-            "No se configuraron las credenciales "
+        pytest.fail(
+            "Jenkins no proporcionó las credenciales "
             "ENFERMERIA_LOGIN_USR y ENFERMERIA_LOGIN_PSW"
         )
 
@@ -54,12 +56,16 @@ def test_ui_02_restriccion_por_rol():
             )
         )
 
-        contrasena = navegador.find_element(
-            By.NAME,
-            "ineo-login-password",
+        contrasena = espera.until(
+            EC.visibility_of_element_located(
+                (By.NAME, "ineo-login-password")
+            )
         )
 
+        usuario.clear()
         usuario.send_keys(USERNAME)
+
+        contrasena.clear()
         contrasena.send_keys(PASSWORD)
 
         navegador.find_element(
@@ -67,15 +73,48 @@ def test_ui_02_restriccion_por_rol():
             "//button[contains(., 'Iniciar Sesión')]",
         ).click()
 
-        espera.until(
-            lambda driver: "/login" not in driver.current_url
-        )
+        try:
+            WebDriverWait(navegador, 90).until(
+                lambda driver:
+                "/login" not in driver.current_url
+            )
+
+        except TimeoutException:
+            navegador.save_screenshot(
+                str(SCREENSHOTS / "ui-02-error-login.png")
+            )
+
+            mensajes = navegador.find_elements(
+                By.XPATH,
+                "//*[@role='alert'] | "
+                "//*[contains(@class, 'error')] | "
+                "//*[contains(@class, 'alert')]",
+            )
+
+            textos_error = [
+                mensaje.text.strip()
+                for mensaje in mensajes
+                if mensaje.text.strip()
+            ]
+
+            mensaje_visible = (
+                " | ".join(textos_error)
+                if textos_error
+                else "No se mostró un mensaje visible."
+            )
+
+            raise AssertionError(
+                "El usuario de enfermería no pudo iniciar "
+                f"sesión. Mensaje: {mensaje_visible}. "
+                "Consulta ui-02-error-login.png."
+            )
 
         url_base = URL_LOGIN.split("/login")[0]
         navegador.get(f"{url_base}{RUTA_ADMINISTRATIVA}")
 
-        espera.until(
-            lambda driver: driver.execute_script(
+        WebDriverWait(navegador, 30).until(
+            lambda driver:
+            driver.execute_script(
                 "return document.readyState"
             ) == "complete"
         )
