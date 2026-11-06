@@ -6,18 +6,18 @@ pipeline {
         ADMIN_ROUTE = '/configuracion'
         ASSESSMENT_ROUTE = '/enfermeria/valoracion'
 
-        PYTHON_EXE = 'C:\\Users\\al222\\AppData\\Local\\Programs\\Python\\Python311\\python.exe'
+        PYTHON_EXE = 'py'
     }
 
     stages {
         stage('Preparar ambiente') {
             steps {
                 bat '''
-                    "%PYTHON_EXE%" --version
+                    "%PYTHON_EXE%" -3.11 --version
                     if errorlevel 1 exit /b 1
 
                     if not exist .venv-sprint10 (
-                        "%PYTHON_EXE%" -m venv .venv-sprint10
+                        "%PYTHON_EXE%" -3.11 -m venv .venv-sprint10
                     )
                     if errorlevel 1 exit /b 1
 
@@ -51,7 +51,7 @@ pipeline {
                         usernamePassword(
                             credentialsId: 'ineo-admin-login',
                             usernameVariable: 'ADMIN_LOGIN_USR',
-                            passwordVariable: 'ADMIN_LOGIN_PSW'
+                            passwordVariable: 'ADMIN_AUTH_VALUE'
                         )
                     ]) {
                         bat '''
@@ -75,7 +75,7 @@ pipeline {
                         usernamePassword(
                             credentialsId: 'ineo-enfermeria-login',
                             usernameVariable: 'ENFERMERIA_LOGIN_USR',
-                            passwordVariable: 'ENFERMERIA_LOGIN_PSW'
+                            passwordVariable: 'ENFERMERIA_AUTH_VALUE'
                         )
                     ]) {
                         bat '''
@@ -99,7 +99,7 @@ pipeline {
                         usernamePassword(
                             credentialsId: 'ineo-admin-login',
                             usernameVariable: 'ADMIN_LOGIN_USR',
-                            passwordVariable: 'ADMIN_LOGIN_PSW'
+                            passwordVariable: 'ADMIN_AUTH_VALUE'
                         )
                     ]) {
                         bat '''
@@ -123,7 +123,7 @@ pipeline {
                         usernamePassword(
                             credentialsId: 'ineo-enfermeria-login',
                             usernameVariable: 'ENFERMERIA_LOGIN_USR',
-                            passwordVariable: 'ENFERMERIA_LOGIN_PSW'
+                            passwordVariable: 'ENFERMERIA_AUTH_VALUE'
                         )
                     ]) {
                         bat '''
