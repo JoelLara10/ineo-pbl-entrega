@@ -7,26 +7,31 @@ pipeline {
         // Modifica estas rutas si tu aplicación utiliza otras.
         ADMIN_ROUTE = '/configuracion'
         ASSESSMENT_ROUTE = '/enfermeria/valoracion'
+        PYTHON_EXE = 'C:\\Users\\al222\\AppData\\Local\\Programs\\Python\\Python311\\python.exe'
     }
 
-    stages {
-        stage('Preparar ambiente') {
-            steps {
-                bat '''
-                    if not exist .venv-sprint10 (
-                        py -m venv .venv-sprint10
-                    )
+    stage('Preparar ambiente') {
+    steps {
+        bat '''
+            "%PYTHON_EXE%" --version
+            if errorlevel 1 exit /b 1
 
-                    call .venv-sprint10\\Scripts\\activate
-                    python -m pip install --upgrade pip
-                    pip install -r qa\\sprint-10\\requirements.txt
+            if not exist .venv-sprint10 (
+                "%PYTHON_EXE%" -m venv .venv-sprint10
+            )
+            if errorlevel 1 exit /b 1
 
-                    if not exist qa\\sprint-10\\reports mkdir qa\\sprint-10\\reports
-                    if not exist qa\\sprint-10\\screenshots mkdir qa\\sprint-10\\screenshots
-                '''
-            }
-        }
+            .venv-sprint10\\Scripts\\python.exe -m pip install --upgrade pip
+            if errorlevel 1 exit /b 1
 
+            .venv-sprint10\\Scripts\\python.exe -m pip install -r qa\\sprint-10\\requirements.txt
+            if errorlevel 1 exit /b 1
+
+            if not exist qa\\sprint-10\\reports mkdir qa\\sprint-10\\reports
+            if not exist qa\\sprint-10\\screenshots mkdir qa\\sprint-10\\screenshots
+        '''
+    }
+}
         stage('UI-01 Inicio y cierre de sesión') {
             steps {
                 catchError(
