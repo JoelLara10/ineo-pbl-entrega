@@ -1,0 +1,22 @@
+{
+  "case": "CP-S10-SIT-02",
+  "timestamp_utc": "2026-11-06T02:06:28.399357+00:00",
+  "sha": "f0d7280b74d38e6a1b22ec3b59f182b92404ebf4",
+  "api": "http://127.0.0.1:5029",
+  "database": "ineo_test_s10",
+  "data": {
+    "invalid_status": 400,
+    "valid_status": 201,
+    "before": 1,
+    "after_invalid": 1,
+    "after_valid": 2,
+    "persisted": {
+      "estado_general": "Estable",
+      "dolor": "2",
+      "movilidad": "Independiente",
+      "riesgo_caidas": "Bajo",
+      "riesgo_upp": "Bajo",
+      "observaciones": "Fixture sintético SIT"
+    }
+  }
+}

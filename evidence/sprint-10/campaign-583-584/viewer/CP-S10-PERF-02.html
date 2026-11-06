@@ -1,0 +1,22 @@
+<!doctype html><meta charset="utf-8"><title>CP-S10-PERF-02</title><style>body{font:17px Arial;margin:28px;color:#182333;max-width:1150px}h1{font-size:27px}h2{font-size:19px}pre{font:14px Consolas;white-space:pre-wrap;background:#f0f3f6;padding:18px;border:1px solid #bbc5ce}section{padding:12px 0;border-bottom:1px solid #ddd}.ok{font-size:19px;color:#07582c}small{color:#455;word-break:break-all}</style><h1>CP-S10-PERF-02 — Carga basal de consultas</h1><small>Ejecutor: Marcelino Zahid Galicia Bonifacio<br>Registro: 2026-11-05T20:11:28-06:00<br>SHA probado: 46dc3a46bff52506be64e530d3945e15f445bd00<br>API y MongoDB locales reales. Azure #584.</small><h2>Criterio</h2><p>p95 ≤ 2000 ms y errores ≤ 1 %, umbrales confirmados por el ejecutor</p><h2>Resultado comprobado</h2><p class="ok">898 solicitudes; 0 errores; p95 279.0 ms; throughput 4.3047 solicitudes/s; gate=0.</p><h2>Extracto del archivo original perf/baseline/metrics.json</h2><pre>      &quot;errors&quot;: 0,
+      &quot;error_rate&quot;: 0.0,
+      &quot;p95_ms&quot;: 277.0,
+      &quot;throughput_requests_per_second&quot;: 1.09706275099654,
+      &quot;duration_seconds&quot;: 201.447
+    },
+    &quot;studies&quot;: {
+      &quot;samples&quot;: 224,
+      &quot;errors&quot;: 0,
+      &quot;error_rate&quot;: 0.0,
+      &quot;p95_ms&quot;: 178.0,
+      &quot;throughput_requests_per_second&quot;: 1.0999965625107422,
+      &quot;duration_seconds&quot;: 203.637
+    }
+  },
+  &quot;thresholds&quot;: {
+    &quot;p95_ms&quot;: 2000,
+    &quot;max_error_rate&quot;: 0.01
+  },
+  &quot;thresholds_confirmed_by_executor&quot;: true,
+  &quot;passed&quot;: true
+}</pre><small>Se conserva el reporte original completo. Captura del visor de evidencias; no es una terminal recreada.</small>

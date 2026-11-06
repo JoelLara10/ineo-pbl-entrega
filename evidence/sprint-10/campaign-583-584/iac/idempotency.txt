@@ -1,0 +1,8 @@
+module.test_database.docker_volume.synthetic: Refreshing state... [id=ineo-test-sprint10-synthetic]
+module.test_database.docker_image.mongo: Refreshing state... [id=sha256:c630c59342c1493d50345136df2af14a76b9e827dd5316bfabee07a0880a5f3amongo:7.0.16]
+module.test_database.docker_container.mongo: Refreshing state... [id=fb765b3f8ddccb96c47a5b0467c4f44b8aed27fdd3e666c0bbca20299619c103]
+
+No changes. Your infrastructure matches the configuration.
+
+Terraform has compared your real infrastructure against your configuration
+and found no differences, so no changes are needed.

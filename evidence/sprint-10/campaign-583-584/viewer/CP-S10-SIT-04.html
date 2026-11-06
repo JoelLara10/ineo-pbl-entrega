@@ -1,0 +1,22 @@
+<!doctype html><meta charset="utf-8"><title>CP-S10-SIT-04</title><style>body{font:17px Arial;margin:28px;color:#182333;max-width:1150px}h1{font-size:27px}h2{font-size:19px}pre{font:14px Consolas;white-space:pre-wrap;background:#f0f3f6;padding:18px;border:1px solid #bbc5ce}section{padding:12px 0;border-bottom:1px solid #ddd}.ok{font-size:19px;color:#07582c}small{color:#455;word-break:break-all}</style><h1>CP-S10-SIT-04 — CORS y credenciales</h1><small>Ejecutor: Marcelino Zahid Galicia Bonifacio<br>Registro: 2026-11-05T20:11:28-06:00<br>SHA probado: f0d7280b74d38e6a1b22ec3b59f182b92404ebf4<br>API y MongoDB locales reales. Azure #584.</small><h2>Criterio</h2><p>Solo origen QA con cabeceras CORS; sin sesión HTTP 401</p><h2>Resultado comprobado</h2><p class="ok">Preflight y GET reales: origen QA permitido, origen externo sin Allow-Origin, credenciales CORS no ampliadas y solicitud sin sesión=401.</p><h2>Extracto del archivo original sit/CP-S10-SIT-04.json</h2><pre>  &quot;api&quot;: &quot;http://127.0.0.1:5029&quot;,
+  &quot;database&quot;: &quot;ineo_test_s10&quot;,
+  &quot;data&quot;: {
+    &quot;origins&quot;: [
+      {
+        &quot;origin&quot;: &quot;http://localhost:5173&quot;,
+        &quot;preflight_status&quot;: 200,
+        &quot;allow_origin&quot;: &quot;http://localhost:5173&quot;,
+        &quot;allow_credentials&quot;: null,
+        &quot;actual_status&quot;: 200
+      },
+      {
+        &quot;origin&quot;: &quot;https://untrusted.invalid&quot;,
+        &quot;preflight_status&quot;: 200,
+        &quot;allow_origin&quot;: null,
+        &quot;allow_credentials&quot;: null,
+        &quot;actual_status&quot;: 200
+      }
+    ],
+    &quot;without_session&quot;: 401
+  }
+}</pre><small>Se conserva el reporte original completo. Captura del visor de evidencias; no es una terminal recreada.</small>

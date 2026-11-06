@@ -1,0 +1,20 @@
+{
+  "recorded_at": "2026-11-05T20:29:04-06:00",
+  "owner": "Marcelino Zahid Galicia Bonifacio",
+  "scope": [
+    "583",
+    "584"
+  ],
+  "actions": "Attached own case records, original report ZIP, consolidated report and evidence index.",
+  "verified": {
+    "583": {
+      "attachment_count": 7,
+      "saved": true
+    },
+    "584": {
+      "attachment_count": 7,
+      "saved": true
+    }
+  },
+  "review": "Pending actual team review; no signatures or task closure entered."
+}
