@@ -6,9 +6,9 @@ Flujo real validado:
   login -> /enfermeria -> clic cama OCUPADO -> /enfermeria/paciente/{exp}/{ate}
   -> Valoración de Enfermería -> llenar campos -> Guardar valoración
 
-Usuarios (ajusta con env si cambian):
-  INEO_USER / INEO_PASSWORD          (default jesus / Jaime123456789)
-  INEO_ADMIN_USER / INEO_ADMIN_PASSWORD
+Credenciales requeridas por variables de entorno (sin valores predeterminados):
+  INEO_USER / INEO_PASSWORD
+  INEO_ADMIN_USER / INEO_ADMIN_PASSWORD (opcionales; Analytics usa el usuario normal si faltan)
 """
 from __future__ import annotations
 
@@ -28,10 +28,16 @@ SCREENSHOT_DIR = Path(
 SCREENSHOT_DIR.mkdir(parents=True, exist_ok=True)
 
 DEFAULT_BASE = "https://ineo-web-qa.vercel.app"
-DEFAULT_USER = os.getenv("INEO_USER", "jesus")
-DEFAULT_PASSWORD = os.getenv("INEO_PASSWORD", "Jaime123456789")
-ADMIN_USER = os.getenv("INEO_ADMIN_USER", "admin")
-ADMIN_PASSWORD = os.getenv("INEO_ADMIN_PASSWORD", "123456789")
+
+
+def required_credentials(user_key: str, password_key: str) -> tuple[str, str]:
+    """Read QA credentials only from the environment; never use committed defaults."""
+    username = os.getenv(user_key)
+    password = os.getenv(password_key)
+    missing = [key for key, value in ((user_key, username), (password_key, password)) if not value]
+    if missing:
+        raise AssertionError("Required QA environment variables are missing: " + ", ".join(missing))
+    return username, password
 
 
 def wait(driver, timeout=25):
@@ -225,7 +231,7 @@ def test_cp_s10_uat_01_valoracion_comprensible(browser, base_url=None):
     url = getattr(browser, "demo_url", None) or base_url or os.getenv(
         "INEO_BASE_URL", DEFAULT_BASE
     )
-    login_as(browser, url, DEFAULT_USER, DEFAULT_PASSWORD)
+    login_as(browser, url, *required_credentials("INEO_USER", "INEO_PASSWORD"))
     capture(browser, "uat01-01-login")
 
     open_nursing_panel(browser, url)
@@ -255,11 +261,12 @@ def test_cp_s10_uat_02_lectura_analytics(browser, base_url=None):
     url = getattr(browser, "demo_url", None) or base_url or os.getenv(
         "INEO_BASE_URL", DEFAULT_BASE
     )
-    # Intentar admin; si falla, enfermería
-    try:
-        login_as(browser, url, ADMIN_USER, ADMIN_PASSWORD)
-    except AssertionError:
-        login_as(browser, url, DEFAULT_USER, DEFAULT_PASSWORD)
+    # Prefer the configured admin account; use the standard QA role only when no admin
+    # account was supplied. A failed admin login remains a real test failure.
+    if os.getenv("INEO_ADMIN_USER") or os.getenv("INEO_ADMIN_PASSWORD"):
+        login_as(browser, url, *required_credentials("INEO_ADMIN_USER", "INEO_ADMIN_PASSWORD"))
+    else:
+        login_as(browser, url, *required_credentials("INEO_USER", "INEO_PASSWORD"))
 
     capture(browser, "uat02-01-login")
 
@@ -290,7 +297,7 @@ def test_cp_s10_uat_03_recuperacion_error(browser, base_url=None):
     url = getattr(browser, "demo_url", None) or base_url or os.getenv(
         "INEO_BASE_URL", DEFAULT_BASE
     )
-    login_as(browser, url, DEFAULT_USER, DEFAULT_PASSWORD)
+    login_as(browser, url, *required_credentials("INEO_USER", "INEO_PASSWORD"))
     open_nursing_panel(browser, url)
     open_first_occupied_patient(browser)
     open_valoracion(browser)
@@ -371,22 +378,46 @@ def test_cp_s10_ui_05_contraste_tema(browser, base_url=None):
     url = getattr(browser, "demo_url", None) or base_url or os.getenv(
         "INEO_BASE_URL", DEFAULT_BASE
     )
-    login_as(browser, url, DEFAULT_USER, DEFAULT_PASSWORD)
+    login_as(browser, url, *required_credentials("INEO_USER", "INEO_PASSWORD"))
     open_nursing_panel(browser, url)
-    capture(browser, "ui05-tema-claro")
-
-    toggles = browser.find_elements(
-        By.XPATH,
-        "//*[contains(@aria-label,'tema') or contains(@aria-label,'theme') "
-        "or contains(@class,'theme') or contains(@class,'dark')]",
+    # Reproduce Chrome configurado en modo oscuro y valida que la app conserve
+    # sus superficies claras y que los controles visibles sigan siendo legibles.
+    browser.execute_cdp_cmd(
+        "Emulation.setEmulatedMedia",
+        {"features": [{"name": "prefers-color-scheme", "value": "dark"}]},
     )
-    if toggles:
-        toggles[0].click()
-        time.sleep(0.4)
-        capture(browser, "ui05-tema-oscuro")
+    browser.refresh()
+    open_nursing_panel(browser, url)
+    capture(browser, "ui05-chrome-dark-preference")
 
-    body = browser.find_element(By.TAG_NAME, "body")
-    color = body.value_of_css_property("color")
-    bg = body.value_of_css_property("background-color")
-    assert color and bg, "No se pudieron leer estilos calculados"
-    assert color != bg, "Texto y fondo con el mismo color (ilegible)"
+    color_scheme = browser.execute_script(
+        "return getComputedStyle(document.documentElement).colorScheme"
+    )
+    assert color_scheme == "only light", (
+        f"Chrome dark preference debe respetar la paleta legible de la app; got {color_scheme!r}"
+    )
+
+    controls = browser.execute_script("""
+      const visible = el => {
+        const r = el.getBoundingClientRect(), s = getComputedStyle(el);
+        return r.width > 0 && r.height > 0 && s.visibility !== 'hidden' && s.display !== 'none';
+      };
+      const rgb = value => {
+        const m = value.match(/[\\d.]+/g);
+        return m ? m.slice(0, 3).map(Number) : null;
+      };
+      const luminance = color => {
+        if (!color) return null;
+        const linear = color.map(v => { v /= 255; return v <= .04045 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4; });
+        return .2126 * linear[0] + .7152 * linear[1] + .0722 * linear[2];
+      };
+      return [...document.querySelectorAll('input:not([type=hidden]), textarea, select')]
+        .filter(visible).map(el => {
+          const s = getComputedStyle(el), fg = luminance(rgb(s.color)), bg = luminance(rgb(s.backgroundColor));
+          return {tag:el.tagName, type:el.type, color:s.color, background:s.backgroundColor,
+                  ratio: fg === null || bg === null ? null : (Math.max(fg,bg)+.05)/(Math.min(fg,bg)+.05)};
+        });
+    """)
+    assert controls, "No se encontraron controles visibles del formulario para verificar contraste"
+    failures = [c for c in controls if c["ratio"] is None or c["ratio"] < 4.5]
+    assert not failures, f"Controles con contraste menor a WCAG AA 4.5:1: {failures}"
