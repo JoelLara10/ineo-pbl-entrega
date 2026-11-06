@@ -796,5 +796,17 @@
     "type": "Secret Keyword",
     "hashed_secret": "79537f2b3a39f902ddd7c30649355bf9982358d1",
     "reason": "Texto de interfaz traducido; no es credencial"
+  },
+  {
+    "file": "Jenkinsfile-sprint10-jesus",
+    "type": "Secret Keyword",
+    "hashed_secret": "c8bd33b87f9438aa48c6b46ee4e08be8302798e4",
+    "reason": "Nombre de variable de Jenkins para credencial inyectada; no contiene el valor del secreto."
+  },
+  {
+    "file": "Jenkinsfile-sprint10-jesus",
+    "type": "Secret Keyword",
+    "hashed_secret": "9f6421e8188a72c63812aedcfab9c00e7bb14273",
+    "reason": "Nombre de variable de Jenkins para credencial inyectada; no contiene el valor del secreto."
   }
 ]
