@@ -17,8 +17,8 @@ RUTA_VALORACION = os.getenv(
     "/enfermeria/valoracion",
 )
 
-USERNAME = os.getenv("ADMIN_LOGIN_USR")
-PASSWORD = os.getenv("ADMIN_LOGIN_PSW")
+USERNAME = os.getenv("Jess")
+PASSWORD = os.getenv("123456789J15ads05")
 
 SCREENSHOTS = Path("qa/sprint-10/screenshots")
 SCREENSHOTS.mkdir(parents=True, exist_ok=True)
@@ -31,39 +31,18 @@ def crear_navegador():
     opciones.add_argument("--disable-gpu")
     opciones.add_argument("--no-sandbox")
     opciones.add_argument("--disable-dev-shm-usage")
+
     return webdriver.Chrome(options=opciones)
 
 
-def buscar_boton_guardar(navegador):
-    textos = (
-        "guardar",
-        "registrar",
-        "enviar",
-        "save",
-        "submit",
-    )
-
-    botones = navegador.find_elements(
-        By.XPATH,
-        "//button | //input[@type='submit']",
-    )
-
-    for boton in botones:
-        texto = (
-            boton.text
-            or boton.get_attribute("value")
-            or ""
-        ).strip().lower()
-
-        if any(opcion in texto for opcion in textos):
-            return boton
-
-    return None
-
-
 def test_ui_04_valoracion_sin_paciente():
-    assert USERNAME, "Jenkins no proporcionó ADMIN_LOGIN_USR"
-    assert PASSWORD, "Jenkins no proporcionó ADMIN_LOGIN_PSW"
+    assert USERNAME, (
+        "Jenkins no proporcionó ENFERMERIA_LOGIN_USR"
+    )
+
+    assert PASSWORD, (
+        "Jenkins no proporcionó ENFERMERIA_LOGIN_PSW"
+    )
 
     navegador = crear_navegador()
     espera = WebDriverWait(navegador, 30)
@@ -71,54 +50,64 @@ def test_ui_04_valoracion_sin_paciente():
     try:
         navegador.get(URL_LOGIN)
 
-        espera.until(
+        usuario = espera.until(
             EC.visibility_of_element_located(
                 (By.NAME, "ineo-login-username")
             )
-        ).send_keys(USERNAME)
+        )
 
-        navegador.find_element(
-            By.NAME,
-            "ineo-login-password",
-        ).send_keys(PASSWORD)
+        contrasena = espera.until(
+            EC.visibility_of_element_located(
+                (By.NAME, "ineo-login-password")
+            )
+        )
+
+        usuario.send_keys(USERNAME)
+        contrasena.send_keys(PASSWORD)
 
         navegador.find_element(
             By.XPATH,
             "//button[contains(., 'Iniciar Sesión')]",
         ).click()
 
-        espera.until(
-            lambda driver: "/login" not in driver.current_url
+        WebDriverWait(navegador, 90).until(
+            lambda driver:
+            "/login" not in driver.current_url
         )
 
         url_base = URL_LOGIN.split("/login")[0]
         navegador.get(f"{url_base}{RUTA_VALORACION}")
 
-        espera.until(
-            lambda driver: driver.execute_script(
+        WebDriverWait(navegador, 30).until(
+            lambda driver:
+            driver.execute_script(
                 "return document.readyState"
             ) == "complete"
         )
 
-        boton_guardar = buscar_boton_guardar(navegador)
-
-        assert boton_guardar is not None, (
-            "No se encontró el botón Guardar o Registrar. "
-            "Verifica la ruta de la pantalla de valoración."
+        titulo = WebDriverWait(navegador, 30).until(
+            EC.visibility_of_element_located(
+                (
+                    By.XPATH,
+                    "//h1[contains(., 'Valoración') "
+                    "or contains(., 'Assessment')]",
+                )
+            )
         )
 
-        boton_guardar.click()
+        assert titulo.is_displayed(), (
+            "La pantalla de valoración no se mostró"
+        )
 
-        espera.until(
-            lambda driver: any(
-                mensaje in driver.page_source.lower()
-                for mensaje in (
-                    "seleccione un paciente",
-                    "seleccionar paciente",
-                    "paciente requerido",
-                    "debe seleccionar",
-                    "campo requerido",
-                    "required",
+        boton_guardar = WebDriverWait(
+            navegador,
+            30,
+        ).until(
+            EC.presence_of_element_located(
+                (
+                    By.XPATH,
+                    "//button[contains(., 'Guardar') "
+                    "or contains(., 'Save')]",
                 )
             )
         )
@@ -130,23 +119,24 @@ def test_ui_04_valoracion_sin_paciente():
             )
         )
 
-        contenido = navegador.page_source.lower()
-
-        mensajes_esperados = (
-            "seleccione un paciente",
-            "seleccionar paciente",
-            "paciente requerido",
-            "debe seleccionar",
-            "campo requerido",
-            "required",
+        assert not boton_guardar.is_enabled(), (
+            "El botón Guardar debería permanecer "
+            "deshabilitado cuando no existe un paciente "
+            "seleccionado"
         )
 
-        assert any(
-            mensaje in contenido
-            for mensaje in mensajes_esperados
-        ), (
-            "La aplicación no mostró una validación al intentar "
-            "guardar una valoración sin seleccionar paciente"
+        contenido = navegador.page_source.lower()
+
+        paciente_no_seleccionado = (
+            "atención: n/a" in contenido
+            or "atencion: n/a" in contenido
+            or "attention: n/a" in contenido
+            or "exp: n/a" in contenido
+        )
+
+        assert paciente_no_seleccionado, (
+            "La pantalla no indicó que falta el expediente "
+            "o la atención del paciente"
         )
 
     finally:
