@@ -1,0 +1,155 @@
+pipeline {
+    agent any
+
+    environment {
+        QA_URL = 'https://ineo-web-qa.vercel.app/login'
+        ADMIN_ROUTE = '/configuracion'
+        ASSESSMENT_ROUTE = '/enfermeria/valoracion'
+
+        PYTHON_EXE = 'py'
+    }
+
+    stages {
+        stage('Preparar ambiente') {
+            steps {
+                bat '''
+                    "%PYTHON_EXE%" -3.11 --version
+                    if errorlevel 1 exit /b 1
+
+                    if not exist .venv-sprint10 (
+                        "%PYTHON_EXE%" -3.11 -m venv .venv-sprint10
+                    )
+                    if errorlevel 1 exit /b 1
+
+                    .venv-sprint10\\Scripts\\python.exe -m pip install --upgrade pip
+                    if errorlevel 1 exit /b 1
+
+                    .venv-sprint10\\Scripts\\python.exe -m pip install -r qa\\sprint-10\\requirements.txt
+                    if errorlevel 1 exit /b 1
+
+                    if not exist qa\\sprint-10\\reports (
+                        mkdir qa\\sprint-10\\reports
+                    )
+
+                    if not exist qa\\sprint-10\\screenshots (
+                        mkdir qa\\sprint-10\\screenshots
+                    )
+
+                    del /q qa\\sprint-10\\reports\\*.xml 2>nul
+                    del /q qa\\sprint-10\\screenshots\\*.png 2>nul
+                '''
+            }
+        }
+
+        stage('UI-01 Inicio y cierre de sesión') {
+            steps {
+                catchError(
+                    buildResult: 'UNSTABLE',
+                    stageResult: 'FAILURE'
+                ) {
+                    withCredentials([
+                        usernamePassword(
+                            credentialsId: 'ineo-admin-login',
+                            usernameVariable: 'ADMIN_LOGIN_USR',
+                            passwordVariable: 'ADMIN_AUTH_VALUE'
+                        )
+                    ]) {
+                        bat '''
+                            .venv-sprint10\\Scripts\\python.exe -m pytest ^
+                              qa\\sprint-10\\selenium\\test_ui_01_login.py ^
+                              -v ^
+                              --junitxml=qa\\sprint-10\\reports\\UI-01-resultados.xml
+                        '''
+                    }
+                }
+            }
+        }
+
+        stage('UI-02 Restricción por rol') {
+            steps {
+                catchError(
+                    buildResult: 'UNSTABLE',
+                    stageResult: 'FAILURE'
+                ) {
+                    withCredentials([
+                        usernamePassword(
+                            credentialsId: 'ineo-enfermeria-login',
+                            usernameVariable: 'ENFERMERIA_LOGIN_USR',
+                            passwordVariable: 'ENFERMERIA_AUTH_VALUE'
+                        )
+                    ]) {
+                        bat '''
+                            .venv-sprint10\\Scripts\\python.exe -m pytest ^
+                              qa\\sprint-10\\selenium\\test_ui_02_permisos.py ^
+                              -v ^
+                              --junitxml=qa\\sprint-10\\reports\\UI-02-resultados.xml
+                        '''
+                    }
+                }
+            }
+        }
+
+        stage('UI-03 Persistencia del idioma') {
+            steps {
+                catchError(
+                    buildResult: 'UNSTABLE',
+                    stageResult: 'FAILURE'
+                ) {
+                    withCredentials([
+                        usernamePassword(
+                            credentialsId: 'ineo-admin-login',
+                            usernameVariable: 'ADMIN_LOGIN_USR',
+                            passwordVariable: 'ADMIN_AUTH_VALUE'
+                        )
+                    ]) {
+                        bat '''
+                            .venv-sprint10\\Scripts\\python.exe -m pytest ^
+                              qa\\sprint-10\\selenium\\test_ui_03_idioma.py ^
+                              -v ^
+                              --junitxml=qa\\sprint-10\\reports\\UI-03-resultados.xml
+                        '''
+                    }
+                }
+            }
+        }
+
+        stage('UI-04 Validación sin paciente') {
+            steps {
+                catchError(
+                    buildResult: 'UNSTABLE',
+                    stageResult: 'FAILURE'
+                ) {
+                    withCredentials([
+                        usernamePassword(
+                            credentialsId: 'ineo-enfermeria-login',
+                            usernameVariable: 'ENFERMERIA_LOGIN_USR',
+                            passwordVariable: 'ENFERMERIA_AUTH_VALUE'
+                        )
+                    ]) {
+                        bat '''
+                            .venv-sprint10\\Scripts\\python.exe -m pytest ^
+                              qa\\sprint-10\\selenium\\test_ui_04_validacion.py ^
+                              -v ^
+                              --junitxml=qa\\sprint-10\\reports\\UI-04-resultados.xml
+                        '''
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            junit(
+                testResults: 'qa/sprint-10/reports/*.xml',
+                allowEmptyResults: true
+            )
+
+            archiveArtifacts(
+                artifacts: 'qa/sprint-10/reports/**/*, qa/sprint-10/screenshots/**/*',
+                allowEmptyArchive: true,
+                fingerprint: true
+            )
+        }
+    }
+}
