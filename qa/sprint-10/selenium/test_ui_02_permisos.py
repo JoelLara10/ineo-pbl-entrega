@@ -20,7 +20,7 @@ RUTA_ADMINISTRATIVA = os.getenv(
 )
 
 USERNAME = os.getenv("ENFERMERIA_LOGIN_USR")
-PASSWORD = os.getenv("ENFERMERIA_LOGIN_PSW")
+PASSWORD = os.getenv("ENFERMERIA_AUTH_VALUE")
 
 SCREENSHOTS = Path("qa/sprint-10/screenshots")
 SCREENSHOTS.mkdir(parents=True, exist_ok=True)
@@ -41,7 +41,7 @@ def test_ui_02_restriccion_por_rol():
     if not USERNAME or not PASSWORD:
         pytest.fail(
             "Jenkins no proporcionó las credenciales "
-            "ENFERMERIA_LOGIN_USR y ENFERMERIA_LOGIN_PSW"
+            "ENFERMERIA_LOGIN_USR y ENFERMERIA_AUTH_VALUE"
         )
 
     navegador = crear_navegador()
