@@ -28,3 +28,15 @@ run "reject_invalid_port" {
   variables { mongo_port = 70000 }
   expect_failures = [var.mongo_port]
 }
+
+run "reject_empty_environment" {
+  command = plan
+  variables { environment_name = "" }
+  expect_failures = [var.environment_name]
+}
+
+run "reject_privileged_port" {
+  command = plan
+  variables { mongo_port = 80 }
+  expect_failures = [var.mongo_port]
+}
