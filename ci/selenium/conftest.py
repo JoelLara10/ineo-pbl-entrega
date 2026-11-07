@@ -29,7 +29,13 @@ def stop(process):
                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
         else:
             process.terminate()
-        process.wait(timeout=15)
+        try:
+            process.wait(timeout=15)
+        except subprocess.TimeoutExpired:
+            # taskkill can miss the parent Node process when the Windows agent
+            # owns the child tree; force the Popen handle down as a fallback.
+            process.kill()
+            process.wait(timeout=15)
 
 
 @pytest.fixture(scope='session')
@@ -90,6 +96,11 @@ def browser(request, demo_system):
     options = webdriver.ChromeOptions()
     if os.getenv('INEO_SHOW_BROWSER', 'false').lower() != 'true':
         options.add_argument('--headless=new')
+    # This Windows Jenkins agent runs in a restricted service context; Chromium's
+    # sandboxed GPU child exits with STATUS_ACCESS_DENIED there. The demo tests
+    # use only the local synthetic app, so disable Chrome's sandbox in Jenkins.
+    if os.name == 'nt' and os.getenv('JENKINS_HOME'):
+        options.add_argument('--no-sandbox')
     options.add_argument('--window-size=1366,1000')
     options.add_experimental_option('prefs', {'credentials_enable_service': False,
                                             'profile.password_manager_enabled': False})
