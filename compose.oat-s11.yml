@@ -1,0 +1,19 @@
+
+# Overlay for compose.test.yml; use a separate project (-p ineo-oat-s11).
+
+services:
+  api-test:
+    build:
+      context: ./backend/api_hospital
+      dockerfile: Dockerfile.oat
+    environment:
+      MONGO_DB: ineo_test_s11
+      MONGO_URI: mongodb://mongo-test:27017/
+
+  seed:
+    build:
+      context: ./backend/api_hospital
+      dockerfile: Dockerfile.oat
+    environment:
+      MONGO_DB: ineo_test_s11
+      MONGO_URI: mongodb://mongo-test:27017/
