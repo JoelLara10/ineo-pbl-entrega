@@ -1,0 +1,2 @@
+COMMAND: docker rename ineo-test-s11-qa-a ineo-test-s11-qa-a-drift
+EXIT: 0

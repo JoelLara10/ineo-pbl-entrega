@@ -1,0 +1,13 @@
+{
+  "case": "CP-S11-SIT-03",
+  "title": "Desconexión PWA entre cuentas",
+  "status": "Fallido",
+  "steps": [],
+  "detail": "Message: unknown error: net::ERR_CONNECTION_TIMED_OUT\n  (Session info: chrome=157.0.8103.79)\nStacktrace:\nSymbols not available. Dumping unresolved backtrace:\n\t(No symbol) [0x7ff7cc84d655]\n\t(No symbol) [0x7ff7cc744790]\n\t(No symbol) [0x7ff7cc5b2fb3]\n\t(No symbol) [0x7ff7ccdc0d61]\n\t(No symbol) [0x7ff7cc5a8f17]\n\t(No symbol) [0x7ff7ccb4966a]\n\t(No symbol) [0x7ff7ccb48a46]\n\t(No symbol) [0x7ff7ccb48b0a]\n\t(No symbol) [0x7ff7cc5a65fd]\n\t(No symbol) [0x7ff7cc5a7522]\n\t(No symbol) [0x7ff7cc5b4130]\n\t(No symbol) [0x7ff7cc5e7b14]\n\t(No symbol) [0x7ff7cc5de11a]\n\t(No symbol) [0x7ff7cc5e6bf1]\n\t(No symbol) [0x7ff7cc5cc109]\n\t(No symbol) [0x7ff7cc5cd433]\n\t(No symbol) [0x7ff7ccce7041]\n\t(No symbol) [0x7ff7ccd05c76]\n\t(No symbol) [0x7ff7cccfc340]\n\t(No symbol) [0x7ff7cc97c9be]\n\t(No symbol) [0x7ff7cc752fa5]\n\t(No symbol) [0x7ff7cc74e2d4]\n\t(No symbol) [0x7ff7cc74e464]\n\t(No symbol) [0x7ff7cc73731c]\n\t(No symbol) [0x7ff9b3dadda7]\n\t(No symbol) [0x7ff9b4bf9c5c]\n",
+  "executed_utc": "2026-11-18T07:25:26.192573+00:00",
+  "tested_sha": "69c61a5bce5ba98e5c09067b47b3ed93472f8767",
+  "executor": "Agente Codex bajo solicitud de Marcelino Zahid Galicia Bonifacio",
+  "owner": "Marcelino Zahid Galicia Bonifacio",
+  "reviewer": "Jesús — revisión pendiente",
+  "environment": "QA local aislado; datos sintéticos"
+}

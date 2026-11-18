@@ -1,0 +1,15 @@
+COMMAND: terraform -chdir=C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\qa\sprint-11\infrastructure plan -detailed-exitcode -input=false -no-color -state=C:\Users\marce\Documents\Codex\2026-11-17\p\work\tf-s11\b\terraform.tfstate -var=environment_name=ineo-test-s11-qa-b -var=mongo_port=27112
+EXIT: 0
+
+Warning: Deprecated flag: -state
+
+Use the "path" attribute within the "local" backend to specify a file for
+state storage
+module.test_database.docker_volume.synthetic: Refreshing state... [id=ineo-test-s11-qa-b-synthetic]
+module.test_database.docker_image.mongo: Refreshing state... [id=sha256:c630c59342c1493d50345136df2af14a76b9e827dd5316bfabee07a0880a5f3amongo:7.0.16]
+module.test_database.docker_container.mongo: Refreshing state... [id=9c1405d814bf9889f0e67774427405e5c49deca1aefdaa61c758bc888b34698c]
+
+No changes. Your infrastructure matches the configuration.
+
+Terraform has compared your real infrastructure against your configuration
+and found no differences, so no changes are needed.

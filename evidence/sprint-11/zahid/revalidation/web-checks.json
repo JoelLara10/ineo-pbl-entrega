@@ -1,0 +1,46 @@
+{
+  "scope": "Verificación local; sin despliegue Render",
+  "dependency_note": "La copia local de picomatch requiere revisión de su diff y test:glob-security; npm audit solo cubre paquetes publicados.",
+  "checks": [
+    {
+      "check": "web-clean-install",
+      "status": "Aprobado",
+      "seconds": 32.731
+    },
+    {
+      "check": "web-glob-security",
+      "status": "Aprobado",
+      "seconds": 2.879
+    },
+    {
+      "check": "web-i18n",
+      "status": "Aprobado",
+      "seconds": 1.815
+    },
+    {
+      "check": "web-lint",
+      "status": "Aprobado",
+      "seconds": 1.553
+    },
+    {
+      "check": "web-tests",
+      "status": "Aprobado",
+      "seconds": 81.838
+    },
+    {
+      "check": "web-build",
+      "status": "Aprobado",
+      "seconds": 3.952
+    },
+    {
+      "check": "web-bundle",
+      "status": "Aprobado",
+      "seconds": 1.668
+    },
+    {
+      "check": "web-audit",
+      "status": "Aprobado",
+      "seconds": 3.716
+    }
+  ]
+}

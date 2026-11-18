@@ -1,0 +1,37 @@
+{
+  "kind": "Simulación documental y validación estática local",
+  "requested_scope": "Por instrucción del solicitante se conserva el despliegue existente.",
+  "remote_deployment_executed": false,
+  "rollback_executed": false,
+  "management_requests_sent": 0,
+  "passed": true,
+  "checks": [
+    "Contexto y Dockerfile existentes",
+    "Inicio gunicorn con PORT de Render",
+    "Readiness /ready",
+    "Auto-deploy desactivado",
+    "Variables secretas sin valores en blueprint"
+  ],
+  "steps": [
+    {
+      "action": "Preparar candidato y configuración versionada",
+      "mode": "Comprobado localmente"
+    },
+    {
+      "action": "Seleccionar el despliegue estable actual como referencia",
+      "mode": "Paso simulado; ID remoto no observado"
+    },
+    {
+      "action": "Publicar candidato",
+      "mode": "Omitido por instrucción expresa del usuario"
+    },
+    {
+      "action": "Comprobar HTTPS, salud, readiness y rutas protegidas",
+      "mode": "Ejecutado realmente sobre API existente"
+    },
+    {
+      "action": "Ante fallo, seleccionar versión estable y repetir smoke",
+      "mode": "Simulado; no se efectuó rollback remoto"
+    }
+  ]
+}

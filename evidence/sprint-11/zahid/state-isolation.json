@@ -1,0 +1,10 @@
+{
+  "independent_lineages": true,
+  "matching_container_ids": true,
+  "independent_volumes": true,
+  "loopback_ports": [
+    27111,
+    27112
+  ],
+  "shared_dependency": "Immutable MongoDB image only"
+}

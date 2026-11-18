@@ -1,0 +1,5 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1794986948625,136,login,200,OK,Usuarios autenticados 1-1,text,true,,960,273,1,1,http://127.0.0.1:5110/api/v1/auth/login,121,0,82
+1794986952101,96,patients,200,OK,Usuarios autenticados 1-1,text,true,,4959,551,1,1,http://127.0.0.1:5110/api/v1/patients,96,0,2
+1794986953252,95,patients,200,OK,Usuarios autenticados 1-1,text,true,,4959,551,1,1,http://127.0.0.1:5110/api/v1/patients,95,0,2
+1794986954367,109,patients,200,OK,Usuarios autenticados 1-1,text,true,,4959,551,1,1,http://127.0.0.1:5110/api/v1/patients,109,0,3

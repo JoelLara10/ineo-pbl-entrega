@@ -1,0 +1,27 @@
+<!doctype html><meta charset="utf-8"><style>body{font:22px Arial;margin:32px;color:#17212b}pre{white-space:pre-wrap;font:20px Consolas;line-height:1.25;background:#f3f5f7;padding:20px}small{overflow-wrap:anywhere}</style><h1>Registro de ejecución Sprint 11</h1><p>evidence/sprint-11/zahid/logs/create-b.txt</p><small>SHA256 original: fe4ae39f1cdf141a627534429a812fb54bd91689c426cd900f1445c6f7dabdf2</small><p>Extractos del registro original; archivo completo conservado.</p><pre>COMMAND: terraform -chdir=C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\qa\sprint-11\infrastructure apply -auto-approve -input=false -no-color -state=C:\Users\marce\Documents\Codex\2026-11-17\p\work\tf-s11\b\terraform.tfstate -var=environment_name=ineo-test-s11-qa-b -var=mongo_port=27112
+EXIT: 0
+… extracto del registro original …
+  # module.test_database.docker_volume.synthetic will be created
+  + resource &quot;docker_volume&quot; &quot;synthetic&quot; {
+      + driver     = (known after apply)
+      + id         = (known after apply)
+      + mountpoint = (known after apply)
+      + name       = &quot;ineo-test-s11-qa-b-synthetic&quot;
+    }
+
+Plan: 3 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + mongo_uri = &quot;mongodb://127.0.0.1:27112/&quot;
+module.test_database.docker_volume.synthetic: Creating...
+module.test_database.docker_image.mongo: Creating...
+module.test_database.docker_volume.synthetic: Creation complete after 0s [id=ineo-test-s11-qa-b-synthetic]
+module.test_database.docker_image.mongo: Creation complete after 1s [id=sha256:c630c59342c1493d50345136df2af14a76b9e827dd5316bfabee07a0880a5f3amongo:7.0.16]
+module.test_database.docker_container.mongo: Creating...
+module.test_database.docker_container.mongo: Creation complete after 8s [id=9c1405d814bf9889f0e67774427405e5c49deca1aefdaa61c758bc888b34698c]
+
+Apply complete! Resources: 3 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+mongo_uri = &quot;mongodb://127.0.0.1:27112/&quot;</pre>

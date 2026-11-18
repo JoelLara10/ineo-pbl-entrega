@@ -1,0 +1,762 @@
+COMMAND: C:\Users\marce\Documents\Codex\2026-11-17\p\work\qa-env\Scripts\python.exe -m pytest tests -q --basetemp=C:\Users\marce\Documents\Codex\2026-11-17\p\work\pytest-s11-full-api --junitxml=../../evidence/sprint-11/zahid/revalidation/api-tests.xml
+EXIT: 1
+......................................................ss................ [ 16%]
+........................................................................ [ 32%]
+.........FFFF...........................s............................... [ 48%]
+................................................ssssssssssss............ [ 64%]
+........................................................................ [ 80%]
+........................................................................ [ 97%]
+.............                                                            [100%]
+================================== FAILURES ===================================
+_____________________ test_oat_http_health_and_readiness ______________________
+
+self = <urllib.request.HTTPHandler object at 0x000001BD640B70E0>
+http_class = <class 'http.client.HTTPConnection'>
+req = <urllib.request.Request object at 0x000001BD640B7B60>, http_conn_args = {}
+
+    def do_open(self, http_class, req, **http_conn_args):
+        """Return an HTTPResponse object for the request, using http_class.
+    
+        http_class must implement the HTTPConnection API from http.client.
+        """
+        host = req.host
+        if not host:
+            raise URLError('no host given')
+    
+        # will parse host:port
+        h = http_class(host, timeout=req.timeout, **http_conn_args)
+        h.set_debuglevel(self._debuglevel)
+    
+        headers = dict(req.unredirected_hdrs)
+        headers.update({k: v for k, v in req.headers.items()
+                        if k not in headers})
+    
+        # TODO(jhylton): Should this be redesigned to handle
+        # persistent connections?
+    
+        # We want to make an HTTP/1.1 request, but the addinfourl
+        # class isn't prepared to deal with a persistent connection.
+        # It will try to read all remaining data from the socket,
+        # which will block while the server waits for the next request.
+        # So make sure the connection gets closed after the (only)
+        # request.
+        headers["Connection"] = "close"
+        headers = {name.title(): val for name, val in headers.items()}
+    
+        if req._tunnel_host:
+            tunnel_headers = {}
+            proxy_auth_hdr = "Proxy-Authorization"
+            if proxy_auth_hdr in headers:
+                tunnel_headers[proxy_auth_hdr] = headers[proxy_auth_hdr]
+                # Proxy-Authorization should not be sent to origin
+                # server.
+                del headers[proxy_auth_hdr]
+            h.set_tunnel(req._tunnel_host, headers=tunnel_headers)
+    
+        try:
+            try:
+>               h.request(req.get_method(), req.selector, req.data, headers,
+                          encode_chunked=req.has_header('Transfer-encoding'))
+
+C:\Python313\Lib\urllib\request.py:1319: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Python313\Lib\http\client.py:1336: in request
+    self._send_request(method, url, body, headers, encode_chunked)
+C:\Python313\Lib\http\client.py:1382: in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+C:\Python313\Lib\http\client.py:1331: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+C:\Python313\Lib\http\client.py:1091: in _send_output
+    self.send(msg)
+C:\Python313\Lib\http\client.py:1035: in send
+    self.connect()
+C:\Python313\Lib\http\client.py:1001: in connect
+    self.sock = self._create_connection(
+C:\Python313\Lib\socket.py:864: in create_connection
+    raise exceptions[0]
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+address = ('127.0.0.1', 64729), timeout = 8, source_address = None
+all_errors = False
+
+    def create_connection(address, timeout=_GLOBAL_DEFAULT_TIMEOUT,
+                          source_address=None, *, all_errors=False):
+        """Connect to *address* and return the socket object.
+    
+        Convenience function.  Connect to *address* (a 2-tuple ``(host,
+        port)``) and return the socket object.  Passing the optional
+        *timeout* parameter will set the timeout on the socket instance
+        before attempting to connect.  If no *timeout* is supplied, the
+        global default timeout setting returned by :func:`getdefaulttimeout`
+        is used.  If *source_address* is set it must be a tuple of (host, port)
+        for the socket to bind as a source address before making the connection.
+        A host of '' or port 0 tells the OS to use the default. When a connection
+        cannot be created, raises the last error if *all_errors* is False,
+        and an ExceptionGroup of all errors if *all_errors* is True.
+        """
+    
+        host, port = address
+        exceptions = []
+        for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+            af, socktype, proto, canonname, sa = res
+            sock = None
+            try:
+                sock = socket(af, socktype, proto)
+                if timeout is not _GLOBAL_DEFAULT_TIMEOUT:
+                    sock.settimeout(timeout)
+                if source_address:
+                    sock.bind(source_address)
+>               sock.connect(sa)
+E               PermissionError: [WinError 10013] Intento de acceso a un socket no permitido por sus permisos de acceso
+
+C:\Python313\Lib\socket.py:849: PermissionError
+
+During handling of the above exception, another exception occurred:
+
+api_process = <function api_process.<locals>.start at 0x000001BD637A0400>
+
+    def test_oat_http_health_and_readiness(api_process):
+        _, port = api_process()
+>       assert get(port, '/health')[0] == 200
+               ^^^^^^^^^^^^^^^^^^^^
+
+tests\test_oat_http_joel.py:58: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_oat_http_joel.py:50: in get
+    with urllib.request.urlopen(f'http://127.0.0.1:{port}{path}', timeout=8) as response:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\urllib\request.py:189: in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\urllib\request.py:489: in open
+    response = self._open(req, data)
+               ^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\urllib\request.py:506: in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+C:\Python313\Lib\urllib\request.py:466: in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+C:\Python313\Lib\urllib\request.py:1348: in http_open
+    return self.do_open(http.client.HTTPConnection, req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <urllib.request.HTTPHandler object at 0x000001BD640B70E0>
+http_class = <class 'http.client.HTTPConnection'>
+req = <urllib.request.Request object at 0x000001BD640B7B60>, http_conn_args = {}
+
+    def do_open(self, http_class, req, **http_conn_args):
+        """Return an HTTPResponse object for the request, using http_class.
+    
+        http_class must implement the HTTPConnection API from http.client.
+        """
+        host = req.host
+        if not host:
+            raise URLError('no host given')
+    
+        # will parse host:port
+        h = http_class(host, timeout=req.timeout, **http_conn_args)
+        h.set_debuglevel(self._debuglevel)
+    
+        headers = dict(req.unredirected_hdrs)
+        headers.update({k: v for k, v in req.headers.items()
+                        if k not in headers})
+    
+        # TODO(jhylton): Should this be redesigned to handle
+        # persistent connections?
+    
+        # We want to make an HTTP/1.1 request, but the addinfourl
+        # class isn't prepared to deal with a persistent connection.
+        # It will try to read all remaining data from the socket,
+        # which will block while the server waits for the next request.
+        # So make sure the connection gets closed after the (only)
+        # request.
+        headers["Connection"] = "close"
+        headers = {name.title(): val for name, val in headers.items()}
+    
+        if req._tunnel_host:
+            tunnel_headers = {}
+            proxy_auth_hdr = "Proxy-Authorization"
+            if proxy_auth_hdr in headers:
+                tunnel_headers[proxy_auth_hdr] = headers[proxy_auth_hdr]
+                # Proxy-Authorization should not be sent to origin
+                # server.
+                del headers[proxy_auth_hdr]
+            h.set_tunnel(req._tunnel_host, headers=tunnel_headers)
+    
+        try:
+            try:
+                h.request(req.get_method(), req.selector, req.data, headers,
+                          encode_chunked=req.has_header('Transfer-encoding'))
+            except OSError as err: # timeout error
+>               raise URLError(err)
+E               urllib.error.URLError: <urlopen error [WinError 10013] Intento de acceso a un socket no permitido por sus permisos de acceso>
+
+C:\Python313\Lib\urllib\request.py:1322: URLError
+__________ test_oat_http_dependency_outage_does_not_leak_credentials __________
+
+self = <urllib.request.HTTPHandler object at 0x000001BD640B70E0>
+http_class = <class 'http.client.HTTPConnection'>
+req = <urllib.request.Request object at 0x000001BD630D5810>, http_conn_args = {}
+
+    def do_open(self, http_class, req, **http_conn_args):
+        """Return an HTTPResponse object for the request, using http_class.
+    
+        http_class must implement the HTTPConnection API from http.client.
+        """
+        host = req.host
+        if not host:
+            raise URLError('no host given')
+    
+        # will parse host:port
+        h = http_class(host, timeout=req.timeout, **http_conn_args)
+        h.set_debuglevel(self._debuglevel)
+    
+        headers = dict(req.unredirected_hdrs)
+        headers.update({k: v for k, v in req.headers.items()
+                        if k not in headers})
+    
+        # TODO(jhylton): Should this be redesigned to handle
+        # persistent connections?
+    
+        # We want to make an HTTP/1.1 request, but the addinfourl
+        # class isn't prepared to deal with a persistent connection.
+        # It will try to read all remaining data from the socket,
+        # which will block while the server waits for the next request.
+        # So make sure the connection gets closed after the (only)
+        # request.
+        headers["Connection"] = "close"
+        headers = {name.title(): val for name, val in headers.items()}
+    
+        if req._tunnel_host:
+            tunnel_headers = {}
+            proxy_auth_hdr = "Proxy-Authorization"
+            if proxy_auth_hdr in headers:
+                tunnel_headers[proxy_auth_hdr] = headers[proxy_auth_hdr]
+                # Proxy-Authorization should not be sent to origin
+                # server.
+                del headers[proxy_auth_hdr]
+            h.set_tunnel(req._tunnel_host, headers=tunnel_headers)
+    
+        try:
+            try:
+>               h.request(req.get_method(), req.selector, req.data, headers,
+                          encode_chunked=req.has_header('Transfer-encoding'))
+
+C:\Python313\Lib\urllib\request.py:1319: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Python313\Lib\http\client.py:1336: in request
+    self._send_request(method, url, body, headers, encode_chunked)
+C:\Python313\Lib\http\client.py:1382: in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+C:\Python313\Lib\http\client.py:1331: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+C:\Python313\Lib\http\client.py:1091: in _send_output
+    self.send(msg)
+C:\Python313\Lib\http\client.py:1035: in send
+    self.connect()
+C:\Python313\Lib\http\client.py:1001: in connect
+    self.sock = self._create_connection(
+C:\Python313\Lib\socket.py:864: in create_connection
+    raise exceptions[0]
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+address = ('127.0.0.1', 64737), timeout = 8, source_address = None
+all_errors = False
+
+    def create_connection(address, timeout=_GLOBAL_DEFAULT_TIMEOUT,
+                          source_address=None, *, all_errors=False):
+        """Connect to *address* and return the socket object.
+    
+        Convenience function.  Connect to *address* (a 2-tuple ``(host,
+        port)``) and return the socket object.  Passing the optional
+        *timeout* parameter will set the timeout on the socket instance
+        before attempting to connect.  If no *timeout* is supplied, the
+        global default timeout setting returned by :func:`getdefaulttimeout`
+        is used.  If *source_address* is set it must be a tuple of (host, port)
+        for the socket to bind as a source address before making the connection.
+        A host of '' or port 0 tells the OS to use the default. When a connection
+        cannot be created, raises the last error if *all_errors* is False,
+        and an ExceptionGroup of all errors if *all_errors* is True.
+        """
+    
+        host, port = address
+        exceptions = []
+        for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+            af, socktype, proto, canonname, sa = res
+            sock = None
+            try:
+                sock = socket(af, socktype, proto)
+                if timeout is not _GLOBAL_DEFAULT_TIMEOUT:
+                    sock.settimeout(timeout)
+                if source_address:
+                    sock.bind(source_address)
+>               sock.connect(sa)
+E               PermissionError: [WinError 10013] Intento de acceso a un socket no permitido por sus permisos de acceso
+
+C:\Python313\Lib\socket.py:849: PermissionError
+
+During handling of the above exception, another exception occurred:
+
+api_process = <function api_process.<locals>.start at 0x000001BD637AD3A0>
+
+    def test_oat_http_dependency_outage_does_not_leak_credentials(api_process):
+        _, port = api_process(database_down=True)
+>       status, body = get(port, '/ready')
+                       ^^^^^^^^^^^^^^^^^^^
+
+tests\test_oat_http_joel.py:65: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_oat_http_joel.py:50: in get
+    with urllib.request.urlopen(f'http://127.0.0.1:{port}{path}', timeout=8) as response:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\urllib\request.py:189: in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\urllib\request.py:489: in open
+    response = self._open(req, data)
+               ^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\urllib\request.py:506: in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+C:\Python313\Lib\urllib\request.py:466: in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+C:\Python313\Lib\urllib\request.py:1348: in http_open
+    return self.do_open(http.client.HTTPConnection, req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <urllib.request.HTTPHandler object at 0x000001BD640B70E0>
+http_class = <class 'http.client.HTTPConnection'>
+req = <urllib.request.Request object at 0x000001BD630D5810>, http_conn_args = {}
+
+    def do_open(self, http_class, req, **http_conn_args):
+        """Return an HTTPResponse object for the request, using http_class.
+    
+        http_class must implement the HTTPConnection API from http.client.
+        """
+        host = req.host
+        if not host:
+            raise URLError('no host given')
+    
+        # will parse host:port
+        h = http_class(host, timeout=req.timeout, **http_conn_args)
+        h.set_debuglevel(self._debuglevel)
+    
+        headers = dict(req.unredirected_hdrs)
+        headers.update({k: v for k, v in req.headers.items()
+                        if k not in headers})
+    
+        # TODO(jhylton): Should this be redesigned to handle
+        # persistent connections?
+    
+        # We want to make an HTTP/1.1 request, but the addinfourl
+        # class isn't prepared to deal with a persistent connection.
+        # It will try to read all remaining data from the socket,
+        # which will block while the server waits for the next request.
+        # So make sure the connection gets closed after the (only)
+        # request.
+        headers["Connection"] = "close"
+        headers = {name.title(): val for name, val in headers.items()}
+    
+        if req._tunnel_host:
+            tunnel_headers = {}
+            proxy_auth_hdr = "Proxy-Authorization"
+            if proxy_auth_hdr in headers:
+                tunnel_headers[proxy_auth_hdr] = headers[proxy_auth_hdr]
+                # Proxy-Authorization should not be sent to origin
+                # server.
+                del headers[proxy_auth_hdr]
+            h.set_tunnel(req._tunnel_host, headers=tunnel_headers)
+    
+        try:
+            try:
+                h.request(req.get_method(), req.selector, req.data, headers,
+                          encode_chunked=req.has_header('Transfer-encoding'))
+            except OSError as err: # timeout error
+>               raise URLError(err)
+E               urllib.error.URLError: <urlopen error [WinError 10013] Intento de acceso a un socket no permitido por sus permisos de acceso>
+
+C:\Python313\Lib\urllib\request.py:1322: URLError
+________________ test_oat_http_controlled_restart_on_same_port ________________
+
+self = <urllib.request.HTTPHandler object at 0x000001BD640B70E0>
+http_class = <class 'http.client.HTTPConnection'>
+req = <urllib.request.Request object at 0x000001BD5266C190>, http_conn_args = {}
+
+    def do_open(self, http_class, req, **http_conn_args):
+        """Return an HTTPResponse object for the request, using http_class.
+    
+        http_class must implement the HTTPConnection API from http.client.
+        """
+        host = req.host
+        if not host:
+            raise URLError('no host given')
+    
+        # will parse host:port
+        h = http_class(host, timeout=req.timeout, **http_conn_args)
+        h.set_debuglevel(self._debuglevel)
+    
+        headers = dict(req.unredirected_hdrs)
+        headers.update({k: v for k, v in req.headers.items()
+                        if k not in headers})
+    
+        # TODO(jhylton): Should this be redesigned to handle
+        # persistent connections?
+    
+        # We want to make an HTTP/1.1 request, but the addinfourl
+        # class isn't prepared to deal with a persistent connection.
+        # It will try to read all remaining data from the socket,
+        # which will block while the server waits for the next request.
+        # So make sure the connection gets closed after the (only)
+        # request.
+        headers["Connection"] = "close"
+        headers = {name.title(): val for name, val in headers.items()}
+    
+        if req._tunnel_host:
+            tunnel_headers = {}
+            proxy_auth_hdr = "Proxy-Authorization"
+            if proxy_auth_hdr in headers:
+                tunnel_headers[proxy_auth_hdr] = headers[proxy_auth_hdr]
+                # Proxy-Authorization should not be sent to origin
+                # server.
+                del headers[proxy_auth_hdr]
+            h.set_tunnel(req._tunnel_host, headers=tunnel_headers)
+    
+        try:
+            try:
+>               h.request(req.get_method(), req.selector, req.data, headers,
+                          encode_chunked=req.has_header('Transfer-encoding'))
+
+C:\Python313\Lib\urllib\request.py:1319: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Python313\Lib\http\client.py:1336: in request
+    self._send_request(method, url, body, headers, encode_chunked)
+C:\Python313\Lib\http\client.py:1382: in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+C:\Python313\Lib\http\client.py:1331: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+C:\Python313\Lib\http\client.py:1091: in _send_output
+    self.send(msg)
+C:\Python313\Lib\http\client.py:1035: in send
+    self.connect()
+C:\Python313\Lib\http\client.py:1001: in connect
+    self.sock = self._create_connection(
+C:\Python313\Lib\socket.py:864: in create_connection
+    raise exceptions[0]
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+address = ('127.0.0.1', 64740), timeout = 8, source_address = None
+all_errors = False
+
+    def create_connection(address, timeout=_GLOBAL_DEFAULT_TIMEOUT,
+                          source_address=None, *, all_errors=False):
+        """Connect to *address* and return the socket object.
+    
+        Convenience function.  Connect to *address* (a 2-tuple ``(host,
+        port)``) and return the socket object.  Passing the optional
+        *timeout* parameter will set the timeout on the socket instance
+        before attempting to connect.  If no *timeout* is supplied, the
+        global default timeout setting returned by :func:`getdefaulttimeout`
+        is used.  If *source_address* is set it must be a tuple of (host, port)
+        for the socket to bind as a source address before making the connection.
+        A host of '' or port 0 tells the OS to use the default. When a connection
+        cannot be created, raises the last error if *all_errors* is False,
+        and an ExceptionGroup of all errors if *all_errors* is True.
+        """
+    
+        host, port = address
+        exceptions = []
+        for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+            af, socktype, proto, canonname, sa = res
+            sock = None
+            try:
+                sock = socket(af, socktype, proto)
+                if timeout is not _GLOBAL_DEFAULT_TIMEOUT:
+                    sock.settimeout(timeout)
+                if source_address:
+                    sock.bind(source_address)
+>               sock.connect(sa)
+E               PermissionError: [WinError 10013] Intento de acceso a un socket no permitido por sus permisos de acceso
+
+C:\Python313\Lib\socket.py:849: PermissionError
+
+During handling of the above exception, another exception occurred:
+
+api_process = <function api_process.<locals>.start at 0x000001BD637AEAC0>
+
+    def test_oat_http_controlled_restart_on_same_port(api_process):
+        proc, port = api_process()
+>       assert get(port, '/ready')[0] == 200
+               ^^^^^^^^^^^^^^^^^^^
+
+tests\test_oat_http_joel.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_oat_http_joel.py:50: in get
+    with urllib.request.urlopen(f'http://127.0.0.1:{port}{path}', timeout=8) as response:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\urllib\request.py:189: in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\urllib\request.py:489: in open
+    response = self._open(req, data)
+               ^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\urllib\request.py:506: in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+C:\Python313\Lib\urllib\request.py:466: in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+C:\Python313\Lib\urllib\request.py:1348: in http_open
+    return self.do_open(http.client.HTTPConnection, req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <urllib.request.HTTPHandler object at 0x000001BD640B70E0>
+http_class = <class 'http.client.HTTPConnection'>
+req = <urllib.request.Request object at 0x000001BD5266C190>, http_conn_args = {}
+
+    def do_open(self, http_class, req, **http_conn_args):
+        """Return an HTTPResponse object for the request, using http_class.
+    
+        http_class must implement the HTTPConnection API from http.client.
+        """
+        host = req.host
+        if not host:
+            raise URLError('no host given')
+    
+        # will parse host:port
+        h = http_class(host, timeout=req.timeout, **http_conn_args)
+        h.set_debuglevel(self._debuglevel)
+    
+        headers = dict(req.unredirected_hdrs)
+        headers.update({k: v for k, v in req.headers.items()
+                        if k not in headers})
+    
+        # TODO(jhylton): Should this be redesigned to handle
+        # persistent connections?
+    
+        # We want to make an HTTP/1.1 request, but the addinfourl
+        # class isn't prepared to deal with a persistent connection.
+        # It will try to read all remaining data from the socket,
+        # which will block while the server waits for the next request.
+        # So make sure the connection gets closed after the (only)
+        # request.
+        headers["Connection"] = "close"
+        headers = {name.title(): val for name, val in headers.items()}
+    
+        if req._tunnel_host:
+            tunnel_headers = {}
+            proxy_auth_hdr = "Proxy-Authorization"
+            if proxy_auth_hdr in headers:
+                tunnel_headers[proxy_auth_hdr] = headers[proxy_auth_hdr]
+                # Proxy-Authorization should not be sent to origin
+                # server.
+                del headers[proxy_auth_hdr]
+            h.set_tunnel(req._tunnel_host, headers=tunnel_headers)
+    
+        try:
+            try:
+                h.request(req.get_method(), req.selector, req.data, headers,
+                          encode_chunked=req.has_header('Transfer-encoding'))
+            except OSError as err: # timeout error
+>               raise URLError(err)
+E               urllib.error.URLError: <urlopen error [WinError 10013] Intento de acceso a un socket no permitido por sus permisos de acceso>
+
+C:\Python313\Lib\urllib\request.py:1322: URLError
+_____________ test_oat_http_requires_session_for_clinical_records _____________
+
+self = <urllib.request.HTTPHandler object at 0x000001BD640B70E0>
+http_class = <class 'http.client.HTTPConnection'>
+req = <urllib.request.Request object at 0x000001BD63C9A520>, http_conn_args = {}
+
+    def do_open(self, http_class, req, **http_conn_args):
+        """Return an HTTPResponse object for the request, using http_class.
+    
+        http_class must implement the HTTPConnection API from http.client.
+        """
+        host = req.host
+        if not host:
+            raise URLError('no host given')
+    
+        # will parse host:port
+        h = http_class(host, timeout=req.timeout, **http_conn_args)
+        h.set_debuglevel(self._debuglevel)
+    
+        headers = dict(req.unredirected_hdrs)
+        headers.update({k: v for k, v in req.headers.items()
+                        if k not in headers})
+    
+        # TODO(jhylton): Should this be redesigned to handle
+        # persistent connections?
+    
+        # We want to make an HTTP/1.1 request, but the addinfourl
+        # class isn't prepared to deal with a persistent connection.
+        # It will try to read all remaining data from the socket,
+        # which will block while the server waits for the next request.
+        # So make sure the connection gets closed after the (only)
+        # request.
+        headers["Connection"] = "close"
+        headers = {name.title(): val for name, val in headers.items()}
+    
+        if req._tunnel_host:
+            tunnel_headers = {}
+            proxy_auth_hdr = "Proxy-Authorization"
+            if proxy_auth_hdr in headers:
+                tunnel_headers[proxy_auth_hdr] = headers[proxy_auth_hdr]
+                # Proxy-Authorization should not be sent to origin
+                # server.
+                del headers[proxy_auth_hdr]
+            h.set_tunnel(req._tunnel_host, headers=tunnel_headers)
+    
+        try:
+            try:
+>               h.request(req.get_method(), req.selector, req.data, headers,
+                          encode_chunked=req.has_header('Transfer-encoding'))
+
+C:\Python313\Lib\urllib\request.py:1319: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Python313\Lib\http\client.py:1336: in request
+    self._send_request(method, url, body, headers, encode_chunked)
+C:\Python313\Lib\http\client.py:1382: in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+C:\Python313\Lib\http\client.py:1331: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+C:\Python313\Lib\http\client.py:1091: in _send_output
+    self.send(msg)
+C:\Python313\Lib\http\client.py:1035: in send
+    self.connect()
+C:\Python313\Lib\http\client.py:1001: in connect
+    self.sock = self._create_connection(
+C:\Python313\Lib\socket.py:864: in create_connection
+    raise exceptions[0]
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+address = ('127.0.0.1', 64744), timeout = 8, source_address = None
+all_errors = False
+
+    def create_connection(address, timeout=_GLOBAL_DEFAULT_TIMEOUT,
+                          source_address=None, *, all_errors=False):
+        """Connect to *address* and return the socket object.
+    
+        Convenience function.  Connect to *address* (a 2-tuple ``(host,
+        port)``) and return the socket object.  Passing the optional
+        *timeout* parameter will set the timeout on the socket instance
+        before attempting to connect.  If no *timeout* is supplied, the
+        global default timeout setting returned by :func:`getdefaulttimeout`
+        is used.  If *source_address* is set it must be a tuple of (host, port)
+        for the socket to bind as a source address before making the connection.
+        A host of '' or port 0 tells the OS to use the default. When a connection
+        cannot be created, raises the last error if *all_errors* is False,
+        and an ExceptionGroup of all errors if *all_errors* is True.
+        """
+    
+        host, port = address
+        exceptions = []
+        for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+            af, socktype, proto, canonname, sa = res
+            sock = None
+            try:
+                sock = socket(af, socktype, proto)
+                if timeout is not _GLOBAL_DEFAULT_TIMEOUT:
+                    sock.settimeout(timeout)
+                if source_address:
+                    sock.bind(source_address)
+>               sock.connect(sa)
+E               PermissionError: [WinError 10013] Intento de acceso a un socket no permitido por sus permisos de acceso
+
+C:\Python313\Lib\socket.py:849: PermissionError
+
+During handling of the above exception, another exception occurred:
+
+api_process = <function api_process.<locals>.start at 0x000001BD637AF1A0>
+
+    def test_oat_http_requires_session_for_clinical_records(api_process):
+        _, port = api_process()
+>       assert get(port, '/api/v1/appointments/1/nursing-assessment')[0] == 401
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_oat_http_joel.py:84: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_oat_http_joel.py:50: in get
+    with urllib.request.urlopen(f'http://127.0.0.1:{port}{path}', timeout=8) as response:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\urllib\request.py:189: in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\urllib\request.py:489: in open
+    response = self._open(req, data)
+               ^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\urllib\request.py:506: in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+C:\Python313\Lib\urllib\request.py:466: in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+C:\Python313\Lib\urllib\request.py:1348: in http_open
+    return self.do_open(http.client.HTTPConnection, req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <urllib.request.HTTPHandler object at 0x000001BD640B70E0>
+http_class = <class 'http.client.HTTPConnection'>
+req = <urllib.request.Request object at 0x000001BD63C9A520>, http_conn_args = {}
+
+    def do_open(self, http_class, req, **http_conn_args):
+        """Return an HTTPResponse object for the request, using http_class.
+    
+        http_class must implement the HTTPConnection API from http.client.
+        """
+        host = req.host
+        if not host:
+            raise URLError('no host given')
+    
+        # will parse host:port
+        h = http_class(host, timeout=req.timeout, **http_conn_args)
+        h.set_debuglevel(self._debuglevel)
+    
+        headers = dict(req.unredirected_hdrs)
+        headers.update({k: v for k, v in req.headers.items()
+                        if k not in headers})
+    
+        # TODO(jhylton): Should this be redesigned to handle
+        # persistent connections?
+    
+        # We want to make an HTTP/1.1 request, but the addinfourl
+        # class isn't prepared to deal with a persistent connection.
+        # It will try to read all remaining data from the socket,
+        # which will block while the server waits for the next request.
+        # So make sure the connection gets closed after the (only)
+        # request.
+        headers["Connection"] = "close"
+        headers = {name.title(): val for name, val in headers.items()}
+    
+        if req._tunnel_host:
+            tunnel_headers = {}
+            proxy_auth_hdr = "Proxy-Authorization"
+            if proxy_auth_hdr in headers:
+                tunnel_headers[proxy_auth_hdr] = headers[proxy_auth_hdr]
+                # Proxy-Authorization should not be sent to origin
+                # server.
+                del headers[proxy_auth_hdr]
+            h.set_tunnel(req._tunnel_host, headers=tunnel_headers)
+    
+        try:
+            try:
+                h.request(req.get_method(), req.selector, req.data, headers,
+                          encode_chunked=req.has_header('Transfer-encoding'))
+            except OSError as err: # timeout error
+>               raise URLError(err)
+E               urllib.error.URLError: <urlopen error [WinError 10013] Intento de acceso a un socket no permitido por sus permisos de acceso>
+
+C:\Python313\Lib\urllib\request.py:1322: URLError
+============================== warnings summary ===============================
+tests/test_monitoring_pages_push.py: 161 warnings
+  C:\Users\marce\Documents\Codex\2026-11-17\p\work\qa-env\Lib\site-packages\mongomock\helpers.py:73: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    return datetime.utcnow()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/test_oat_http_joel.py::test_oat_http_health_and_readiness - urll...
+FAILED tests/test_oat_http_joel.py::test_oat_http_dependency_outage_does_not_leak_credentials
+FAILED tests/test_oat_http_joel.py::test_oat_http_controlled_restart_on_same_port
+FAILED tests/test_oat_http_joel.py::test_oat_http_requires_session_for_clinical_records
+4 failed, 426 passed, 15 skipped, 161 warnings in 206.26s (0:03:26)

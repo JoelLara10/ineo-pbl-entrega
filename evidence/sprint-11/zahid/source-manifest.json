@@ -1,0 +1,159 @@
+{
+  "generated_utc": "2026-11-18T08:13:30.209839+00:00",
+  "code_commit": "c4250d62931f473a522dca2bf862749e6320649a",
+  "note": "Hashes de los archivos originales de esta entrega; cada ejecución conserva además su SHA observado.",
+  "sources": [
+    {
+      "path": "qa/sprint-11/capture_reports.py",
+      "sha256": "030b8fa9898b4fc597f892f7b5ed10c96b2a2282cc1c621f88ca941f05ced8af"
+    },
+    {
+      "path": "qa/sprint-11/capture_revalidation.py",
+      "sha256": "e4d728b86c8d3d5f7131f682e31dcfadc26b9412ef064cf83c71879bf997fe7f"
+    },
+    {
+      "path": "qa/sprint-11/common.py",
+      "sha256": "bed29508e00a38c5eb467f3ce5ed400f0fc40373ba4a87e9fd9131f0388e0c23"
+    },
+    {
+      "path": "qa/sprint-11/existing_deployment.py",
+      "sha256": "739f2faf1f3dff10c8fbf6bd4284d432fe663f0eca671f097ab5853561939214"
+    },
+    {
+      "path": "qa/sprint-11/final_assessment.py",
+      "sha256": "a744cb5b5ef0996662d42c78ace495a45ffe6a116622485c96b8c61de683d3ba"
+    },
+    {
+      "path": "qa/sprint-11/infrastructure/.terraform.lock.hcl",
+      "sha256": "0368582debb6a7ecf280a1dc6c36f48af2d5b260c8f2c73114db407f5f3b3d94"
+    },
+    {
+      "path": "qa/sprint-11/infrastructure/lifecycle.py",
+      "sha256": "fe7169aca14f13faeccbf683f2aa802aa9b2ff730233037d465a00e2008e9bca"
+    },
+    {
+      "path": "qa/sprint-11/infrastructure/main.tf",
+      "sha256": "269e69b4e53d3996febdf2ffac718e383120e184eaaefd54b5b438efc2ac3099"
+    },
+    {
+      "path": "qa/sprint-11/jmeter/peak.jmx",
+      "sha256": "e7b26fcaa9bcfcfbe550f12bb1cf961368e9e6a9d9b9738bd6da812d6b4d5015"
+    },
+    {
+      "path": "qa/sprint-11/jmeter/read.jmx",
+      "sha256": "720c303052a8b952cb2c6b45d21da21b3f4e2c872ce52a43393a6b159f679f97"
+    },
+    {
+      "path": "qa/sprint-11/jmeter/write.jmx",
+      "sha256": "5f7d8dd6e89d1f5fb3a02c27b8bef8bee0635b0cc400fedc1f8585db4716ace2"
+    },
+    {
+      "path": "qa/sprint-11/performance.py",
+      "sha256": "a1b11afc26ad85053c087eabf4dd39cfdf1280f6ad3e7c2990efa66fefb213c5"
+    },
+    {
+      "path": "qa/sprint-11/pwa.py",
+      "sha256": "6f3b86aa9a71a2bf483a1ba123d850f3927ce86930ff18b1cd388a521f1a0462"
+    },
+    {
+      "path": "qa/sprint-11/README.md",
+      "sha256": "3f8e39d9a1776c4c63647b91b27afd213b9a9b0f2cc1753d6b6bef70874bc547"
+    },
+    {
+      "path": "qa/sprint-11/render_smoke.py",
+      "sha256": "b82dc900db6b4d12f22867a82df818b69e6f466ad0c7b1bbc4e527481216fa68"
+    },
+    {
+      "path": "qa/sprint-11/requirements-lock.txt",
+      "sha256": "241fddcd46aadd2e68305cb19cbef45a3c2d0a3c358d4ba985c861295229558b"
+    },
+    {
+      "path": "qa/sprint-11/requirements.txt",
+      "sha256": "f574f0dbf6ccc7f461aaefb9546e30e367749c69a027dc60242f215b3ea3a68d"
+    },
+    {
+      "path": "qa/sprint-11/revalidate.py",
+      "sha256": "f993b22d5a13b1e3fdbede85f0287759bdbcc958ae00a06ddea0f2a5afaaf81f"
+    },
+    {
+      "path": "qa/sprint-11/server.py",
+      "sha256": "0a638ccae9207733aa02db905483849d1d3e9350cb5c770ecaf4db9aeadd8e18"
+    },
+    {
+      "path": "qa/sprint-11/test_campaign_guards.py",
+      "sha256": "ceb4ac12d6da187d1541faf7b8058ab110ea8c3d766659618ba424e4a50ca8c0"
+    },
+    {
+      "path": "infra/terraform/modules/test_database/main.tf",
+      "sha256": "1923ac60810be831b69b4dd52cca9735da4a524987eef53c4d4fb2b6a8b7d1d2"
+    },
+    {
+      "path": "frontend/clinica-web-react/vendor/picomatch-guarded/index.js",
+      "sha256": "02ae26406508e28f9ba0865be16cf77f0b33de6c4d4d49c212c4176df1d5625a"
+    },
+    {
+      "path": "frontend/clinica-web-react/vendor/picomatch-guarded/lib/constants.js",
+      "sha256": "c28f952d2758261fe5428a121add485cc25b03e0193633f649de903dc0e5e222"
+    },
+    {
+      "path": "frontend/clinica-web-react/vendor/picomatch-guarded/lib/parse.js",
+      "sha256": "2a37371456251214e030a1d4ab1e0a0bed61a0ee8c2e6232ecdf3e1ce3f462d2"
+    },
+    {
+      "path": "frontend/clinica-web-react/vendor/picomatch-guarded/lib/picomatch.js",
+      "sha256": "fdd249d7ffff853f3bb1c77eafc8baa1a437bea85a94c35877b83c6a40d9ca94"
+    },
+    {
+      "path": "frontend/clinica-web-react/vendor/picomatch-guarded/lib/scan.js",
+      "sha256": "6457a1764e5c2e543cc3a0c00ce12ebb3764097628868198370b64d4e642aaae"
+    },
+    {
+      "path": "frontend/clinica-web-react/vendor/picomatch-guarded/lib/utils.js",
+      "sha256": "f04604f70cd1a3f6ace80b84766468674ff38b4bb83818d2ef1d81fc6355f935"
+    },
+    {
+      "path": "frontend/clinica-web-react/vendor/picomatch-guarded/package.json",
+      "sha256": "ddf5ab4a12e88d494a048782440e8d1289b22e3536732b7f23e31b2e2cf6f16e"
+    },
+    {
+      "path": "frontend/clinica-web-react/vendor/picomatch-guarded/posix.js",
+      "sha256": "5695ff5dfcd5a338a40630bd506056f2950bcb08fe1cc068519cbbfe60add480"
+    },
+    {
+      "path": "frontend/clinica-web-react/vendor/picomatch-guarded/SECURITY.md",
+      "sha256": "ef7c8d21c988f59539ea46d7241940583798b70d7dd294dc2c60920f71c25425"
+    },
+    {
+      "path": "frontend/clinica-web-react/scripts/tests/glob-security.cjs",
+      "sha256": "e44f989ce6e8ff228fb136e14a4197676e993998bcbe6f47f4bfa8a8b09e9903"
+    },
+    {
+      "path": "render.yaml",
+      "sha256": "9fc4187bcb38f84a32e00490cd65fcefda4a3dc32f3afd9c1bf56c5af61eccfa"
+    },
+    {
+      "path": "backend/api_hospital/Dockerfile",
+      "sha256": "73f567e4539e1dcc96b72801e9b9e3209a2950ec18cc033543b5247cf7855758"
+    },
+    {
+      "path": ".github/workflows/sprint11-zahid.yml",
+      "sha256": "a7e760ec77375a0e164b677a8fa7253a0ba79a64f4cdf4b01fae0bf5cfa4b142"
+    },
+    {
+      "path": "frontend/clinica-web-react/package.json",
+      "sha256": "29e44f3c4121bd737f344230ae4e8fa0c9c9737bbbe1b80dab18b93ab5f29334"
+    },
+    {
+      "path": "frontend/clinica-web-react/package-lock.json",
+      "sha256": "62b19e1a5d06cbb47a43ceb42f4973c8dd8252253be95b2cebfa561f5f58b141"
+    },
+    {
+      "path": "frontend/clinica-web-react/vite.config.js",
+      "sha256": "0b32f8f911d65d7f37fad5bd4d9e4b8641b46052cea7f238633bd87b69ae74e7"
+    },
+    {
+      "path": "frontend/clinica-web-react/src/tests/sprint10-contract-sit.test.js",
+      "sha256": "470d9710d5f9315c7ffb910c40ff6cc2a91055522a4d992a6e2655fa365baa8f"
+    }
+  ]
+}

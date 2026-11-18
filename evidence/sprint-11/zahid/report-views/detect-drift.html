@@ -1,0 +1,20 @@
+<!doctype html><meta charset="utf-8"><style>body{font:22px Arial;margin:32px;color:#17212b}pre{white-space:pre-wrap;font:20px Consolas;line-height:1.25;background:#f3f5f7;padding:20px}small{overflow-wrap:anywhere}</style><h1>Registro de ejecución Sprint 11</h1><p>evidence/sprint-11/zahid/logs/detect-drift.txt</p><small>SHA256 original: 831bbb38fd6fc86b82c63910db4e92a0c3b5b6f05ec0ef9942c7656f7d8c1bda</small><p>Extractos del registro original; archivo completo conservado.</p><pre>COMMAND: terraform -chdir=C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\qa\sprint-11\infrastructure plan -detailed-exitcode -input=false -no-color -state=C:\Users\marce\Documents\Codex\2026-11-17\p\work\tf-s11\a\terraform.tfstate -var=environment_name=ineo-test-s11-qa-a -var=mongo_port=27111
+EXIT: 2
+      - group_add                                   = [] -&gt; null
+      ~ hostname                                    = &quot;7f829c6d9cfe&quot; -&gt; (known after apply)
+      ~ id                                          = &quot;7f829c6d9cfe498572616aa8de22ea79ffc9ae62a7f5a9c5327f5790d4cf57f4&quot; -&gt; (known after apply)
+      - memory_swap                                 = 0 -&gt; null
+      ~ name                                        = &quot;ineo-test-s11-qa-a-drift&quot; -&gt; &quot;ineo-test-s11-qa-a&quot; # forces replacement
+      ~ network_data                                = [
+              - mac_address               = &quot;46:db:46:5a:f2:0b&quot;
+              - network_name              = &quot;bridge&quot;
+                # (2 unchanged attributes hidden)
+          - read_only      = false -&gt; null
+          - volume_name    = &quot;ineo-test-s11-qa-a-synthetic&quot; -&gt; null
+            # (2 unchanged attributes hidden)
+          + container_path = &quot;/data/db&quot;
+          + volume_name    = &quot;ineo-test-s11-qa-a-synthetic&quot;
+            # (2 unchanged attributes hidden)
+
+Plan: 1 to add, 0 to change, 1 to destroy.
+</pre>

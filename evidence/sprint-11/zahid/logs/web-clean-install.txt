@@ -1,0 +1,10 @@
+COMMAND: "C:\Program Files\nodejs\npm.cmd" ci
+EXIT: 0
+
+added 217 packages, and audited 219 packages in 32s
+
+43 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+npm warn deprecated whatwg-encoding@3.1.1: Use @exodus/bytes instead for a more spec-conformant and faster implementation

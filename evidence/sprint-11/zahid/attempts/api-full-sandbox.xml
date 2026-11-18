@@ -1,0 +1,729 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="4" skipped="15" tests="445" time="206.285" timestamp="2026-11-18T01:54:46.944944-06:00" hostname="Galicia"><testcase classname="tests.test_activity15_services" name="test_get_and_post_roundtrip" time="9.669" /><testcase classname="tests.test_activity15_services" name="test_invalid_form[changes0]" time="0.799" /><testcase classname="tests.test_activity15_services" name="test_invalid_form[changes1]" time="0.767" /><testcase classname="tests.test_activity15_services" name="test_invalid_form[changes2]" time="0.853" /><testcase classname="tests.test_activity15_services" name="test_invalid_form[changes3]" time="0.797" /><testcase classname="tests.test_activity15_services" name="test_invalid_form[changes4]" time="0.760" /><testcase classname="tests.test_activity15_services" name="test_invalid_form[changes5]" time="0.764" /><testcase classname="tests.test_activity15_services" name="test_invalid_form[changes6]" time="0.758" /><testcase classname="tests.test_activity15_services" name="test_missing_cost_and_malformed_json" time="0.823" /><testcase classname="tests.test_activity15_services" name="test_zero_cost_is_valid" time="1.039" /><testcase classname="tests.test_activity15_services" name="test_missing_and_invalid_token" time="0.807" /><testcase classname="tests.test_activity15_services" name="test_non_admin_cannot_create" time="0.634" /><testcase classname="tests.test_activity15_services" name="test_duplicate_key" time="0.596" /><testcase classname="tests.test_activity15_services" name="test_existing_web_form_accepts_empty_optional_prices[]" time="0.606" /><testcase classname="tests.test_activity15_services" name="test_existing_web_form_accepts_empty_optional_prices[None]" time="0.560" /><testcase classname="tests.test_activity15_services" name="test_negative_optional_price_is_rejected" time="0.680" /><testcase classname="tests.test_activity15_services" name="test_inactive_service_keeps_selected_state" time="0.567" /><testcase classname="tests.test_activity15_services" name="test_invalid_service_state_is_rejected" time="0.478" /><testcase classname="tests.test_activity18_sync" name="test_query_create_query_persists" time="0.358" /><testcase classname="tests.test_activity18_sync" name="test_invalid_input_is_not_saved[payload0]" time="0.330" /><testcase classname="tests.test_activity18_sync" name="test_invalid_input_is_not_saved[payload1]" time="0.351" /><testcase classname="tests.test_activity18_sync" name="test_invalid_input_is_not_saved[payload2]" time="0.351" /><testcase classname="tests.test_activity18_sync" name="test_invalid_input_is_not_saved[payload3]" time="0.339" /><testcase classname="tests.test_activity18_sync" name="test_invalid_input_is_not_saved[payload4]" time="0.324" /><testcase classname="tests.test_activity18_sync" name="test_invalid_input_is_not_saved[payload5]" time="0.329" /><testcase classname="tests.test_activity18_sync" name="test_invalid_input_is_not_saved[None]" time="0.343" /><testcase classname="tests.test_activity18_sync" name="test_note_length_boundary_and_missing_appointment" time="0.333" /><testcase classname="tests.test_activity18_sync" name="test_protection_and_roles[get]" time="0.517" /><testcase classname="tests.test_activity18_sync" name="test_protection_and_roles[post]" time="0.343" /><testcase classname="tests.test_activity18_sync" name="test_failed_database_response_is_safe" time="0.318" /><testcase classname="tests.test_administrative_patient_lifecycle" name="test_close_and_reactivate_patient_moves_attention_between_states" time="0.032" /><testcase classname="tests.test_analysis_dashboard" name="test_general_uses_real_collections_without_patient_identifiers" time="0.017" /><testcase classname="tests.test_analysis_dashboard" name="test_distribution_preserves_missing_and_other_totals" time="0.018" /><testcase classname="tests.test_analysis_dashboard" name="test_daily_includes_zero_days_and_excludes_missing_dates" time="0.015" /><testcase classname="tests.test_analysis_dashboard" name="test_monthly_aggregation_does_not_truncate_or_omit_empty_months" time="0.015" /><testcase classname="tests.test_analysis_dashboard" name="test_patterns_preserve_group_totals_units_and_variance" time="0.015" /><testcase classname="tests.test_analysis_dashboard" name="test_worker_persists_dashboard_with_result_and_keeps_privacy" time="0.024" /><testcase classname="tests.test_analysis_dashboard" name="test_calendar_dates_and_metadata_use_same_utc_bucket" time="0.016" /><testcase classname="tests.test_analysis_memory" name="test_small_container_uses_lightweight_even_when_host_has_ram" time="0.015" /><testcase classname="tests.test_analysis_memory" name="test_memory_limit_v2_is_respected" time="0.015" /><testcase classname="tests.test_analysis_memory" name="test_unknown_render_limit_fails_closed_for_spark" time="0.017" /><testcase classname="tests.test_analysis_memory" name="test_high_pressure_refuses_even_lightweight" time="0.015" /><testcase classname="tests.test_analysis_memory" name="test_clinical_counts_partial_and_undated_values_correctly" time="0.015" /><testcase classname="tests.test_analysis_memory" name="test_low_memory_subprocess_completes_without_spark[analytics]" time="0.434" /><testcase classname="tests.test_analysis_memory" name="test_low_memory_subprocess_completes_without_spark[met]" time="0.356" /><testcase classname="tests.test_analysis_memory" name="test_low_memory_subprocess_completes_without_spark[clinical]" time="0.352" /><testcase classname="tests.test_analysis_memory" name="test_low_memory_subprocess_completes_without_spark[unsupervised]" time="1.045" /><testcase classname="tests.test_analysis_memory" name="test_lightweight_patterns_repeatable_and_incomplete_excluded" time="0.046" /><testcase classname="tests.test_analysis_memory" name="test_moment_silhouette_matches_brute_force_without_pairwise_matrix" time="0.016" /><testcase classname="tests.test_analysis_memory" name="test_pressure_kills_child[nt]" time="0.021" /><testcase classname="tests.test_analysis_memory" name="test_pressure_kills_child[posix]" time="0.021" /><testcase classname="tests.test_analysis_memory" name="test_failed_guard_retains_last_saved_analysis" time="0.025" /><testcase classname="tests.test_analysis_memory" name="test_deadline_stops_the_whole_analysis_process[nt]" time="0.022" /><testcase classname="tests.test_analysis_memory" name="test_deadline_stops_the_whole_analysis_process[posix]" time="0.021" /><testcase classname="tests.test_analysis_memory_stress" name="test_maximum_source_under_small_process_budget[clinical]" time="0.001"><skipped type="pytest.skip" message="Uses the Linux address-space limit">C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\backend\api_hospital\tests\test_analysis_memory_stress.py:10: Uses the Linux address-space limit</skipped></testcase><testcase classname="tests.test_analysis_memory_stress" name="test_maximum_source_under_small_process_budget[unsupervised]" time="0.001"><skipped type="pytest.skip" message="Uses the Linux address-space limit">C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\backend\api_hospital\tests\test_analysis_memory_stress.py:10: Uses the Linux address-space limit</skipped></testcase><testcase classname="tests.test_analysis_tools" name="test_bad_filters_rejected_before_start[payload0]" time="0.347" /><testcase classname="tests.test_analysis_tools" name="test_bad_filters_rejected_before_start[payload1]" time="0.328" /><testcase classname="tests.test_analysis_tools" name="test_bad_filters_rejected_before_start[payload2]" time="0.327" /><testcase classname="tests.test_analysis_tools" name="test_bad_filters_rejected_before_start[payload3]" time="0.328" /><testcase classname="tests.test_analysis_tools" name="test_bad_filters_rejected_before_start[payload4]" time="0.320" /><testcase classname="tests.test_analysis_tools" name="test_bad_filters_rejected_before_start[payload5]" time="0.317" /><testcase classname="tests.test_analysis_tools" name="test_bad_filters_rejected_before_start[payload6]" time="0.321" /><testcase classname="tests.test_analysis_tools" name="test_bad_filters_rejected_before_start[payload7]" time="0.364" /><testcase classname="tests.test_analysis_tools" name="test_bad_filters_rejected_before_start[payload8]" time="0.327" /><testcase classname="tests.test_analysis_tools" name="test_bad_filters_rejected_before_start[payload9]" time="0.322" /><testcase classname="tests.test_analysis_tools" name="test_inclusive_dates_and_area_apply_to_both_engines" time="0.017" /><testcase classname="tests.test_analysis_tools" name="test_previous_period_is_same_length_including_leap_day" time="0.015" /><testcase classname="tests.test_analysis_tools" name="test_comparison_does_not_invent_percentage_from_zero_baseline" time="0.019" /><testcase classname="tests.test_analysis_tools" name="test_comparison_known_counts_and_empty_calendar_days" time="0.018" /><testcase classname="tests.test_analysis_tools" name="test_running_job_with_different_filters_is_a_conflict" time="0.355" /><testcase classname="tests.test_analysis_tools" name="test_group_reference_is_weighted_by_observation_count" time="0.021" /><testcase classname="tests.test_analysis_tools" name="test_review_saved_against_snapshot_with_actual_reference_evidence" time="0.374" /><testcase classname="tests.test_analysis_tools" name="test_filter_options_and_reviews_require_administration[options-get-None-401]" time="0.319" /><testcase classname="tests.test_analysis_tools" name="test_filter_options_and_reviews_require_administration[options-get-medico-403]" time="0.331" /><testcase classname="tests.test_analysis_tools" name="test_filter_options_and_reviews_require_administration[options-get-enfermeria-403]" time="0.489" /><testcase classname="tests.test_analysis_tools" name="test_filter_options_and_reviews_require_administration[options-get-estudios-403]" time="0.320" /><testcase classname="tests.test_analysis_tools" name="test_filter_options_and_reviews_require_administration[reviews/analytics-get-None-401]" time="0.324" /><testcase classname="tests.test_analysis_tools" name="test_filter_options_and_reviews_require_administration[reviews/analytics-get-medico-403]" time="0.340" /><testcase classname="tests.test_analysis_tools" name="test_filter_options_and_reviews_require_administration[reviews/analytics-get-enfermeria-403]" time="0.324" /><testcase classname="tests.test_analysis_tools" name="test_filter_options_and_reviews_require_administration[reviews/analytics-get-estudios-403]" time="0.326" /><testcase classname="tests.test_analysis_tools" name="test_filter_options_and_reviews_require_administration[reviews/analytics-post-None-401]" time="0.338" /><testcase classname="tests.test_analysis_tools" name="test_filter_options_and_reviews_require_administration[reviews/analytics-post-medico-403]" time="0.315" /><testcase classname="tests.test_analysis_tools" name="test_filter_options_and_reviews_require_administration[reviews/analytics-post-enfermeria-403]" time="0.333" /><testcase classname="tests.test_analysis_tools" name="test_filter_options_and_reviews_require_administration[reviews/analytics-post-estudios-403]" time="0.341" /><testcase classname="tests.test_analysis_tools" name="test_administrative_reviews_are_personal" time="0.335" /><testcase classname="tests.test_analysis_tools" name="test_empty_selected_operational_period_is_a_known_zero" time="0.019" /><testcase classname="tests.test_analysis_tools" name="test_review_requires_a_real_qualitative_assessment[patch0]" time="0.324" /><testcase classname="tests.test_analysis_tools" name="test_review_requires_a_real_qualitative_assessment[patch1]" time="0.330" /><testcase classname="tests.test_analysis_tools" name="test_review_requires_a_real_qualitative_assessment[patch2]" time="0.336" /><testcase classname="tests.test_analysis_tools" name="test_review_requires_a_real_qualitative_assessment[patch3]" time="0.329" /><testcase classname="tests.test_analysis_tools" name="test_review_requires_a_real_qualitative_assessment[patch4]" time="0.323" /><testcase classname="tests.test_analysis_tools" name="test_pattern_review_keeps_the_reference_and_group_values" time="0.344" /><testcase classname="tests.test_auth" name="test_health_endpoint_reports_api_available" time="0.507" /><testcase classname="tests.test_auth" name="test_login_requires_credentials" time="0.330" /><testcase classname="tests.test_auth" name="test_current_user_rejects_invalid_token" time="0.369" /><testcase classname="tests.test_auth" name="test_login_rejects_malformed_json" time="0.321" /><testcase classname="tests.test_auth" name="test_login_rejects_oversized_password_before_authentication" time="0.335" /><testcase classname="tests.test_auth" name="test_login_uses_generic_error_for_unknown_user" time="0.322" /><testcase classname="tests.test_auth" name="test_login_normalizes_username" time="0.353" /><testcase classname="tests.test_auth" name="test_created_user_can_log_in_for_each_configured_role[admin]" time="1.469" /><testcase classname="tests.test_auth" name="test_created_user_can_log_in_for_each_configured_role[administrativo]" time="1.560" /><testcase classname="tests.test_auth" name="test_created_user_can_log_in_for_each_configured_role[medico]" time="1.457" /><testcase classname="tests.test_auth" name="test_created_user_can_log_in_for_each_configured_role[enfermero]" time="0.680" /><testcase classname="tests.test_auth" name="test_created_user_can_log_in_for_each_configured_role[estudios]" time="0.675" /><testcase classname="tests.test_auth" name="test_user_creation_rejects_legacy_nursing_role" time="0.149" /><testcase classname="tests.test_auth" name="test_password_verification_does_not_print_hash" time="0.541" /><testcase classname="tests.test_auth" name="test_malformed_password_hash_is_rejected_without_leaking_value" time="0.007" /><testcase classname="tests.test_auth" name="test_jwt_configuration_rejects_default_secret" time="0.008" /><testcase classname="tests.test_auth" name="test_jwt_configuration_accepts_strong_environment_secret" time="0.007" /><testcase classname="tests.test_auth" name="test_inactive_user_cannot_obtain_new_token" time="0.007" /><testcase classname="tests.test_auth" name="test_existing_token_is_revoked_when_user_is_inactive" time="0.146" /><testcase classname="tests.test_auth" name="test_admin_can_edit_user_profile_role_and_password" time="0.948" /><testcase classname="tests.test_auth" name="test_user_update_rejects_duplicate_username_and_invalid_birth_date" time="0.682" /><testcase classname="tests.test_auth" name="test_user_list_uses_stable_mongo_ids_when_legacy_ids_repeat" time="0.145" /><testcase classname="tests.test_contract_schema_unit" name="test_versioned_schema_is_well_formed" time="0.078" /><testcase classname="tests.test_contract_schema_unit" name="test_error_schema_rejects_incompatible_values[None]" time="0.007" /><testcase classname="tests.test_contract_schema_unit" name="test_error_schema_rejects_incompatible_values[value1]" time="0.007" /><testcase classname="tests.test_contract_schema_unit" name="test_error_schema_rejects_incompatible_values[value2]" time="0.007" /><testcase classname="tests.test_contract_schema_unit" name="test_error_schema_rejects_incompatible_values[value3]" time="0.008" /><testcase classname="tests.test_contract_schema_unit" name="test_error_schema_accepts_text" time="0.007" /><testcase classname="tests.test_monitoring" name="test_monitoring_permissions" time="0.291" /><testcase classname="tests.test_monitoring" name="test_fall_without_vitals_and_deduplication" time="0.197" /><testcase classname="tests.test_monitoring" name="test_invalid_readings_not_saved[change0]" time="0.318" /><testcase classname="tests.test_monitoring" name="test_invalid_readings_not_saved[change1]" time="0.339" /><testcase classname="tests.test_monitoring" name="test_invalid_readings_not_saved[change2]" time="0.328" /><testcase classname="tests.test_monitoring" name="test_invalid_readings_not_saved[change3]" time="0.327" /><testcase classname="tests.test_monitoring" name="test_invalid_readings_not_saved[change4]" time="0.357" /><testcase classname="tests.test_monitoring" name="test_contact_loss_clears_vitals_and_secrets_not_exposed" time="0.403" /><testcase classname="tests.test_monitoring" name="test_socket_fall_is_persisted_and_confirmed" time="0.356" /><testcase classname="tests.test_monitoring" name="test_wrong_assignment_and_token_rotation" time="0.366" /><testcase classname="tests.test_monitoring" name="test_configured_alerts_and_patient_isolation" time="0.345" /><testcase classname="tests.test_monitoring" name="test_stale_and_missing_device_states" time="0.369" /><testcase classname="tests.test_monitoring" name="test_invalid_device_identity[None]" time="0.342" /><testcase classname="tests.test_monitoring" name="test_invalid_device_identity[123]" time="0.360" /><testcase classname="tests.test_monitoring" name="test_invalid_device_identity[]" time="0.341" /><testcase classname="tests.test_monitoring" name="test_invalid_device_identity[   ]" time="0.323" /><testcase classname="tests.test_monitoring" name="test_existing_nurse_role_has_access" time="0.351" /><testcase classname="tests.test_monitoring" name="test_patient_device_assignment_is_unambiguous" time="0.534" /><testcase classname="tests.test_monitoring_pages_push" name="test_pagination_preserves_existing_unique_patient_index" time="0.352" /><testcase classname="tests.test_monitoring_pages_push" name="test_patient_pages_and_search" time="0.371" /><testcase classname="tests.test_monitoring_pages_push" name="test_history_pages_use_a_stable_snapshot_and_no_other_patient" time="0.345" /><testcase classname="tests.test_monitoring_pages_push" name="test_batched_list_has_latest_and_full_pending_count" time="0.337" /><testcase classname="tests.test_monitoring_pages_push" name="test_push_permission_validation_and_logout" time="0.338" /><testcase classname="tests.test_monitoring_pages_push" name="test_push_is_durable_deduplicated_and_contains_no_clinical_text" time="0.349" /><testcase classname="tests.test_monitoring_pages_push" name="test_push_retries_and_removes_unregistered_tokens" time="0.349" /><testcase classname="tests.test_monitoring_pages_push" name="test_push_does_not_send_after_account_is_disabled" time="0.345" /><testcase classname="tests.test_nursing" name="test_nursing_notes_read_requires_authentication" time="0.379" /><testcase classname="tests.test_nursing" name="test_nursing_notes_write_requires_authentication" time="0.369" /><testcase classname="tests.test_nursing_care_validation" name="test_accepts_and_normalizes_valid_payload" time="0.015" /><testcase classname="tests.test_nursing_care_validation" name="test_rejects_missing_required_fields" time="0.015" /><testcase classname="tests.test_nursing_care_validation" name="test_rejects_unapproved_state" time="0.018" /><testcase classname="tests.test_nursing_care_validation" name="test_rejects_oversized_text" time="0.016" /><testcase classname="tests.test_oat_http_joel" name="test_oat_http_health_and_readiness" time="9.021"><failure message="urllib.error.URLError: &lt;urlopen error [WinError 10013] Intento de acceso a un socket no permitido por sus permisos de acceso&gt;">self = &lt;urllib.request.HTTPHandler object at 0x000001BD640B70E0&gt;
+http_class = &lt;class 'http.client.HTTPConnection'&gt;
+req = &lt;urllib.request.Request object at 0x000001BD640B7B60&gt;, http_conn_args = {}
+
+    def do_open(self, http_class, req, **http_conn_args):
+        """Return an HTTPResponse object for the request, using http_class.
+    
+        http_class must implement the HTTPConnection API from http.client.
+        """
+        host = req.host
+        if not host:
+            raise URLError('no host given')
+    
+        # will parse host:port
+        h = http_class(host, timeout=req.timeout, **http_conn_args)
+        h.set_debuglevel(self._debuglevel)
+    
+        headers = dict(req.unredirected_hdrs)
+        headers.update({k: v for k, v in req.headers.items()
+                        if k not in headers})
+    
+        # TODO(jhylton): Should this be redesigned to handle
+        # persistent connections?
+    
+        # We want to make an HTTP/1.1 request, but the addinfourl
+        # class isn't prepared to deal with a persistent connection.
+        # It will try to read all remaining data from the socket,
+        # which will block while the server waits for the next request.
+        # So make sure the connection gets closed after the (only)
+        # request.
+        headers["Connection"] = "close"
+        headers = {name.title(): val for name, val in headers.items()}
+    
+        if req._tunnel_host:
+            tunnel_headers = {}
+            proxy_auth_hdr = "Proxy-Authorization"
+            if proxy_auth_hdr in headers:
+                tunnel_headers[proxy_auth_hdr] = headers[proxy_auth_hdr]
+                # Proxy-Authorization should not be sent to origin
+                # server.
+                del headers[proxy_auth_hdr]
+            h.set_tunnel(req._tunnel_host, headers=tunnel_headers)
+    
+        try:
+            try:
+&gt;               h.request(req.get_method(), req.selector, req.data, headers,
+                          encode_chunked=req.has_header('Transfer-encoding'))
+
+C:\Python313\Lib\urllib\request.py:1319: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Python313\Lib\http\client.py:1336: in request
+    self._send_request(method, url, body, headers, encode_chunked)
+C:\Python313\Lib\http\client.py:1382: in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+C:\Python313\Lib\http\client.py:1331: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+C:\Python313\Lib\http\client.py:1091: in _send_output
+    self.send(msg)
+C:\Python313\Lib\http\client.py:1035: in send
+    self.connect()
+C:\Python313\Lib\http\client.py:1001: in connect
+    self.sock = self._create_connection(
+C:\Python313\Lib\socket.py:864: in create_connection
+    raise exceptions[0]
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+address = ('127.0.0.1', 64729), timeout = 8, source_address = None
+all_errors = False
+
+    def create_connection(address, timeout=_GLOBAL_DEFAULT_TIMEOUT,
+                          source_address=None, *, all_errors=False):
+        """Connect to *address* and return the socket object.
+    
+        Convenience function.  Connect to *address* (a 2-tuple ``(host,
+        port)``) and return the socket object.  Passing the optional
+        *timeout* parameter will set the timeout on the socket instance
+        before attempting to connect.  If no *timeout* is supplied, the
+        global default timeout setting returned by :func:`getdefaulttimeout`
+        is used.  If *source_address* is set it must be a tuple of (host, port)
+        for the socket to bind as a source address before making the connection.
+        A host of '' or port 0 tells the OS to use the default. When a connection
+        cannot be created, raises the last error if *all_errors* is False,
+        and an ExceptionGroup of all errors if *all_errors* is True.
+        """
+    
+        host, port = address
+        exceptions = []
+        for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+            af, socktype, proto, canonname, sa = res
+            sock = None
+            try:
+                sock = socket(af, socktype, proto)
+                if timeout is not _GLOBAL_DEFAULT_TIMEOUT:
+                    sock.settimeout(timeout)
+                if source_address:
+                    sock.bind(source_address)
+&gt;               sock.connect(sa)
+E               PermissionError: [WinError 10013] Intento de acceso a un socket no permitido por sus permisos de acceso
+
+C:\Python313\Lib\socket.py:849: PermissionError
+
+During handling of the above exception, another exception occurred:
+
+api_process = &lt;function api_process.&lt;locals&gt;.start at 0x000001BD637A0400&gt;
+
+    def test_oat_http_health_and_readiness(api_process):
+        _, port = api_process()
+&gt;       assert get(port, '/health')[0] == 200
+               ^^^^^^^^^^^^^^^^^^^^
+
+tests\test_oat_http_joel.py:58: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_oat_http_joel.py:50: in get
+    with urllib.request.urlopen(f'http://127.0.0.1:{port}{path}', timeout=8) as response:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\urllib\request.py:189: in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\urllib\request.py:489: in open
+    response = self._open(req, data)
+               ^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\urllib\request.py:506: in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+C:\Python313\Lib\urllib\request.py:466: in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+C:\Python313\Lib\urllib\request.py:1348: in http_open
+    return self.do_open(http.client.HTTPConnection, req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;urllib.request.HTTPHandler object at 0x000001BD640B70E0&gt;
+http_class = &lt;class 'http.client.HTTPConnection'&gt;
+req = &lt;urllib.request.Request object at 0x000001BD640B7B60&gt;, http_conn_args = {}
+
+    def do_open(self, http_class, req, **http_conn_args):
+        """Return an HTTPResponse object for the request, using http_class.
+    
+        http_class must implement the HTTPConnection API from http.client.
+        """
+        host = req.host
+        if not host:
+            raise URLError('no host given')
+    
+        # will parse host:port
+        h = http_class(host, timeout=req.timeout, **http_conn_args)
+        h.set_debuglevel(self._debuglevel)
+    
+        headers = dict(req.unredirected_hdrs)
+        headers.update({k: v for k, v in req.headers.items()
+                        if k not in headers})
+    
+        # TODO(jhylton): Should this be redesigned to handle
+        # persistent connections?
+    
+        # We want to make an HTTP/1.1 request, but the addinfourl
+        # class isn't prepared to deal with a persistent connection.
+        # It will try to read all remaining data from the socket,
+        # which will block while the server waits for the next request.
+        # So make sure the connection gets closed after the (only)
+        # request.
+        headers["Connection"] = "close"
+        headers = {name.title(): val for name, val in headers.items()}
+    
+        if req._tunnel_host:
+            tunnel_headers = {}
+            proxy_auth_hdr = "Proxy-Authorization"
+            if proxy_auth_hdr in headers:
+                tunnel_headers[proxy_auth_hdr] = headers[proxy_auth_hdr]
+                # Proxy-Authorization should not be sent to origin
+                # server.
+                del headers[proxy_auth_hdr]
+            h.set_tunnel(req._tunnel_host, headers=tunnel_headers)
+    
+        try:
+            try:
+                h.request(req.get_method(), req.selector, req.data, headers,
+                          encode_chunked=req.has_header('Transfer-encoding'))
+            except OSError as err: # timeout error
+&gt;               raise URLError(err)
+E               urllib.error.URLError: &lt;urlopen error [WinError 10013] Intento de acceso a un socket no permitido por sus permisos de acceso&gt;
+
+C:\Python313\Lib\urllib\request.py:1322: URLError</failure></testcase><testcase classname="tests.test_oat_http_joel" name="test_oat_http_dependency_outage_does_not_leak_credentials" time="6.728"><failure message="urllib.error.URLError: &lt;urlopen error [WinError 10013] Intento de acceso a un socket no permitido por sus permisos de acceso&gt;">self = &lt;urllib.request.HTTPHandler object at 0x000001BD640B70E0&gt;
+http_class = &lt;class 'http.client.HTTPConnection'&gt;
+req = &lt;urllib.request.Request object at 0x000001BD630D5810&gt;, http_conn_args = {}
+
+    def do_open(self, http_class, req, **http_conn_args):
+        """Return an HTTPResponse object for the request, using http_class.
+    
+        http_class must implement the HTTPConnection API from http.client.
+        """
+        host = req.host
+        if not host:
+            raise URLError('no host given')
+    
+        # will parse host:port
+        h = http_class(host, timeout=req.timeout, **http_conn_args)
+        h.set_debuglevel(self._debuglevel)
+    
+        headers = dict(req.unredirected_hdrs)
+        headers.update({k: v for k, v in req.headers.items()
+                        if k not in headers})
+    
+        # TODO(jhylton): Should this be redesigned to handle
+        # persistent connections?
+    
+        # We want to make an HTTP/1.1 request, but the addinfourl
+        # class isn't prepared to deal with a persistent connection.
+        # It will try to read all remaining data from the socket,
+        # which will block while the server waits for the next request.
+        # So make sure the connection gets closed after the (only)
+        # request.
+        headers["Connection"] = "close"
+        headers = {name.title(): val for name, val in headers.items()}
+    
+        if req._tunnel_host:
+            tunnel_headers = {}
+            proxy_auth_hdr = "Proxy-Authorization"
+            if proxy_auth_hdr in headers:
+                tunnel_headers[proxy_auth_hdr] = headers[proxy_auth_hdr]
+                # Proxy-Authorization should not be sent to origin
+                # server.
+                del headers[proxy_auth_hdr]
+            h.set_tunnel(req._tunnel_host, headers=tunnel_headers)
+    
+        try:
+            try:
+&gt;               h.request(req.get_method(), req.selector, req.data, headers,
+                          encode_chunked=req.has_header('Transfer-encoding'))
+
+C:\Python313\Lib\urllib\request.py:1319: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Python313\Lib\http\client.py:1336: in request
+    self._send_request(method, url, body, headers, encode_chunked)
+C:\Python313\Lib\http\client.py:1382: in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+C:\Python313\Lib\http\client.py:1331: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+C:\Python313\Lib\http\client.py:1091: in _send_output
+    self.send(msg)
+C:\Python313\Lib\http\client.py:1035: in send
+    self.connect()
+C:\Python313\Lib\http\client.py:1001: in connect
+    self.sock = self._create_connection(
+C:\Python313\Lib\socket.py:864: in create_connection
+    raise exceptions[0]
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+address = ('127.0.0.1', 64737), timeout = 8, source_address = None
+all_errors = False
+
+    def create_connection(address, timeout=_GLOBAL_DEFAULT_TIMEOUT,
+                          source_address=None, *, all_errors=False):
+        """Connect to *address* and return the socket object.
+    
+        Convenience function.  Connect to *address* (a 2-tuple ``(host,
+        port)``) and return the socket object.  Passing the optional
+        *timeout* parameter will set the timeout on the socket instance
+        before attempting to connect.  If no *timeout* is supplied, the
+        global default timeout setting returned by :func:`getdefaulttimeout`
+        is used.  If *source_address* is set it must be a tuple of (host, port)
+        for the socket to bind as a source address before making the connection.
+        A host of '' or port 0 tells the OS to use the default. When a connection
+        cannot be created, raises the last error if *all_errors* is False,
+        and an ExceptionGroup of all errors if *all_errors* is True.
+        """
+    
+        host, port = address
+        exceptions = []
+        for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+            af, socktype, proto, canonname, sa = res
+            sock = None
+            try:
+                sock = socket(af, socktype, proto)
+                if timeout is not _GLOBAL_DEFAULT_TIMEOUT:
+                    sock.settimeout(timeout)
+                if source_address:
+                    sock.bind(source_address)
+&gt;               sock.connect(sa)
+E               PermissionError: [WinError 10013] Intento de acceso a un socket no permitido por sus permisos de acceso
+
+C:\Python313\Lib\socket.py:849: PermissionError
+
+During handling of the above exception, another exception occurred:
+
+api_process = &lt;function api_process.&lt;locals&gt;.start at 0x000001BD637AD3A0&gt;
+
+    def test_oat_http_dependency_outage_does_not_leak_credentials(api_process):
+        _, port = api_process(database_down=True)
+&gt;       status, body = get(port, '/ready')
+                       ^^^^^^^^^^^^^^^^^^^
+
+tests\test_oat_http_joel.py:65: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_oat_http_joel.py:50: in get
+    with urllib.request.urlopen(f'http://127.0.0.1:{port}{path}', timeout=8) as response:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\urllib\request.py:189: in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\urllib\request.py:489: in open
+    response = self._open(req, data)
+               ^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\urllib\request.py:506: in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+C:\Python313\Lib\urllib\request.py:466: in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+C:\Python313\Lib\urllib\request.py:1348: in http_open
+    return self.do_open(http.client.HTTPConnection, req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;urllib.request.HTTPHandler object at 0x000001BD640B70E0&gt;
+http_class = &lt;class 'http.client.HTTPConnection'&gt;
+req = &lt;urllib.request.Request object at 0x000001BD630D5810&gt;, http_conn_args = {}
+
+    def do_open(self, http_class, req, **http_conn_args):
+        """Return an HTTPResponse object for the request, using http_class.
+    
+        http_class must implement the HTTPConnection API from http.client.
+        """
+        host = req.host
+        if not host:
+            raise URLError('no host given')
+    
+        # will parse host:port
+        h = http_class(host, timeout=req.timeout, **http_conn_args)
+        h.set_debuglevel(self._debuglevel)
+    
+        headers = dict(req.unredirected_hdrs)
+        headers.update({k: v for k, v in req.headers.items()
+                        if k not in headers})
+    
+        # TODO(jhylton): Should this be redesigned to handle
+        # persistent connections?
+    
+        # We want to make an HTTP/1.1 request, but the addinfourl
+        # class isn't prepared to deal with a persistent connection.
+        # It will try to read all remaining data from the socket,
+        # which will block while the server waits for the next request.
+        # So make sure the connection gets closed after the (only)
+        # request.
+        headers["Connection"] = "close"
+        headers = {name.title(): val for name, val in headers.items()}
+    
+        if req._tunnel_host:
+            tunnel_headers = {}
+            proxy_auth_hdr = "Proxy-Authorization"
+            if proxy_auth_hdr in headers:
+                tunnel_headers[proxy_auth_hdr] = headers[proxy_auth_hdr]
+                # Proxy-Authorization should not be sent to origin
+                # server.
+                del headers[proxy_auth_hdr]
+            h.set_tunnel(req._tunnel_host, headers=tunnel_headers)
+    
+        try:
+            try:
+                h.request(req.get_method(), req.selector, req.data, headers,
+                          encode_chunked=req.has_header('Transfer-encoding'))
+            except OSError as err: # timeout error
+&gt;               raise URLError(err)
+E               urllib.error.URLError: &lt;urlopen error [WinError 10013] Intento de acceso a un socket no permitido por sus permisos de acceso&gt;
+
+C:\Python313\Lib\urllib\request.py:1322: URLError</failure></testcase><testcase classname="tests.test_oat_http_joel" name="test_oat_http_controlled_restart_on_same_port" time="7.695"><failure message="urllib.error.URLError: &lt;urlopen error [WinError 10013] Intento de acceso a un socket no permitido por sus permisos de acceso&gt;">self = &lt;urllib.request.HTTPHandler object at 0x000001BD640B70E0&gt;
+http_class = &lt;class 'http.client.HTTPConnection'&gt;
+req = &lt;urllib.request.Request object at 0x000001BD5266C190&gt;, http_conn_args = {}
+
+    def do_open(self, http_class, req, **http_conn_args):
+        """Return an HTTPResponse object for the request, using http_class.
+    
+        http_class must implement the HTTPConnection API from http.client.
+        """
+        host = req.host
+        if not host:
+            raise URLError('no host given')
+    
+        # will parse host:port
+        h = http_class(host, timeout=req.timeout, **http_conn_args)
+        h.set_debuglevel(self._debuglevel)
+    
+        headers = dict(req.unredirected_hdrs)
+        headers.update({k: v for k, v in req.headers.items()
+                        if k not in headers})
+    
+        # TODO(jhylton): Should this be redesigned to handle
+        # persistent connections?
+    
+        # We want to make an HTTP/1.1 request, but the addinfourl
+        # class isn't prepared to deal with a persistent connection.
+        # It will try to read all remaining data from the socket,
+        # which will block while the server waits for the next request.
+        # So make sure the connection gets closed after the (only)
+        # request.
+        headers["Connection"] = "close"
+        headers = {name.title(): val for name, val in headers.items()}
+    
+        if req._tunnel_host:
+            tunnel_headers = {}
+            proxy_auth_hdr = "Proxy-Authorization"
+            if proxy_auth_hdr in headers:
+                tunnel_headers[proxy_auth_hdr] = headers[proxy_auth_hdr]
+                # Proxy-Authorization should not be sent to origin
+                # server.
+                del headers[proxy_auth_hdr]
+            h.set_tunnel(req._tunnel_host, headers=tunnel_headers)
+    
+        try:
+            try:
+&gt;               h.request(req.get_method(), req.selector, req.data, headers,
+                          encode_chunked=req.has_header('Transfer-encoding'))
+
+C:\Python313\Lib\urllib\request.py:1319: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Python313\Lib\http\client.py:1336: in request
+    self._send_request(method, url, body, headers, encode_chunked)
+C:\Python313\Lib\http\client.py:1382: in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+C:\Python313\Lib\http\client.py:1331: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+C:\Python313\Lib\http\client.py:1091: in _send_output
+    self.send(msg)
+C:\Python313\Lib\http\client.py:1035: in send
+    self.connect()
+C:\Python313\Lib\http\client.py:1001: in connect
+    self.sock = self._create_connection(
+C:\Python313\Lib\socket.py:864: in create_connection
+    raise exceptions[0]
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+address = ('127.0.0.1', 64740), timeout = 8, source_address = None
+all_errors = False
+
+    def create_connection(address, timeout=_GLOBAL_DEFAULT_TIMEOUT,
+                          source_address=None, *, all_errors=False):
+        """Connect to *address* and return the socket object.
+    
+        Convenience function.  Connect to *address* (a 2-tuple ``(host,
+        port)``) and return the socket object.  Passing the optional
+        *timeout* parameter will set the timeout on the socket instance
+        before attempting to connect.  If no *timeout* is supplied, the
+        global default timeout setting returned by :func:`getdefaulttimeout`
+        is used.  If *source_address* is set it must be a tuple of (host, port)
+        for the socket to bind as a source address before making the connection.
+        A host of '' or port 0 tells the OS to use the default. When a connection
+        cannot be created, raises the last error if *all_errors* is False,
+        and an ExceptionGroup of all errors if *all_errors* is True.
+        """
+    
+        host, port = address
+        exceptions = []
+        for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+            af, socktype, proto, canonname, sa = res
+            sock = None
+            try:
+                sock = socket(af, socktype, proto)
+                if timeout is not _GLOBAL_DEFAULT_TIMEOUT:
+                    sock.settimeout(timeout)
+                if source_address:
+                    sock.bind(source_address)
+&gt;               sock.connect(sa)
+E               PermissionError: [WinError 10013] Intento de acceso a un socket no permitido por sus permisos de acceso
+
+C:\Python313\Lib\socket.py:849: PermissionError
+
+During handling of the above exception, another exception occurred:
+
+api_process = &lt;function api_process.&lt;locals&gt;.start at 0x000001BD637AEAC0&gt;
+
+    def test_oat_http_controlled_restart_on_same_port(api_process):
+        proc, port = api_process()
+&gt;       assert get(port, '/ready')[0] == 200
+               ^^^^^^^^^^^^^^^^^^^
+
+tests\test_oat_http_joel.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_oat_http_joel.py:50: in get
+    with urllib.request.urlopen(f'http://127.0.0.1:{port}{path}', timeout=8) as response:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\urllib\request.py:189: in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\urllib\request.py:489: in open
+    response = self._open(req, data)
+               ^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\urllib\request.py:506: in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+C:\Python313\Lib\urllib\request.py:466: in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+C:\Python313\Lib\urllib\request.py:1348: in http_open
+    return self.do_open(http.client.HTTPConnection, req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;urllib.request.HTTPHandler object at 0x000001BD640B70E0&gt;
+http_class = &lt;class 'http.client.HTTPConnection'&gt;
+req = &lt;urllib.request.Request object at 0x000001BD5266C190&gt;, http_conn_args = {}
+
+    def do_open(self, http_class, req, **http_conn_args):
+        """Return an HTTPResponse object for the request, using http_class.
+    
+        http_class must implement the HTTPConnection API from http.client.
+        """
+        host = req.host
+        if not host:
+            raise URLError('no host given')
+    
+        # will parse host:port
+        h = http_class(host, timeout=req.timeout, **http_conn_args)
+        h.set_debuglevel(self._debuglevel)
+    
+        headers = dict(req.unredirected_hdrs)
+        headers.update({k: v for k, v in req.headers.items()
+                        if k not in headers})
+    
+        # TODO(jhylton): Should this be redesigned to handle
+        # persistent connections?
+    
+        # We want to make an HTTP/1.1 request, but the addinfourl
+        # class isn't prepared to deal with a persistent connection.
+        # It will try to read all remaining data from the socket,
+        # which will block while the server waits for the next request.
+        # So make sure the connection gets closed after the (only)
+        # request.
+        headers["Connection"] = "close"
+        headers = {name.title(): val for name, val in headers.items()}
+    
+        if req._tunnel_host:
+            tunnel_headers = {}
+            proxy_auth_hdr = "Proxy-Authorization"
+            if proxy_auth_hdr in headers:
+                tunnel_headers[proxy_auth_hdr] = headers[proxy_auth_hdr]
+                # Proxy-Authorization should not be sent to origin
+                # server.
+                del headers[proxy_auth_hdr]
+            h.set_tunnel(req._tunnel_host, headers=tunnel_headers)
+    
+        try:
+            try:
+                h.request(req.get_method(), req.selector, req.data, headers,
+                          encode_chunked=req.has_header('Transfer-encoding'))
+            except OSError as err: # timeout error
+&gt;               raise URLError(err)
+E               urllib.error.URLError: &lt;urlopen error [WinError 10013] Intento de acceso a un socket no permitido por sus permisos de acceso&gt;
+
+C:\Python313\Lib\urllib\request.py:1322: URLError</failure></testcase><testcase classname="tests.test_oat_http_joel" name="test_oat_http_requires_session_for_clinical_records" time="9.849"><failure message="urllib.error.URLError: &lt;urlopen error [WinError 10013] Intento de acceso a un socket no permitido por sus permisos de acceso&gt;">self = &lt;urllib.request.HTTPHandler object at 0x000001BD640B70E0&gt;
+http_class = &lt;class 'http.client.HTTPConnection'&gt;
+req = &lt;urllib.request.Request object at 0x000001BD63C9A520&gt;, http_conn_args = {}
+
+    def do_open(self, http_class, req, **http_conn_args):
+        """Return an HTTPResponse object for the request, using http_class.
+    
+        http_class must implement the HTTPConnection API from http.client.
+        """
+        host = req.host
+        if not host:
+            raise URLError('no host given')
+    
+        # will parse host:port
+        h = http_class(host, timeout=req.timeout, **http_conn_args)
+        h.set_debuglevel(self._debuglevel)
+    
+        headers = dict(req.unredirected_hdrs)
+        headers.update({k: v for k, v in req.headers.items()
+                        if k not in headers})
+    
+        # TODO(jhylton): Should this be redesigned to handle
+        # persistent connections?
+    
+        # We want to make an HTTP/1.1 request, but the addinfourl
+        # class isn't prepared to deal with a persistent connection.
+        # It will try to read all remaining data from the socket,
+        # which will block while the server waits for the next request.
+        # So make sure the connection gets closed after the (only)
+        # request.
+        headers["Connection"] = "close"
+        headers = {name.title(): val for name, val in headers.items()}
+    
+        if req._tunnel_host:
+            tunnel_headers = {}
+            proxy_auth_hdr = "Proxy-Authorization"
+            if proxy_auth_hdr in headers:
+                tunnel_headers[proxy_auth_hdr] = headers[proxy_auth_hdr]
+                # Proxy-Authorization should not be sent to origin
+                # server.
+                del headers[proxy_auth_hdr]
+            h.set_tunnel(req._tunnel_host, headers=tunnel_headers)
+    
+        try:
+            try:
+&gt;               h.request(req.get_method(), req.selector, req.data, headers,
+                          encode_chunked=req.has_header('Transfer-encoding'))
+
+C:\Python313\Lib\urllib\request.py:1319: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Python313\Lib\http\client.py:1336: in request
+    self._send_request(method, url, body, headers, encode_chunked)
+C:\Python313\Lib\http\client.py:1382: in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+C:\Python313\Lib\http\client.py:1331: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+C:\Python313\Lib\http\client.py:1091: in _send_output
+    self.send(msg)
+C:\Python313\Lib\http\client.py:1035: in send
+    self.connect()
+C:\Python313\Lib\http\client.py:1001: in connect
+    self.sock = self._create_connection(
+C:\Python313\Lib\socket.py:864: in create_connection
+    raise exceptions[0]
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+address = ('127.0.0.1', 64744), timeout = 8, source_address = None
+all_errors = False
+
+    def create_connection(address, timeout=_GLOBAL_DEFAULT_TIMEOUT,
+                          source_address=None, *, all_errors=False):
+        """Connect to *address* and return the socket object.
+    
+        Convenience function.  Connect to *address* (a 2-tuple ``(host,
+        port)``) and return the socket object.  Passing the optional
+        *timeout* parameter will set the timeout on the socket instance
+        before attempting to connect.  If no *timeout* is supplied, the
+        global default timeout setting returned by :func:`getdefaulttimeout`
+        is used.  If *source_address* is set it must be a tuple of (host, port)
+        for the socket to bind as a source address before making the connection.
+        A host of '' or port 0 tells the OS to use the default. When a connection
+        cannot be created, raises the last error if *all_errors* is False,
+        and an ExceptionGroup of all errors if *all_errors* is True.
+        """
+    
+        host, port = address
+        exceptions = []
+        for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+            af, socktype, proto, canonname, sa = res
+            sock = None
+            try:
+                sock = socket(af, socktype, proto)
+                if timeout is not _GLOBAL_DEFAULT_TIMEOUT:
+                    sock.settimeout(timeout)
+                if source_address:
+                    sock.bind(source_address)
+&gt;               sock.connect(sa)
+E               PermissionError: [WinError 10013] Intento de acceso a un socket no permitido por sus permisos de acceso
+
+C:\Python313\Lib\socket.py:849: PermissionError
+
+During handling of the above exception, another exception occurred:
+
+api_process = &lt;function api_process.&lt;locals&gt;.start at 0x000001BD637AF1A0&gt;
+
+    def test_oat_http_requires_session_for_clinical_records(api_process):
+        _, port = api_process()
+&gt;       assert get(port, '/api/v1/appointments/1/nursing-assessment')[0] == 401
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_oat_http_joel.py:84: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_oat_http_joel.py:50: in get
+    with urllib.request.urlopen(f'http://127.0.0.1:{port}{path}', timeout=8) as response:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\urllib\request.py:189: in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\urllib\request.py:489: in open
+    response = self._open(req, data)
+               ^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\urllib\request.py:506: in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+C:\Python313\Lib\urllib\request.py:466: in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+C:\Python313\Lib\urllib\request.py:1348: in http_open
+    return self.do_open(http.client.HTTPConnection, req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;urllib.request.HTTPHandler object at 0x000001BD640B70E0&gt;
+http_class = &lt;class 'http.client.HTTPConnection'&gt;
+req = &lt;urllib.request.Request object at 0x000001BD63C9A520&gt;, http_conn_args = {}
+
+    def do_open(self, http_class, req, **http_conn_args):
+        """Return an HTTPResponse object for the request, using http_class.
+    
+        http_class must implement the HTTPConnection API from http.client.
+        """
+        host = req.host
+        if not host:
+            raise URLError('no host given')
+    
+        # will parse host:port
+        h = http_class(host, timeout=req.timeout, **http_conn_args)
+        h.set_debuglevel(self._debuglevel)
+    
+        headers = dict(req.unredirected_hdrs)
+        headers.update({k: v for k, v in req.headers.items()
+                        if k not in headers})
+    
+        # TODO(jhylton): Should this be redesigned to handle
+        # persistent connections?
+    
+        # We want to make an HTTP/1.1 request, but the addinfourl
+        # class isn't prepared to deal with a persistent connection.
+        # It will try to read all remaining data from the socket,
+        # which will block while the server waits for the next request.
+        # So make sure the connection gets closed after the (only)
+        # request.
+        headers["Connection"] = "close"
+        headers = {name.title(): val for name, val in headers.items()}
+    
+        if req._tunnel_host:
+            tunnel_headers = {}
+            proxy_auth_hdr = "Proxy-Authorization"
+            if proxy_auth_hdr in headers:
+                tunnel_headers[proxy_auth_hdr] = headers[proxy_auth_hdr]
+                # Proxy-Authorization should not be sent to origin
+                # server.
+                del headers[proxy_auth_hdr]
+            h.set_tunnel(req._tunnel_host, headers=tunnel_headers)
+    
+        try:
+            try:
+                h.request(req.get_method(), req.selector, req.data, headers,
+                          encode_chunked=req.has_header('Transfer-encoding'))
+            except OSError as err: # timeout error
+&gt;               raise URLError(err)
+E               urllib.error.URLError: &lt;urlopen error [WinError 10013] Intento de acceso a un socket no permitido por sus permisos de acceso&gt;
+
+C:\Python313\Lib\urllib\request.py:1322: URLError</failure></testcase><testcase classname="tests.test_oat_joel" name="test_oat_liveness_has_version_and_timestamp" time="0.344" /><testcase classname="tests.test_oat_joel" name="test_oat_ready_when_database_responds" time="0.270" /><testcase classname="tests.test_oat_joel" name="test_oat_database_failure_is_503_and_sanitized[ConnectionFailure]" time="0.149" /><testcase classname="tests.test_oat_joel" name="test_oat_database_failure_is_503_and_sanitized[ServerSelectionTimeoutError]" time="0.148" /><testcase classname="tests.test_oat_joel" name="test_oat_dependency_recovers_without_restarting_api" time="0.148" /><testcase classname="tests.test_oat_joel" name="test_oat_health_checks_do_not_mutate_patient_data" time="0.289" /><testcase classname="tests.test_patient_list_parity" name="test_clinical_lists_return_stable_patient_and_bed_ids" time="0.149" /><testcase classname="tests.test_patient_list_parity" name="test_same_admission_time_has_same_order_in_management_census_and_accounts" time="0.010" /><testcase classname="tests.test_patient_list_parity" name="test_patient_search_paginates_the_same_record_order_as_patient_lists" time="0.008" /><testcase classname="tests.test_patients" name="test_patients_requires_authentication" time="0.146" /><testcase classname="tests.test_patients" name="test_administrative_patients_requires_authentication" time="0.147" /><testcase classname="tests.test_security_hardening" name="test_security_headers_are_added" time="0.146" /><testcase classname="tests.test_security_hardening" name="test_cors_rejects_unknown_origin" time="0.154" /><testcase classname="tests.test_security_hardening" name="test_login_is_temporarily_limited" time="0.159" /><testcase classname="tests.test_security_hardening" name="test_successful_login_clears_failed_attempts" time="0.154" /><testcase classname="tests.test_security_hardening" name="test_logout_revokes_current_token" time="0.154" /><testcase classname="tests.test_security_hardening" name="test_new_password_policy_rejects_weak_password" time="0.150" /><testcase classname="tests.test_security_hardening" name="test_request_body_limit" time="0.151" /><testcase classname="tests.test_security_remediation" name="test_file_paths_reject_traversal_before_io[../outside.txt]" time="0.010" /><testcase classname="tests.test_security_remediation" name="test_file_paths_reject_traversal_before_io[..\\outside.txt]" time="0.011" /><testcase classname="tests.test_security_remediation" name="test_file_paths_reject_traversal_before_io[/absolute.txt]" time="0.009" /><testcase classname="tests.test_security_remediation" name="test_file_paths_reject_traversal_before_io[C:outside.txt]" time="0.010" /><testcase classname="tests.test_security_remediation" name="test_file_paths_reject_traversal_before_io[.]" time="0.011" /><testcase classname="tests.test_security_remediation" name="test_file_paths_reject_traversal_before_io[..]" time="0.011" /><testcase classname="tests.test_security_remediation" name="test_file_paths_reject_traversal_before_io[]" time="0.010" /><testcase classname="tests.test_security_remediation" name="test_file_paths_reject_traversal_before_io[folder/file.pdf]" time="0.010" /><testcase classname="tests.test_security_remediation" name="test_confined_file_keeps_valid_names_and_contents" time="0.021" /><testcase classname="tests.test_security_remediation" name="test_confined_file_rejects_symlinks" time="0.018"><skipped type="pytest.skip" message="This Windows account cannot create symlinks; Linux CI verifies it">C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\backend\api_hospital\tests\test_security_remediation.py:37: This Windows account cannot create symlinks; Linux CI verifies it</skipped></testcase><testcase classname="tests.test_security_remediation" name="test_study_download_rejects_escape_and_serves_valid_file" time="0.202" /><testcase classname="tests.test_security_remediation" name="test_internal_database_errors_are_not_sent_to_browser[/api/v1/dashboard-routes.analytics.get_db]" time="0.175" /><testcase classname="tests.test_security_remediation" name="test_internal_database_errors_are_not_sent_to_browser[/api/v1/exams/catalog-routes.exams.get_db]" time="0.165" /><testcase classname="tests.test_security_remediation" name="test_internal_database_errors_are_not_sent_to_browser[/api/v1/medico-routes.medical.get_db]" time="0.289" /><testcase classname="tests.test_security_remediation" name="test_backup_errors_do_not_disclose_os_details" time="0.372" /><testcase classname="tests.test_security_remediation" name="test_exam_edit_cannot_delete_files_not_owned_by_exam" time="0.054" /><testcase classname="tests.test_security_remediation" name="test_request_log_does_not_interpolate_untrusted_url_or_username" time="0.445" /><testcase classname="tests.test_spark_contract" name="test_lifecycle_contract[analytics]" time="0.582" /><testcase classname="tests.test_spark_contract" name="test_lifecycle_contract[met]" time="0.374" /><testcase classname="tests.test_spark_contract" name="test_lifecycle_contract[clinical]" time="0.474" /><testcase classname="tests.test_spark_contract" name="test_lifecycle_contract[unsupervised]" time="0.431" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[None-401-overview-get]" time="0.450" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[None-401-analytics-get]" time="0.410" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[None-401-status/analytics-get]" time="0.412" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[None-401-run/analytics-post]" time="0.445" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[None-401-met-get]" time="0.393" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[None-401-status/met-get]" time="0.380" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[None-401-run/met-post]" time="0.448" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[None-401-clinical-get]" time="0.400" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[None-401-status/clinical-get]" time="0.363" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[None-401-run/clinical-post]" time="0.449" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[None-401-unsupervised-get]" time="0.427" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[None-401-status/unsupervised-get]" time="0.423" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[None-401-run/unsupervised-post]" time="0.440" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[medico-403-overview-get]" time="0.384" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[medico-403-analytics-get]" time="0.643" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[medico-403-status/analytics-get]" time="0.377" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[medico-403-run/analytics-post]" time="0.365" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[medico-403-met-get]" time="0.403" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[medico-403-status/met-get]" time="0.343" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[medico-403-run/met-post]" time="0.424" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[medico-403-clinical-get]" time="0.492" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[medico-403-status/clinical-get]" time="0.398" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[medico-403-run/clinical-post]" time="0.360" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[medico-403-unsupervised-get]" time="0.412" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[medico-403-status/unsupervised-get]" time="0.356" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[medico-403-run/unsupervised-post]" time="0.353" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[enfermeria-403-overview-get]" time="0.426" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[enfermeria-403-analytics-get]" time="0.424" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[enfermeria-403-status/analytics-get]" time="0.412" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[enfermeria-403-run/analytics-post]" time="0.462" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[enfermeria-403-met-get]" time="0.357" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[enfermeria-403-status/met-get]" time="0.732" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[enfermeria-403-run/met-post]" time="0.391" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[enfermeria-403-clinical-get]" time="0.406" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[enfermeria-403-status/clinical-get]" time="0.422" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[enfermeria-403-run/clinical-post]" time="0.429" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[enfermeria-403-unsupervised-get]" time="0.507" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[enfermeria-403-status/unsupervised-get]" time="0.523" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[enfermeria-403-run/unsupervised-post]" time="0.478" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[estudios-403-overview-get]" time="0.465" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[estudios-403-analytics-get]" time="0.451" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[estudios-403-status/analytics-get]" time="0.437" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[estudios-403-run/analytics-post]" time="0.476" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[estudios-403-met-get]" time="0.352" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[estudios-403-status/met-get]" time="0.521" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[estudios-403-run/met-post]" time="0.451" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[estudios-403-clinical-get]" time="0.394" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[estudios-403-status/clinical-get]" time="0.395" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[estudios-403-run/clinical-post]" time="0.663" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[estudios-403-unsupervised-get]" time="0.485" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[estudios-403-status/unsupervised-get]" time="0.415" /><testcase classname="tests.test_spark_contract" name="test_permissions_all_endpoints[estudios-403-run/unsupervised-post]" time="0.439" /><testcase classname="tests.test_spark_contract" name="test_failure_empty_retry_and_expired_job" time="0.400" /><testcase classname="tests.test_spark_contract" name="test_invalid_type_body_and_token" time="0.439" /><testcase classname="tests.test_spark_contract" name="test_database_failure_is_503" time="0.457" /><testcase classname="tests.test_spark_contract" name="test_partial_source_no_sensitive_fields" time="0.017" /><testcase classname="tests.test_spark_contract" name="test_auth_patients_studies_analytics_contract" time="0.489" /><testcase classname="tests.test_spark_contract" name="test_schema_detects_breaking_changes" time="0.020" /><testcase classname="tests.test_spark_contract" name="test_seed_repeatable_and_protected" time="0.048" /><testcase classname="tests.test_spark_contract" name="test_timeout_retains_previous_result" time="0.033" /><testcase classname="tests.test_spark_contract" name="test_missing_pyspark_fails_fast_with_actionable_message" time="0.016" /><testcase classname="tests.test_spark_contract" name="test_missing_java_fails_fast_with_actionable_message" time="0.018" /><testcase classname="tests.test_spark_contract" name="test_runtime_failure_is_persisted_for_the_user" time="0.019" /><testcase classname="tests.test_spark_contract" name="test_new_job_has_a_bounded_recovery_window" time="0.018" /><testcase classname="tests.test_spark_contract" name="test_old_job_cannot_overwrite_replacement" time="0.022" /><testcase classname="tests.test_spark_contract" name="test_dataset_limit_is_explicit" time="0.019" /><testcase classname="tests.test_spark_contract" name="test_concurrent_requests_share_one_job" time="0.032" /><testcase classname="tests.test_spark_contract" name="test_administrative_user_can_access_spark_overview" time="1.590" /><testcase classname="tests.test_spark_engine" name="test_real_spark_outputs[analytics]" time="0.001"><skipped type="pytest.skip" message="Enable real Spark with RUN_SPARK_TESTS=1">C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\backend\api_hospital\tests\test_spark_engine.py:25: Enable real Spark with RUN_SPARK_TESTS=1</skipped></testcase><testcase classname="tests.test_spark_engine" name="test_real_spark_outputs[met]" time="0.001"><skipped type="pytest.skip" message="Enable real Spark with RUN_SPARK_TESTS=1">C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\backend\api_hospital\tests\test_spark_engine.py:25: Enable real Spark with RUN_SPARK_TESTS=1</skipped></testcase><testcase classname="tests.test_spark_engine" name="test_real_spark_outputs[clinical]" time="0.001"><skipped type="pytest.skip" message="Enable real Spark with RUN_SPARK_TESTS=1">C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\backend\api_hospital\tests\test_spark_engine.py:25: Enable real Spark with RUN_SPARK_TESTS=1</skipped></testcase><testcase classname="tests.test_spark_engine" name="test_real_spark_outputs[unsupervised]" time="0.001"><skipped type="pytest.skip" message="Enable real Spark with RUN_SPARK_TESTS=1">C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\backend\api_hospital\tests\test_spark_engine.py:25: Enable real Spark with RUN_SPARK_TESTS=1</skipped></testcase><testcase classname="tests.test_spark_engine" name="test_real_spark_empty_partial_constant" time="0.001"><skipped type="pytest.skip" message="Enable real Spark with RUN_SPARK_TESTS=1">C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\backend\api_hospital\tests\test_spark_engine.py:45: Enable real Spark with RUN_SPARK_TESTS=1</skipped></testcase><testcase classname="tests.test_spark_engine" name="test_real_subprocess" time="0.001"><skipped type="pytest.skip" message="Enable real Spark with RUN_SPARK_TESTS=1">C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\backend\api_hospital\tests\test_spark_engine.py:54: Enable real Spark with RUN_SPARK_TESTS=1</skipped></testcase><testcase classname="tests.test_spark_engine" name="test_http_to_background_worker_to_real_spark" time="0.001"><skipped type="pytest.skip" message="Enable real Spark with RUN_SPARK_TESTS=1">C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\backend\api_hospital\tests\test_spark_engine.py:59: Enable real Spark with RUN_SPARK_TESTS=1</skipped></testcase><testcase classname="tests.test_spark_engine" name="test_pbl09_clinical_dated_trends_use_real_daily_aggregates" time="0.001"><skipped type="pytest.skip" message="Enable real Spark with RUN_SPARK_TESTS=1">C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\backend\api_hospital\tests\test_spark_engine.py:80: Enable real Spark with RUN_SPARK_TESTS=1</skipped></testcase><testcase classname="tests.test_spark_engine" name="test_dated_rows_without_any_vital_sign_are_excluded" time="0.001"><skipped type="pytest.skip" message="Enable real Spark with RUN_SPARK_TESTS=1">C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\backend\api_hospital\tests\test_spark_engine.py:97: Enable real Spark with RUN_SPARK_TESTS=1</skipped></testcase><testcase classname="tests.test_spark_engine" name="test_lightweight_aggregates_match_real_spark[analytics]" time="0.001"><skipped type="pytest.skip" message="Enable real Spark with RUN_SPARK_TESTS=1">C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\backend\api_hospital\tests\test_spark_engine.py:104: Enable real Spark with RUN_SPARK_TESTS=1</skipped></testcase><testcase classname="tests.test_spark_engine" name="test_lightweight_aggregates_match_real_spark[met]" time="0.001"><skipped type="pytest.skip" message="Enable real Spark with RUN_SPARK_TESTS=1">C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\backend\api_hospital\tests\test_spark_engine.py:104: Enable real Spark with RUN_SPARK_TESTS=1</skipped></testcase><testcase classname="tests.test_spark_engine" name="test_lightweight_aggregates_match_real_spark[clinical]" time="0.001"><skipped type="pytest.skip" message="Enable real Spark with RUN_SPARK_TESTS=1">C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\backend\api_hospital\tests\test_spark_engine.py:104: Enable real Spark with RUN_SPARK_TESTS=1</skipped></testcase><testcase classname="tests.test_sprint10_contracts" name="test_authenticated_provider_and_breaking_mutations[/patients-patients]" time="0.446" /><testcase classname="tests.test_sprint10_contracts" name="test_authenticated_provider_and_breaking_mutations[/studies/counts-studies_counts]" time="0.437" /><testcase classname="tests.test_sprint10_contracts" name="test_authenticated_provider_and_breaking_mutations[/analytics/dashboard-analytics]" time="0.460" /><testcase classname="tests.test_sprint10_contracts" name="test_authenticated_provider_and_breaking_mutations[/spark/overview-spark_overview]" time="0.444" /><testcase classname="tests.test_sprint10_contracts" name="test_unauthorized_contract[None-/patients-error]" time="0.491" /><testcase classname="tests.test_sprint10_contracts" name="test_unauthorized_contract[None-/studies/counts-error]" time="0.383" /><testcase classname="tests.test_sprint10_contracts" name="test_unauthorized_contract[None-/analytics/dashboard-error]" time="0.400" /><testcase classname="tests.test_sprint10_contracts" name="test_unauthorized_contract[None-/spark/overview-spark_error]" time="0.414" /><testcase classname="tests.test_sprint10_contracts" name="test_unauthorized_contract[Bearer invalid-/patients-error]" time="0.592" /><testcase classname="tests.test_sprint10_contracts" name="test_unauthorized_contract[Bearer invalid-/studies/counts-error]" time="0.459" /><testcase classname="tests.test_sprint10_contracts" name="test_unauthorized_contract[Bearer invalid-/analytics/dashboard-error]" time="0.471" /><testcase classname="tests.test_sprint10_contracts" name="test_unauthorized_contract[Bearer invalid-/spark/overview-spark_error]" time="0.373" /><testcase classname="tests.test_sprint10_contracts" name="test_login_negative_contract[payload0-400]" time="0.433" /><testcase classname="tests.test_sprint10_contracts" name="test_login_negative_contract[payload1-401]" time="0.961" /><testcase classname="tests.test_sprint10_contracts" name="test_login_contract_rejects_token_type_change" time="0.551" /><testcase classname="tests.test_sprint10_logs" name="test_request_log_has_correlation_without_user_input" time="0.572" /><testcase classname="tests.test_sprint10_logs" name="test_request_ids_are_generated_not_trusted" time="0.563" /><testcase classname="tests.test_sprint1_environment" name="test_synthetic_environment_has_isolated_users_and_relations" time="0.036" /><testcase classname="tests.test_sprint1_environment" name="test_fixture_is_restored_for_every_test" time="0.019" /><testcase classname="tests.test_sprint1_environment" name="test_fixture_cleanup_returns_original_data" time="0.018" /><testcase classname="tests.test_sprint1_environment" name="test_real_application_exposes_modules_used_by_synthetic_data" time="0.378" /><testcase classname="tests.test_sprint1_proxy_endpoints" name="test_spark_endpoint_matrix_200_401_403_and_404" time="0.494" /><testcase classname="tests.test_sprint1_proxy_endpoints" name="test_cors_preflight_allows_versioned_api_from_web_origin" time="0.398" /><testcase classname="tests.test_sprint7_jesus" name="test_each_seeded_role_logs_in_and_resolves_its_own_identity[admin]" time="0.394" /><testcase classname="tests.test_sprint7_jesus" name="test_each_seeded_role_logs_in_and_resolves_its_own_identity[medico]" time="0.437" /><testcase classname="tests.test_sprint7_jesus" name="test_each_seeded_role_logs_in_and_resolves_its_own_identity[enfermeria]" time="0.401" /><testcase classname="tests.test_sprint7_jesus" name="test_each_seeded_role_logs_in_and_resolves_its_own_identity[estudios]" time="0.416" /><testcase classname="tests.test_sprint7_jesus" name="test_bad_credentials_cannot_access_synthetic_data[admin.test-incorrecta]" time="0.550" /><testcase classname="tests.test_sprint7_jesus" name="test_bad_credentials_cannot_access_synthetic_data[inexistente.test-Prueba-Sprint7!]" time="1.016" /><testcase classname="tests.test_sprint7_jesus" name="test_database_is_restored_for_the_next_test" time="0.020" /><testcase classname="tests.test_sprint7_jesus" name="test_mutations_do_not_escape_isolated_test" time="0.017" /><testcase classname="tests.test_sprint7_jesus" name="test_image_contract_accepts_synthetic_relative_url_and_rejects_external_url" time="0.020" /><testcase classname="tests.test_sprint8_zahid" name="test_current_account_controls_spark_access[disabled-401-get-overview]" time="0.647" /><testcase classname="tests.test_sprint8_zahid" name="test_current_account_controls_spark_access[disabled-401-get-analytics]" time="0.444" /><testcase classname="tests.test_sprint8_zahid" name="test_current_account_controls_spark_access[disabled-401-get-status/analytics]" time="0.355" /><testcase classname="tests.test_sprint8_zahid" name="test_current_account_controls_spark_access[disabled-401-post-run/analytics]" time="0.369" /><testcase classname="tests.test_sprint8_zahid" name="test_current_account_controls_spark_access[disabled-401-get-met]" time="0.453" /><testcase classname="tests.test_sprint8_zahid" name="test_current_account_controls_spark_access[disabled-401-get-status/met]" time="0.378" /><testcase classname="tests.test_sprint8_zahid" name="test_current_account_controls_spark_access[disabled-401-post-run/met]" time="0.425" /><testcase classname="tests.test_sprint8_zahid" name="test_current_account_controls_spark_access[disabled-401-get-clinical]" time="0.422" /><testcase classname="tests.test_sprint8_zahid" name="test_current_account_controls_spark_access[disabled-401-get-status/clinical]" time="0.434" /><testcase classname="tests.test_sprint8_zahid" name="test_current_account_controls_spark_access[disabled-401-post-run/clinical]" time="0.514" /><testcase classname="tests.test_sprint8_zahid" name="test_current_account_controls_spark_access[disabled-401-get-unsupervised]" time="0.394" /><testcase classname="tests.test_sprint8_zahid" name="test_current_account_controls_spark_access[disabled-401-get-status/unsupervised]" time="0.402" /><testcase classname="tests.test_sprint8_zahid" name="test_current_account_controls_spark_access[disabled-401-post-run/unsupervised]" time="0.458" /><testcase classname="tests.test_sprint8_zahid" name="test_current_account_controls_spark_access[deleted-401-get-overview]" time="0.400" /><testcase classname="tests.test_sprint8_zahid" name="test_current_account_controls_spark_access[deleted-401-get-analytics]" time="0.602" /><testcase classname="tests.test_sprint8_zahid" name="test_current_account_controls_spark_access[deleted-401-get-status/analytics]" time="0.524" /><testcase classname="tests.test_sprint8_zahid" name="test_current_account_controls_spark_access[deleted-401-post-run/analytics]" time="0.522" /><testcase classname="tests.test_sprint8_zahid" name="test_current_account_controls_spark_access[deleted-401-get-met]" time="0.838" /><testcase classname="tests.test_sprint8_zahid" name="test_current_account_controls_spark_access[deleted-401-get-status/met]" time="0.554" /><testcase classname="tests.test_sprint8_zahid" name="test_current_account_controls_spark_access[deleted-401-post-run/met]" time="0.421" /><testcase classname="tests.test_sprint8_zahid" name="test_current_account_controls_spark_access[deleted-401-get-clinical]" time="0.433" /><testcase classname="tests.test_sprint8_zahid" name="test_current_account_controls_spark_access[deleted-401-get-status/clinical]" time="0.439" /><testcase classname="tests.test_sprint8_zahid" name="test_current_account_controls_spark_access[deleted-401-post-run/clinical]" time="0.407" /><testcase classname="tests.test_sprint8_zahid" name="test_current_account_controls_spark_access[deleted-401-get-unsupervised]" time="0.404" /><testcase classname="tests.test_sprint8_zahid" name="test_current_account_controls_spark_access[deleted-401-get-status/unsupervised]" time="0.502" /><testcase classname="tests.test_sprint8_zahid" name="test_current_account_controls_spark_access[deleted-401-post-run/unsupervised]" time="0.395" /><testcase classname="tests.test_sprint8_zahid" name="test_current_account_controls_spark_access[demoted-403-get-overview]" time="0.408" /><testcase classname="tests.test_sprint8_zahid" name="test_current_account_controls_spark_access[demoted-403-get-analytics]" time="0.462" /><testcase classname="tests.test_sprint8_zahid" name="test_current_account_controls_spark_access[demoted-403-get-status/analytics]" time="0.388" /><testcase classname="tests.test_sprint8_zahid" name="test_current_account_controls_spark_access[demoted-403-post-run/analytics]" time="0.427" /><testcase classname="tests.test_sprint8_zahid" name="test_current_account_controls_spark_access[demoted-403-get-met]" time="0.452" /><testcase classname="tests.test_sprint8_zahid" name="test_current_account_controls_spark_access[demoted-403-get-status/met]" time="0.409" /><testcase classname="tests.test_sprint8_zahid" name="test_current_account_controls_spark_access[demoted-403-post-run/met]" time="0.457" /><testcase classname="tests.test_sprint8_zahid" name="test_current_account_controls_spark_access[demoted-403-get-clinical]" time="0.391" /><testcase classname="tests.test_sprint8_zahid" name="test_current_account_controls_spark_access[demoted-403-get-status/clinical]" time="0.383" /><testcase classname="tests.test_sprint8_zahid" name="test_current_account_controls_spark_access[demoted-403-post-run/clinical]" time="0.683" /><testcase classname="tests.test_sprint8_zahid" name="test_current_account_controls_spark_access[demoted-403-get-unsupervised]" time="0.373" /><testcase classname="tests.test_sprint8_zahid" name="test_current_account_controls_spark_access[demoted-403-get-status/unsupervised]" time="0.423" /><testcase classname="tests.test_sprint8_zahid" name="test_current_account_controls_spark_access[demoted-403-post-run/unsupervised]" time="0.408" /><testcase classname="tests.test_sprint8_zahid" name="test_account_database_failure_preserves_json_error" time="0.402" /><testcase classname="tests.test_sprint8_zahid" name="test_invalid_signed_identity_is_401[]" time="0.515" /><testcase classname="tests.test_sprint8_zahid" name="test_invalid_signed_identity_is_401[invalid-id]" time="0.469" /><testcase classname="tests.test_sprint8_zahid" name="test_invalid_signed_identity_is_401[user_id2]" time="0.364" /><testcase classname="tests.test_sprint8_zahid" name="test_executor_failure_finishes_job_and_allows_retry[analytics]" time="0.448" /><testcase classname="tests.test_sprint8_zahid" name="test_executor_failure_finishes_job_and_allows_retry[met]" time="0.433" /><testcase classname="tests.test_sprint8_zahid" name="test_executor_failure_finishes_job_and_allows_retry[clinical]" time="0.450" /><testcase classname="tests.test_sprint8_zahid" name="test_executor_failure_finishes_job_and_allows_retry[unsupervised]" time="0.389" /><testcase classname="tests.test_sprint8_zahid" name="test_overview_uses_one_consistent_snapshot_per_type" time="0.387" /><testcase classname="tests.test_sprint8_zahid" name="test_status_dates_preserve_instant_as_utc[value0]" time="0.016" /><testcase classname="tests.test_sprint8_zahid" name="test_status_dates_preserve_instant_as_utc[value1]" time="0.017" /><testcase classname="tests.test_sprint8_zahid" name="test_date_contract_rejects_malformed_dates[spark_status-started_at]" time="0.019" /><testcase classname="tests.test_sprint8_zahid" name="test_date_contract_rejects_malformed_dates[spark_status-finished_at]" time="0.020" /><testcase classname="tests.test_sprint8_zahid" name="test_date_contract_rejects_malformed_dates[spark_result-timestamp]" time="0.018" /><testcase classname="tests.test_sprint8_zahid" name="test_image_contract_positive_and_negative_examples" time="0.021" /><testcase classname="tests.test_sprint8_zahid" name="test_cors_preflight_does_not_require_token_or_start_job[get-overview]" time="0.414" /><testcase classname="tests.test_sprint8_zahid" name="test_cors_preflight_does_not_require_token_or_start_job[get-analytics]" time="0.419" /><testcase classname="tests.test_sprint8_zahid" name="test_cors_preflight_does_not_require_token_or_start_job[get-status/analytics]" time="0.407" /><testcase classname="tests.test_sprint8_zahid" name="test_cors_preflight_does_not_require_token_or_start_job[post-run/analytics]" time="0.431" /><testcase classname="tests.test_sprint8_zahid" name="test_cors_preflight_does_not_require_token_or_start_job[get-met]" time="0.656" /><testcase classname="tests.test_sprint8_zahid" name="test_cors_preflight_does_not_require_token_or_start_job[get-status/met]" time="0.464" /><testcase classname="tests.test_sprint8_zahid" name="test_cors_preflight_does_not_require_token_or_start_job[post-run/met]" time="0.372" /><testcase classname="tests.test_sprint8_zahid" name="test_cors_preflight_does_not_require_token_or_start_job[get-clinical]" time="0.391" /><testcase classname="tests.test_sprint8_zahid" name="test_cors_preflight_does_not_require_token_or_start_job[get-status/clinical]" time="0.462" /><testcase classname="tests.test_sprint8_zahid" name="test_cors_preflight_does_not_require_token_or_start_job[post-run/clinical]" time="0.463" /><testcase classname="tests.test_sprint8_zahid" name="test_cors_preflight_does_not_require_token_or_start_job[get-unsupervised]" time="0.577" /><testcase classname="tests.test_sprint8_zahid" name="test_cors_preflight_does_not_require_token_or_start_job[get-status/unsupervised]" time="0.558" /><testcase classname="tests.test_sprint8_zahid" name="test_cors_preflight_does_not_require_token_or_start_job[post-run/unsupervised]" time="0.599" /><testcase classname="tests.test_sprint8_zahid" name="test_legacy_numeric_account_id_remains_supported" time="0.493" /><testcase classname="tests.test_sprint8_zahid" name="test_expired_admin_token_cannot_start_work" time="0.483" /><testcase classname="tests.test_sprint9_jesus" name="test_cp_ut_001_auth_valid_and_invalid_credentials[payload0-200]" time="0.588" /><testcase classname="tests.test_sprint9_jesus" name="test_cp_ut_001_auth_valid_and_invalid_credentials[payload1-401]" time="0.502" /><testcase classname="tests.test_sprint9_jesus" name="test_cp_ut_001_auth_valid_and_invalid_credentials[payload2-400]" time="0.416" /><testcase classname="tests.test_sprint9_jesus" name="test_cp_ut_002_admin_endpoint_applies_role_permissions[admin-200]" time="0.382" /><testcase classname="tests.test_sprint9_jesus" name="test_cp_ut_002_admin_endpoint_applies_role_permissions[medico-403]" time="0.387" /><testcase classname="tests.test_sprint9_jesus" name="test_cp_ut_002_admin_endpoint_applies_role_permissions[enfermero-403]" time="0.454" /><testcase classname="tests.test_sprint9_jesus" name="test_cp_ut_002_admin_endpoint_applies_role_permissions[estudios-403]" time="0.641" /><testcase classname="tests.test_sprint9_jesus" name="test_cp_ut_003_study_file_extension_validation[resultado.pdf-True]" time="0.016" /><testcase classname="tests.test_sprint9_jesus" name="test_cp_ut_003_study_file_extension_validation[radiografia.PNG-True]" time="0.015" /><testcase classname="tests.test_sprint9_jesus" name="test_cp_ut_003_study_file_extension_validation[informe.docx-True]" time="0.022" /><testcase classname="tests.test_sprint9_jesus" name="test_cp_ut_003_study_file_extension_validation[sin-extension-False]" time="0.017" /><testcase classname="tests.test_sprint9_jesus" name="test_cp_ut_003_study_file_extension_validation[script.exe-False]" time="0.019" /><testcase classname="tests.test_sprint9_jesus" name="test_cp_ut_003_study_file_extension_validation[archivo.pdf.exe-False]" time="0.016" /><testcase classname="tests.test_sprint9_jesus" name="test_cp_ut_003_rejected_upload_does_not_persist_file" time="0.451" /><testcase classname="tests.test_sprint9_jesus" name="test_cp_ut_003_valid_upload_uses_temporary_storage[resultado.pdf]" time="0.454" /><testcase classname="tests.test_sprint9_jesus" name="test_cp_ut_003_valid_upload_uses_temporary_storage[radiografia.PNG]" time="0.521" /><testcase classname="tests.test_sprint9_jesus" name="test_cp_ut_003_missing_file_does_not_persist[data0]" time="0.428" /><testcase classname="tests.test_sprint9_jesus" name="test_cp_ut_003_missing_file_does_not_persist[data1]" time="0.450" /><testcase classname="tests.test_sprint9_jesus" name="test_cp_ut_002_upload_denied_before_persistence[medico]" time="0.479" /><testcase classname="tests.test_sprint9_jesus" name="test_cp_ut_002_upload_denied_before_persistence[enfermero]" time="0.423" /><testcase classname="tests.test_sprint9_jesus" name="test_cp_ut_004_clinical_analytics_schema_and_values[empty]" time="0.373" /><testcase classname="tests.test_sprint9_jesus" name="test_cp_ut_004_clinical_analytics_schema_and_values[partial]" time="0.533" /><testcase classname="tests.test_sprint9_jesus" name="test_cp_ut_004_clinical_analytics_schema_and_values[valid]" time="0.381" /><testcase classname="tests.test_sprint9_jesus" name="test_cp_ut_004_clinical_analytics_rejects_unauthorized_roles[enfermero]" time="0.369" /><testcase classname="tests.test_sprint9_jesus" name="test_cp_ut_004_clinical_analytics_rejects_unauthorized_roles[estudios]" time="0.351" /><testcase classname="tests.test_sprint9_uat_readiness" name="test_cp_uat_001_save_and_read_synthetic_assessment" time="0.361" /><testcase classname="tests.test_sprint9_uat_readiness" name="test_cp_uat_001_missing_attention_is_not_saved" time="0.339" /><testcase classname="tests.test_sprint9_uat_readiness" name="test_cp_uat_001_session_required[get]" time="0.375" /><testcase classname="tests.test_sprint9_uat_readiness" name="test_cp_uat_001_session_required[post]" time="0.358" /><testcase classname="tests.test_sprint9_uat_readiness" name="test_cp_uat_001_empty_assessment_must_not_persist" time="0.361" /><testcase classname="tests.test_sprint9_uat_readiness" name="test_cp_uat_001_invalid_fields_do_not_write_or_allocate_id[patch0]" time="0.642" /><testcase classname="tests.test_sprint9_uat_readiness" name="test_cp_uat_001_invalid_fields_do_not_write_or_allocate_id[patch1]" time="0.345" /><testcase classname="tests.test_sprint9_uat_readiness" name="test_cp_uat_001_invalid_fields_do_not_write_or_allocate_id[patch2]" time="0.371" /><testcase classname="tests.test_sprint9_uat_readiness" name="test_cp_uat_001_invalid_fields_do_not_write_or_allocate_id[patch3]" time="0.457" /><testcase classname="tests.test_sprint9_uat_readiness" name="test_cp_uat_001_invalid_fields_do_not_write_or_allocate_id[patch4]" time="0.679" /><testcase classname="tests.test_sprint9_uat_readiness" name="test_cp_uat_001_invalid_fields_do_not_write_or_allocate_id[patch5]" time="0.403" /><testcase classname="tests.test_sprint9_uat_readiness" name="test_cp_uat_001_invalid_fields_do_not_write_or_allocate_id[patch6]" time="0.469" /><testcase classname="tests.test_sprint9_uat_readiness" name="test_cp_uat_001_accepts_score_or_description_and_trims_fields[0]" time="0.473" /><testcase classname="tests.test_sprint9_uat_readiness" name="test_cp_uat_001_accepts_score_or_description_and_trims_fields[10]" time="0.388" /><testcase classname="tests.test_sprint9_uat_readiness" name="test_cp_uat_001_accepts_score_or_description_and_trims_fields[2.5]" time="0.395" /><testcase classname="tests.test_sprint9_uat_readiness" name="test_cp_uat_001_accepts_score_or_description_and_trims_fields[Sin dolor]" time="0.391" /><testcase classname="tests.test_sprint9_uat_readiness" name="test_cp_uat_001_accepts_score_or_description_and_trims_fields[Dolor leve al movimiento]" time="0.417" /><testcase classname="tests.test_sprint9_uat_readiness" name="test_cp_uat_002_authenticated_known_indicators[analytics]" time="0.395" /><testcase classname="tests.test_sprint9_uat_readiness" name="test_cp_uat_002_authenticated_known_indicators[met]" time="0.391" /><testcase classname="tests.test_sprint9_uat_readiness" name="test_cp_uat_002_authenticated_known_indicators[clinical]" time="0.416" /><testcase classname="tests.test_sprint9_uat_readiness" name="test_cp_uat_002_authenticated_known_indicators[unsupervised]" time="0.538" /><testcase classname="tests.test_sprint9_zahid" name="test_pbl11_metadata_snapshot[analytics]" time="0.377" /><testcase classname="tests.test_sprint9_zahid" name="test_pbl11_metadata_snapshot[met]" time="0.566" /><testcase classname="tests.test_sprint9_zahid" name="test_pbl11_metadata_snapshot[clinical]" time="0.382" /><testcase classname="tests.test_sprint9_zahid" name="test_pbl11_metadata_snapshot[unsupervised]" time="0.336" /><testcase classname="tests.test_sprint9_zahid" name="test_pbl11_unknown_and_failed_rerun_preserves_metadata" time="0.365" /><testcase classname="tests.test_sprint9_zahid" name="test_pbl11_legacy_result_exposes_unknown_source_dates" time="0.328" /><testcase classname="tests.test_sprint9_zahid" name="test_pbl25_preferences_idempotent_and_isolated" time="0.332" /><testcase classname="tests.test_sprint9_zahid" name="test_pbl25_rejects_non_allowlisted_payloads[None]" time="0.331" /><testcase classname="tests.test_sprint9_zahid" name="test_pbl25_rejects_non_allowlisted_payloads[payload1]" time="0.319" /><testcase classname="tests.test_sprint9_zahid" name="test_pbl25_rejects_non_allowlisted_payloads[payload2]" time="0.335" /><testcase classname="tests.test_sprint9_zahid" name="test_pbl25_rejects_non_allowlisted_payloads[payload3]" time="0.321" /><testcase classname="tests.test_sprint9_zahid" name="test_pbl25_rejects_non_allowlisted_payloads[payload4]" time="0.313" /><testcase classname="tests.test_sprint9_zahid" name="test_pbl25_revoked_or_inactive_accounts_cannot_sync" time="0.347" /><testcase classname="tests.test_sprint9_zahid" name="test_pbl38_gate_requires_results_evidence_approval_and_no_open_defects" time="0.127" /><testcase classname="tests.test_sprint9_zahid" name="test_pbl38_latest_failure_wins_and_external_approval_blocked" time="0.074" /><testcase classname="tests.test_sprint9_zahid" name="test_pbl09_dated_projection_retains_utc_day_without_identifiers" time="0.015" /><testcase classname="tests.test_sprint9_zahid" name="test_pbl38_cli_scope_leaves_other_owners_pending" time="0.109" /><testcase classname="tests.test_uat_clinical_dates" name="test_mongo_naive_utc_is_serialized_with_offset" time="0.015" /><testcase classname="tests.test_uat_clinical_dates" name="test_explicit_offset_converts_once_and_calendar_fields_are_unchanged" time="0.015" /><testcase classname="tests.test_uat_clinical_dates" name="test_saved_clinical_history_reports_current_utc_instant[nursing-assessment-payload0]" time="0.331" /><testcase classname="tests.test_uat_clinical_dates" name="test_saved_clinical_history_reports_current_utc_instant[fluid-balance-payload1]" time="0.331" /><testcase classname="tests.test_uat_clinical_dates" name="test_saved_clinical_history_reports_current_utc_instant[nursing-care-payload2]" time="0.387" /></testsuite></testsuites>

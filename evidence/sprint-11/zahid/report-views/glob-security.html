@@ -1,0 +1,23 @@
+<!doctype html><meta charset="utf-8"><style>body{font:23px Arial;margin:28px;color:#17212b}h1{font-size:32px}td,th{padding:12px;border:1px solid #bbb;overflow-wrap:anywhere}table{border-collapse:collapse;width:100%}pre{font:19px Consolas;white-space:pre-wrap}small{font-size:17px;overflow-wrap:anywhere}</style><h1>Pruebas de la corrección local de seguridad</h1><p>evidence/sprint-11/zahid/logs/web-glob-security.txt</p><p>Copia local protegida de picomatch 4.0.7. Se mantuvo la licencia y la versión de origen.</p><pre>COMMAND: &quot;C:\Program Files\nodejs\npm.cmd&quot; run test:glob-security
+EXIT: 0
+
+&gt; ineo-web@0.0.0 test:glob-security
+&gt; node --test scripts/tests/glob-security.cjs
+
+✔ all toolchain consumers resolve to the guarded local parser (17.1087ms)
+✔ ordinary project globs and literal extglobs retain their behavior (8.7043ms)
+✔ reject repeated wildcard extglob +(*) in a bounded subprocess (179.0873ms)
+✔ reject repeated wildcard extglob +(*a) in a bounded subprocess (191.0026ms)
+✔ reject repeated wildcard extglob *(*a) in a bounded subprocess (180.9115ms)
+✔ reject repeated wildcard extglob +(?*a) in a bounded subprocess (191.7595ms)
+✔ reject repeated wildcard extglob +(*?a) in a bounded subprocess (175.0677ms)
+✔ reject repeated wildcard extglob *(*|a) in a bounded subprocess (182.9354ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1384.3062
+</pre><p>El cambio restringe extglobs repetidos con comodines. Revisión final: Jesús.</p><p><small>SHA256 original: 3464bdf73af96c2ac8ec948ac4b26dffd7db08d52745731c889ea2a01b0fa548</small></p>
