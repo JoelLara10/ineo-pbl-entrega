@@ -1,0 +1,43 @@
+COMMAND: "C:\Program Files\nodejs\npm.cmd" test -- src/tests/sprint10-contract-sit.test.js --reporter=default --reporter=junit --outputFile=C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\evidence\sprint-11\zahid\revalidation\consumer-sit.xml
+EXIT: 0
+
+> ineo-web@0.0.0 pretest
+> npm run test:glob-security
+
+
+> ineo-web@0.0.0 test:glob-security
+> node --test scripts/tests/glob-security.cjs
+
+✔ all toolchain consumers resolve to the guarded local parser (27.9384ms)
+✔ ordinary project globs and literal extglobs retain their behavior (14.5899ms)
+✔ reject repeated wildcard extglob +(*) in a bounded subprocess (272.9275ms)
+✔ reject repeated wildcard extglob +(*a) in a bounded subprocess (241.8941ms)
+✔ reject repeated wildcard extglob *(*a) in a bounded subprocess (270.2022ms)
+✔ reject repeated wildcard extglob +(?*a) in a bounded subprocess (292.3187ms)
+✔ reject repeated wildcard extglob +(*?a) in a bounded subprocess (250.9162ms)
+✔ reject repeated wildcard extglob *(*|a) in a bounded subprocess (249.9693ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2002.4951
+
+> ineo-web@0.0.0 test
+> vitest run src/tests/sprint10-contract-sit.test.js --reporter=default --reporter=junit --outputFile=C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\evidence\sprint-11\zahid\revalidation\consumer-sit.xml
+
+
+ RUN  v5.0.5 C:/Users/marce/Documents/Codex/2026-11-17/p/work/ineo-pbl-entrega/frontend/clinica-web-react
+
+ ✓ src/tests/sprint10-contract-sit.test.js (1 test) 808ms
+   ✓ PBL-30 SIT React client - Flask - MongoDB (1)
+     ✓ logs in and consumes patients, studies, Analytics and all Spark types 799ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  02:00:36
+   Duration  5.35s (environment 66%, tests 17%, import 13%, transform 3%)
+
+JUNIT report written to C:/Users/marce/Documents/Codex/2026-11-17/p/work/ineo-pbl-entrega/evidence/sprint-11/zahid/revalidation/consumer-sit.xml

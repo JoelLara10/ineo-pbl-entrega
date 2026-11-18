@@ -46,10 +46,11 @@ $env:JAVA_EXE='C:\Program Files\Java\jdk-17\bin\java.exe'
 .venv-s11/Scripts/python qa/sprint-11/capture_reports.py
 ```
 
-No agregar --accept-thresholds hasta que el equipo ratifique p95 de 2000 ms,
-errores máximos de 1 %, concurrencia, recursos y duración. Una ejecución que
-cumple esos valores propuestos se registra pendiente de ratificación; no se
-declara aprobación humana. Fallar los valores devuelve código distinto de cero.
+Los criterios técnicos son p95 de 2000 ms y errores máximos de 1 %.
+La revisión final de Jesús incluye criterios, concurrencia, recursos y duración.
+No agregar --accept-thresholds antes de esa revisión. Los registros históricos
+conservan el estado pendiente de ratificación; technical-assessment.json
+distingue cumplimiento técnico de aprobación humana. Fallar devuelve código no cero.
 El escenario nominal dura 360 s: rampa de 60 s y cinco minutos posteriores.
 El pico mantiene cinco usuarios, añade quince durante 60 s y vuelve a cinco
 durante 30 s. Escrituras alterna pacientes sintéticos 1/2 y compara cada registro
@@ -74,3 +75,24 @@ Esto destruye exclusivamente los recursos registrados por los dos estados
 del Sprint 11. No ejecutar terraform destroy sobre otro directorio o estado.
 Conservar los archivos de estado locales hasta verificar la limpieza; nunca
 subirlos a Git. Los documentos de resultados están en docs/sprints/sprint-11/zahid.
+
+## Revalidación sobre la API existente
+
+Por instrucción del solicitante no se realiza un nuevo despliegue en Render.
+existing_deployment.py solo realiza GET contra la API existente y valida un
+ensayo documental; no contiene clientes de gestión, hooks ni publicación.
+El ensayo se etiqueta como simulación, no como un rollback ejecutado.
+
+```powershell
+.venv-s11/Scripts/python qa/sprint-11/existing_deployment.py
+.venv-s11/Scripts/python qa/sprint-11/revalidate.py
+.venv-s11/Scripts/python qa/sprint-11/final_assessment.py
+.venv-s11/Scripts/python qa/sprint-11/capture_revalidation.py
+```
+
+La suite consumidor se ejecuta con RUN_CONTRACT_SIT=1 y
+INEO_CONTRACT_API_URL=http://127.0.0.1:5110/api/v1 y los servicios locales de
+arriba. Sus XML consumer-sit.xml y api-tests.xml son entradas de la evaluación.
+La mitigación local de picomatch se explica en
+frontend/clinica-web-react/vendor/picomatch-guarded/SECURITY.md.
+El único pendiente de esta entrega técnica es la revisión de Jesús.

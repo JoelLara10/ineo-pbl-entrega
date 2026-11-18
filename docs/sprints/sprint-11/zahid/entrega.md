@@ -1,62 +1,59 @@
-# Entrega técnica del Sprint 11 de Zahid
+# Entrega técnica revisada del Sprint 11 de Zahid
 
-Se desarrolló y ejecutó la parte de Zahid de PBL-39 y PBL-49. Se conservaron
-ocho casos nominados, cinco capturas de la sesión PWA, salidas reales de
-Terraform y reportes originales JMeter. El responsable de revisión es Jesús;
-su aprobación no se ha registrado. No se creó un PR ni se modificaron work items.
+Se completó la implementación y verificación técnica de PBL-39 y PBL-49.
+Por instrucción del solicitante se reutilizó la API existente y no se realizó
+un nuevo despliegue Render. Queda la revisión final de Jesús de resultados,
+criterios técnicos y mitigación local.
 
-## Resultados
+## Resultados comprobados
 
-| Comprobación | Resultado observado |
+| Comprobación | Resultado |
 |---|---|
-| CP-S11-IAC-01 a 04 | Cuatro casos aprobados técnicamente con Terraform/Docker reales |
-| CP-S11-SIT-03 | PWA con dos cuentas, red desconectada, cierre local y CacheStorage verificados |
-| CP-S11-PERF-01 | 2922 muestras; 0 errores; p95 228 ms; 10 usuarios |
-| CP-S11-PERF-02 | 1226 muestras; 0 errores; p95 426 ms; pico de 20 y recuperación a 5 |
-| CP-S11-PERF-03 | 510 escrituras aceptadas y persistidas; 0 errores; p95 52 ms; IDs y sumas concordantes |
-| Regresión API | 162 pruebas aprobadas, XML disponible |
-| Controles del ejecutor | 3 pruebas aprobadas, XML disponible |
-| Render remoto | HTTPS: salud, readiness y raíz 200; pacientes sin token 401 |
+| Cuatro casos Terraform | Cumplen técnicamente con Docker y estados reales |
+| PWA entre dos cuentas | Reprueba correcta con build actual y datos sintéticos |
+| Carga nominal | 2922 muestras, cero errores, p95 228 ms |
+| Pico 5 a 20 a 5 | 1226 muestras, cero errores, p95 426 ms |
+| Escrituras | 510 aceptadas y persistidas, IDs únicos, suma 61200 ml, p95 52 ms |
+| Suite API completa | 430 aprobadas, cero fallos/errores; 15 opcionales omitidas en XML |
+| Suite web aislada | 199 aprobadas, cero fallos; un caso opt-in ejecutado aparte |
+| Integración consumidor | Un caso aprobado con React, Flask y MongoDB reales |
+| Guardas de picomatch | Ocho aprobadas; resolución de toda la cadena comprobada |
+| Traducciones, lint, build y bundle | Aprobados |
+| npm audit | Cero alertas en paquetes publicados; copia local verificada por diff y tests |
+| API Render existente | Nueve comprobaciones reales aprobadas; cero despliegues |
 
-Los percentiles JSON se calculan por rango más próximo; JMeter interpola sus
-decimales y presenta además login en su fila total. El rendimiento se midió
-en QA local, no en el servicio Render. Sus objetivos son los propuestos en Azure
-y siguen pendientes de ratificación humana. Los reportes no almacenan tokens.
+## Estado de tus nueve tareas
 
-## Estado por tarea
+Todas se entregaron técnicamente para revisión de Jesús.
 
-| Tarea | Entrega | Condición de cierre |
-|---|---|---|
-| PBL-39-T1 #504 | Inventario del repositorio y runbook Render | Contrastar configuración real del panel |
-| PBL-39-T2 #505 | Blueprint, inicio existente y readiness documentados | Ejecutar y evidenciar un nuevo despliegue autorizado en Render |
-| PBL-39-T3 #506 | Smoke HTTPS y guía de recuperación | Vincular logs, SHA y resultado del redepliegue remoto |
-| PBL-39-T4 #591 | Ciclo de vida Terraform, scripts y cuatro casos reales | Revisión cruzada de Jesús |
-| PBL-39-T5 #592 | Tres casos JMeter y caso PWA; documentos y capturas | Ratificar objetivos y revisar evidencia |
-| PBL-49-T1 #545 | Escenarios, concurrencia, duración y objetivos propuestos | Ratificación del equipo |
-| PBL-49-T2 #546 | JMX versionados, datos y guardas de resultados vacíos | Revisión de código |
-| PBL-49-T3 #547 | Ejecución no gráfica, JTL y tres dashboards HTML | Revisión de resultados |
-| PBL-49-T4 #548 | Correcciones, repruebas y conciliación MongoDB | Aceptación del responsable de calidad |
+| Tarea | Entrega verificable |
+|---|---|
+| PBL-39-T1 #504 | Inventario versionado y contraste HTTP del servicio existente |
+| PBL-39-T2 #505 | Blueprint e inicio validados; ensayo documental sin publicación |
+| PBL-39-T3 #506 | Nueve pruebas reales del servicio y recuperación simulada |
+| PBL-39-T4 #591 | Automatización y cuatro casos de infraestructura reales |
+| PBL-39-T5 #592 | JMeter y PWA con evidencia y reprueba actual |
+| PBL-49-T1 #545 | Carga, duración y criterios técnicos explícitos para revisión |
+| PBL-49-T2 #546 | JMX, fixtures y controles contra resultados vacíos |
+| PBL-49-T3 #547 | Ejecución no gráfica, JTL y dashboards originales |
+| PBL-49-T4 #548 | Correcciones, repruebas y conciliación MongoDB |
 
-## Límites y pendientes concretos
+## Alcance y revisión
 
-La gestión de Render no estaba conectada. No se presume la rama, el SHA ni
-variables del servicio existente y no se afirmó haber recreado su despliegue.
-El blueprint quedó preparado con auto-deploy desactivado. Instalar y conectar
-Render permite completar la verificación administrativa y el redepliegue.
+La simulación no se presenta como despliegue o rollback realizado. No se
+observó el SHA interno de Render y no se atribuye el SHA local al servicio.
+La instrucción vigente excluye una nueva publicación; no queda como pendiente
+del alcance ajustado. Se mantienen p95 de 2000 ms y errores máximos de 1 %
+como criterios técnicos; su ratificación se incluye en la revisión de Jesús.
+Los resultados históricos conservan su estado original y la evaluación actual
+se encuentra en revalidation/technical-assessment.json.
 
-La auditoría del árbol heredado del frontend registró siete alertas altas
-relacionadas con picomatch y la cadena Vite/Vitest. El JSON original se conserva;
-los arreglos sugeridos implican cambios mayores/downgrades fuera de estas dos
-historias. Requieren tratamiento o excepción expresa para el gate del equipo.
-No se aprobaron UAT/OAT, reuniones ni firmas en nombre de personas ausentes.
+La corrección local de picomatch conserva licencia y versión de origen y
+restringe extglobs repetidos con comodines. npm audit no audita esa copia:
+su evidencia es el diff y las ocho guardas, junto con instalación limpia,
+suite web, integración y PWA. No se desactivó ni ocultó el gate.
 
-## Evidencia y reproducción
-
-Los diez Word están en este directorio. El informe reúne resultados e incidencias;
-el índice de anexos enumera capturas. Los originales están en
-evidence/sprint-11/zahid y el manifiesto verifica su integridad. Los fallos
-iniciales se conservaron en attempts/ junto con las repruebas actuales.
-La preparación y ejecución se documentaron en qa/sprint-11/README.md.
-El workflow manual sprint11-zahid.yml quedó preparado, sin atribuirle una
-ejecución en GitHub Actions que no ocurrió. Los recursos Docker desechables
-se limpiaron al concluir; se conservan sus registros de limpieza.
+Se actualizaron diez Word con capturas y se conservaron las incidencias
+iniciales y sus repruebas. El único pendiente de esta entrega técnica es la
+revisión de Jesús. No se fabricaron firmas, reuniones ni aprobaciones.
+El solicitante crea el PR; no se cerraron work items en Azure.

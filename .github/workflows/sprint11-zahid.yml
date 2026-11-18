@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
     inputs:
       thresholds_ratified:
-        description: "El equipo ratificó los objetivos p95 y errores de esta campaña"
+        description: "Jesús revisó los criterios técnicos p95 y errores de esta campaña"
         required: true
         type: boolean
         default: false

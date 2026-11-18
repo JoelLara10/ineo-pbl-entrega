@@ -1,5 +1,10 @@
 [
   {
+    "path": "evidence/sprint-11/zahid/attempts/api-full-sandbox.xml",
+    "bytes": 95273,
+    "sha256": "1c7e93cb7c1a8f9018ded7807f8a0ec5286dde0da31bf992c75abddf4bfb6209"
+  },
+  {
     "path": "evidence/sprint-11/zahid/attempts/CP-S11-IAC-01-20261118T074038693598.json",
     "bytes": 900,
     "sha256": "8e468ddfd19977638d1c6ab2f0dc17e7a8bad5974083c792fbc88c54173126ce"
@@ -30,6 +35,16 @@
     "sha256": "1c0070f2a5cb4e72eb802d623f694d9442ade34c44a101b719dc2b02e196360c"
   },
   {
+    "path": "evidence/sprint-11/zahid/attempts/CP-S11-SIT-03-20261118T080106550786.json",
+    "bytes": 1138,
+    "sha256": "5005e5038141f63ee29ce0d4996fe687432f30a764a5d110e7629a0179c484f1"
+  },
+  {
+    "path": "evidence/sprint-11/zahid/attempts/frontend-tests-initial.xml",
+    "bytes": 63902,
+    "sha256": "c1d2f46d992a7be9c099f4306166b7334e346d00a9cf9c8f87c174094bc44d67"
+  },
+  {
     "path": "evidence/sprint-11/zahid/attempts/guards-initial.xml",
     "bytes": 12391,
     "sha256": "b27730863b4617f274f4d6e3b41f22cc74167033895f108647e9fabfcfb4bb9c"
@@ -43,6 +58,11 @@
     "path": "evidence/sprint-11/zahid/attempts/jmeter-nominal-20261118T072959/results.jtl",
     "bytes": 141065,
     "sha256": "a35d7b6367fc1a97ac70256b21d937d22658c94170fee114755fa66c71aef5f9"
+  },
+  {
+    "path": "evidence/sprint-11/zahid/attempts/logs/api-full-tests-20261118T075907782244.txt",
+    "bytes": 36121,
+    "sha256": "d87162e7e2d675f70b839542f8aa6ca44b0ba4851208f7bdd78804cb506dce36"
   },
   {
     "path": "evidence/sprint-11/zahid/attempts/logs/cleanup-a-20261118T074125788307.txt",
@@ -160,6 +180,11 @@
     "sha256": "281eb38b84c01feaa2e0df4c78351d2e8e71384bc2f6977d9730ac0c29578d6b"
   },
   {
+    "path": "evidence/sprint-11/zahid/attempts/logs/web-tests-20261118T075637748214.txt",
+    "bytes": 28245,
+    "sha256": "d8d7c4b7d7218381f1eb5c40785ce28dc083fe765836c7c1824371cb9cc65b30"
+  },
+  {
     "path": "evidence/sprint-11/zahid/attempts/regression-api-initial.xml",
     "bytes": 23711,
     "sha256": "e13db905236dc740227924770c337239b0d080c0af802638956fff03d8071ade"
@@ -201,8 +226,8 @@
   },
   {
     "path": "evidence/sprint-11/zahid/cases/CP-S11-SIT-03.json",
-    "bytes": 1138,
-    "sha256": "5005e5038141f63ee29ce0d4996fe687432f30a764a5d110e7629a0179c484f1"
+    "bytes": 2760,
+    "sha256": "b44c160ca9cc8406c5be0725526a654101a6eebbb0e766fc862faeb7655ae22c"
   },
   {
     "path": "evidence/sprint-11/zahid/cases/DIAG-S11-JMETER.json",
@@ -2815,6 +2840,11 @@
     "sha256": "1c77c0095d6506e85f8f8f56da3d063164a6756a0a5bc043c7789bdd37c638af"
   },
   {
+    "path": "evidence/sprint-11/zahid/logs/api-full-tests.txt",
+    "bytes": 1495,
+    "sha256": "15767543c2a440f568a698fef5a04cf77adc521c95d7407c47003e09885691e7"
+  },
+  {
     "path": "evidence/sprint-11/zahid/logs/cleanup-a.txt",
     "bytes": 7424,
     "sha256": "6177d36fb897e912354851e373a6427008386f9febea4c1b83b6ebe4399c8f66"
@@ -2930,6 +2960,16 @@
     "sha256": "9452f1c818755014b8e13e27c31ea45c1d177186e4b863b98f35d64f9c6b1ab2"
   },
   {
+    "path": "evidence/sprint-11/zahid/logs/revalidation-cleanup-a.txt",
+    "bytes": 7424,
+    "sha256": "a79cd108bbc4f28b21df482f64d7ad3189a691f18a0033d1225b5938183b7d94"
+  },
+  {
+    "path": "evidence/sprint-11/zahid/logs/revalidation-qa-a.txt",
+    "bytes": 5390,
+    "sha256": "00fb4dad4707cb48ceff54d06e2cf63ccf7c304380b62d22f05ec4ab534b75ae"
+  },
+  {
     "path": "evidence/sprint-11/zahid/logs/terraform-fmt.txt",
     "bytes": 152,
     "sha256": "cc367fb974c0977f904dc8e90bb090516c84fc3394ea4d44c1026548833849b0"
@@ -2948,6 +2988,51 @@
     "path": "evidence/sprint-11/zahid/logs/validate-b.txt",
     "bytes": 189,
     "sha256": "281eb38b84c01feaa2e0df4c78351d2e8e71384bc2f6977d9730ac0c29578d6b"
+  },
+  {
+    "path": "evidence/sprint-11/zahid/logs/web-audit.txt",
+    "bytes": 453,
+    "sha256": "a0f912034ac844565e40298bf92f5c182ab078cdac9dce17141051084a0ff060"
+  },
+  {
+    "path": "evidence/sprint-11/zahid/logs/web-build.txt",
+    "bytes": 7398,
+    "sha256": "ed8bc070e69d8fdfc4ce09631f16a814b1692f1b5ac84f2e5d19829478ac3ab5"
+  },
+  {
+    "path": "evidence/sprint-11/zahid/logs/web-bundle.txt",
+    "bytes": 937,
+    "sha256": "f711ffeae9fd445906229769bfce45f21a5291efd3f0e4ae70b1559bfff715c6"
+  },
+  {
+    "path": "evidence/sprint-11/zahid/logs/web-clean-install.txt",
+    "bytes": 330,
+    "sha256": "2c9a77011747073daa8f6a61a363c71387fb026e9aaf4144d3aa9bd60e53b226"
+  },
+  {
+    "path": "evidence/sprint-11/zahid/logs/web-consumer-sit.txt",
+    "bytes": 2054,
+    "sha256": "751685e56c861e7ad6d58b5b91029f4cf879bae444edea15999414d6eb2a2580"
+  },
+  {
+    "path": "evidence/sprint-11/zahid/logs/web-glob-security.txt",
+    "bytes": 933,
+    "sha256": "3464bdf73af96c2ac8ec948ac4b26dffd7db08d52745731c889ea2a01b0fa548"
+  },
+  {
+    "path": "evidence/sprint-11/zahid/logs/web-i18n.txt",
+    "bytes": 212,
+    "sha256": "ee52c66f144074c49cdae721d1865b342d6eab776ca44d72d760bd3bf1be7d2b"
+  },
+  {
+    "path": "evidence/sprint-11/zahid/logs/web-lint.txt",
+    "bytes": 543,
+    "sha256": "51169b9eba6a32348558fa48353707bf8412609e20ee94be8c99ca7170d1b194"
+  },
+  {
+    "path": "evidence/sprint-11/zahid/logs/web-tests.txt",
+    "bytes": 23634,
+    "sha256": "633332a8d529bc9e43b1c7ef83bafa28d22b8222343300e5b6be681b5f67a725"
   },
   {
     "path": "evidence/sprint-11/zahid/npm-audit.json",
@@ -3000,6 +3085,11 @@
     "sha256": "55670797bc64d8843f4cfa3feb2cc67fb5b158ecef9ec38b0791578983379dce"
   },
   {
+    "path": "evidence/sprint-11/zahid/report-views/deployment-dry-run.html",
+    "bytes": 1332,
+    "sha256": "44386f6e064255dff78799426f7ac99e98c5299eef8138ac6a96a4ac9d90cc04"
+  },
+  {
     "path": "evidence/sprint-11/zahid/report-views/detect-drift.html",
     "bytes": 2002,
     "sha256": "938be689ec1d962c8181b34ef3f85b18a283089a7b0c156e8c2a7db5277120ef"
@@ -3008,6 +3098,16 @@
     "path": "evidence/sprint-11/zahid/report-views/docker-version.html",
     "bytes": 1284,
     "sha256": "e5a934ff1be46d03b1ae174637016ad2d070e1a307613f98ba85e721caae988d"
+  },
+  {
+    "path": "evidence/sprint-11/zahid/report-views/existing-api-validation.html",
+    "bytes": 1338,
+    "sha256": "fbe1496f9c211c40e91438e6b785c9db32ba262054152f55a2dc41750d6fa527"
+  },
+  {
+    "path": "evidence/sprint-11/zahid/report-views/glob-security.html",
+    "bytes": 1666,
+    "sha256": "9c0d1120f1cdc3c2c0c3db06fb51d60563b366d41a8be7166ae7f5bf3da8b60d"
   },
   {
     "path": "evidence/sprint-11/zahid/report-views/idempotency-a.html",
@@ -3100,6 +3200,11 @@
     "sha256": "2617ddb6d637a35ce0aebdc55afa58abdeaf701cac173b8064bf6d3890248c4d"
   },
   {
+    "path": "evidence/sprint-11/zahid/report-views/suite-summary.html",
+    "bytes": 1004,
+    "sha256": "3ebab60f6d94f81c22ec0a1ff836f014b385819aa16ec9382898cd01e926f41d"
+  },
+  {
     "path": "evidence/sprint-11/zahid/report-views/terraform-fmt.html",
     "bytes": 643,
     "sha256": "b36132edf3b103f9a9e3a52e1fdf2973faa2c8358d8b8320f35914af7fd17b51"
@@ -3120,6 +3225,56 @@
     "sha256": "17c9a30bd0620d21168fc2e74b01bab2190e9712157edfbb04a073717d6050f5"
   },
   {
+    "path": "evidence/sprint-11/zahid/report-views/web-revalidation.html",
+    "bytes": 1186,
+    "sha256": "c6cdccb5ca252236f46735c73ee15857497321bf690e6eeabcba02683b624dce"
+  },
+  {
+    "path": "evidence/sprint-11/zahid/revalidation/api-tests.xml",
+    "bytes": 60500,
+    "sha256": "c9d09ba2d54763e758312243c2b977b368c868b49ac31dadfda5b494583bad1d"
+  },
+  {
+    "path": "evidence/sprint-11/zahid/revalidation/consumer-sit.xml",
+    "bytes": 567,
+    "sha256": "6162ef0d1603206e62eb6ec9601285e2f6116a5758fe30fb90f9947cc10b1bc6"
+  },
+  {
+    "path": "evidence/sprint-11/zahid/revalidation/deployment-dry-run.json",
+    "bytes": 1200,
+    "sha256": "536cd59a56c62b71fa6eb292110a0c881c70eb7d4144d88111689ff6ab1a04d9"
+  },
+  {
+    "path": "evidence/sprint-11/zahid/revalidation/existing-api.json",
+    "bytes": 4552,
+    "sha256": "0cad7c56275b3e6aa3e2929c3d6e4c74f7e699577437ea89aa2ac76127776e6a"
+  },
+  {
+    "path": "evidence/sprint-11/zahid/revalidation/frontend-tests.xml",
+    "bytes": 64093,
+    "sha256": "013e1d4d661346e0f809d65291a2ed7c0faa5162edb84ec781f494ba71c7c630"
+  },
+  {
+    "path": "evidence/sprint-11/zahid/revalidation/local-cleanup.json",
+    "bytes": 119,
+    "sha256": "569f20bbb8e400640f6a9eefd48a735c1771aa1935cf9da9146c72a787341f8a"
+  },
+  {
+    "path": "evidence/sprint-11/zahid/revalidation/npm-audit.json",
+    "bytes": 385,
+    "sha256": "2a08e5c3223e96b8b7fc430f0dcb95f2309015b404e1974ca0d4a659f91eabd9"
+  },
+  {
+    "path": "evidence/sprint-11/zahid/revalidation/technical-assessment.json",
+    "bytes": 2634,
+    "sha256": "88fc6c048fdc42c03468bfa07c4acc764b8638dcc67ae528729c357e492e62fc"
+  },
+  {
+    "path": "evidence/sprint-11/zahid/revalidation/web-checks.json",
+    "bytes": 1021,
+    "sha256": "f42d348d6cb31cb0255731e00a41730c24f003eb4039f87d49b444dbf359abd2"
+  },
+  {
     "path": "evidence/sprint-11/zahid/screenshots/cleanup-a.png",
     "bytes": 145303,
     "sha256": "e6c5edcd41b79ccd6f964499e7c77efc84e8350ba0aacd32171d88b7b0c0e469"
@@ -3131,8 +3286,8 @@
   },
   {
     "path": "evidence/sprint-11/zahid/screenshots/CP-S11-SIT-03-01-online-admin.png",
-    "bytes": 180386,
-    "sha256": "ef713fd17ba509ca6cf8788c3c57da61d861e8aa25defeb8143d65ae39577426"
+    "bytes": 179549,
+    "sha256": "4c928faf6bca9d68dbc0386a46c9270255c9e1c06511fff2f8342dfb5b85f866"
   },
   {
     "path": "evidence/sprint-11/zahid/screenshots/CP-S11-SIT-03-02-offline-no-clinical-data.png",
@@ -3146,8 +3301,8 @@
   },
   {
     "path": "evidence/sprint-11/zahid/screenshots/CP-S11-SIT-03-04-second-account.png",
-    "bytes": 181027,
-    "sha256": "01648b018f536641d3d3cfbcb80c5ca62160efcb488e53b62af499b8a0be47a9"
+    "bytes": 179718,
+    "sha256": "d6ab7a376a3bda52d3a5f34fc0904cf6bdf4cf34aee69f746f24d1664e14996c"
   },
   {
     "path": "evidence/sprint-11/zahid/screenshots/CP-S11-SIT-03-05-second-account-offline.png",
@@ -3175,6 +3330,11 @@
     "sha256": "a3dbec852efb1cdf6048bd86ce9246b90023ffa1fb3afdcad7d8821020b6c18d"
   },
   {
+    "path": "evidence/sprint-11/zahid/screenshots/deployment-dry-run.png",
+    "bytes": 97456,
+    "sha256": "70af5118345c204d93d6584379969c64704baec26988522d0fe49695eb2ddc87"
+  },
+  {
     "path": "evidence/sprint-11/zahid/screenshots/detect-drift.png",
     "bytes": 122213,
     "sha256": "e88714442d6669c7da4f7226ddab2b136a8b66ce47c72daaf3f9074fa03411fe"
@@ -3183,6 +3343,16 @@
     "path": "evidence/sprint-11/zahid/screenshots/docker-version.png",
     "bytes": 106749,
     "sha256": "d4bdbcb04aaf36bca466c78c7f496d250ee9b2fd1f1ce8258bebb189d2ecd3c4"
+  },
+  {
+    "path": "evidence/sprint-11/zahid/screenshots/existing-api-validation.png",
+    "bytes": 82054,
+    "sha256": "0bf9b74dc42c28021f561591e1ef1806cdd9ce87de6a7033ac9c56c49343715b"
+  },
+  {
+    "path": "evidence/sprint-11/zahid/screenshots/glob-security.png",
+    "bytes": 97742,
+    "sha256": "ae10f8c6c8363d9fdccb0934c40479cd2432dafe9cda8bd947d222dae62f58b5"
   },
   {
     "path": "evidence/sprint-11/zahid/screenshots/idempotency-a.png",
@@ -3295,6 +3465,11 @@
     "sha256": "2d1d238189d29ced3c247be01a66ce41f9dd8c3aa49ec38e2909376a44123288"
   },
   {
+    "path": "evidence/sprint-11/zahid/screenshots/suite-summary.png",
+    "bytes": 55495,
+    "sha256": "104c107eb83f0c00d76c62133c9a0d6e53a30e1c3bca1f76daaf751b2d9a6486"
+  },
+  {
     "path": "evidence/sprint-11/zahid/screenshots/terraform-fmt.png",
     "bytes": 53117,
     "sha256": "d612003d7adfec9333b1d9c3bb0b013901f1787da3ab97d8f5211b864170f3e8"
@@ -3315,9 +3490,14 @@
     "sha256": "f7268cd43f3353e344d25b79e451283d3d6dc0e5672c84fc45eeddaf28d48f56"
   },
   {
+    "path": "evidence/sprint-11/zahid/screenshots/web-revalidation.png",
+    "bytes": 84475,
+    "sha256": "100af2600e211252ed0d7b49f4ee1469c53a4735dae4247f840fc8f5e7121ddd"
+  },
+  {
     "path": "evidence/sprint-11/zahid/source-manifest.json",
-    "bytes": 3218,
-    "sha256": "24fe41b682f76a493594504cd939d641da0f65280bad07f9f2f4357d3a25cd04"
+    "bytes": 6293,
+    "sha256": "7c33d71e5a3d11261e683c961bf9db713814e17499bdeaf3e2c8ef3a9e1549f4"
   },
   {
     "path": "evidence/sprint-11/zahid/state-isolation.json",

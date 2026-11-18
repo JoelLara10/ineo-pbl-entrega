@@ -1,0 +1,95 @@
+{
+  "created_utc": "2026-11-18T08:03:29.677464+00:00",
+  "scope": "Entrega técnica de Zahid; API Render existente; sin nuevo despliegue por instrucción del solicitante",
+  "criteria": {
+    "p95_ms": 2000,
+    "max_error_rate": 0.01,
+    "status": "Criterios técnicos de evaluación; ratificación incluida en revisión de Jesús"
+  },
+  "historical_results_preserved": true,
+  "cases": [
+    {
+      "case": "CP-S11-IAC-01",
+      "technical_status": "Cumple",
+      "original_status": "Aprobado",
+      "review": "Pendiente de Jesús"
+    },
+    {
+      "case": "CP-S11-IAC-02",
+      "technical_status": "Cumple",
+      "original_status": "Aprobado",
+      "review": "Pendiente de Jesús"
+    },
+    {
+      "case": "CP-S11-IAC-03",
+      "technical_status": "Cumple",
+      "original_status": "Aprobado",
+      "review": "Pendiente de Jesús"
+    },
+    {
+      "case": "CP-S11-IAC-04",
+      "technical_status": "Cumple",
+      "original_status": "Aprobado",
+      "review": "Pendiente de Jesús"
+    },
+    {
+      "case": "CP-S11-PERF-01",
+      "technical_status": "Cumple",
+      "original_status": "Pendiente de ratificación",
+      "review": "Pendiente de Jesús"
+    },
+    {
+      "case": "CP-S11-PERF-02",
+      "technical_status": "Cumple",
+      "original_status": "Pendiente de ratificación",
+      "review": "Pendiente de Jesús"
+    },
+    {
+      "case": "CP-S11-PERF-03",
+      "technical_status": "Cumple",
+      "original_status": "Pendiente de ratificación",
+      "review": "Pendiente de Jesús"
+    },
+    {
+      "case": "CP-S11-SIT-03",
+      "technical_status": "Cumple",
+      "original_status": "Aprobado",
+      "review": "Pendiente de Jesús"
+    }
+  ],
+  "suites": {
+    "api": {
+      "tests": 445,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 15
+    },
+    "frontend": {
+      "tests": 200,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1
+    },
+    "consumer_sit": {
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "dependency_audit": {
+    "info": 0,
+    "low": 0,
+    "moderate": 0,
+    "high": 0,
+    "critical": 0,
+    "total": 0
+  },
+  "dependency_review": "Copia local protegida: revisión de diff, licencia y ocho guardas; npm audit no analiza el código local",
+  "remote_api_checks": 9,
+  "deployments_executed": 0,
+  "rehearsal": "Simulación documental comprobada; ningún despliegue o rollback remoto ejecutado",
+  "pending": [
+    "Revisión final de Jesús de resultados, criterios técnicos y corrección local"
+  ]
+}

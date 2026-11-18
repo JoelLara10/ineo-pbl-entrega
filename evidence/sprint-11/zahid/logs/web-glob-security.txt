@@ -1,0 +1,22 @@
+COMMAND: "C:\Program Files\nodejs\npm.cmd" run test:glob-security
+EXIT: 0
+
+> ineo-web@0.0.0 test:glob-security
+> node --test scripts/tests/glob-security.cjs
+
+✔ all toolchain consumers resolve to the guarded local parser (17.1087ms)
+✔ ordinary project globs and literal extglobs retain their behavior (8.7043ms)
+✔ reject repeated wildcard extglob +(*) in a bounded subprocess (179.0873ms)
+✔ reject repeated wildcard extglob +(*a) in a bounded subprocess (191.0026ms)
+✔ reject repeated wildcard extglob *(*a) in a bounded subprocess (180.9115ms)
+✔ reject repeated wildcard extglob +(?*a) in a bounded subprocess (191.7595ms)
+✔ reject repeated wildcard extglob +(*?a) in a bounded subprocess (175.0677ms)
+✔ reject repeated wildcard extglob *(*|a) in a bounded subprocess (182.9354ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1384.3062

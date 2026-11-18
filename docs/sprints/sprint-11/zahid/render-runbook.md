@@ -36,13 +36,15 @@ Repetir salud, readiness, login, permisos y consulta; registrar ID y hora reales
 Restaurar datos requiere un procedimiento específico si fuera necesario; una
 reversión del contenedor no demuestra una restauración de base de datos.
 
-## Pendiente de comprobación remota
+## Alcance vigente de esta entrega
 
-Sin acceso al panel o API de gestión de Render no se pudieron observar la rama,
-SHA, variables, recursos ni historial del servicio. Por ello T1 se entregó como
-inventario de configuración esperada y verificada desde el repositorio, T2 como
-configuración lista para ejecutar y T3 como smoke remoto con límites explícitos.
-La reproducibilidad y reversión remotas deben demostrarse antes del cierre de
-PBL-39. La prueba local Terraform no sustituye este requisito.
+El solicitante indicó reutilizar la API existente y no realizar un nuevo
+despliegue. Se ejecutaron nueve comprobaciones GET reales; sus resultados
+están en revalidation/existing-api.json. Se validó la configuración versionada
+y se documentó el ensayo en deployment-dry-run.json. Los pasos de publicación,
+selección de versión y rollback de este runbook son instrucciones y simulación,
+no acciones remotas realizadas. El SHA interno del servicio no fue observado.
+No se considera pendiente un nuevo despliegue dentro del alcance ajustado.
+Jesús revisa el procedimiento, la configuración y las evidencias.
 
-Referencia técnica comprobada: [Render Blueprint YAML Reference](https://render.com/docs/blueprint-spec).
+Referencia: [Render Blueprint YAML Reference](https://render.com/docs/blueprint-spec).

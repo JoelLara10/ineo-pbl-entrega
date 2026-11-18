@@ -1,0 +1,32 @@
+COMMAND: "C:\Program Files\nodejs\npm.cmd" run check:bundle
+EXIT: 0
+
+> ineo-web@0.0.0 check:bundle
+> node scripts/check-lazy-bundle.mjs
+
+{
+  "initialJavaScriptBytes": 493288,
+  "deferredScreens": [
+    {
+      "screen": "ClinicalAnalyticsScreen",
+      "file": "assets/ClinicalAnalyticsScreen-D2hGC9T2.js",
+      "bytes": 7833
+    },
+    {
+      "screen": "MetAnalyticsScreen",
+      "file": "assets/MetAnalyticsScreen-AiuGjZRj.js",
+      "bytes": 4411
+    },
+    {
+      "screen": "AnalyticsScreen",
+      "file": "assets/AnalyticsScreen-BqFc65Ot.js",
+      "bytes": 2820
+    },
+    {
+      "screen": "UnsupervisedAnalyticsScreen",
+      "file": "assets/UnsupervisedAnalyticsScreen-DICuwuHe.js",
+      "bytes": 198
+    }
+  ],
+  "note": "Measured production entry plus static JS imports. Deferred screens are excluded from the initial dependency graph; this is not a historical before/after benchmark."
+}
