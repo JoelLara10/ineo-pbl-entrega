@@ -9,6 +9,7 @@ pipeline {
         string(name: 'PROJECT_DIR', defaultValue: '', description: 'Ruta del checkout local de sprint11-working')
         string(name: 'PYTHON_EXE', defaultValue: 'C:\\9noCuatri\\examen-vini\\app-web-unidad2\\outputs\\jenkins-runtime\\venv\\Scripts\\python.exe', description: 'Python del agente con pytest y requests disponibles')
         string(name: 'CA_BUNDLE', defaultValue: 'C:\\9noCuatri\\examen-vini\\app-web-unidad2\\outputs\\jenkins-runtime\\windows-ca.pem', description: 'Bundle de certificados del equipo; no deshabilitar TLS')
+        string(name: 'EVIDENCE_PACKAGE_DIR', defaultValue: '', description: 'Opcional: carpeta que contiene registros Word, capturas y resultados para CP-S11-CI-05')
     }
     stages {
         stage('Identificar fuente') {
@@ -60,6 +61,22 @@ pipeline {
                     dir('frontend/clinica-web-react') {
                         bat 'call npm run build'
                     }
+                }
+            }
+        }
+        stage('Integridad y promoción local del artefacto') {
+            steps {
+                ws(env.PROJECT_ROOT) {
+                    bat '"%PYTHON_EXE%" ci/sprint11_artifact.py manifest frontend/clinica-web-react/dist "%REPORT_DIR%\\artifact-manifest.json"'
+                    bat '"%PYTHON_EXE%" ci/sprint11_artifact.py copy-verify frontend/clinica-web-react/dist "%REPORT_DIR%\\qa-promotion-simulation" "%REPORT_DIR%\\artifact-manifest.json"'
+                }
+            }
+        }
+        stage('Validar paquete de evidencia') {
+            when { expression { return params.EVIDENCE_PACKAGE_DIR?.trim() } }
+            steps {
+                ws(env.PROJECT_ROOT) {
+                    bat '"%PYTHON_EXE%" ci/validate_sprint11_evidence.py "%EVIDENCE_PACKAGE_DIR%" --json "%REPORT_DIR%\\evidence-package-validation.json"'
                 }
             }
         }
