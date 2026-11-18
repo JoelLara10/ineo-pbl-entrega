@@ -1,0 +1,72 @@
+name: Sprint 11 Zahid real QA campaign
+on:
+  workflow_dispatch:
+    inputs:
+      thresholds_ratified:
+        description: "El equipo ratificó los objetivos p95 y errores de esta campaña"
+        required: true
+        type: boolean
+        default: false
+permissions:
+  contents: read
+jobs:
+  real-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: '1.16.4'
+          terraform_wrapper: false
+      - name: Install QA dependencies
+        run: |
+          pip install -r qa/sprint-11/requirements.txt pytest-html mongomock pytest-cov
+          npm ci --prefix frontend/clinica-web-react
+          curl --fail --location https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.6.3.tgz -o /tmp/jmeter.tgz
+          tar -xzf /tmp/jmeter.tgz -C /tmp
+      - name: Infrastructure lifecycle
+        run: python qa/sprint-11/infrastructure/lifecycle.py
+      - name: Build and start real local QA
+        env:
+          VITE_API_URL: http://127.0.0.1:5110/api/v1
+        run: |
+          python qa/sprint-11/server.py > /tmp/s11-api.log 2>&1 &
+          npm run build --prefix frontend/clinica-web-react
+          npm run preview --prefix frontend/clinica-web-react -- --host 127.0.0.1 --port 5111 > /tmp/s11-web.log 2>&1 &
+          python -c "import time,requests; ready=False; exec('for _ in range(45):\n try:\n  ready=requests.get(\"http://127.0.0.1:5110/ready\",timeout=2).status_code==200\n except requests.RequestException: pass\n if ready: break\n time.sleep(2)'); assert ready"
+      - name: PWA and runner controls
+        run: |
+          python -m pytest qa/sprint-11/test_campaign_guards.py -q --junitxml=evidence/sprint-11/zahid/guards.xml
+          python qa/sprint-11/pwa.py
+      - name: JMeter campaign with real Mongo persistence
+        env:
+          THRESHOLDS_RATIFIED: ${{ inputs.thresholds_ratified }}
+        run: |
+          options=()
+          if [ "$THRESHOLDS_RATIFIED" = "true" ]; then options+=(--accept-thresholds); fi
+          python qa/sprint-11/performance.py --home /tmp/apache-jmeter-5.6.3 "${options[@]}"
+      - name: Capture report views
+        if: always()
+        run: python qa/sprint-11/capture_reports.py
+      - name: Clean only disposable Sprint 11 resources
+        if: always()
+        run: python qa/sprint-11/infrastructure/lifecycle.py --cleanup
+      - name: Evidence integrity
+        if: always()
+        run: python -c "import sys;sys.path.insert(0,'qa/sprint-11');from common import manifest;manifest()"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sprint11-zahid-evidence
+          path: evidence/sprint-11/zahid/

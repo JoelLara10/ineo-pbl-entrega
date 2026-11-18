@@ -13,6 +13,10 @@ OUT.mkdir(parents=True, exist_ok=True)
 def run(label, args, cwd=ROOT, expected=(0,), env=None):
     target = OUT / 'logs' / (label + '.txt')
     target.parent.mkdir(parents=True, exist_ok=True)
+    if target.exists():
+        history = OUT / 'attempts' / 'logs'
+        history.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(target, history / (label+'-'+datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%f')+'.txt'))
     result = subprocess.run(args, cwd=cwd, env=env, capture_output=True,
                             text=True, encoding='utf-8', errors='replace')
     target.write_text('COMMAND: ' + subprocess.list2cmdline([str(a) for a in args]) +
@@ -36,6 +40,8 @@ def record(case, title, steps, status='Aprobado', detail=None):
                  executor='Agente Codex bajo solicitud de Marcelino Zahid Galicia Bonifacio',
                  owner='Marcelino Zahid Galicia Bonifacio', reviewer='Jesús — revisión pendiente',
                  environment='QA local aislado; datos sintéticos')
+    value['source_snapshot']={p.relative_to(ROOT).as_posix():hashlib.sha256(p.read_bytes()).hexdigest()
+        for p in sorted((ROOT/'qa/sprint-11').rglob('*')) if p.is_file() and p.suffix in ('.py','.tf','.jmx')}
     path.write_text(json.dumps(value, indent=2, ensure_ascii=False), encoding='utf-8')
     return value
 

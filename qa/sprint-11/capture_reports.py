@@ -10,6 +10,7 @@ def main():
     shots=OUT/'screenshots';shots.mkdir(exist_ok=True)
     pages=OUT/'report-views';pages.mkdir(exist_ok=True)
     options=webdriver.ChromeOptions();options.add_argument('--headless=new');options.add_argument('--window-size=1300,1150')
+    options.add_argument('--allow-file-access-from-files')
     driver=webdriver.Chrome(options=options)
     try:
         for path in sorted((OUT/'logs').glob('*.txt')):
@@ -25,9 +26,15 @@ def main():
         smoke=OUT/'render-smoke.json'
         if smoke.exists():
             page=pages/'render-smoke.html'
-            page.write_text('<!doctype html><meta charset="utf-8"><style>body{font:18px Arial;margin:32px}pre{white-space:pre-wrap;font:17px Consolas}</style><h1>Smoke HTTPS Render</h1><p>Resultado original de solicitudes reales de solo lectura</p><pre>'+html.escape(smoke.read_text(encoding='utf-8'))+'</pre>',encoding='utf-8')
+            data=json.loads(smoke.read_text(encoding='utf-8'))
+            rows=''.join('<tr><td>'+html.escape(c['url'])+'</td><td>'+str(c.get('status'))+'</td><td>'+str(c.get('seconds'))+'</td><td>'+html.escape(json.dumps(c.get('body'),ensure_ascii=False))+'</td></tr>' for c in data['checks'])
+            page.write_text('<!doctype html><meta charset="utf-8"><style>body{font:20px Arial;margin:28px}td,th{border:1px solid #ccc;padding:16px;overflow-wrap:anywhere}table{border-collapse:collapse;width:100%}</style><h1>Smoke HTTPS Render</h1><p>Solicitudes reales de solo lectura. Fuente: render-smoke.json</p><table><tr><th>URL</th><th>HTTP</th><th>Segundos</th><th>Respuesta original</th></tr>'+rows+'</table><p>El SHA desplegado y un nuevo despliegue siguen sin verificarse.</p>',encoding='utf-8')
             driver.get(page.as_uri());driver.save_screenshot(str(shots/'render-smoke.png'))
         for report in (OUT/'jmeter').glob('*/html/index.html'):
             driver.get(report.as_uri());driver.save_screenshot(str(shots/('jmeter-dashboard-'+report.parents[1].name+'.png')))
+        for metrics in (OUT/'jmeter').glob('*/metrics.json'):
+            page=pages/('metrics-'+metrics.parent.name+'.html')
+            page.write_text('<!doctype html><meta charset="utf-8"><style>body{font:20px Arial;margin:24px}pre{white-space:pre-wrap;font:18px Consolas;line-height:1.15}</style><h1>Mediciones originales JMeter '+metrics.parent.name+'</h1><pre>'+html.escape(metrics.read_text(encoding='utf-8'))+'</pre>',encoding='utf-8')
+            driver.get(page.as_uri());driver.save_screenshot(str(shots/('metrics-'+metrics.parent.name+'.png')))
     finally:driver.quit()
 if __name__=='__main__':main()

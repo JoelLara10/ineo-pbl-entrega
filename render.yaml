@@ -4,8 +4,8 @@ services:
   - type: web
     name: ineo-api
     runtime: docker
-    rootDir: backend/api_hospital
-    dockerfilePath: ./Dockerfile
+    dockerContext: ./backend/api_hospital
+    dockerfilePath: ./backend/api_hospital/Dockerfile
     healthCheckPath: /ready
     autoDeployTrigger: "off"
     envVars:

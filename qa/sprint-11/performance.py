@@ -149,6 +149,8 @@ def main():
                 [['Ejecutar escenario JMX','Carga real y reporte original',json.dumps(value,ensure_ascii=False)],
                  ['Evaluar métricas','p95 ≤ 2000 ms; errores ≤ 1 %','Cumple' if passed else 'No cumple']],
                 status=status,detail='Umbrales propuestos de Azure; ratificación humana pendiente.' if not a.accept_thresholds else None)
+            if not passed:
+                raise SystemExit(1)
         except Exception as exc:
             record(case,name,[],status='Fallido',detail=str(exc));raise
 if __name__=='__main__':main()

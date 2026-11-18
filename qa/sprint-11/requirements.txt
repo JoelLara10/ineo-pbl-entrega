@@ -16,6 +16,7 @@ pydantic>=2,<3
 reportlab>=4,<5
 psutil>=6,<8
 jsonschema>=4,<5
+rfc3339-validator==0.1.4
 requests>=2.32,<3
 pytest>=8,<10
 selenium>=4.27,<5

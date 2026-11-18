@@ -1,0 +1,76 @@
+# Sprint 11 de Zahid
+
+Se preparó PBL-39 (#503) y PBL-49 (#544), con campaña de ocho casos en
+PBL-39-T4 (#591) y PBL-39-T5 (#592). Este directorio ejecuta QA local con
+API y MongoDB reales. Render conserva su verificación HTTPS por separado.
+
+## Preparación
+
+Desde la raíz del repositorio, usar Python 3.13, Node compatible con Vite,
+Docker Desktop iniciado, Terraform 1.16.4, Chrome y JMeter 5.6.3 con Java 17.
+Las versiones efectivas de la ejecución están en requirements-lock.txt.
+El paquete pywin32 de ese inventario corresponde a Windows y no es requisito
+de las pruebas Linux. No instalar estas dependencias en el ambiente productivo.
+
+```powershell
+python -m venv .venv-s11
+.venv-s11/Scripts/python -m pip install -r qa/sprint-11/requirements.txt pytest-html mongomock pytest-cov
+npm ci --prefix frontend/clinica-web-react
+python qa/sprint-11/infrastructure/lifecycle.py
+.venv-s11/Scripts/python qa/sprint-11/server.py
+```
+
+En otra consola, desde la misma raíz:
+
+```powershell
+$env:VITE_API_URL='http://127.0.0.1:5110/api/v1'
+npm run build --prefix frontend/clinica-web-react
+npm run preview --prefix frontend/clinica-web-react -- --host 127.0.0.1 --port 5111
+```
+
+Los servidores y Selenium deben compartir el contexto de red del host.
+No usar la base productiva. El launcher solamente restablece ineo_test_s11
+en MongoDB de loopback 27111; las cuentas son las sintéticas del repositorio.
+Para no conservar información entre ejecuciones, el launcher restablece
+fixtures, balances y sesiones revocadas antes de comenzar la campaña.
+
+## Ejecución
+
+```powershell
+.venv-s11/Scripts/python qa/sprint-11/pwa.py
+$env:JAVA_EXE='C:\Program Files\Java\jdk-17\bin\java.exe'
+.venv-s11/Scripts/python qa/sprint-11/performance.py --home 'RUTA/apache-jmeter-5.6.3' --case diagnostic
+.venv-s11/Scripts/python qa/sprint-11/performance.py --home 'RUTA/apache-jmeter-5.6.3'
+.venv-s11/Scripts/python qa/sprint-11/render_smoke.py
+.venv-s11/Scripts/python -m pytest qa/sprint-11/test_campaign_guards.py -q
+.venv-s11/Scripts/python qa/sprint-11/capture_reports.py
+```
+
+No agregar --accept-thresholds hasta que el equipo ratifique p95 de 2000 ms,
+errores máximos de 1 %, concurrencia, recursos y duración. Una ejecución que
+cumple esos valores propuestos se registra pendiente de ratificación; no se
+declara aprobación humana. Fallar los valores devuelve código distinto de cero.
+El escenario nominal dura 360 s: rampa de 60 s y cinco minutos posteriores.
+El pico mantiene cinco usuarios, añade quince durante 60 s y vuelve a cinco
+durante 30 s. Escrituras alterna pacientes sintéticos 1/2 y compara cada registro
+aceptado, ID único y suma de balances con MongoDB real.
+
+Los estados Terraform se guardan fuera del checkout, en el directorio hermano
+tf-s11/a y tf-s11/b; los TF_DATA_DIR son exclusivos. Los contenedores son
+ineo-test-s11-qa-a/b, puertos loopback 27111/27112 y volúmenes exclusivos.
+La imagen MongoDB es una dependencia compartida de lectura, no un estado de QA.
+Se conservan intentos anteriores en evidence/sprint-11/zahid/attempts.
+Los reportes HTML/JTL no almacenan tokens ni cuerpos de solicitudes.
+
+## Limpieza
+
+Detener los servidores iniciados para la campaña. Desde la raíz:
+
+```powershell
+python qa/sprint-11/infrastructure/lifecycle.py --cleanup
+```
+
+Esto destruye exclusivamente los recursos registrados por los dos estados
+del Sprint 11. No ejecutar terraform destroy sobre otro directorio o estado.
+Conservar los archivos de estado locales hasta verificar la limpieza; nunca
+subirlos a Git. Los documentos de resultados están en docs/sprints/sprint-11/zahid.

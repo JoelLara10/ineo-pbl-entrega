@@ -72,6 +72,14 @@ def main():
         assert containers[0]['Id'] != containers[1]['Id']
         assert containers[0]['Mounts'][0]['Name'] != containers[1]['Mounts'][0]['Name']
         assert containers[0]['NetworkSettings']['Ports']['27017/tcp'] != containers[1]['NetworkSettings']['Ports']['27017/tcp']
+        states=[json.loads((ROOT.parent/'tf-s11'/side/'terraform.tfstate').read_text(encoding='utf-8')) for side in ('a','b')]
+        assert states[0]['lineage'] != states[1]['lineage']
+        for side,state,container in zip(('a','b'),states,containers):
+            resources=[r for r in state['resources'] if r['type']=='docker_container']
+            assert len(resources)==1 and resources[0]['instances'][0]['attributes']['id']==container['Id']
+        (OUT/'state-isolation.json').write_text(json.dumps(dict(
+            independent_lineages=True,matching_container_ids=True,independent_volumes=True,
+            loopback_ports=[27111,27112],shared_dependency='Immutable MongoDB image only'),indent=2),encoding='utf-8')
         record(current,'Aislamiento de estado',[
             ['Crear qa-a y qa-b','Estados distintos','Archivos de estado y TF_DATA_DIR independientes'],
             ['Comparar contenedores y volúmenes','Identificadores distintos','Aserciones de IDs y volúmenes aprobadas'],
