@@ -14,6 +14,7 @@ if __name__=='__main__':
     from app import create_app
     with MongoClient(os.environ['MONGO_URI'],serverSelectionTimeoutMS=5000) as mongo:
         mongo.admin.command('ping');db=mongo['ineo_test_s11'];reset(db)
+        db.atencion.update_many({}, {'$set': {'area': 'Ambulatorio'}})
         db.fluid_balance.delete_many({});db.revoked_tokens.delete_many({})
     # Threaded HTTP is intentional for the concurrent load campaign.
     create_app().run(host='127.0.0.1',port=5110,threaded=True,debug=False,use_reloader=False)

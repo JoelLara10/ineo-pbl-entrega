@@ -4,6 +4,7 @@ import hashlib
 import json
 from pathlib import Path
 import subprocess
+import shutil
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / 'evidence/sprint-11/zahid'
@@ -25,6 +26,10 @@ def run(label, args, cwd=ROOT, expected=(0,), env=None):
 def record(case, title, steps, status='Aprobado', detail=None):
     path = OUT / 'cases' / (case + '.json')
     path.parent.mkdir(parents=True, exist_ok=True)
+    if path.exists():
+        history = OUT / 'attempts'
+        history.mkdir(exist_ok=True)
+        shutil.copy2(path, history / (case + '-' + datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%f') + '.json'))
     value = dict(case=case, title=title, status=status, steps=steps, detail=detail,
                  executed_utc=datetime.now(timezone.utc).isoformat(),
                  tested_sha=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),

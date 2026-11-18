@@ -5,6 +5,8 @@ import importlib.util
 import json
 import math
 import os
+import shutil
+from datetime import datetime, timezone
 from pathlib import Path
 import sys
 import uuid
@@ -44,6 +46,8 @@ def build():
     for node in thread.findall('stringProp'):
         if node.attrib.get('name')=='ThreadGroup.ramp_time':node.text='${__P(ramp,60)}'
     HERE.joinpath('jmeter').mkdir(exist_ok=True)
+    for node in root.iter('stringProp'):
+        if node.attrib.get('name')=='HTTPSampler.port':node.text='5110'
     E.indent(root);E.ElementTree(root).write(HERE/'jmeter/read.jmx',encoding='utf-8',xml_declaration=True)
     # Separate write plan: use unique run/thread/counter IDs and alternating patients.
     for node in list(group_tree):
@@ -54,6 +58,8 @@ def build():
                               'assert data.id_balance instanceof Number')
     for node in result_tree.iter('stringProp'):
         if node.attrib.get('name')=='script':node.text=node.text.replace("== '200'","== '201'")
+    for node in root.iter('stringProp'):
+        if node.attrib.get('name')=='HTTPSampler.port':node.text='5110'
     E.indent(root);E.ElementTree(root).write(HERE/'jmeter/write.jmx',encoding='utf-8',xml_declaration=True)
 
 def metrics(path):
@@ -69,11 +75,11 @@ def metrics(path):
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('--home',required=True)
-    p.add_argument('--case',choices=['nominal','peak','writes','all'],default='all')
+    p.add_argument('--case',choices=['nominal','peak','writes','all','diagnostic'],default='all')
     p.add_argument('--accept-thresholds',action='store_true',help='Use only after team ratification')
     a=p.parse_args();build()
     out=OUT/'jmeter';out.mkdir(exist_ok=True)
-    scenarios=[('nominal','CP-S11-PERF-01',10,60,360,'read.jmx'),
+    scenarios=[('diagnostic','DIAG-S11-JMETER',1,1,8,'read.jmx'),('nominal','CP-S11-PERF-01',10,60,360,'read.jmx'),
         ('peak','CP-S11-PERF-02',20,1,120,'read.jmx'),
         ('writes','CP-S11-PERF-03',10,10,60,'write.jmx')]
     # Peak: keep exactly 5 users for 30 s; start 15 additional users together
@@ -97,12 +103,17 @@ def main():
         break
     plan.write(HERE/'jmeter/peak.jmx',encoding='utf-8',xml_declaration=True)
     for name,case,users,ramp,duration,filename in scenarios:
-        if a.case not in ('all',name):continue
+        if a.case not in ('all',name) or (a.case=='all' and name=='diagnostic'):continue
         if name=='peak':filename='peak.jmx'
-        target=out/name;target.mkdir(exist_ok=True)
-        if (target/'results.jtl').exists():raise RuntimeError('Preserve original run; choose a fresh evidence directory before rerun')
+        target=out/name
+        if (target/'results.jtl').exists():
+            assert target.resolve().is_relative_to(OUT.resolve())
+            archive=OUT/'attempts'/('jmeter-'+name+'-'+datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S'))
+            archive.parent.mkdir(exist_ok=True)
+            shutil.move(str(target),str(archive))
+        target.mkdir(exist_ok=True)
         run_id='S11-'+uuid.uuid4().hex[:10]
-        command=['java','-Xms128m','-Xmx512m','-jar',str(Path(a.home)/'bin/ApacheJMeter.jar'),
+        command=[os.environ.get('JAVA_EXE','java'),'-Xms128m','-Xmx512m','-jar',str(Path(a.home)/'bin/ApacheJMeter.jar'),
             '-n','-t',str(HERE/'jmeter'/filename),'-l',str(target/'results.jtl'),
             '-j',str(target/'jmeter.log'),'-e','-o',str(target/'html'),
             '-Jusers='+str(users),'-Jramp='+str(ramp),'-Jduration='+str(duration),
@@ -134,7 +145,7 @@ def main():
                     actual_total_balance=sum(r['balance_neto'] for r in rows))
             (target/'metrics.json').write_text(json.dumps(value,indent=2),encoding='utf-8')
             status='Aprobado' if passed and a.accept_thresholds else ('Pendiente de ratificación' if passed else 'Fallido')
-            record(case,{'nominal':'Carga nominal API','peak':'Pico acotado','writes':'Concurrencia de escrituras'}[name],
+            record(case,{'diagnostic':'Diagnóstico del plan JMeter','nominal':'Carga nominal API','peak':'Pico acotado','writes':'Concurrencia de escrituras'}[name],
                 [['Ejecutar escenario JMX','Carga real y reporte original',json.dumps(value,ensure_ascii=False)],
                  ['Evaluar métricas','p95 ≤ 2000 ms; errores ≤ 1 %','Cumple' if passed else 'No cumple']],
                 status=status,detail='Umbrales propuestos de Azure; ratificación humana pendiente.' if not a.accept_thresholds else None)
