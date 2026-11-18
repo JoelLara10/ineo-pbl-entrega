@@ -844,6 +844,3227 @@
     "type": "Secret Keyword",
     "hashed_secret": "ae2450117a3720057bdee4b39a3208b229ab1e1e",
     "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/attempts/CP-S11-IAC-01-20261118T074038693598.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "bcc36b08d6358a0871670e5a5ef7e3c2ca73b3ef",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/attempts/CP-S11-IAC-02-20261118T074041399268.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "bcc36b08d6358a0871670e5a5ef7e3c2ca73b3ef",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/attempts/CP-S11-IAC-03-20261118T074108571091.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "bcc36b08d6358a0871670e5a5ef7e3c2ca73b3ef",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/attempts/CP-S11-IAC-04-20261118T074055670850.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "bcc36b08d6358a0871670e5a5ef7e3c2ca73b3ef",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/attempts/CP-S11-SIT-03-20261118T072713848776.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "490eba243fcfa62677f223b0c27ddd21cb584d7c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/attempts/CP-S11-SIT-03-20261118T072943610145.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "490eba243fcfa62677f223b0c27ddd21cb584d7c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/attempts/CP-S11-SIT-03-20261118T080106550786.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "490eba243fcfa62677f223b0c27ddd21cb584d7c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/attempts/logs/cleanup-a-20261118T074125788307.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "d0c6bac52a4a02b8dde14f7a3ebffb0d0920693f",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/attempts/logs/cleanup-b-20261118T074120492157.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "4ef82198c2e0f82197140942605865d5efaa45aa",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/attempts/logs/cleanup-b-20261118T074120492157.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "8d369396509ec12d51240797f78c326e13868957",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/attempts/logs/detect-drift-20261118T074039027025.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "9637b312d4a0db0c5f7a4551ad2b0939f28d5bb8",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/attempts/logs/detect-drift-20261118T074039027025.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "edafa0b65fc4fb447927ac5698217a7ee6f34c9e",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/attempts/logs/inspect-a-20261118T074106461175.txt",
+    "type": "Base64 High Entropy String",
+    "hashed_secret": "0d2202430b87e649ae517c32faf970cbed510e4a",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/attempts/logs/inspect-a-20261118T074106461175.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1144bccc89e9b8fb1f2fa73a95f2d9dc43ce938e",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/attempts/logs/inspect-a-20261118T074106461175.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1c1ef856ab2b263be54a1cc537dbd04202fbd180",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/attempts/logs/inspect-a-20261118T074106461175.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "836a46ea3fb1b85320a9be06ad3225b13054c19d",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/attempts/logs/inspect-a-20261118T074106461175.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "9461bcb36bbf6e8201abd83fca0422ee42894794",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/attempts/logs/inspect-a-20261118T074106461175.txt",
+    "type": "Base64 High Entropy String",
+    "hashed_secret": "948986f0de83ef171ce950da9d75c5788ccad2cb",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/attempts/logs/inspect-a-20261118T074106461175.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "d0c6bac52a4a02b8dde14f7a3ebffb0d0920693f",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/attempts/logs/inspect-a-20261118T074106461175.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "fd7c7caa4afd234dbbc6e8e7530f0d5a26fb165d",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/attempts/logs/inspect-b-20261118T074107494729.txt",
+    "type": "Base64 High Entropy String",
+    "hashed_secret": "05355dc1bc47042c0fb5b588c8f35c98b9598593",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/attempts/logs/inspect-b-20261118T074107494729.txt",
+    "type": "Base64 High Entropy String",
+    "hashed_secret": "0d2202430b87e649ae517c32faf970cbed510e4a",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/attempts/logs/inspect-b-20261118T074107494729.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "19bc46b7437582a76b632be06f1f1cd106f37b80",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/attempts/logs/inspect-b-20261118T074107494729.txt",
+    "type": "Base64 High Entropy String",
+    "hashed_secret": "420b654eab6e62b040c423dcb1e02a2bec8b1417",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/attempts/logs/inspect-b-20261118T074107494729.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "4ef82198c2e0f82197140942605865d5efaa45aa",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/attempts/logs/inspect-b-20261118T074107494729.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "6e60f0dd1e2cf60b5b890dc78c1b7c0a7d4c9ecb",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/attempts/logs/inspect-b-20261118T074107494729.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "836a46ea3fb1b85320a9be06ad3225b13054c19d",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/attempts/logs/inspect-b-20261118T074107494729.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "8d369396509ec12d51240797f78c326e13868957",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/attempts/logs/inspect-b-20261118T074107494729.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "9461bcb36bbf6e8201abd83fca0422ee42894794",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/attempts/logs/inspect-b-20261118T074107494729.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "b37606936d15ff64df131c718e54a814db5ac75f",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/attempts/logs/restore-a-20261118T074041502035.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "9637b312d4a0db0c5f7a4551ad2b0939f28d5bb8",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/attempts/logs/restore-a-20261118T074041502035.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "edafa0b65fc4fb447927ac5698217a7ee6f34c9e",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-01.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "f7f55a5c43e05757deb3e4bece1fae48f302db10",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-01.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "affb2ba794d749051d950d3ad9073b442a8e2546",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-01.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "a997a66918cffacc7dabba35ea635e4e6fb5cfd0",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-01.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1815e2fb16ff40839de5ce719e88f90e48997cdc",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-01.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "d92bb25f533f29115f7e1fe663bf2d7def388587",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-01.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "8a9368a8232d3b37356762ff7af1a8af0890ff8c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-01.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "7b5e533d28f015817a45c8de67bb1d1bc71c0c6d",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-01.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "5e18cd074a445ff724366559d4371d9e2e35c8f4",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-01.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "dfcb2dd6fc1a45361e7516b9a0d2e24cea777e69",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-01.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "624831a2dc2a121bff70bb53e74dc0f7baea100c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-01.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1679dfa337b40915d64afe34eac4c6f5882960e9",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-01.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "bf9d8d582f32474d0f3a25e38405300b61e31cbc",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-01.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "26c39bf116cbf52a1288d7dff2472e0e0dadabda",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-02.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "f7f55a5c43e05757deb3e4bece1fae48f302db10",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-02.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "affb2ba794d749051d950d3ad9073b442a8e2546",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-02.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "a997a66918cffacc7dabba35ea635e4e6fb5cfd0",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-02.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1815e2fb16ff40839de5ce719e88f90e48997cdc",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-02.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "d92bb25f533f29115f7e1fe663bf2d7def388587",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-02.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "8a9368a8232d3b37356762ff7af1a8af0890ff8c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-02.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "7b5e533d28f015817a45c8de67bb1d1bc71c0c6d",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-02.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "5e18cd074a445ff724366559d4371d9e2e35c8f4",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-02.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "dfcb2dd6fc1a45361e7516b9a0d2e24cea777e69",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-02.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "624831a2dc2a121bff70bb53e74dc0f7baea100c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-02.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1679dfa337b40915d64afe34eac4c6f5882960e9",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-02.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "bf9d8d582f32474d0f3a25e38405300b61e31cbc",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-02.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "26c39bf116cbf52a1288d7dff2472e0e0dadabda",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-03.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "f7f55a5c43e05757deb3e4bece1fae48f302db10",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-03.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "40856a526aab0724502e7535a762dbfbea2b76e5",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-03.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "a997a66918cffacc7dabba35ea635e4e6fb5cfd0",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-03.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1815e2fb16ff40839de5ce719e88f90e48997cdc",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-03.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "d92bb25f533f29115f7e1fe663bf2d7def388587",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-03.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "8a9368a8232d3b37356762ff7af1a8af0890ff8c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-03.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "7b5e533d28f015817a45c8de67bb1d1bc71c0c6d",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-03.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "5e18cd074a445ff724366559d4371d9e2e35c8f4",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-03.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "dfcb2dd6fc1a45361e7516b9a0d2e24cea777e69",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-03.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "624831a2dc2a121bff70bb53e74dc0f7baea100c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-03.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1679dfa337b40915d64afe34eac4c6f5882960e9",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-03.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "bf9d8d582f32474d0f3a25e38405300b61e31cbc",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-03.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "26c39bf116cbf52a1288d7dff2472e0e0dadabda",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-04.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "f7f55a5c43e05757deb3e4bece1fae48f302db10",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-04.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "affb2ba794d749051d950d3ad9073b442a8e2546",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-04.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "a997a66918cffacc7dabba35ea635e4e6fb5cfd0",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-04.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1815e2fb16ff40839de5ce719e88f90e48997cdc",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-04.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "d92bb25f533f29115f7e1fe663bf2d7def388587",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-04.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "8a9368a8232d3b37356762ff7af1a8af0890ff8c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-04.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "7b5e533d28f015817a45c8de67bb1d1bc71c0c6d",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-04.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "5e18cd074a445ff724366559d4371d9e2e35c8f4",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-04.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "dfcb2dd6fc1a45361e7516b9a0d2e24cea777e69",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-04.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "624831a2dc2a121bff70bb53e74dc0f7baea100c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-04.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1679dfa337b40915d64afe34eac4c6f5882960e9",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-04.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "bf9d8d582f32474d0f3a25e38405300b61e31cbc",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-IAC-04.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "26c39bf116cbf52a1288d7dff2472e0e0dadabda",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-PERF-01.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "807578468bebddaa0caf591628a125a6e844ddda",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-PERF-02.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "807578468bebddaa0caf591628a125a6e844ddda",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-PERF-03.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "807578468bebddaa0caf591628a125a6e844ddda",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-SIT-03.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "b2bb3edbd0a84dc6c3df234cb4188a4e18a1935f",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-SIT-03.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "905cd38a7bff8ce8d77865c9315b4b066d93e39d",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-SIT-03.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "a997a66918cffacc7dabba35ea635e4e6fb5cfd0",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-SIT-03.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "bd4f2adddcccf1a4065f6bc041f3a2af764c4766",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-SIT-03.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "f950fa2401a61395f4ddc8af72fb80afb26a978e",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-SIT-03.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1815e2fb16ff40839de5ce719e88f90e48997cdc",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-SIT-03.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "d92bb25f533f29115f7e1fe663bf2d7def388587",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-SIT-03.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "8a9368a8232d3b37356762ff7af1a8af0890ff8c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-SIT-03.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "7b5e533d28f015817a45c8de67bb1d1bc71c0c6d",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-SIT-03.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "5e18cd074a445ff724366559d4371d9e2e35c8f4",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-SIT-03.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "dfcb2dd6fc1a45361e7516b9a0d2e24cea777e69",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-SIT-03.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "624831a2dc2a121bff70bb53e74dc0f7baea100c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-SIT-03.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1679dfa337b40915d64afe34eac4c6f5882960e9",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-SIT-03.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "5171d0a7b9adc39e99f6494c361c03f008e851a0",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-SIT-03.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "bf9d8d582f32474d0f3a25e38405300b61e31cbc",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/CP-S11-SIT-03.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "26c39bf116cbf52a1288d7dff2472e0e0dadabda",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/cases/DIAG-S11-JMETER.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "490eba243fcfa62677f223b0c27ddd21cb584d7c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/jmeter/diagnostic/html/sbadmin2-1.0.7/bower_components/bootstrap/.bower.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "25b9b24754b2ef6993007a002d880747acf5bac8",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/jmeter/diagnostic/html/sbadmin2-1.0.7/bower_components/flot-axislabels/.bower.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "ea10b7ccc9e5cee5d263ca07f3f3ebbb1f0fb886",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/jmeter/diagnostic/html/sbadmin2-1.0.7/bower_components/flot.tooltip/.bower.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "816fa312f8cf6138e51de0587993f5d1766a42e3",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/jmeter/diagnostic/html/sbadmin2-1.0.7/bower_components/flot/.bower.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "809df89782d0c883e49487f1366af4d82525f671",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/jmeter/diagnostic/html/sbadmin2-1.0.7/bower_components/font-awesome/.bower.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "9f6b599a06bf7c6d2d861dc3ef46861f3f377826",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/jmeter/diagnostic/html/sbadmin2-1.0.7/bower_components/jquery/.bower.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "e6e604529181a622f17bde06354aeac4b23eecab",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/jmeter/diagnostic/html/sbadmin2-1.0.7/bower_components/metisMenu/.bower.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "aff3bacd63d46ca5bd0a90658dc5c91b0333d0a4",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/jmeter/nominal/html/sbadmin2-1.0.7/bower_components/bootstrap/.bower.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "25b9b24754b2ef6993007a002d880747acf5bac8",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/jmeter/nominal/html/sbadmin2-1.0.7/bower_components/flot-axislabels/.bower.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "ea10b7ccc9e5cee5d263ca07f3f3ebbb1f0fb886",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/jmeter/nominal/html/sbadmin2-1.0.7/bower_components/flot.tooltip/.bower.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "816fa312f8cf6138e51de0587993f5d1766a42e3",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/jmeter/nominal/html/sbadmin2-1.0.7/bower_components/flot/.bower.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "809df89782d0c883e49487f1366af4d82525f671",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/jmeter/nominal/html/sbadmin2-1.0.7/bower_components/font-awesome/.bower.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "9f6b599a06bf7c6d2d861dc3ef46861f3f377826",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/jmeter/nominal/html/sbadmin2-1.0.7/bower_components/jquery/.bower.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "e6e604529181a622f17bde06354aeac4b23eecab",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/jmeter/nominal/html/sbadmin2-1.0.7/bower_components/metisMenu/.bower.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "aff3bacd63d46ca5bd0a90658dc5c91b0333d0a4",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/jmeter/peak/html/sbadmin2-1.0.7/bower_components/bootstrap/.bower.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "25b9b24754b2ef6993007a002d880747acf5bac8",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/jmeter/peak/html/sbadmin2-1.0.7/bower_components/flot-axislabels/.bower.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "ea10b7ccc9e5cee5d263ca07f3f3ebbb1f0fb886",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/jmeter/peak/html/sbadmin2-1.0.7/bower_components/flot.tooltip/.bower.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "816fa312f8cf6138e51de0587993f5d1766a42e3",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/jmeter/peak/html/sbadmin2-1.0.7/bower_components/flot/.bower.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "809df89782d0c883e49487f1366af4d82525f671",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/jmeter/peak/html/sbadmin2-1.0.7/bower_components/font-awesome/.bower.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "9f6b599a06bf7c6d2d861dc3ef46861f3f377826",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/jmeter/peak/html/sbadmin2-1.0.7/bower_components/jquery/.bower.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "e6e604529181a622f17bde06354aeac4b23eecab",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/jmeter/peak/html/sbadmin2-1.0.7/bower_components/metisMenu/.bower.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "aff3bacd63d46ca5bd0a90658dc5c91b0333d0a4",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/jmeter/writes/html/sbadmin2-1.0.7/bower_components/bootstrap/.bower.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "25b9b24754b2ef6993007a002d880747acf5bac8",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/jmeter/writes/html/sbadmin2-1.0.7/bower_components/flot-axislabels/.bower.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "ea10b7ccc9e5cee5d263ca07f3f3ebbb1f0fb886",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/jmeter/writes/html/sbadmin2-1.0.7/bower_components/flot.tooltip/.bower.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "816fa312f8cf6138e51de0587993f5d1766a42e3",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/jmeter/writes/html/sbadmin2-1.0.7/bower_components/flot/.bower.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "809df89782d0c883e49487f1366af4d82525f671",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/jmeter/writes/html/sbadmin2-1.0.7/bower_components/font-awesome/.bower.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "9f6b599a06bf7c6d2d861dc3ef46861f3f377826",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/jmeter/writes/html/sbadmin2-1.0.7/bower_components/jquery/.bower.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "e6e604529181a622f17bde06354aeac4b23eecab",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/jmeter/writes/html/sbadmin2-1.0.7/bower_components/metisMenu/.bower.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "aff3bacd63d46ca5bd0a90658dc5c91b0333d0a4",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/logs/cleanup-a.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "24c51782447dc29f2aa67c4e124327e3af864cd4",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/logs/cleanup-a.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "565692de32d01656a0650133285acec74dd1251a",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/logs/cleanup-b.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "9d386fd25d0a9b23855ced7948d099e1d9906fc0",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/logs/cleanup-b.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "2ceb75d272d31c17766ff10b33c97565e55087ff",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/logs/detect-drift.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "50db6852a2cee6162883833591e2b394b7dacf81",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/logs/detect-drift.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "707b17277156fe945d36f9bb7679c2d6458ad4bb",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/logs/inspect-a.txt",
+    "type": "Base64 High Entropy String",
+    "hashed_secret": "0d2202430b87e649ae517c32faf970cbed510e4a",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/logs/inspect-a.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "17ee46a3fa79993ca13e58314d44fca61336c594",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/logs/inspect-a.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "24c51782447dc29f2aa67c4e124327e3af864cd4",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/logs/inspect-a.txt",
+    "type": "Base64 High Entropy String",
+    "hashed_secret": "35ca2814efd7a86002cede535c38ee1bf91d7bf1",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/logs/inspect-a.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "42ef67731caf5d7b37ac67e183aacdae6a8a658b",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/logs/inspect-a.txt",
+    "type": "Base64 High Entropy String",
+    "hashed_secret": "4f58061abe74d5da88d5789a2aa2cf44a4076575",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/logs/inspect-a.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "565692de32d01656a0650133285acec74dd1251a",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/logs/inspect-a.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "836a46ea3fb1b85320a9be06ad3225b13054c19d",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/logs/inspect-a.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "9461bcb36bbf6e8201abd83fca0422ee42894794",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/logs/inspect-a.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "b79c72e6d55e3362922a42d3f07078b8ba4f892f",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/logs/inspect-a.txt",
+    "type": "Base64 High Entropy String",
+    "hashed_secret": "ca89dba83ebbc7bd54c4e8b05efcf9bfbb901a0b",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/logs/inspect-b.txt",
+    "type": "Base64 High Entropy String",
+    "hashed_secret": "0d2202430b87e649ae517c32faf970cbed510e4a",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/logs/inspect-b.txt",
+    "type": "Base64 High Entropy String",
+    "hashed_secret": "27c1b4f896dfafe1ca2affbba885589a11b9dbeb",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/logs/inspect-b.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "2ceb75d272d31c17766ff10b33c97565e55087ff",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/logs/inspect-b.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "323b6cbc2da9d86118d2263d57677f61134ece73",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/logs/inspect-b.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "7361edfee25f4cd40460e4300835e5f6c50ad130",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/logs/inspect-b.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "836a46ea3fb1b85320a9be06ad3225b13054c19d",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/logs/inspect-b.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "9461bcb36bbf6e8201abd83fca0422ee42894794",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/logs/inspect-b.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "9d386fd25d0a9b23855ced7948d099e1d9906fc0",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/logs/inspect-b.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "f5b41b262b8171a8d814a1a354a0c461e4fb3d31",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/logs/restore-a.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "50db6852a2cee6162883833591e2b394b7dacf81",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/logs/restore-a.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "707b17277156fe945d36f9bb7679c2d6458ad4bb",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/logs/revalidation-cleanup-a.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "28eb1522372230ceaebfee6510ca73fb1d0e8cab",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/logs/revalidation-cleanup-a.txt",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "f54cc7812e570294bf2fd118541fbbac5da9482f",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "941518aab0fe4d1fc3a6b0df38c2fc917ae86077",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "956de69268d2fa92980c24c19409bf5f2f418a75",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "2d965df9634f963ecd1da82d1b3473a4f5a43865",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "2a6936cb65fe9080714932647dfc66e0c4fe2c3b",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "061653f99c1459e90048cd54ab6479177822c8e3",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "749de4589bfeadffc58c414797cac1e5af4b4c6c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "c3bd773debe7fd24de46f2f56d87c309dbed8ee1",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "322233da244c8065c15fec6a924e67d6b98cfe07",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "78d097e939dc19cfc8950c8d3d0d2e4f86fd1d17",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "6541f3cffe6c2607b2b1a13cea5692000b7e9051",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "efa878facbb23225b56861cc50b17c62025dbba3",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "eed9b04c43332031c5494c03aee6546e1f4ebac7",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "588bd4f103b9ba63c59f376ffd37e6e763751c30",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "ad34820f4a84311bda9e1b8ea023d93f9db6c169",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "e142b6faf3736d5182608a18ec95bbb16ef5c30c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "f5426ee17295070087cb27cc1450b55bc51b5c58",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "47b53fd895850b9b9d6a6b2ecd9592b8a36a3fd5",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "2f3d9053c81bd37753079e08a50f8bd3021ae933",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "9b2f35906f174dfb34fd4c35e071e76251319e5a",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "9afec700a82b1a495eb4ffe5a3e6ee304ce44983",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "fe453df0216a607e6feadc306c9800a1aada9cd0",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "63140d2f853465846ef1fc538e321c0316cb359b",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "9281103bdeb3cd795d5e22f4bbc86414e0bb7754",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "2af49312c9e0798a950932bea055e627c6b8acba",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "95b962017b2853930800986364ff43bb33496648",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "5b46bc2ab51f62b2b19f3c41e2373d8d9c585fbf",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "dfb316fe9836fafc9b5cf6a4d1d93ad74b9b0866",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "859ae074b9ae4be2edd73d639b572e9c8271342b",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "6e2fba303108e7859c6f5578e5c6eb9ec7c5a4f1",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "22166a7bbda826510b6e9b9314e0db6623f7dbfa",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "acc207ff224259df18ef4bcdea81de03f96d40fa",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "4f654cf9dda945d772715b08b8245e9ce9e026e7",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "4fffc12ac47b81486ddd6ef3aea6c2846b711fce",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "359ffb308a547613404e66e8ca362325bc8a9640",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "71331583cdc1af9c0d34656a0ffa177ebd033aa2",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "3f012cd8392b0e4c84c61fda281e72fee784777e",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "b4f204d6e1b9934687214ddf4dac1ccc9088d4a5",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "ea378ab703356337beb2b63a9baeb8d5ae432b25",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "d6451a44c83a9d0b843b8669b1feb6146a5f68ae",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "2ee7b07c69f644a6f132681e9bfd795649e38004",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "6440e32ff6af1ff4d416bb7d7969f1590d75f5ec",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "fd6916d0545dfd1939811ce215e2c6b680dff5ee",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "93655d2ce760d154de8633b85592c60b419c6d4d",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "61238dd3507fbf2ba49f2703541340710a447e8f",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "49d0159ff85919e277749590d5065a054babed0d",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "f9dfd5b61b11a0a101e2a73f678d08561c243c35",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "6d747612763c04e32d04db306f4d2349670aea2e",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "3f6f376a445f46a028fca21d33a37706a2eebb61",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "97468c9f2cf1001d77c8d9518241c8e1d98e1161",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "3d8a6a377315103ad4478a9da92761b9fd9eace8",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "6c9d6e34944bd9fa883609c419c2351232633911",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "b80035d897c25dbacec194bde4258a20a1e48949",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1f27b7f908bc3813ad28d45ecbd7346073b0fc90",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "bc62abf9d191f2fb174a8bd96f4d95ee36630de6",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "e4a5aacf9db3eacb0b333f6d14fe690ab5078068",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "5126ab79a5be0b96d1253153dc7a659cdbdcdcb5",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "dd09d2f262c7d9449f08e730838f0f551466ad76",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "122689a332af8a8a76a58b86fb5d74fd037d36b9",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "2cc234443da8666d2f0f4d5ff8693cd49820a00d",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "0e2dc0b8c65f01abad704def9693f6109d79643b",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "b0627782405a14ea5dd360b633fe0e3739aa5188",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1e7204a13014f002a1751f7c5e1febd48d99f8a2",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "6a1a7684b4084982b33b4f55dd6f4bbd2b1b3640",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "6560355815db01f59173b9f9628dc4306491aa63",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "adbc83300528e7307b55ac848fcce78a4ad9cc1d",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "72735a21879a92685c26553e143ba612ebc4bdb4",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "8c227175c283e80ce3cc1c47a4ff96512e303d86",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "aad87c465e1e600e829863d30e3e98b7c318d6c0",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "779136ef5fbbed2eda688378c2ab4ee93edd98f5",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "f3d7d5be0c83a6eed98fad333dc2718377f177cf",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "2b6058a27236c6783d0e560d1423b263fdae589c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "ed79e6e7228064bf616b7eeb6ecb55c154183b16",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "8e4a9ea44a988ee13b4ecefb1f4495adf6494270",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "ced798db68918c4218ba2351c6aa65d700955696",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "f76bb5f7304012a8a46a01135ebe178b88bf61af",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "d7e8212191c578deffc4f139a26c1581fec56569",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "dc1ec9b61bc8a350140e288839d207cfbcf61c7e",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "bc31083a92fb626839cd5b3c3b869d8227e21eba",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "c77221719c79990adee383b73bbfd1bbd26ee5d1",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "3fa08bd5503df06afb5f2788b2bb02d9d72157d2",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "bfaed030e5c118c2d2058ef937229caf61151fd4",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "73754d3b51216aa57999cb66220855133242c7a9",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "97818812656011240bda50e70e3e5a3a1932cdde",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "079b2132a51d936c18941323dfe8de57e3b1dcc8",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "0e55967c891a525ad0a2d3dcb4dc68c974719907",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "5fe4efeb8e1a6028053854ca9f3f7d97dfb66648",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "0d4f104740f9de8e47b47b085e8a51cb25fce4cf",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "7115bad6a51b5932b547884540dd112b82d21642",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "15d247e672513901381741da0d630e5d13ad8277",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "be97287e4340a9389f4eeea31c791a886ec2fb7e",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1ae789ff963a3a386ec03c7acd04df7876f08078",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "5a56617a0804ff9b97d742c51ba07b4b8817b2a2",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "30822b0149fc27a6630c9de39394f6fb219166a8",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "cca1f368f4a14112a8e2a7fe071e64a59c36bc73",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "46861b16f794c7b02e15e3f65f09bcea77a28a98",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "82465ef877eb45fcf3374bf830617ff5ef68cfab",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "ab7f5af88939fa6fca5ea1679c80255fbd157b0f",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "f60e50cf52fda67dbde1e9886850aceac72aedb2",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "8ce3279ce714e309097b985105869310ba068d35",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "c48c72c5cf6ce5a7134033191d72400c100dbb73",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "c48be877f5ab1984409b2ec0045b0cc4f9d51aaa",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "e3b22fd559433803d629ac7e5ad65f0f39208cf7",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "4702bcb66676c834ac0ee0aaf718edd5d0cbf82c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "013a633f38d6832dd0fa272a5638f0bca6f76273",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "87e9e36d371ca5c012da74ed4aae08ac2c91bd3a",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "99d700451044721eb44cef2fe8733376fb50d61f",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "23f55e36787b048bb94d5fb91a674ede259b9a40",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "e8ea4e8f4980a6686d96996455de9edf91cb58f3",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1cb7ab7707d7ff4052ddac17070fcd8dfb1d7a7e",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "02d8ea509efe783069a765ccc837554c899bf220",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "7b64ae414d21016699d86d13ddeb8aa2455f64fd",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "c9bd54300cc72ceeb8978cbe8ae83e50c0449fef",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "85530dfd0ef0f3961e65ebc6c89927eb2e4ef139",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "b86dcc322eabb51e40df5bf2a71ea2521136e19b",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "418413fedd30697e759d594c77cf8b7d024cdaf7",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "c98cc5f41b8eb642813fb9d508996c81ce1c53f5",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "8b8c970a633e3a00aa9cb2bcca662548d9f74e24",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "acfc44b60030045021367ae17e594e11704e6844",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "3a14a9a402b413a0d61a76e30467aac39789a2ce",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "e87a39d3eb8a244e8d9e3dfbec0f9b137362c164",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "842b177a9bb6dc0fa07f4c78cfe208b7a81b0ebc",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "cae8b9f0502fe711ed76a7abc24bcb04c29b924a",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "8096d9f84c71bdfb7479c0ffb6c9a05146063197",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1e7de17ff3ce6fbe41a24b6399e3e0771052dbf3",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "a14556126de1579100f268a2cd60c829f33cde23",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "0c763e9d1b67075052bcc204257f1b96bf36c62a",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "56b0d058b073a129ca377308a1621e84f0187db7",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "f1f0e06ab13f238ed379d3981af5836e07a776cd",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "753ccb9a61582ef427a937d6176e7d07d15d54d9",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "e580bd92ee74ad7021e95f26e1417b22c50636af",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "08e3b690e323bf25326a6158e35a46837a7a960b",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "bc19e65c0cae0d25286eab25713b85696546ad06",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "89d1f45452c0d1a5cadc707a6a5f590cf332bbd2",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "5614631f2a2baa27054a7e082e81dfc54b1557a6",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "f5e1b028633f7921880c3e38b245ec74fd3372e2",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "15bd601530fc8ee97e1d7692c8b24f05a679b172",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "b620a607702c391df4d10b45b8198e1fba6c909a",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "8430527ab0c6549df89ae2c299b053f73c433dac",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "eae654219696af19410874690e170e22fbe7e4d5",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "d5648f0ad2828e560fbfc8982f4c34358658bbe5",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "9d627407e5713209777d95f3065e26612e9b7774",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "737b16fc5ffc13ceae03c32f97fdbddc72c6c77a",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "177014157d11167b9d16e696e3b190f8d51d5222",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "79943072cea24fa9ab15baabe1a120fe4f3906c7",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "3ab9cb0d0055c1bbf00940d43cddccbf00a8606d",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "6e4e75c15b6de5b6e9a5d63862e1b43759cf14ae",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "9b4061f78a324ba3b97eaf9b5b88590d01999213",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "cd66d8bfd3a114cf5feb24a877902f7f0a2af2c1",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "95253756f416bf8ac448adfbbd32101a9aafe710",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1e1c37a7be355af2c68cb502e2875a02d80289fa",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "e6b5c6bc5d53b48d53afd53047310122cb802b1a",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "70f6177424d7139a07f4c3550adfc871f183b7f8",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "45d7593aa577e343a12f266ec00e9940dc904958",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "c427c07fedcd1e45fc64a5a4e717f65b84a16069",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1019815966352af37f568a8a18700b85f06a5b66",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "2ace04632c708f900fa509ee7fea61656002106d",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "6658e909392661cfa00cfef291bc4b4e8c1815af",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1b2d0b2f74d384065e690beffa85bc1f7bd2990c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "6cfbf5f06e332e29cfe06f3855971107003c803e",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "8db1e9d99986b4c228f605bc6616365c3e743e07",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "80309b4d898278a3557c6a087ab9323abbfe81b0",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "e25335dfe5139f8cbbb4ba366700f0cd786a36c7",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "7f418aa80b0b56f1dbbd24d9c5f14e99975a00b4",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "88bac2703496d88eaa44a1459bb74aab4fce622e",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "d363550e7c0c3c47ab2871786ee30c762c4b633f",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "e7b88b50d7d46a7f5f963fc66e7b06a972da9f64",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "32b7baeafe09983f2f6a9af1cfd356fa762734c1",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "c182f85a8290fa9420c304b5d60afe53fd3d7c05",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "cb61ec96d5344d51e93fbd75c9428e9d65eb1eb5",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "303ff4603dade5e00dd9dea63eff05b3d16ac2a1",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "7f137cea5e21026849047efc2417eb24180f0286",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "a99b33c9a4e92c7f888ce17af3503dbdc5ed00ac",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "96401208452d6aa33bdd6830f934bfb6110801e8",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "666948f5541cfd4e88e8b1ccb228784c5b7cf754",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "d2dd32bbbafa04a35599761a76519000fed61d5c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "280fd6760b6be9345d0155bc8d0d38fe7e492103",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "2a5037c8155afb609296df6031904b6a9565d8a1",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "44356d2e66936624d72d7513b0ee931a76b7a71f",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "b4070ecd77f554b087bb26e55addf7fed3454343",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "e701e4cbcfd6ba43abe8604397e5b7502b75e84a",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "234f1d260d8f10d6b3f4936f840e996e02c8e3ad",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "83fd06ddd83919c024ae82841baa1998940e9447",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "8955d12b3ac3b0a1b4f10bb9f004c753ddeb1370",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "3c4962abfef80a3f75b330cda4b9e465f4e88bff",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "7831bf5f67aa756fff42be155e39c562a6e2803e",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "883f37b2cbbe4080e311a0f6d650b54ace78e381",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "b423c53a25d948b4174ac0fcfe3a101fd0ee9e1f",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "aa5feea948b394e83a3d1a0caa3841512f42c787",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "79296e50d699fc669bdabfb7c65796f2819da957",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "815259e97a77a9c8801c7a9fabb5f69df23935f0",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "6d125ed9a5c0331849c685f1b0630c130cbeaf57",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1e23e1fb5a5a1aeffc88e7a9a6d2a17a36ee786f",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "5bd192d8b0e094cde02354ef06ba769dfdac95b5",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "f1ff63ac54746829b4d47a9eb7e9223b7d78d201",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "de02eef9214fe3a370ff482a067416da2b0217d0",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "79c61df110d05efb6e1c1bbce2bc89a595b0fa15",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "3440dbe2e24303954219e6cae423264984fb101a",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "c45c8caa1ed13eba9ee9bdf4b620e44a836d9815",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "19e517c21a3132479a11797a1598269662e6aff4",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "8dcfb963758d8b8021def59ec8e85f537b4910b8",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "21021291cfadf8b170f58a8bfba3752680bed972",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "f0ff37fb4bd780c25c911d5ac9ddfc2fb4fb9104",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "6bd3f56a9259756a9d06e4c3a1f6552d4e963cb6",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "e85f9cd46da1d8f265769cd9d5d7bad6aa006383",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "da52da04b51177dbb7dd3ae1031040b3876af79d",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "f389ef23997833468d8f9eec38d93899984220cf",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1800d8c449595402116b81aaf39e2d4e1d57613f",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "7ab8daafff6bf707f10ecb5b3e202f10c5fa28ff",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "74a8b1190819e112c0e4e1a34f0095de6c67e793",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "8e192a05c31d8ca2fe0eb8ccd0ff2f957a7510a0",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "7ef5e1945eaf0850ba2f78b74761d87723c4d897",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "e17ce2b0bb45c3e2fc593ae799588480c88018e5",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "ce574fa8e211d167be890832ec8fbc0c26060308",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "d2eed7aaa5ea20b958aa372050c41fb4f5b7d65d",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "3a8b93d1188eeb46fd38b1d2449839849ea200fa",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "2713c60e4b47af426ab82ae998f66042446faa88",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "824139eee3a02c0bba6099ffbfeba60fc8fc6508",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "d2a99a837e62c505e4bcbdb0637a16a078bccaba",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "22495e07e978c731c2dc0c93762fc4f05a3b2ff0",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "9897131cf098ec651e9235a143030b5ae1de5d13",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "19112bef6122ec9a0cdea73b9c7d1a108db9e2ad",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "42829ac0eb2b6729d6fd9fce3e752467cd3c4d36",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "4fea878442ff367c30e884ffbdf8b0ec071fa1d9",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "ae89369d4f7854a0cf5942bc84a76ac3de9000ea",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "e5875cbfd98a9abf167ca00bbe1403cd06fa2597",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "4ddd612ffe6aa07684c519850475e60018769f87",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "d2cd3e84d80b6827ec5a595c8ae7d369c8634cb9",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1f503829ae277dacf55cd5d6c2a994788d68a7fe",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "285c00128ebd91d4bbb1f833699c4df91df25937",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "3c9791a3a746b1deae2b6c7aa1f2de836dc0b730",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "deeac00472453edfdd9bdcb2ddd928709dce5505",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "02a0f1f1f68b7b649303c5518a7e6482d693b28c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "0ca3643136776857f6724891cf258158733fb189",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "bfaf5ce6f2a6dc800c839b72673debe2639f4f51",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "59cc2fb6564a0a480a1cd2806be221caf7360e35",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "8eecae17f83101989a653f3e8a6a8cc3def14fa3",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "cf6f87333a8fef8c46a4a01b37e5a72653144921",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "d026d0db69e437b77debf887572bda73d139d811",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "919fdc78811b9b3c4664c7cae50bedeeca19c391",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "abe1aed1806d6e493e4d958c638f684db5f3cb37",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "a29e97a6fb42318b0b71fa277f0ce8e46d1f311d",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "2873ed9eacc934957d221e6599da7a2bab07742d",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "26bafb77d5e2f2e44a5b93b64bc6da192dcff87d",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1f2e0d28a016f5465f6e741d8ad2159de20fbbd8",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "e2ed659a5e52164dcf3dc618b7c77818d7cd3141",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "ab5471b9cfda9be36032902fb12d5ec9f2de9286",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "0ee392f5dd8740bb5c6bdc2b0ee1852c71ca4a63",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "6f95d290c4c03ad011c0d1dc21299d9d8d00052e",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "11e771a3e0f0680a78030fcb333068dbdedc7a52",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "22d13d0dc7a8b01528c22f535c50a4a58d8cc920",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "f0618bff9d184fa5cfa9bf4d571c9dedc6904c98",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "cb5e641c089f62f4e6168af76a791db6dcfa0068",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "6c90775d29f40f97591dc8145c264bf2c1202984",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "d001cdc95e4a7b2a2e25c719d8bd991d7c9ea29c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "77057089e6bc75b056317d7ebc52380e5417d4c6",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "e0870a02855976fdee9d3ea862f86f5f4c857b5e",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "ee894f05bb5ccb7b0322d10f78d4a4d5c0e4e5bc",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "9665da2a956ee16f13378d2255f05338c02933e9",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "55096877cfae6247ec508ec2bbf08d32623f63f1",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "13764a50c4cad253ef191b67385bda168bf6bc3b",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "a8d9552e5ec28c8664cdf89c3efe789eb6cebecf",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "df7500de32e7dbdfe8b637b62bf594ebc87eb7a8",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "9f3c996884e919e726a8b1942079f8ae4698c2cc",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "f49674e618eb476a19ceddd41111fd8c4ba39a04",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "44b4b35abfec73d4359f895c50cf49f895c9bb3c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "bc8cc2897502162be5aba4750774d4ff82ef9ccd",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "4ba5165e72517fb06bfe6c95693863d13b9eb846",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "9cadbb3ae3126a713a72145bd2b688c938e3a6a6",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "661d079a41701012aef220257254513ef1d416f4",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "d04e7824137e0981c14d3095c15dcc4d4a687bbe",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "9a9db75b10acbfc8bd688e43c00491762746f95e",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "2f506475651c34b55fbfb9d11db35153d63c180b",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "e177bfc9347df5de4a1ec2176f809dd217392d47",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "67ae04d42f757444d7a7de402829e3cf856ed17c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "015e17ae792aa7c86ec736e28bf041aac233b7f0",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "990f7c6d452efaca4113533d0ba46c7cebdfd0f4",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "005505c2799dc34fd4b0722f8c7e1715f8126c85",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "fa779eaaa0de6909fc76ed4ef5b459452d019110",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "7a08242b79bc05e25d6df2574482eec9e6a7bc39",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "25a095fd4cfbf167c1f5f80681db042adbc4b905",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "8e59ef7f67c616df8878c43e5a58c4ba83636fe1",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "b56eb2bc24497c3a73c76e6ccf373e5f20a96719",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "f687c36adce230bfcd83699aa5368e74ae0b09d1",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "81fedd32f04cdb77b40b8f523c11e5a3b5d8a55f",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "d7c29f232b75fbbad507224ab30744931e7203ce",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "182eff572f0f91511a7994106eadae2385194ef8",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "5fd6b39dd5f663d3d71c7fb58b6f5d009a47260a",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1ee9b1fb62cb5b763f6410d82ac840aca68bc1d9",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "90aa9f007097321b3129041e0eb8f5ea283403b3",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "9c47625425505f42c3efac3af506fca08670b2b1",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "4ae16f90644d60c8566c8fb772c6767d8dd52056",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "d6551ee69dd505866eb69d3eb26a62224c382951",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "767437b6b00a2ad3e12e697b7bd159047c1b069e",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "56bd6f5f0e07f49837f62355584ee8639f7761b7",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "b1a4a6648ee6d57ee98704a51142b4bbc75d5447",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "cce82f32e448327263791d5c47d9b28ac318b61e",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "281320e67489eb3b8ad7226d4690567ff9fcbdd4",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "ddab2bf0c70a5a8d2c4f2d77aad41fce76bc512c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "a62d850434cb4e2ef04681722f796a6cd1878ddd",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "d25156067e1368981d32f6b062829ea01523ae60",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "99cc390fe6e0cc2a75e26363898e95dd2d4aee3c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1631e4beefef85d856b8944ac7ef0302340f9c78",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "70c5ea8a5be81766b8a883a543c271c8bbbe913e",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "b7b15a4d1361a06872c4b5d006442fa94e72d464",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "64572a5f4ea0a56f5117552fbaa0b76de1bb30a7",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "8f463c1bab9c43c7d5f92ba81500cc13f969a714",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "157e511e078f8a744918e2812b3bd838a46007d5",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "4f603ae57307dd16c6bbe2e87df0dc0e0eb1b5da",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "060c9b4bc4d83b7b99b016e8943fc8ac8e7904de",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "77ffe04b153b2f38e2a0c18a234ad057e5ef711f",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "69d79462f9129117bb52c86797a92510bf3430e4",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "45b06cf590a8510256df941917159c4b60a01041",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "69735c0a3723b19266858ce28bcfbd3e430f1d41",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "433155472a6808ca3740cd52f97a6426b15e3948",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "536fb75c617b94c4c8aa19232bef2737502b0da1",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "986de819122edb4239d05dd70c5c2899fdc2d85d",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "fa2ce14382466af3b44b69303584d21e5603b884",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "6d63d1a815985b353a98e57fcbf6110b8f7b775f",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "3965274ebd8d88bfe2dbbec17dbe38fed1fe522a",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "157696767b09f1bbecc933c92adcb7e6a42a988b",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "327a239635cb89be10b8a70bd33433a614edabce",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "7c627d624229c3a4957f5194db3468f9a1e17c1c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "4402a7c5d1f0067bea458d9fbce85f673921cfc4",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "84141600e9aaad74ca881fc343902fccee5e5cd0",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "c37567d41957464daa8da4c11cf02ffd245b6223",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "9f78d74d734ee560270d3ff0a9668375decb075d",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "0d74283d616a9e07d1b728381030c592324b41dd",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "5028f9d163e9d33133a72e352afc2da43a5a5ea8",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "ba3c14ebe0df5743c51cc9f5a9b9d905d6cea70c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "0795fd54a44d95457d2070f6be293c0934f1c90f",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "a6a29de89af3b383fab3ca8877dae3ca371a281a",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/revalidation/existing-api.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "ab4dcc2e437706e5cabb434a350fa2e8177e2faf",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/source-manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "684fa34f9fb2361fc595d0ddcc82922a55602453",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/source-manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "905cd38a7bff8ce8d77865c9315b4b066d93e39d",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/source-manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "11175177a9bcdc08fce1b6a2c8ec2ea22132cf5f",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/source-manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "a997a66918cffacc7dabba35ea635e4e6fb5cfd0",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/source-manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "bd4f2adddcccf1a4065f6bc041f3a2af764c4766",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/source-manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "d0ceddb98d8c03d12a037e28f28f6e6566ac8440",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/source-manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "a2a4dd9c395cd959018d07b1485a0b2a09d0ad47",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/source-manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1815e2fb16ff40839de5ce719e88f90e48997cdc",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/source-manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "d92bb25f533f29115f7e1fe663bf2d7def388587",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/source-manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "8a9368a8232d3b37356762ff7af1a8af0890ff8c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/source-manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "7b5e533d28f015817a45c8de67bb1d1bc71c0c6d",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/source-manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "5e18cd074a445ff724366559d4371d9e2e35c8f4",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/source-manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "dfcb2dd6fc1a45361e7516b9a0d2e24cea777e69",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/source-manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "624831a2dc2a121bff70bb53e74dc0f7baea100c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/source-manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "915a7e108f7bccda54607646bf881fe49368b3f3",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/source-manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1679dfa337b40915d64afe34eac4c6f5882960e9",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/source-manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "0d56b8810e35f124a46d1b85315e083cf6a0b9d8",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/source-manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "be7b68afa3d3bbf79d4cb3469aa7daffb8ae7d4c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/source-manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "5171d0a7b9adc39e99f6494c361c03f008e851a0",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/source-manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "bf9d8d582f32474d0f3a25e38405300b61e31cbc",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/source-manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "26c39bf116cbf52a1288d7dff2472e0e0dadabda",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/source-manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "69d1a7a926bf446745d217be91cb80ea244a8882",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/source-manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "611490466659e224454633838aa1d7150b0445ef",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/source-manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "de16bdc26a42108961d181bff46b21281b1e601e",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/source-manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "b63f19925568023e6f6ae9c2cef512b9fc74b723",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/source-manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "8f76b31ffa831873a2f1a6fa5d7cb84ea424311c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/source-manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "55cfd2501e941ce8081dba17bef174b0ba7e1e08",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/source-manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "cdd60e43c4bc6c267cc06f5e444bca1b5df54043",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/source-manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "99ae71bafb6d4a5647ca306f24d0e8be05159348",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/source-manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "57ec69aa51663cda243ce72f787a16ff299dc281",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/source-manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "ceae77c1a4a403b2025e5106083ec04943e63767",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/source-manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "fce05a486b48065e627296b6e209e1b231a4899a",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/source-manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "4f92e3d7a45e6da9949830efbb9fe6c2e3551506",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/source-manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "135657ec7eae8041087f6bb2313b2508b2f5ef7a",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/source-manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "785df98feb6c07f4a0b763644cc469a819224c82",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/source-manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "95b85d7c561b4388c78d78a8350030ee0eaa7315",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/source-manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "00cf4a5aee1e864a5297dd65cb53dc77052627ac",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/source-manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "91241655210a8e3de2f9adccf46ef25542663b76",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "evidence/sprint-11/zahid/source-manifest.json",
+    "type": "Hex High Entropy String",
+    "hashed_secret": "1ce934cac2fe7c0f89e057c16ca6cf666ac2858c",
+    "reason": "SHA de version o checksum de evidencia; no es credencial"
+  },
+  {
+    "file": "qa/sprint-11/jmeter/peak.jmx",
+    "type": "Secret Keyword",
+    "hashed_secret": "ae2450117a3720057bdee4b39a3208b229ab1e1e",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "qa/sprint-11/jmeter/read.jmx",
+    "type": "Secret Keyword",
+    "hashed_secret": "ae2450117a3720057bdee4b39a3208b229ab1e1e",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "qa/sprint-11/jmeter/write.jmx",
+    "type": "Secret Keyword",
+    "hashed_secret": "ae2450117a3720057bdee4b39a3208b229ab1e1e",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "qa/sprint-11/performance.py",
+    "type": "Secret Keyword",
+    "hashed_secret": "ae2450117a3720057bdee4b39a3208b229ab1e1e",
+    "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
   }
-
 ]

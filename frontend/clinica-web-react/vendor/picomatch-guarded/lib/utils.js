@@ -3,7 +3,6 @@
 
 const {
   REGEX_BACKSLASH,
-  REGEX_REMOVE_BACKSLASH,
   REGEX_SPECIAL_CHARS,
   REGEX_SPECIAL_CHARS_GLOBAL
 } = require('./constants');
@@ -28,9 +27,30 @@ exports.isWindows = () => {
 };
 
 exports.removeBackslashes = str => {
-  return str.replace(REGEX_REMOVE_BACKSLASH, match => {
-    return match === '\\' ? '' : match;
-  });
+  // Precompute closing brackets and line boundaries once. Searching forward
+  // from every unmatched '[' made the original replacement quadratic.
+  const size = str.length;
+  const nextClose = new Uint32Array(size + 1);
+  const nextBreak = new Uint32Array(size + 1);
+  nextClose[size] = nextBreak[size] = size;
+  const isBreak = ch => ch === '\n' || ch === '\r' || ch === '\u2028' || ch === '\u2029';
+  for (let i = size - 1; i >= 0; i--) {
+    nextClose[i] = str[i] === ']' && str[i - 1] !== '\\' ? i : nextClose[i + 1];
+    nextBreak[i] = isBreak(str[i]) ? i : nextBreak[i + 1];
+  }
+  const output = [];
+  for (let i = 0; i < size; i++) {
+    if (str[i] === '[' && i + 2 < size) {
+      const end = nextClose[i + 2];
+      if (end < size && nextBreak[i + 1] >= end - 1) {
+        output.push(str.slice(i, end + 1));
+        i = end;
+        continue;
+      }
+    }
+    if (str[i] !== '\\' || i + 1 === size || isBreak(str[i + 1])) output.push(str[i]);
+  }
+  return output.join('');
 };
 
 exports.escapeLast = (input, char, lastIdx) => {

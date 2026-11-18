@@ -1,6 +1,7 @@
 {
-  "name": "picomatch",
-  "version": "4.0.7",
+  "name": "@ineo/picomatch-guarded",
+  "version": "4.0.7-ineo.1",
+  "upstream": "picomatch@4.0.7",
   "private": true,
   "description": "INEO local guarded copy of picomatch 4.0.7; see SECURITY.md",
   "main": "index.js",
