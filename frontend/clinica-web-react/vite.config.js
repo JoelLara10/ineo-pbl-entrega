@@ -21,22 +21,9 @@ export default defineConfig({
         start_url: '/',
         scope: '/',
         icons: [
-          {
-            src: 'pwa-192x192.png',
-            sizes: '192x192',
-            type: 'image/png'
-          },
-          {
-            src: 'pwa-512x512.png',
-            sizes: '512x512',
-            type: 'image/png'
-          },
-          {
-            src: 'pwa-512x512.png',
-            sizes: '512x512',
-            type: 'image/png',
-            purpose: 'maskable'
-          }
+          { src: 'pwa-192x192.png', sizes: '192x192', type: 'image/png' },
+          { src: 'pwa-512x512.png', sizes: '512x512', type: 'image/png' },
+          { src: 'pwa-512x512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' }
         ]
       },
       workbox: {
@@ -47,9 +34,7 @@ export default defineConfig({
           {
             urlPattern: ({ url }) => url.pathname.startsWith('/api'),
             handler: 'NetworkOnly',
-            options: {
-              cacheName: 'api-network-only'
-            }
+            options: { cacheName: 'api-network-only' }
           }
         ],
         cleanupOutdatedCaches: true,
@@ -57,8 +42,12 @@ export default defineConfig({
         skipWaiting: true
       },
       devOptions: {
-        enabled: true // Permitir probar SW en desarrollo. Quitar o poner false si interfiere.
+        enabled: true
       }
     })
-  ]
+  ],
+  // >>> AÑADE ESTO <<<
+  build: {
+    manifest: true   // genera dist/.vite/manifest.json (lo necesita check-lazy-bundle)
+  }
 })
