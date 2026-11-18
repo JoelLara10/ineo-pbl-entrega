@@ -8,6 +8,7 @@ import sys
 parser = argparse.ArgumentParser()
 parser.add_argument('--ready-file', type=Path, required=True)
 parser.add_argument('--port', type=int, default=0)
+parser.add_argument('--host', default='127.0.0.1')
 parser.add_argument('--database-down', action='store_true')
 parser.add_argument('--uat-regressions', action='store_true')
 parser.add_argument('--activity18', action='store_true')
@@ -57,6 +58,6 @@ if args.database_down:
 import app as module
 module.init_scheduler = lambda app: None
 from werkzeug.serving import make_server
-server = make_server('127.0.0.1', args.port, module.create_app())
+server = make_server(args.host, args.port, module.create_app())
 args.ready_file.write_text(json.dumps({'port': server.server_port, 'pid': os.getpid()}), encoding='utf8')
 server.serve_forever()

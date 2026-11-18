@@ -40,6 +40,20 @@ pipeline {
                 }
             }
         }
+        stage('Selenium UI remoto: Chrome en Docker') {
+            steps {
+                ws(env.PROJECT_ROOT) {
+                    withEnv([
+                        'SELENIUM_REMOTE_URL=http://127.0.0.1:4444',
+                        'SELENIUM_BROWSER_HOST=host.docker.internal',
+                        "INEO_SCREENSHOT_DIR=${env.PROJECT_ROOT}\\${env.REPORT_DIR}\\selenium-screenshots"
+                    ]) {
+                        bat '"%PYTHON_EXE%" ci/wait_selenium.py'
+                        bat '"%PYTHON_EXE%" -m pytest -q ci/selenium --junitxml="%REPORT_DIR%\\selenium.xml"'
+                    }
+                }
+            }
+        }
         stage('Build web') {
             steps {
                 ws(env.PROJECT_ROOT) {
