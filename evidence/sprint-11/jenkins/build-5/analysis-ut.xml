@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="14" failures="0" errors="0" time="3.8799194">
+    <testsuite name="src/tests/analysis-dashboard.test.jsx" timestamp="2026-11-18T16:43:43.414Z" hostname="DESKTOP-812BAG9" tests="7" failures="0" errors="0" skipped="0" time="1.0426333">
+        <testcase classname="src/tests/analysis-dashboard.test.jsx" name="labels actual statuses and exposes every value in an accessible table" time="0.5917342">
+        </testcase>
+        <testcase classname="src/tests/analysis-dashboard.test.jsx" name="plots all dates and zero days without truncating at twelve rows" time="0.2252215">
+        </testcase>
+        <testcase classname="src/tests/analysis-dashboard.test.jsx" name="uses group labels rather than bed labels and keeps profile units separate" time="0.0613123">
+        </testcase>
+        <testcase classname="src/tests/analysis-dashboard.test.jsx" name="renders unknown occupancy without inventing zero and translates labels" time="0.0480983">
+        </testcase>
+        <testcase classname="src/tests/analysis-dashboard.test.jsx" name="shows empty and migration states explicitly" time="0.0279863">
+        </testcase>
+        <testcase classname="src/tests/analysis-dashboard.test.jsx" name="keeps units explicit and makes supporting text optional in es" time="0.0454192">
+        </testcase>
+        <testcase classname="src/tests/analysis-dashboard.test.jsx" name="keeps units explicit and makes supporting text optional in en" time="0.0385494">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/tests/analysis-tools.test.jsx" timestamp="2026-11-18T16:43:43.427Z" hostname="DESKTOP-812BAG9" tests="7" failures="0" errors="0" skipped="0" time="2.8372861">
+        <testcase classname="src/tests/analysis-tools.test.jsx" name="applies dates, area and equal-period comparison only after running" time="0.7810764">
+        </testcase>
+        <testcase classname="src/tests/analysis-tools.test.jsx" name="rejects a partial date range without executing the analysis" time="0.1702099">
+        </testcase>
+        <testcase classname="src/tests/analysis-tools.test.jsx" name="clearly labels both periods, counts, units and a missing percentage baseline" time="0.0179893">
+        </testcase>
+        <testcase classname="src/tests/analysis-tools.test.jsx" name="records a human interpretation, action and qualitative clarity against the displayed snapshot" time="1.7480725">
+        </testcase>
+        <testcase classname="src/tests/analysis-tools.test.jsx" name="reports that a changed result requires refreshing before saving a review" time="0.0978037">
+        </testcase>
+        <testcase classname="src/tests/analysis-tools.test.jsx" name="exports CSV safely for Excel while retaining numeric negative changes" time="0.0016675">
+        </testcase>
+        <testcase classname="src/tests/analysis-tools.test.jsx" name="exports a standalone chart with labels, unit, period and weighted reference without markup injection" time="0.0167338">
+        </testcase>
+    </testsuite>
+</testsuites>

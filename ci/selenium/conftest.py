@@ -29,7 +29,11 @@ def stop(process):
                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
         else:
             process.terminate()
-        process.wait(timeout=15)
+        try:
+            process.wait(timeout=15)
+        except subprocess.TimeoutExpired:
+            process.kill()
+            process.wait(timeout=5)
 
 
 @pytest.fixture(scope='session')
@@ -37,7 +41,13 @@ def demo_system(tmp_path_factory):
     folder = tmp_path_factory.mktemp('selenium-system')
     ready = folder / 'api.json'
     web_port = free_port()
-    env = dict(os.environ, CORS_ORIGINS=f'http://127.0.0.1:{web_port}', PYTHONUTF8='1')
+    remote = bool(os.getenv('SELENIUM_REMOTE_URL', '').strip())
+    browser_host = os.getenv('SELENIUM_BROWSER_HOST', 'host.docker.internal') if remote else '127.0.0.1'
+    bind_host = '0.0.0.0' if remote else '127.0.0.1'
+    browser_origin = f'http://{browser_host}:{web_port}'
+    env = dict(os.environ, CORS_ORIGINS=browser_origin, PYTHONUTF8='1')
+    if remote:
+        env['__VITE_ADDITIONAL_SERVER_ALLOWED_HOSTS'] = browser_host
     processes, logs = [], []
     def launch(command, cwd):
         log = (folder / f'process-{len(processes)}.log').open('w', encoding='utf8')
@@ -46,32 +56,33 @@ def demo_system(tmp_path_factory):
         processes.append(p)
         return p
     try:
-        api = launch([sys.executable, str(ROOT / 'ci/demo_api.py'), '--ready-file', str(ready), '--uat-regressions'], ROOT)
+        api = launch([sys.executable, str(ROOT / 'ci/demo_api.py'), '--host', bind_host,
+                      '--ready-file', str(ready), '--uat-regressions'], ROOT)
         deadline = time.monotonic() + 50
         while not ready.exists():
             assert api.poll() is None, 'No inició la API sintética'
             assert time.monotonic() < deadline, 'Timeout de API'
             time.sleep(.1)
         api_port = json.loads(ready.read_text())['port']
-        env['VITE_API_URL'] = f'http://127.0.0.1:{api_port}/api/v1'
+        env['VITE_API_URL'] = f'http://{browser_host}:{api_port}/api/v1'
         web = ROOT / 'frontend/clinica-web-react'
         node = shutil.which('node')
         assert node, 'Se requiere Node 22'
-        vite = launch([node, str(web / 'node_modules/vite/bin/vite.js'), '--host', '127.0.0.1',
+        vite = launch([node, str(web / 'node_modules/vite/bin/vite.js'), '--host', bind_host,
                        '--port', str(web_port), '--strictPort'], web)
-        url = f'http://127.0.0.1:{web_port}'
+        local_url = f'http://127.0.0.1:{web_port}'
         deadline = time.monotonic() + 60
         while True:
             assert vite.poll() is None, 'No inició Vite; revisar npm ci'
             try:
-                with urllib.request.urlopen(url, timeout=2) as response:
+                with urllib.request.urlopen(local_url, timeout=2) as response:
                     if response.status == 200:
                         break
             except OSError:
                 pass
             assert time.monotonic() < deadline, 'Timeout de web'
             time.sleep(.2)
-        yield url
+        yield browser_origin
     finally:
         for p in reversed(processes):
             stop(p)
@@ -94,7 +105,11 @@ def browser(request, demo_system):
     options.add_experimental_option('prefs', {'credentials_enable_service': False,
                                             'profile.password_manager_enabled': False})
     executable = os.getenv('CHROMEDRIVER_EXE', '').strip()
-    driver = webdriver.Chrome(service=Service(executable) if executable else Service(), options=options)
+    remote_url = os.getenv('SELENIUM_REMOTE_URL', '').strip()
+    if remote_url:
+        driver = webdriver.Remote(command_executor=remote_url, options=options)
+    else:
+        driver = webdriver.Chrome(service=Service(executable) if executable else Service(), options=options)
     driver.set_page_load_timeout(40)
     driver.demo_url = demo_system
     try:
@@ -103,13 +118,17 @@ def browser(request, demo_system):
         folder = Path(os.getenv('INEO_SCREENSHOT_DIR', str(ROOT / 'reports/selenium-local/screenshots')))
         folder.mkdir(parents=True, exist_ok=True)
         name = request.node.name
+        report = getattr(request.node, 'rep_call', None)
+        record = {
+            'case': name, 'result': report.outcome if report else 'setup_or_teardown',
+            'browser': driver.capabilities.get('browserVersion'),
+            'scope': 'Real web/API HTTP; synthetic in-memory Mongo; technical execution, not human UAT',
+        }
         try:
-            driver.save_screenshot(str(folder / (name + '.png')))
-            report = getattr(request.node, 'rep_call', None)
-            (folder / (name + '.json')).write_text(json.dumps({
-                'case': name, 'result': report.outcome if report else 'setup_or_teardown',
-                'url': driver.current_url, 'browser': driver.capabilities.get('browserVersion'),
-                'scope': 'Real web/API HTTP; synthetic in-memory Mongo; technical execution, not human UAT',
-            }, indent=2), encoding='utf8')
+            record['url'] = driver.current_url
+            record['screenshot'] = driver.save_screenshot(str(folder / (name + '.png')))
+        except Exception as exc:
+            record['screenshot_error'] = type(exc).__name__
         finally:
+            (folder / (name + '.json')).write_text(json.dumps(record, indent=2), encoding='utf8')
             driver.quit()

@@ -1,0 +1,105 @@
+pipeline {
+    agent any
+    options {
+        disableConcurrentBuilds()
+        timeout(time: 20, unit: 'MINUTES')
+        buildDiscarder(logRotator(numToKeepStr: '20'))
+    }
+    parameters {
+        string(name: 'PROJECT_DIR', defaultValue: '', description: 'Ruta del checkout local de sprint11-working')
+        string(name: 'PYTHON_EXE', defaultValue: 'C:\\9noCuatri\\examen-vini\\app-web-unidad2\\outputs\\jenkins-runtime\\venv\\Scripts\\python.exe', description: 'Python del agente con pytest y requests disponibles')
+        string(name: 'CA_BUNDLE', defaultValue: 'C:\\9noCuatri\\examen-vini\\app-web-unidad2\\outputs\\jenkins-runtime\\windows-ca.pem', description: 'Bundle de certificados del equipo; no deshabilitar TLS')
+        string(name: 'EVIDENCE_PACKAGE_DIR', defaultValue: '', description: 'Opcional: carpeta que contiene registros Word, capturas y resultados para CP-S11-CI-05')
+    }
+    stages {
+        stage('Identificar fuente') {
+            steps {
+                script {
+                    env.PROJECT_ROOT = params.PROJECT_DIR?.trim() ?: pwd()
+                    env.REPORT_DIR = 'evidence/sprint-11/jenkins/build-' + env.BUILD_NUMBER
+                }
+                ws(env.PROJECT_ROOT) {
+                    bat 'if not exist "%REPORT_DIR%" mkdir "%REPORT_DIR%"'
+                    bat 'git rev-parse HEAD > "%REPORT_DIR%\\source-sha.txt"'
+                    bat 'git status --short > "%REPORT_DIR%\\working-tree.txt"'
+                }
+            }
+        }
+        stage('UT PBL-12: análisis y exportación') {
+            steps {
+                ws(env.PROJECT_ROOT) {
+                    dir('frontend/clinica-web-react') {
+                        bat 'call npm run test -- --reporter=junit --outputFile="../../%REPORT_DIR%/analysis-ut.xml" --run src/tests/analysis-dashboard.test.jsx src/tests/analysis-tools.test.jsx'
+                    }
+                }
+            }
+        }
+        stage('OAT API sintéticas: salud y recuperación') {
+            steps {
+                ws(env.PROJECT_ROOT) {
+                    bat '"%PYTHON_EXE%" -m pytest -q backend/api_hospital/tests/test_oat_joel.py backend/api_hospital/tests/test_oat_http_joel.py --junitxml="%REPORT_DIR%\\oat-synthetic.xml"'
+                }
+            }
+        }
+        stage('Selenium UI remoto: Chrome en Docker') {
+            steps {
+                ws(env.PROJECT_ROOT) {
+                    withEnv([
+                        'SELENIUM_REMOTE_URL=http://127.0.0.1:4444',
+                        'SELENIUM_BROWSER_HOST=host.docker.internal',
+                        "INEO_SCREENSHOT_DIR=${env.PROJECT_ROOT}\\${env.REPORT_DIR}\\selenium-screenshots"
+                    ]) {
+                        bat '"%PYTHON_EXE%" ci/wait_selenium.py'
+                        bat '"%PYTHON_EXE%" -m pytest -q ci/selenium --junitxml="%REPORT_DIR%\\selenium.xml"'
+                    }
+                }
+            }
+        }
+        stage('Build web') {
+            steps {
+                ws(env.PROJECT_ROOT) {
+                    dir('frontend/clinica-web-react') {
+                        bat 'call npm run build'
+                    }
+                }
+            }
+        }
+        stage('Integridad y promoción local del artefacto') {
+            steps {
+                ws(env.PROJECT_ROOT) {
+                    bat '"%PYTHON_EXE%" ci/sprint11_artifact.py manifest frontend/clinica-web-react/dist "%REPORT_DIR%\\artifact-manifest.json"'
+                    bat '"%PYTHON_EXE%" ci/sprint11_artifact.py copy-verify frontend/clinica-web-react/dist "%REPORT_DIR%\\qa-promotion-simulation" "%REPORT_DIR%\\artifact-manifest.json"'
+                }
+            }
+        }
+        stage('Validar paquete de evidencia') {
+            when { expression { return params.EVIDENCE_PACKAGE_DIR?.trim() } }
+            steps {
+                ws(env.PROJECT_ROOT) {
+                    bat '"%PYTHON_EXE%" ci/validate_sprint11_evidence.py "%EVIDENCE_PACKAGE_DIR%" --json "%REPORT_DIR%\\evidence-package-validation.json"'
+                }
+            }
+        }
+        stage('Smoke de acceso público QA y producción') {
+            steps {
+                ws(env.PROJECT_ROOT) {
+                    withEnv(params.CA_BUNDLE?.trim() ? ["REQUESTS_CA_BUNDLE=${params.CA_BUNDLE}"] : []) {
+                        bat '"%PYTHON_EXE%" ci/sprint11_public_smoke.py'
+                    }
+                }
+            }
+        }
+    }
+    post {
+        always {
+            script {
+                if (env.PROJECT_ROOT && env.REPORT_DIR) {
+                    ws(env.PROJECT_ROOT) {
+                        junit testResults: env.REPORT_DIR + '/*.xml', allowEmptyResults: false
+                        archiveArtifacts artifacts: env.REPORT_DIR + '/**', allowEmptyArchive: false
+                    }
+                }
+            }
+        }
+    }
+}
