@@ -111,6 +111,13 @@ jobs:
             -Dsonar.qualitygate.wait=true
             -Dsonar.qualitygate.timeout=300
 
+      - name: Diagnose failed Sonar processing without changing the gate
+        if: failure()
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        run: python ci/sonar_task_diagnostics.py
+
   sonar-required:
     name: SonarQube required check - API
     runs-on: ubuntu-latest
