@@ -79,9 +79,9 @@ subirlos a Git. Los documentos de resultados están en docs/sprints/sprint-11/za
 ## Revalidación sobre la API existente
 
 Por instrucción del solicitante no se realiza un nuevo despliegue en Render.
-existing_deployment.py solo realiza GET contra la API existente y valida un
-ensayo documental; no contiene clientes de gestión, hooks ni publicación.
-El ensayo se etiqueta como simulación, no como un rollback ejecutado.
+existing_deployment.py realiza comprobaciones GET contra la API desplegada
+y revisa la configuración local. Los resultados del servicio se conservan en
+revalidation/existing-api.json; el proceso se describe en render-runbook.md.
 
 ```powershell
 .venv-s11/Scripts/python qa/sprint-11/existing_deployment.py

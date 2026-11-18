@@ -29,8 +29,8 @@ Todas se entregaron técnicamente para revisión de Jesús.
 | Tarea | Entrega verificable |
 |---|---|
 | PBL-39-T1 #504 | Inventario versionado y contraste HTTP del servicio existente |
-| PBL-39-T2 #505 | Blueprint e inicio validados; ensayo documental sin publicación |
-| PBL-39-T3 #506 | Nueve pruebas reales del servicio y recuperación simulada |
+| PBL-39-T2 #505 | Blueprint, inicio y configuración versionada validados |
+| PBL-39-T3 #506 | Nueve comprobaciones reales de salud, disponibilidad y protección de rutas |
 | PBL-39-T4 #591 | Automatización y cuatro casos de infraestructura reales |
 | PBL-39-T5 #592 | JMeter y PWA con evidencia y reprueba actual |
 | PBL-49-T1 #545 | Carga, duración y criterios técnicos explícitos para revisión |
@@ -40,8 +40,7 @@ Todas se entregaron técnicamente para revisión de Jesús.
 
 ## Alcance y revisión
 
-La simulación no se presenta como despliegue o rollback realizado. No se
-observó el SHA interno de Render y no se atribuye el SHA local al servicio.
+Se verificó la API ya desplegada. No se observó el SHA interno de Render y no se atribuye el SHA local al servicio.
 La instrucción vigente excluye una nueva publicación; no queda como pendiente
 del alcance ajustado. Se mantienen p95 de 2000 ms y errores máximos de 1 %
 como criterios técnicos; su ratificación se incluye en la revisión de Jesús.

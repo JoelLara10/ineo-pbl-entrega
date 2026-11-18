@@ -1,6 +1,6 @@
 {
-  "generated_utc": "2026-11-18T08:09:19.598514+00:00",
-  "code_commit": "614580deba5f43814b1c790864738bddd8ce711b",
+  "generated_utc": "2026-11-18T08:13:30.209839+00:00",
+  "code_commit": "c4250d62931f473a522dca2bf862749e6320649a",
   "note": "Hashes de los archivos originales de esta entrega; cada ejecución conserva además su SHA observado.",
   "sources": [
     {
@@ -21,7 +21,7 @@
     },
     {
       "path": "qa/sprint-11/final_assessment.py",
-      "sha256": "c35e8b6eb67a166add43e05eb55692dcba8c99a463981708c1413135c6f173b4"
+      "sha256": "a744cb5b5ef0996662d42c78ace495a45ffe6a116622485c96b8c61de683d3ba"
     },
     {
       "path": "qa/sprint-11/infrastructure/.terraform.lock.hcl",
@@ -57,7 +57,7 @@
     },
     {
       "path": "qa/sprint-11/README.md",
-      "sha256": "9f4446cccaa75931b972ef31f972c906877bc4c0a69eaa66818fcab155b62112"
+      "sha256": "3f8e39d9a1776c4c63647b91b27afd213b9a9b0f2cc1753d6b6bef70874bc547"
     },
     {
       "path": "qa/sprint-11/render_smoke.py",

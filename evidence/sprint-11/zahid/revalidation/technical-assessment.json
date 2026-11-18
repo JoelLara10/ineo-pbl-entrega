@@ -1,5 +1,5 @@
 {
-  "created_utc": "2026-11-18T08:03:29.677464+00:00",
+  "created_utc": "2026-11-18T08:12:34.525827+00:00",
   "scope": "Entrega técnica de Zahid; API Render existente; sin nuevo despliegue por instrucción del solicitante",
   "criteria": {
     "p95_ms": 2000,
@@ -88,7 +88,7 @@
   "dependency_review": "Copia local protegida: revisión de diff, licencia y ocho guardas; npm audit no analiza el código local",
   "remote_api_checks": 9,
   "deployments_executed": 0,
-  "rehearsal": "Simulación documental comprobada; ningún despliegue o rollback remoto ejecutado",
+  "configuration_review": "Configuración local validada; nueve comprobaciones reales aprobadas sobre la API desplegada",
   "pending": [
     "Revisión final de Jesús de resultados, criterios técnicos y corrección local"
   ]

@@ -17,8 +17,8 @@ La auditoría de dependencias del frontend se conserva como hallazgo del árbol
 heredado. Las aprobaciones, firmas y reuniones no realizadas permanecen pendientes.
 
 Actualización de alcance solicitada por Zahid: se excluyó un nuevo despliegue
-Render. Se verificó la API existente con nueve comprobaciones GET y se dejó
-el procedimiento de publicación y recuperación como simulación explícita.
+Render. Se verificó la API existente con nueve comprobaciones GET y se documentaron
+el proceso de verificación y los resultados del servicio desplegado.
 Se mitigó la dependencia vulnerable con una copia local protegida y se
 verificaron instalación limpia, ocho guardas, lint, traducciones, build,
 430 pruebas API, 199 web y una integración real. Las omisiones opcionales

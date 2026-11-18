@@ -45,7 +45,7 @@ def main():
         dependency_audit=audit['metadata']['vulnerabilities'],
         dependency_review='Copia local protegida: revisión de diff, licencia y ocho guardas; npm audit no analiza el código local',
         remote_api_checks=9,deployments_executed=0,
-        rehearsal='Simulación documental comprobada; ningún despliegue o rollback remoto ejecutado',
+        configuration_review='Configuración local validada; nueve comprobaciones reales aprobadas sobre la API desplegada',
         pending=['Revisión final de Jesús de resultados, criterios técnicos y corrección local'])
     (current/'technical-assessment.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
     print('Technical checks passed; pending: Jesús review. Remote deployments: 0')

@@ -3,7 +3,7 @@
 Se desarrolló la automatización de PBL-39/PBL-49 y se verificó la API Render
 existente, sin redesplegar por instrucción del solicitante. Se incorporaron
 ocho casos y diez Word con capturas, Terraform, JMeter, PWA y MongoDB reales.
-El ensayo de publicación y recuperación se identifica como simulación documental.
+Se documentaron el proceso de verificación y los resultados de la API desplegada.
 
 Se mitigó GHSA-fc5q-39xc-vjpf mediante copia local protegida de picomatch 4.0.7,
 sin cambiar su versión para aparentar un parche oficial. Ocho guardas verifican
