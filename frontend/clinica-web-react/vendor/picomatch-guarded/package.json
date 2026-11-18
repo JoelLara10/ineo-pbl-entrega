@@ -1,0 +1,11 @@
+{
+  "name": "picomatch",
+  "version": "4.0.7",
+  "private": true,
+  "description": "INEO local guarded copy of picomatch 4.0.7; see SECURITY.md",
+  "main": "index.js",
+  "license": "MIT",
+  "engines": {
+    "node": ">=12"
+  }
+}
