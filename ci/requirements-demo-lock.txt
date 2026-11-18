@@ -48,7 +48,7 @@ python-dateutil==3.0.0
 python-dotenv==1.2.4
 python-engineio==4.15.1
 python-socketio==5.17.0
-pytz==2026.5
+pytz==2026.6
 referencing==0.37.0
 reportlab==5.1.0
 requests==2.34.2
