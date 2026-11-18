@@ -23,3 +23,7 @@ def test_rejects_other_origins_or_endpoints(url):
 def test_accepts_only_configured_task_origin():
     url = 'https://sonar.example/api/ce/task?id=test'
     assert module.trusted_task_url('https://sonar.example/', url) == url
+
+
+def test_redirects_are_not_followed():
+    assert module.NoRedirect().redirect_request(None, None, 302, 'Found', {}, 'https://other.example') is None
