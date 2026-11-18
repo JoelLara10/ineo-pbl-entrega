@@ -1,0 +1,8 @@
+{
+  "case": "test_uat_beds_opens_for_administration_without_expanding_edit_permissions[admin]",
+  "result": "passed",
+  "browser": "157.0.8103.38",
+  "scope": "Real web/API HTTP; synthetic in-memory Mongo; technical execution, not human UAT",
+  "url": "http://host.docker.internal:64597/config/camas",
+  "screenshot": true
+}
