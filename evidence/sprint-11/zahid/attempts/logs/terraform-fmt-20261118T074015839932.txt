@@ -1,0 +1,2 @@
+COMMAND: terraform -chdir=C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\qa\sprint-11\infrastructure fmt -check -recursive
+EXIT: 0

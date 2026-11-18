@@ -1,0 +1,17 @@
+{
+  "baseline": {
+    "samples": 90,
+    "min_threads": 5,
+    "max_threads": 5
+  },
+  "peak": {
+    "samples": 661,
+    "min_threads": 20,
+    "max_threads": 20
+  },
+  "recovery": {
+    "samples": 45,
+    "min_threads": 5,
+    "max_threads": 5
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "samples": 3,
+  "errors": 0,
+  "error_rate": 0.0,
+  "p95_ms": 109.0,
+  "observed_threads": 1,
+  "application_seconds": 2.375,
+  "run_id": "S11-7fec637bbc",
+  "thresholds": {
+    "p95_ms": 2000,
+    "error_rate": 0.01
+  },
+  "thresholds_ratified": false,
+  "observed_threshold_result": true,
+  "users": 1,
+  "ramp_seconds": 1,
+  "scheduled_seconds": 8
+}

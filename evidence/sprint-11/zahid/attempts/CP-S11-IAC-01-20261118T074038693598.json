@@ -1,0 +1,29 @@
+{
+  "case": "CP-S11-IAC-01",
+  "title": "Reconstrucción desde cero",
+  "status": "Aprobado",
+  "steps": [
+    [
+      "Inicializar y validar",
+      "Proveedor y configuración válidos",
+      "init y validate exit 0"
+    ],
+    [
+      "Crear QA desde módulos",
+      "MongoDB real disponible",
+      "apply exit 0; mongosh ping ok"
+    ],
+    [
+      "Repetir plan",
+      "Sin cambios",
+      "plan -detailed-exitcode exit 0"
+    ]
+  ],
+  "detail": "logs/create-a.txt; logs/mongo-smoke-a.txt; logs/idempotency-a.txt",
+  "executed_utc": "2026-11-18T07:21:39.000841+00:00",
+  "tested_sha": "13a79b5543e391a16392b747e49abfc05e9cbbb6",
+  "executor": "Agente Codex bajo solicitud de Marcelino Zahid Galicia Bonifacio",
+  "owner": "Marcelino Zahid Galicia Bonifacio",
+  "reviewer": "Jesús — revisión pendiente",
+  "environment": "QA local aislado; datos sintéticos"
+}

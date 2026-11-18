@@ -1,0 +1,27 @@
+<!doctype html><meta charset="utf-8"><style>body{font:22px Arial;margin:32px;color:#17212b}pre{white-space:pre-wrap;font:20px Consolas;line-height:1.25;background:#f3f5f7;padding:20px}small{overflow-wrap:anywhere}</style><h1>Registro de ejecución Sprint 11</h1><p>evidence/sprint-11/zahid/logs/create-plan-a.txt</p><small>SHA256 original: 1c7014a9b10f92a97f46c1828397eb7e2a6f7453c283e08c042f801fc3f097b1</small><p>Extractos del registro original; archivo completo conservado.</p><pre>COMMAND: terraform -chdir=C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\qa\sprint-11\infrastructure plan -input=false -no-color -state=C:\Users\marce\Documents\Codex\2026-11-17\p\work\tf-s11\a\terraform.tfstate -var=environment_name=ineo-test-s11-qa-a -var=mongo_port=27111
+EXIT: 0
+… extracto del registro original …
+      + id           = (known after apply)
+      + image_id     = (known after apply)
+      + keep_locally = true
+      + name         = &quot;mongo:7.0.16&quot;
+      + repo_digest  = (known after apply)
+    }
+
+  # module.test_database.docker_volume.synthetic will be created
+  + resource &quot;docker_volume&quot; &quot;synthetic&quot; {
+      + driver     = (known after apply)
+      + id         = (known after apply)
+      + mountpoint = (known after apply)
+      + name       = &quot;ineo-test-s11-qa-a-synthetic&quot;
+    }
+
+Plan: 3 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + mongo_uri = &quot;mongodb://127.0.0.1:27111/&quot;
+
+─────────────────────────────────────────────────────────────────────────────
+
+Note: You didn&#x27;t use the -out option to save this plan, so Terraform can&#x27;t
+guarantee to take exactly these actions if you run &quot;terraform apply&quot; now.</pre>

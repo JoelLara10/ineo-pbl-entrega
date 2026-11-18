@@ -1,0 +1,139 @@
+COMMAND: terraform -chdir=C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\qa\sprint-11\infrastructure destroy -auto-approve -input=false -no-color -state=C:\Users\marce\Documents\Codex\2026-11-17\p\work\tf-s11\a\terraform.tfstate -var=environment_name=ineo-test-s11-qa-a -var=mongo_port=27111
+EXIT: 0
+
+Warning: Deprecated flag: -state
+
+Use the "path" attribute within the "local" backend to specify a file for
+state storage
+module.test_database.docker_volume.synthetic: Refreshing state... [id=ineo-test-s11-qa-a-synthetic]
+module.test_database.docker_image.mongo: Refreshing state... [id=sha256:c630c59342c1493d50345136df2af14a76b9e827dd5316bfabee07a0880a5f3amongo:7.0.16]
+module.test_database.docker_container.mongo: Refreshing state... [id=3ec0a40584689f19ecb8154418bb32dbf5f6e0d55c5e766aaa62af671492764a]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # module.test_database.docker_container.mongo will be destroyed
+  - resource "docker_container" "mongo" {
+      - attach                                      = false -> null
+      - command                                     = [
+          - "mongod",
+        ] -> null
+      - container_read_refresh_timeout_milliseconds = 15000 -> null
+      - cpu_shares                                  = 0 -> null
+      - dns                                         = [] -> null
+      - dns_opts                                    = [] -> null
+      - dns_search                                  = [] -> null
+      - entrypoint                                  = [
+          - "docker-entrypoint.sh",
+        ] -> null
+      - env                                         = [] -> null
+      - group_add                                   = [] -> null
+      - hostname                                    = "3ec0a4058468" -> null
+      - id                                          = "3ec0a40584689f19ecb8154418bb32dbf5f6e0d55c5e766aaa62af671492764a" -> null
+      - image                                       = "sha256:c630c59342c1493d50345136df2af14a76b9e827dd5316bfabee07a0880a5f3a" -> null
+      - init                                        = false -> null
+      - ipc_mode                                    = "private" -> null
+      - log_driver                                  = "local" -> null
+      - log_opts                                    = {} -> null
+      - logs                                        = false -> null
+      - max_retry_count                             = 0 -> null
+      - memory                                      = 0 -> null
+      - memory_reservation                          = 0 -> null
+      - memory_swap                                 = 0 -> null
+      - must_run                                    = true -> null
+      - name                                        = "ineo-test-s11-qa-a" -> null
+      - network_data                                = [
+          - {
+              - gateway                   = "172.17.0.1"
+              - global_ipv6_prefix_length = 0
+              - ip_address                = "172.17.0.3"
+              - ip_prefix_length          = 16
+              - mac_address               = "5e:ee:b0:71:3d:95"
+              - network_name              = "bridge"
+                # (2 unchanged attributes hidden)
+            },
+        ] -> null
+      - network_mode                                = "bridge" -> null
+      - privileged                                  = false -> null
+      - publish_all_ports                           = false -> null
+      - read_only                                   = false -> null
+      - remove_volumes                              = true -> null
+      - restart                                     = "no" -> null
+      - rm                                          = false -> null
+      - runtime                                     = "runc" -> null
+      - security_opts                               = [] -> null
+      - shm_size                                    = 64 -> null
+      - start                                       = true -> null
+      - stdin_open                                  = false -> null
+      - stop_timeout                                = 0 -> null
+      - storage_opts                                = {} -> null
+      - sysctls                                     = {} -> null
+      - tmpfs                                       = {} -> null
+      - tty                                         = false -> null
+      - wait                                        = true -> null
+      - wait_timeout                                = 180 -> null
+        # (8 unchanged attributes hidden)
+
+      - healthcheck {
+          - interval       = "5s" -> null
+          - retries        = 20 -> null
+          - start_interval = "0s" -> null
+          - start_period   = "10s" -> null
+          - test           = [
+              - "CMD",
+              - "mongosh",
+              - "--quiet",
+              - "--eval",
+              - "db.adminCommand('ping').ok",
+            ] -> null
+          - timeout        = "5s" -> null
+        }
+
+      - ports {
+          - external = 27111 -> null
+          - internal = 27017 -> null
+          - ip       = "127.0.0.1" -> null
+          - protocol = "tcp" -> null
+        }
+
+      - volumes {
+          - container_path = "/data/db" -> null
+          - read_only      = false -> null
+          - volume_name    = "ineo-test-s11-qa-a-synthetic" -> null
+            # (2 unchanged attributes hidden)
+        }
+    }
+
+  # module.test_database.docker_image.mongo will be destroyed
+  - resource "docker_image" "mongo" {
+      - id           = "sha256:c630c59342c1493d50345136df2af14a76b9e827dd5316bfabee07a0880a5f3amongo:7.0.16" -> null
+      - image_id     = "sha256:c630c59342c1493d50345136df2af14a76b9e827dd5316bfabee07a0880a5f3a" -> null
+      - keep_locally = true -> null
+      - name         = "mongo:7.0.16" -> null
+      - repo_digest  = "mongo@sha256:c630c59342c1493d50345136df2af14a76b9e827dd5316bfabee07a0880a5f3a" -> null
+    }
+
+  # module.test_database.docker_volume.synthetic will be destroyed
+  - resource "docker_volume" "synthetic" {
+      - driver      = "local" -> null
+      - driver_opts = {} -> null
+      - id          = "ineo-test-s11-qa-a-synthetic" -> null
+      - mountpoint  = "/var/lib/docker/volumes/ineo-test-s11-qa-a-synthetic/_data" -> null
+      - name        = "ineo-test-s11-qa-a-synthetic" -> null
+    }
+
+Plan: 0 to add, 0 to change, 3 to destroy.
+
+Changes to Outputs:
+  - mongo_uri = "mongodb://127.0.0.1:27111/" -> null
+module.test_database.docker_container.mongo: Destroying... [id=3ec0a40584689f19ecb8154418bb32dbf5f6e0d55c5e766aaa62af671492764a]
+module.test_database.docker_container.mongo: Destruction complete after 1s
+module.test_database.docker_volume.synthetic: Destroying... [id=ineo-test-s11-qa-a-synthetic]
+module.test_database.docker_image.mongo: Destroying... [id=sha256:c630c59342c1493d50345136df2af14a76b9e827dd5316bfabee07a0880a5f3amongo:7.0.16]
+module.test_database.docker_image.mongo: Destruction complete after 0s
+module.test_database.docker_volume.synthetic: Destruction complete after 2s
+
+Destroy complete! Resources: 3 destroyed.

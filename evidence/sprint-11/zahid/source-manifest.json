@@ -1,0 +1,87 @@
+{
+  "generated_utc": "2026-11-18T07:47:20.874867+00:00",
+  "code_commit": "4c0cafa24541af224995675e5164100f20fe23e8",
+  "note": "Hashes de los archivos originales de esta entrega; cada ejecución conserva además su SHA observado.",
+  "sources": [
+    {
+      "path": "qa/sprint-11/capture_reports.py",
+      "sha256": "030b8fa9898b4fc597f892f7b5ed10c96b2a2282cc1c621f88ca941f05ced8af"
+    },
+    {
+      "path": "qa/sprint-11/common.py",
+      "sha256": "bed29508e00a38c5eb467f3ce5ed400f0fc40373ba4a87e9fd9131f0388e0c23"
+    },
+    {
+      "path": "qa/sprint-11/infrastructure/.terraform.lock.hcl",
+      "sha256": "0368582debb6a7ecf280a1dc6c36f48af2d5b260c8f2c73114db407f5f3b3d94"
+    },
+    {
+      "path": "qa/sprint-11/infrastructure/lifecycle.py",
+      "sha256": "fe7169aca14f13faeccbf683f2aa802aa9b2ff730233037d465a00e2008e9bca"
+    },
+    {
+      "path": "qa/sprint-11/infrastructure/main.tf",
+      "sha256": "269e69b4e53d3996febdf2ffac718e383120e184eaaefd54b5b438efc2ac3099"
+    },
+    {
+      "path": "qa/sprint-11/jmeter/peak.jmx",
+      "sha256": "e7b26fcaa9bcfcfbe550f12bb1cf961368e9e6a9d9b9738bd6da812d6b4d5015"
+    },
+    {
+      "path": "qa/sprint-11/jmeter/read.jmx",
+      "sha256": "720c303052a8b952cb2c6b45d21da21b3f4e2c872ce52a43393a6b159f679f97"
+    },
+    {
+      "path": "qa/sprint-11/jmeter/write.jmx",
+      "sha256": "5f7d8dd6e89d1f5fb3a02c27b8bef8bee0635b0cc400fedc1f8585db4716ace2"
+    },
+    {
+      "path": "qa/sprint-11/performance.py",
+      "sha256": "a1b11afc26ad85053c087eabf4dd39cfdf1280f6ad3e7c2990efa66fefb213c5"
+    },
+    {
+      "path": "qa/sprint-11/pwa.py",
+      "sha256": "6f3b86aa9a71a2bf483a1ba123d850f3927ce86930ff18b1cd388a521f1a0462"
+    },
+    {
+      "path": "qa/sprint-11/README.md",
+      "sha256": "94153ad3d622de8e3ca1b85e73768766187624bbf1db1b2466b6fc10b21d8358"
+    },
+    {
+      "path": "qa/sprint-11/render_smoke.py",
+      "sha256": "b82dc900db6b4d12f22867a82df818b69e6f466ad0c7b1bbc4e527481216fa68"
+    },
+    {
+      "path": "qa/sprint-11/requirements-lock.txt",
+      "sha256": "241fddcd46aadd2e68305cb19cbef45a3c2d0a3c358d4ba985c861295229558b"
+    },
+    {
+      "path": "qa/sprint-11/requirements.txt",
+      "sha256": "f574f0dbf6ccc7f461aaefb9546e30e367749c69a027dc60242f215b3ea3a68d"
+    },
+    {
+      "path": "qa/sprint-11/server.py",
+      "sha256": "0a638ccae9207733aa02db905483849d1d3e9350cb5c770ecaf4db9aeadd8e18"
+    },
+    {
+      "path": "qa/sprint-11/test_campaign_guards.py",
+      "sha256": "ceb4ac12d6da187d1541faf7b8058ab110ea8c3d766659618ba424e4a50ca8c0"
+    },
+    {
+      "path": "infra/terraform/modules/test_database/main.tf",
+      "sha256": "1923ac60810be831b69b4dd52cca9735da4a524987eef53c4d4fb2b6a8b7d1d2"
+    },
+    {
+      "path": "render.yaml",
+      "sha256": "9fc4187bcb38f84a32e00490cd65fcefda4a3dc32f3afd9c1bf56c5af61eccfa"
+    },
+    {
+      "path": "backend/api_hospital/Dockerfile",
+      "sha256": "73f567e4539e1dcc96b72801e9b9e3209a2950ec18cc033543b5247cf7855758"
+    },
+    {
+      "path": ".github/workflows/sprint11-zahid.yml",
+      "sha256": "de0cf01479d8d4ffeacd36813554f74ea093a25227a30e799ad1a19f924a5b7a"
+    }
+  ]
+}

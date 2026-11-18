@@ -1,0 +1,38 @@
+{
+  "case": "CP-S11-IAC-04",
+  "title": "Restauración de configuración",
+  "status": "Aprobado",
+  "steps": [
+    [
+      "Reaplicar configuración",
+      "Recuperar nombre versionado",
+      "apply exit 0"
+    ],
+    [
+      "Plan final",
+      "Sin cambios",
+      "plan exit 0"
+    ]
+  ],
+  "detail": "logs/restore-a.txt; logs/restored-plan-a.txt",
+  "executed_utc": "2026-11-18T07:40:55.674728+00:00",
+  "tested_sha": "4c0cafa24541af224995675e5164100f20fe23e8",
+  "executor": "Agente Codex bajo solicitud de Marcelino Zahid Galicia Bonifacio",
+  "owner": "Marcelino Zahid Galicia Bonifacio",
+  "reviewer": "Jesús — revisión pendiente",
+  "environment": "QA local aislado; datos sintéticos",
+  "source_snapshot": {
+    "qa/sprint-11/capture_reports.py": "a65346676b9b7a92e76892c20175b0d82d0d880913074525f761a4913724b1df",
+    "qa/sprint-11/common.py": "bed29508e00a38c5eb467f3ce5ed400f0fc40373ba4a87e9fd9131f0388e0c23",
+    "qa/sprint-11/infrastructure/lifecycle.py": "fe7169aca14f13faeccbf683f2aa802aa9b2ff730233037d465a00e2008e9bca",
+    "qa/sprint-11/infrastructure/main.tf": "269e69b4e53d3996febdf2ffac718e383120e184eaaefd54b5b438efc2ac3099",
+    "qa/sprint-11/jmeter/peak.jmx": "e7b26fcaa9bcfcfbe550f12bb1cf961368e9e6a9d9b9738bd6da812d6b4d5015",
+    "qa/sprint-11/jmeter/read.jmx": "720c303052a8b952cb2c6b45d21da21b3f4e2c872ce52a43393a6b159f679f97",
+    "qa/sprint-11/jmeter/write.jmx": "5f7d8dd6e89d1f5fb3a02c27b8bef8bee0635b0cc400fedc1f8585db4716ace2",
+    "qa/sprint-11/performance.py": "a1b11afc26ad85053c087eabf4dd39cfdf1280f6ad3e7c2990efa66fefb213c5",
+    "qa/sprint-11/pwa.py": "6f3b86aa9a71a2bf483a1ba123d850f3927ce86930ff18b1cd388a521f1a0462",
+    "qa/sprint-11/render_smoke.py": "b82dc900db6b4d12f22867a82df818b69e6f466ad0c7b1bbc4e527481216fa68",
+    "qa/sprint-11/server.py": "0a638ccae9207733aa02db905483849d1d3e9350cb5c770ecaf4db9aeadd8e18",
+    "qa/sprint-11/test_campaign_guards.py": "ceb4ac12d6da187d1541faf7b8058ab110ea8c3d766659618ba424e4a50ca8c0"
+  }
+}

@@ -1,0 +1,21 @@
+COMMAND: "C:\Program Files\Java\jdk-17\bin\java.exe" -Xms128m -Xmx512m -jar C:\Users\marce\Documents\Codex\2026-11-17\p\work\apache-jmeter-5.6.3\bin\ApacheJMeter.jar -n -t C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\qa\sprint-11\jmeter\peak.jmx -l C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\evidence\sprint-11\zahid\jmeter\peak\results.jtl -j C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\evidence\sprint-11\zahid\jmeter\peak\jmeter.log -e -o C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\evidence\sprint-11\zahid\jmeter\peak\html -Jusers=20 -Jramp=1 -Jduration=120 -Jpause=1000 -Jrun_id=S11-fbfa4d1e98 -Jjmeter.save.saveservice.output_format=csv -Jjmeter.save.saveservice.response_data=false -Jjmeter.save.saveservice.response_data.on_error=false -Jjmeter.save.saveservice.samplerData=false -Jjmeter.save.saveservice.requestHeaders=false -Jjmeter.save.saveservice.responseHeaders=false
+EXIT: 0
+WARN StatusConsoleListener The use of package scanning to locate plugins is deprecated and will be removed in a future release
+WARN StatusConsoleListener The use of package scanning to locate plugins is deprecated and will be removed in a future release
+WARN StatusConsoleListener The use of package scanning to locate plugins is deprecated and will be removed in a future release
+WARN StatusConsoleListener The use of package scanning to locate plugins is deprecated and will be removed in a future release
+Creating summariser <summary>
+Created the tree successfully using C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\qa\sprint-11\jmeter\peak.jmx
+Starting standalone test @ 2026 Nov 18 01:36:14 CST (1794987374052)
+Waiting for possible Shutdown/StopTestNow/HeapDump/ThreadDump message on port 4445
+summary +     51 in 00:00:16 =    3.3/s Avg:   134 Min:    17 Max:   205 Err:     0 (0.00%) Active: 5 Started: 5 Finished: 0
+summary +    277 in 00:00:30 =    9.3/s Avg:   201 Min:    12 Max:  1340 Err:     0 (0.00%) Active: 20 Started: 20 Finished: 0
+summary =    328 in 00:00:45 =    7.2/s Avg:   191 Min:    12 Max:  1340 Err:     0 (0.00%)
+summary +    514 in 00:00:30 =   17.2/s Avg:   201 Min:    72 Max:  1608 Err:     0 (0.00%) Active: 20 Started: 20 Finished: 0
+summary =    842 in 00:01:15 =   11.2/s Avg:   197 Min:    12 Max:  1608 Err:     0 (0.00%)
+summary +    335 in 00:00:30 =   11.1/s Avg:   115 Min:    75 Max:   331 Err:     0 (0.00%) Active: 5 Started: 20 Finished: 15
+summary =   1177 in 00:01:45 =   11.2/s Avg:   174 Min:    12 Max:  1608 Err:     0 (0.00%)
+summary +     69 in 00:00:15 =    4.7/s Avg:    86 Min:    77 Max:   124 Err:     0 (0.00%) Active: 0 Started: 20 Finished: 20
+summary =   1246 in 00:02:00 =   10.4/s Avg:   169 Min:    12 Max:  1608 Err:     0 (0.00%)
+Tidying up ...    @ 2026 Nov 18 01:38:14 CST (1794987494822)
+... end of run

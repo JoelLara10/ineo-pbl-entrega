@@ -1,0 +1,7 @@
+COMMAND: terraform version -no-color
+EXIT: 0
+Terraform v1.16.4
+on windows_amd64
+
+Your version of Terraform is out of date! The latest version
+is 1.17.2. You can update by downloading from https://developer.hashicorp.com/terraform/install

@@ -1,0 +1,64 @@
+{
+  "environment": "Render remoto proporcionado por el usuario",
+  "deployment_sha": "No verificable sin metadatos de Render",
+  "scope": "Smoke HTTPS de solo lectura; no acredita un nuevo despliegue",
+  "checks": [
+    {
+      "url": "https://api-clinica-jx4m.onrender.com/health",
+      "status": 200,
+      "expected": 200,
+      "passed": true,
+      "seconds": 34.404,
+      "body": {
+        "status": "ok",
+        "timestamp": "2026-11-18T07:24:11.623721",
+        "version": "v1"
+      },
+      "cache_control": "no-store",
+      "content_type": "application/json"
+    },
+    {
+      "url": "https://api-clinica-jx4m.onrender.com/ready",
+      "status": 200,
+      "expected": 200,
+      "passed": true,
+      "seconds": 2.469,
+      "body": {
+        "database": "available",
+        "status": "ready"
+      },
+      "cache_control": "no-store",
+      "content_type": "application/json"
+    },
+    {
+      "url": "https://api-clinica-jx4m.onrender.com/",
+      "status": 200,
+      "expected": 200,
+      "passed": true,
+      "seconds": 1.262,
+      "body": {
+        "endpoints": {
+          "auth": "/api/v1/auth",
+          "medical": "/api/v1/medical",
+          "patients": "/api/v1/patients"
+        },
+        "name": "Hospital API",
+        "version": "v1"
+      },
+      "cache_control": "no-store",
+      "content_type": "application/json"
+    },
+    {
+      "url": "https://api-clinica-jx4m.onrender.com/api/v1/patients",
+      "status": 401,
+      "expected": 401,
+      "passed": true,
+      "seconds": 1.137,
+      "body": {
+        "error": "Token no proporcionado"
+      },
+      "cache_control": "no-store",
+      "content_type": "application/json"
+    }
+  ]
+}
