@@ -23,10 +23,35 @@ def trusted_task_url(host, task_url):
     return task_url
 
 
+def make_project_public(host, credential):
+    """Explicit owner-authorized action, never invoked by PR analysis."""
+    base = urlsplit(host)
+    if base.scheme != 'https' or not base.hostname or base.username or base.password:
+        raise ValueError('Sonar configuration must identify an HTTPS server without embedded credentials')
+    opener = build_opener(NoRedirect())
+    headers = {'Authorization': 'Bearer ' + credential}
+    project = 'jaimediaz25'
+    request = Request(host.rstrip('/') + '/api/projects/update_visibility',
+        data=urlencode({'project': project, 'visibility': 'public'}).encode(),
+        headers={**headers, 'Content-Type': 'application/x-www-form-urlencoded'}, method='POST')
+    with opener.open(request, timeout=30) as response:
+        response.read()
+    request = Request(host.rstrip('/') + '/api/components/show?' + urlencode({'component': project}), headers=headers)
+    with opener.open(request, timeout=30) as response:
+        component = json.load(response)['component']
+    if component.get('visibility') != 'public':
+        raise RuntimeError('Sonar did not confirm public visibility')
+    print('Confirmed Sonar project visibility: ' + json.dumps({'project': project, 'visibility': 'public'}))
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--task-id')
+    parser.add_argument('--make-project-public', action='store_true')
     args = parser.parse_args()
+    if args.make_project_public:
+        make_project_public(os.environ['SONAR_HOST_URL'], os.environ['SONAR_TOKEN'])
+        return
     metadata = Path('backend/api_hospital/.scannerwork/report-task.txt')
     if not args.task_id and not metadata.is_file():
         print('No Sonar compute-task metadata; inspect the original failed step.')
