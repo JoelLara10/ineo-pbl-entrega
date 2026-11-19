@@ -1,0 +1,92 @@
+Lanzada por el usuario Díaz González Jaime
+Obtained ci/Jenkinsfile.sprint11-sonar from git https://github.com/JoelLara10/ineo-pbl-entrega.git
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins  in C:\ProgramData\Jenkins\.jenkins\workspace\INEO-Sprint11-SonarQube
+[Pipeline] {
+[Pipeline] timeout
+Timeout set to expire in 20 Min
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Checkout)
+[Pipeline] git
+The recommended git tool is: git.exe
+No credentials specified
+ > git.exe rev-parse --resolve-git-dir C:\ProgramData\Jenkins\.jenkins\workspace\INEO-Sprint11-SonarQube\.git # timeout=10
+Fetching changes from the remote Git repository
+ > git.exe config remote.origin.url https://github.com/JoelLara10/ineo-pbl-entrega.git # timeout=10
+Fetching upstream changes from https://github.com/JoelLara10/ineo-pbl-entrega.git
+ > git.exe --version # timeout=10
+ > git --version # 'git version 2.51.1.windows.1'
+ > git.exe fetch --tags --force --progress -- https://github.com/JoelLara10/ineo-pbl-entrega.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git.exe rev-parse "refs/remotes/origin/feature/sprint-11-jaime-pwa^{commit}" # timeout=10
+Checking out Revision c8b51cd0deebb1884bcee0fcf74bdb6725a71784 (refs/remotes/origin/feature/sprint-11-jaime-pwa)
+ > git.exe config core.sparsecheckout # timeout=10
+ > git.exe checkout -f c8b51cd0deebb1884bcee0fcf74bdb6725a71784 # timeout=10
+ > git.exe branch -a -v --no-abbrev # timeout=10
+ > git.exe branch -D feature/sprint-11-jaime-pwa # timeout=10
+ > git.exe checkout -b feature/sprint-11-jaime-pwa c8b51cd0deebb1884bcee0fcf74bdb6725a71784 # timeout=10
+Commit message: "ci: integrar Jenkins con SonarQube Sprint 11"
+ > git.exe rev-list --no-walk c8b51cd0deebb1884bcee0fcf74bdb6725a71784 # timeout=10
+[Pipeline] bat
+
+C:\ProgramData\Jenkins\.jenkins\workspace\INEO-Sprint11-SonarQube>git rev-parse HEAD 
+c8b51cd0deebb1884bcee0fcf74bdb6725a71784
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (SonarQube Scanner)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] tool
+[Pipeline] echo
+SonarQube Host: http://127.0.0.1:1
+[Pipeline] withCredentials
+Masking supported pattern matches of %SONAR_TOKEN%
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] dir
+Running in C:\ProgramData\Jenkins\.jenkins\workspace\INEO-Sprint11-SonarQube\backend\api_hospital
+[Pipeline] {
+[Pipeline] bat
+
+C:\ProgramData\Jenkins\.jenkins\workspace\INEO-Sprint11-SonarQube\backend\api_hospital>"C:\ProgramData\Jenkins\.jenkins\tools\hudson.plugins.sonar.SonarRunnerInstallation\SonarScanner\bin\sonar-scanner.bat"                                   -Dsonar.organization=jaimediaz25                                   -Dsonar.projectKey=jaimediaz25_sprint11_jenkins                                   -Dsonar.sources=.                                   -Dsonar.tests=tests                                   -Dsonar.exclusions=**/tests/**,**/.venv/**,**/__pycache__/**                                   -Dsonar.qualitygate.wait=true                                   -Dsonar.qualitygate.timeout=300 
+23:33:39.698 INFO  Scanner configuration file: C:\ProgramData\Jenkins\.jenkins\tools\hudson.plugins.sonar.SonarRunnerInstallation\SonarScanner\bin\..\conf\sonar-scanner.properties
+23:33:39.703 INFO  Project root configuration file: NONE
+23:33:39.719 INFO  SonarScanner CLI 8.4.0.16527
+23:33:39.723 INFO  Windows 10 10.0 amd64
+23:33:42.067 ERROR Failed to query server version: Call to URL [http://127.0.0.1:1/api/v2/analysis/version] failed: Connection refused: getsockopt
+23:33:42.068 INFO  EXECUTION FAILURE
+23:33:42.070 INFO  Total time: 2.374s
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Autorizar promocion)
+Stage "Autorizar promocion" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] echo
+RESULTADO: FALLIDO
+[Pipeline] echo
+PROMOCION BLOQUEADA
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // timeout
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+ERROR: script returned exit code 1
+Finished: FAILURE

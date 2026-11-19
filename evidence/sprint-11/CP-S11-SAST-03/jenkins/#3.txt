@@ -1,0 +1,321 @@
+Lanzada por el usuario Díaz González Jaime
+Obtained ci/Jenkinsfile.sprint11-sonar from git https://github.com/JoelLara10/ineo-pbl-entrega.git
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins  in C:\ProgramData\Jenkins\.jenkins\workspace\INEO-Sprint11-SonarQube
+[Pipeline] {
+[Pipeline] timeout
+Timeout set to expire in 20 Min
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Checkout)
+[Pipeline] git
+The recommended git tool is: git.exe
+No credentials specified
+ > git.exe rev-parse --resolve-git-dir C:\ProgramData\Jenkins\.jenkins\workspace\INEO-Sprint11-SonarQube\.git # timeout=10
+Fetching changes from the remote Git repository
+ > git.exe config remote.origin.url https://github.com/JoelLara10/ineo-pbl-entrega.git # timeout=10
+Fetching upstream changes from https://github.com/JoelLara10/ineo-pbl-entrega.git
+ > git.exe --version # timeout=10
+ > git --version # 'git version 2.51.1.windows.1'
+ > git.exe fetch --tags --force --progress -- https://github.com/JoelLara10/ineo-pbl-entrega.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git.exe rev-parse "refs/remotes/origin/feature/sprint-11-jaime-pwa^{commit}" # timeout=10
+Checking out Revision c8b51cd0deebb1884bcee0fcf74bdb6725a71784 (refs/remotes/origin/feature/sprint-11-jaime-pwa)
+ > git.exe config core.sparsecheckout # timeout=10
+ > git.exe checkout -f c8b51cd0deebb1884bcee0fcf74bdb6725a71784 # timeout=10
+ > git.exe branch -a -v --no-abbrev # timeout=10
+ > git.exe branch -D feature/sprint-11-jaime-pwa # timeout=10
+ > git.exe checkout -b feature/sprint-11-jaime-pwa c8b51cd0deebb1884bcee0fcf74bdb6725a71784 # timeout=10
+Commit message: "ci: integrar Jenkins con SonarQube Sprint 11"
+ > git.exe rev-list --no-walk c8b51cd0deebb1884bcee0fcf74bdb6725a71784 # timeout=10
+[Pipeline] bat
+
+C:\ProgramData\Jenkins\.jenkins\workspace\INEO-Sprint11-SonarQube>git rev-parse HEAD 
+c8b51cd0deebb1884bcee0fcf74bdb6725a71784
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (SonarQube Scanner)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] tool
+[Pipeline] echo
+SonarQube Host: https://sonarcloud.io
+[Pipeline] withCredentials
+Masking supported pattern matches of %SONAR_TOKEN%
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] dir
+Running in C:\ProgramData\Jenkins\.jenkins\workspace\INEO-Sprint11-SonarQube\backend\api_hospital
+[Pipeline] {
+[Pipeline] bat
+
+C:\ProgramData\Jenkins\.jenkins\workspace\INEO-Sprint11-SonarQube\backend\api_hospital>"C:\ProgramData\Jenkins\.jenkins\tools\hudson.plugins.sonar.SonarRunnerInstallation\SonarScanner\bin\sonar-scanner.bat"                                   -Dsonar.organization=jaimediaz25                                   -Dsonar.projectKey=jaimediaz25_sprint11_jenkins                                   -Dsonar.sources=.                                   -Dsonar.tests=tests                                   -Dsonar.exclusions=**/tests/**,**/.venv/**,**/__pycache__/**                                   -Dsonar.qualitygate.wait=true                                   -Dsonar.qualitygate.timeout=300 
+23:43:21.561 INFO  Scanner configuration file: C:\ProgramData\Jenkins\.jenkins\tools\hudson.plugins.sonar.SonarRunnerInstallation\SonarScanner\bin\..\conf\sonar-scanner.properties
+23:43:21.565 INFO  Project root configuration file: NONE
+23:43:21.581 INFO  SonarScanner CLI 8.4.0.16527
+23:43:21.584 INFO  Windows 10 10.0 amd64
+23:43:23.547 INFO  Communicating with SonarQube Cloud
+23:43:23.548 INFO  JRE provisioning: os[windows], arch[amd64]
+WARNING: Final field filename in class org.sonarsource.scanner.lib.internal.facade.forked.ResourceMetadata has been mutated reflectively by class com.google.gson.internal.bind.ReflectiveTypeAdapterFactory$2 in unnamed module @1a968a59 (file:/C:/ProgramData/Jenkins/.jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/SonarScanner/lib/sonar-scanner-cli-8.4.0.16527.jar)
+WARNING: Use --enable-final-field-mutation=ALL-UNNAMED to avoid a warning
+WARNING: Mutating final fields will be blocked in a future release unless final field mutation is enabled
+23:43:25.033 INFO  Starting SonarScanner Engine...
+23:43:25.033 INFO  Java 21.0.13 Eclipse Adoptium (64-bit)
+23:43:27.203 INFO  Load global settings
+23:43:28.669 INFO  Load global settings (done) | time=1467ms
+23:43:28.687 INFO  Server id: 1BD809FA-AWHW8ct9-T_TB3XqouNu
+23:43:28.696 INFO  Found an active CI vendor: 'Jenkins'
+23:43:29.068 INFO  Loading required plugins
+23:43:29.068 INFO  Load plugins index
+23:43:29.351 INFO  Load plugins index (done) | time=283ms
+23:43:29.445 INFO  Load/download plugins
+23:43:29.526 INFO  Load/download plugins (done) | time=81ms
+23:43:29.652 INFO  Loaded core extensions: a3s, architecture, cbom, sca
+23:43:30.020 INFO  Load project settings for component key: 'jaimediaz25_sprint11_jenkins'
+23:43:30.362 INFO  Load project settings for component key: 'jaimediaz25_sprint11_jenkins' (done) | time=340ms
+23:43:31.170 INFO  Process project properties
+23:43:31.616 INFO  Project key: jaimediaz25_sprint11_jenkins
+23:43:31.617 INFO  Base dir: C:\ProgramData\Jenkins\.jenkins\workspace\INEO-Sprint11-SonarQube\backend\api_hospital
+23:43:31.617 INFO  Working dir: C:\ProgramData\Jenkins\.jenkins\workspace\INEO-Sprint11-SonarQube\backend\api_hospital\.scannerwork
+23:43:31.654 INFO  Check ALM binding of project 'jaimediaz25_sprint11_jenkins'
+23:43:31.923 INFO  Detected project binding: NOT_BOUND
+23:43:31.924 INFO  Check ALM binding of project 'jaimediaz25_sprint11_jenkins' (done) | time=269ms
+23:43:31.932 INFO  Load branch configuration
+23:43:31.935 INFO  Load branch configuration (done) | time=3ms
+23:43:31.938 INFO  Create analysis
+23:43:32.492 INFO  Create analysis (done) | time=553ms
+23:43:33.187 INFO  Load quality profiles
+23:43:33.619 INFO  Load quality profiles (done) | time=432ms
+23:43:33.647 INFO  Load active rules
+23:43:34.335 INFO  Load active rules (done) | time=689ms
+23:43:34.636 INFO  Organization key: jaimediaz25
+23:43:34.666 INFO  Preprocessing files...
+23:43:35.087 INFO  3 languages detected in 120 preprocessed files (done) | time=420ms
+23:43:35.087 INFO  0 files ignored because of inclusion/exclusion patterns
+23:43:35.088 INFO  1 directory skipped because of exclusion patterns (content not counted)
+23:43:35.088 INFO  0 files ignored because of scm ignore settings
+23:43:39.745 INFO  Loading plugins for detected languages
+23:43:39.745 INFO  Load/download plugins
+23:43:39.934 INFO  Load/download plugins (done) | time=189ms
+23:43:40.351 INFO  Load project repositories
+23:43:40.650 INFO  Load project repositories (done) | time=299ms
+23:43:40.682 INFO  Indexing files...
+23:43:40.682 INFO  Project configuration:
+23:43:40.682 INFO    Excluded sources: **/tests/**, **/.venv/**, **/__pycache__/**, **/build-wrapper-dump.json
+23:43:40.719 INFO  120 files indexed (done) | time=38ms
+23:43:40.721 INFO  Quality profile for docker: Sonar way core
+23:43:40.721 INFO  Quality profile for json: Sonar way core
+23:43:40.721 INFO  Quality profile for py: Sonar way core
+23:43:41.454 INFO  Dependency analysis skipped
+23:43:41.454 INFO  ------------- Run sensors on module jaimediaz25_sprint11_jenkins
+23:43:41.557 INFO  Load metrics repository
+23:43:41.821 INFO  Load metrics repository (done) | time=264ms
+23:43:41.833 INFO  Sensor cache enabled
+23:43:41.841 INFO  Load sensor cache
+23:43:44.141 INFO  Load sensor cache (2 MB) | time=2298ms
+23:43:45.283 INFO  Sensor IaC YAML File Type Classification Sensor [iac]
+23:43:45.311 INFO  Sensor IaC YAML File Type Classification Sensor [iac] (done) | time=27ms
+23:43:45.312 INFO  Sensor Python Sensor [python]
+23:43:45.317 WARN  Your code is analyzed as compatible with Python versions 3.10 through 3.15 by default. You can get a more precise analysis by setting the Python version or version range in your configuration via the parameter "sonar.python.version"
+23:43:45.687 INFO  Starting global symbols computation
+23:43:45.691 INFO  106 source files to be analyzed
+23:43:47.831 INFO  106/106 source files have been analyzed
+23:43:47.832 INFO  Finished step global symbols computation in 2143ms
+23:43:47.982 INFO  Starting rules execution
+23:43:47.982 INFO  106 source files to be analyzed
+23:43:57.984 INFO  106/106 files analyzed, current files: none
+23:43:59.460 INFO  106/106 source files have been analyzed
+23:43:59.461 INFO  Finished step rules execution in 11477ms
+23:43:59.461 INFO  The Python analyzer was able to leverage cached data from previous analyses for 0 out of 106 files. These files were not parsed.
+23:43:59.464 INFO  Sensor Python Sensor [python] (done) | time=14153ms
+23:43:59.465 INFO  Sensor Cobertura Sensor for Python coverage [python]
+23:43:59.568 INFO  Sensor Cobertura Sensor for Python coverage [python] (done) | time=103ms
+23:43:59.569 INFO  Sensor PythonXUnitSensor [python]
+23:43:59.655 INFO  Sensor PythonXUnitSensor [python] (done) | time=85ms
+23:43:59.655 INFO  Sensor Python Dependency Sensor [python]
+23:43:59.705 INFO  Sensor Python Dependency Sensor [python] (done) | time=49ms
+23:43:59.705 INFO  Sensor Scan Manifest Module Properties Collector [commona3scontextcollector]
+23:44:00.202 INFO  Sensor Scan Manifest Module Properties Collector [commona3scontextcollector] (done) | time=496ms
+23:44:00.202 INFO  Sensor PythonModuleSecuritySensor [securitypythonfrontend]
+23:44:00.203 INFO  Sensor PythonModuleSecuritySensor [securitypythonfrontend] (done) | time=0ms
+23:44:00.203 INFO  Sensor Python HTML templates processing [securitypythonfrontend]
+23:44:00.208 INFO  Sensor Python HTML templates processing [securitypythonfrontend] (done) | time=5ms
+23:44:00.209 INFO  Sensor IaC CloudFormation Sensor [iac]
+23:44:00.209 INFO  There are no files to be analyzed for the CloudFormation language
+23:44:00.209 INFO  Sensor IaC CloudFormation Sensor [iac] (done) | time=1ms
+23:44:00.209 INFO  Sensor IaC cfn-lint report Sensor [iac]
+23:44:00.210 INFO  Sensor IaC cfn-lint report Sensor [iac] (done) | time=0ms
+23:44:00.210 INFO  Sensor IaC hadolint report Sensor [iac]
+23:44:00.210 INFO  Sensor IaC hadolint report Sensor [iac] (done) | time=0ms
+23:44:00.210 INFO  Sensor IaC Azure Resource Manager Sensor [iac]
+23:44:00.211 INFO  There are no files to be analyzed for the Azure Resource Manager language
+23:44:00.211 INFO  Sensor IaC Azure Resource Manager Sensor [iac] (done) | time=1ms
+23:44:00.212 INFO  Sensor Java Config Sensor [iac]
+23:44:00.212 INFO  There are no files to be analyzed for the Java language
+23:44:00.212 INFO  Sensor Java Config Sensor [iac] (done) | time=0ms
+23:44:00.212 INFO  Sensor IaC Docker Sensor [iac]
+23:44:00.316 INFO  3 source files to be analyzed
+23:44:01.925 INFO  3/3 source files have been analyzed
+23:44:01.925 INFO  Sensor IaC Docker Sensor [iac] (done) | time=1712ms
+23:44:01.925 INFO  Sensor IaC spectral report Sensor [iac]
+23:44:01.926 INFO  Sensor IaC spectral report Sensor [iac] (done) | time=0ms
+23:44:01.926 INFO  Sensor IaC GitHub Actions Sensor [iac]
+23:44:01.928 INFO  There are no files to be analyzed for the GitHub Actions language
+23:44:01.928 INFO  Sensor IaC GitHub Actions Sensor [iac] (done) | time=0ms
+23:44:01.928 INFO  Sensor IaC actionlint report Sensor [iac]
+23:44:01.928 INFO  Sensor IaC actionlint report Sensor [iac] (done) | time=0ms
+23:44:01.929 INFO  Sensor IaC Azure Pipelines Sensor [iac]
+23:44:01.929 INFO  There are no files to be analyzed for the Azure Pipelines language
+23:44:01.929 INFO  Sensor IaC Azure Pipelines Sensor [iac] (done) | time=0ms
+23:44:01.929 INFO  Sensor IaC Shell Sensor [iac]
+23:44:01.929 INFO  There are no files to be analyzed for the Shell language
+23:44:01.929 INFO  Sensor IaC Shell Sensor [iac] (done) | time=0ms
+23:44:01.930 INFO  Sensor IaC JSON Sensor [iac]
+23:44:01.930 INFO  Sensor for language "JSON" is disabled by a feature flag. You can enable it by setting "sonar.featureflag.cloud-security-enable-generic-yaml-and-json-analyzer" to true.
+23:44:01.930 INFO  Sensor IaC JSON Sensor [iac] (done) | time=0ms
+23:44:01.930 INFO  Sensor EnterpriseTextAndSecretsSensor [textenterprise]
+23:44:01.952 INFO  Available processors: 12
+23:44:01.952 INFO  Using 12 threads for analysis.
+23:44:02.578 INFO  The following rules are activated in the quality profile but will not raise any issue, because they are being rolled out progressively: secrets:S8136. You can enable it by setting: sonar.featureflag.cloud-security-enable-secrets-S8136 to true.
+23:44:02.691 INFO  Start fetching files for the text and secrets analysis
+23:44:03.083 INFO  Using Git CLI to retrieve dirty files
+23:44:03.393 INFO  Retrieving language associated files and files included via "sonar.text.inclusions" that are tracked by git
+23:44:03.395 INFO  Starting the text and secrets analysis
+23:44:03.397 INFO  109 source files to be analyzed for the text and secrets analysis
+23:44:03.613 INFO  109/109 source files have been analyzed for the text and secrets analysis
+23:44:03.615 INFO  Start fetching files for the binary file analysis
+23:44:03.617 INFO  There are no files to be analyzed for the binary file analysis
+23:44:03.628 INFO  Sensor EnterpriseTextAndSecretsSensor [textenterprise] (done) | time=1697ms
+23:44:03.629 INFO  Sensor javabugs [dbd]
+23:44:03.642 INFO  No IR files have been included for analysis.
+23:44:03.642 INFO  Sensor javabugs [dbd] (done) | time=14ms
+23:44:03.642 INFO  Sensor pythonbugs [dbd]
+23:44:03.759 INFO  Analyzing 325/345 functions to detect bugs.
+23:44:07.194 INFO  Sensor pythonbugs [dbd] (done) | time=3551ms
+23:44:07.194 INFO  Sensor PythonSecuritySensor [security]
+23:44:07.204 INFO  32 taint analysis rules enabled.
+23:44:10.138 INFO  Analyzing 13580 UCFGs to detect vulnerabilities.
+23:44:11.435 INFO  All rules entry points : 130
+23:44:11.437 INFO  Retained UCFGs : 357
+23:44:11.539 INFO  0 / 357 UCFGs simulated, memory usage: 1014 MB
+23:44:12.266 INFO  313 / 357 UCFGs simulated, memory usage: 1117 MB
+23:44:12.312 INFO  python security sensor: Begin: 2026-11-19T05:44:07.198108900Z, End: 2026-11-19T05:44:12.310335300Z, Duration: 00:00:05.112
+  Resolve files to analyze: Begin: 2026-11-19T05:44:07.204112300Z, End: 2026-11-19T05:44:07.205110300Z, Duration: 00:00:00.000
+  Load type hierarchy and UCFGs: Begin: 2026-11-19T05:44:07.205110300Z, End: 2026-11-19T05:44:10.137327300Z, Duration: 00:00:02.932
+    Load type hierarchy: Begin: 2026-11-19T05:44:07.205110300Z, End: 2026-11-19T05:44:07.371103500Z, Duration: 00:00:00.165
+    Load UCFGs: Begin: 2026-11-19T05:44:07.371103500Z, End: 2026-11-19T05:44:10.137327300Z, Duration: 00:00:02.766
+  Check cache: Begin: 2026-11-19T05:44:10.137327300Z, End: 2026-11-19T05:44:10.139340Z, Duration: 00:00:00.002
+    Load cache: Begin: 2026-11-19T05:44:10.138337100Z, End: 2026-11-19T05:44:10.138337100Z, Duration: 00:00:00.000
+  Create runtime call graph: Begin: 2026-11-19T05:44:10.139340Z, End: 2026-11-19T05:44:10.790328700Z, Duration: 00:00:00.650
+    Variable Type Analysis #1: Begin: 2026-11-19T05:44:10.140329800Z, End: 2026-11-19T05:44:10.582327300Z, Duration: 00:00:00.441
+      Create runtime type propagation graph: Begin: 2026-11-19T05:44:10.140329800Z, End: 2026-11-19T05:44:10.363328800Z, Duration: 00:00:00.222
+      Run SCC (Tarjan) on 42208 nodes: Begin: 2026-11-19T05:44:10.364325800Z, End: 2026-11-19T05:44:10.420327Z, Duration: 00:00:00.056
+      Propagate runtime types to strongly connected components: Begin: 2026-11-19T05:44:10.420327Z, End: 2026-11-19T05:44:10.582327300Z, Duration: 00:00:00.162
+    Variable Type Analysis #2: Begin: 2026-11-19T05:44:10.585340800Z, End: 2026-11-19T05:44:10.781343800Z, Duration: 00:00:00.196
+      Create runtime type propagation graph: Begin: 2026-11-19T05:44:10.585340800Z, End: 2026-11-19T05:44:10.673330Z, Duration: 00:00:00.087
+      Run SCC (Tarjan) on 40843 nodes: Begin: 2026-11-19T05:44:10.673330Z, End: 2026-11-19T05:44:10.705332Z, Duration: 00:00:00.032
+      Propagate runtime types to strongly connected components: Begin: 2026-11-19T05:44:10.705332Z, End: 2026-11-19T05:44:10.781343800Z, Duration: 00:00:00.076
+  Load config: Begin: 2026-11-19T05:44:10.791332Z, End: 2026-11-19T05:44:11.251332100Z, Duration: 00:00:00.460
+  Compute entry points: Begin: 2026-11-19T05:44:11.251332100Z, End: 2026-11-19T05:44:11.434333100Z, Duration: 00:00:00.183
+  Slice call graph: Begin: 2026-11-19T05:44:11.435335Z, End: 2026-11-19T05:44:11.447332Z, Duration: 00:00:00.011
+  Live variable analysis: Begin: 2026-11-19T05:44:11.448332600Z, End: 2026-11-19T05:44:11.535337600Z, Duration: 00:00:00.087
+  Taint analysis for python: Begin: 2026-11-19T05:44:11.535337600Z, End: 2026-11-19T05:44:12.266332100Z, Duration: 00:00:00.730
+  Report issues: Begin: 2026-11-19T05:44:12.266332100Z, End: 2026-11-19T05:44:12.291337700Z, Duration: 00:00:00.025
+  Store cache: Begin: 2026-11-19T05:44:12.292328100Z, End: 2026-11-19T05:44:12.309339500Z, Duration: 00:00:00.017
+23:44:12.312 INFO  python security sensor peak memory (pre-GC, max allocation pressure): 1199 MB
+23:44:12.313 INFO  python security sensor peak memory (post-GC, max live footprint): 1047 MB
+23:44:12.313 INFO  Sensor PythonSecuritySensor [security] (done) | time=5118ms
+23:44:12.313 INFO  Sensor DBD End of Execution [dbd]
+23:44:12.313 INFO  Sensor DBD End of Execution [dbd] (done) | time=0ms
+23:44:12.330 INFO  ------------- Run sensors on project
+23:44:12.607 INFO  Sensor BOMSensor [bom]
+23:44:12.607 INFO  Skipping BOMSensor: CBOM generation is not available
+23:44:12.607 INFO  Sensor BOMSensor [bom] (done) | time=0ms
+23:44:12.607 INFO  Sensor SonarPython A3S Context Collector [python]
+23:44:12.608 INFO  Sensor SonarPython A3S Context Collector [python] (done) | time=0ms
+23:44:12.608 INFO  Sensor pySecurityContextCollectorSensor [security]
+23:44:12.608 INFO  Sensor pySecurityContextCollectorSensor [security] (done) | time=0ms
+23:44:12.608 INFO  Sensor Scan Manifest A3S Context Collector [commona3scontextcollector]
+23:44:12.608 INFO  Sensor Scan Manifest A3S Context Collector [commona3scontextcollector] (done) | time=0ms
+23:44:12.608 INFO  Sensor CveReachabilitySensor [cvereachability]
+23:44:12.608 INFO  Skipping CveReachabilitySensor: CVE reachability feature is not available.
+23:44:12.609 INFO  Sensor CveReachabilitySensor [cvereachability] (done) | time=0ms
+23:44:12.609 INFO  Sensor IaC Project Sensor [iac]
+23:44:12.610 INFO  Sensor IaC Project Sensor [iac] (done) | time=2ms
+23:44:12.610 INFO  Sensor PythonArchitectureSensor [architecture]
+23:44:12.610 INFO  Architecture analysis is enabled.
+23:44:12.676 INFO  Found 1 potential Udg file location(s) for "py" in "C:\ProgramData\Jenkins\.jenkins\workspace\INEO-Sprint11-SonarQube\backend\api_hospital\.scannerwork"
+23:44:12.676 INFO  - C:\ProgramData\Jenkins\.jenkins\workspace\INEO-Sprint11-SonarQube\backend\api_hospital\.scannerwork\architecture\py
+23:44:12.828 INFO  * Protobuf reading starting | memory total=1468 | free=298 | used=1169 (MB)
+23:44:12.829 INFO  * Reading SonarArchitecture UDG data from "C:\ProgramData\Jenkins\.jenkins\workspace\INEO-Sprint11-SonarQube\backend\api_hospital\.scannerwork\architecture\py"
+23:44:12.973 INFO  * Files successfully loaded: "73" out of "73"
+23:44:12.973 INFO  * Purging externals (components not scanned) from graphs
+23:44:12.977 INFO  * Purging excluded nodes from graphs
+23:44:12.980 INFO  * Protobuf reading complete | memory total=1468 | free=284 | used=1183 (MB)
+23:44:13.019 INFO  * Build architecture.graph.py.file_graph.default_perspective hierarchy graph complete (filtered=false) | memory total=1468 | free=270 | used=1197 (MB)
+23:44:13.107 INFO  No directives configured
+23:44:13.112 INFO  * No intended architecture defined or detected, using an empty model
+23:44:13.264 INFO  Boundary detection is disabled.
+23:44:13.311 INFO  Sensor PythonArchitectureSensor [architecture] (done) | time=700ms
+23:44:13.312 INFO  Sensor Architecture Agentic Analysis Context [architecture]
+23:44:13.312 INFO  Sensor Architecture Agentic Analysis Context [architecture] (done) | time=0ms
+23:44:13.312 INFO  Sensor Zero Coverage Sensor
+23:44:13.396 INFO  Sensor Zero Coverage Sensor (done) | time=84ms
+23:44:13.396 INFO  Sensor Architecture Telemetry [architecture]
+23:44:13.396 INFO  Sensor Architecture Telemetry [architecture] (done) | time=0ms
+23:44:13.397 INFO  ------------- Gather SCA dependencies on project
+23:44:13.414 INFO  CPD Executor 6 files had no CPD blocks
+23:44:13.414 INFO  CPD Executor Calculating CPD for 67 files
+23:44:13.508 INFO  CPD Executor CPD calculation finished (done) | time=93ms
+23:44:13.509 INFO  SCM Publisher SCM provider for this project is: git
+23:44:13.510 INFO  SCM Publisher 106 source files to be analyzed
+23:44:23.512 INFO  7/106 source files have been analyzed
+23:44:33.512 INFO  7/106 source files have been analyzed
+23:44:43.513 INFO  7/106 source files have been analyzed
+23:44:47.040 INFO  SCM Publisher 106/106 source files have been analyzed (done) | time=33529ms
+23:44:47.051 INFO  SCM revision ID 'c8b51cd0deebb1884bcee0fcf74bdb6725a71784'
+23:44:49.627 INFO  Analysis report generated in 2539ms, dir size=1 MB
+23:44:50.221 INFO  Analysis report compressed in 593ms, zip size=586 KB
+23:44:51.501 INFO  Analysis report uploaded in 1280ms
+23:44:53.509 INFO  Successfully sent architecture data
+23:44:53.509 INFO  ------------- Upload SCA dependency files
+23:45:02.031 INFO  Sensor cache published successfully
+23:45:02.031 INFO  ------------- Check Quality Gate status
+23:45:02.031 INFO  Waiting for the analysis report to be processed (max 300s)
+23:45:02.585 INFO  QUALITY GATE STATUS: PASSED - View details on https://sonarcloud.io/dashboard?id=jaimediaz25_sprint11_jenkins
+23:45:05.571 INFO  Analysis total time: 1:40.487 min
+23:45:05.602 INFO  SonarScanner Engine completed successfully
+23:45:05.773 INFO  EXECUTION SUCCESS
+23:45:05.774 INFO  Total time: 1:44.216s
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Autorizar promocion)
+[Pipeline] echo
+QUALITY GATE APROBADO
+[Pipeline] echo
+PROMOCION AUTORIZADA
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] echo
+RESULTADO: APROBADO
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // timeout
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
