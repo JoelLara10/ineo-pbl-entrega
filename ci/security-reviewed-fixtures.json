@@ -4066,5 +4066,29 @@
     "type": "Secret Keyword",
     "hashed_secret": "ae2450117a3720057bdee4b39a3208b229ab1e1e",
     "reason": "Dato sintetico de test o demo local; nunca usar en produccion"
+  },
+  {
+    "file": "Jenkinsfile-sprint11-jesus",
+    "type": "Secret Keyword",
+    "hashed_secret": "3fad4d51e45dcc677abe124beae514a407e4305f",
+    "reason": "Nombre de variable de Jenkins para credencial inyectada; no contiene el valor del secreto."
+  },
+  {
+    "file": "Jenkinsfile-sprint11-jesus",
+    "type": "Secret Keyword",
+    "hashed_secret": "306a940cabf82936f10d0a14f97532a408b8546f",
+    "reason": "Nombre de variable de Jenkins para credencial inyectada; no contiene el valor del secreto."
+  },
+  {
+    "file": "Jenkinsfile-sprint11-jesus",
+    "type": "Secret Keyword",
+    "hashed_secret": "c8bd33b87f9438aa48c6b46ee4e08be8302798e4",
+    "reason": "Nombre de variable de Jenkins para credencial inyectada; no contiene el valor del secreto."
+  },
+  {
+    "file": "Jenkinsfile-sprint11-jesus",
+    "type": "Secret Keyword",
+    "hashed_secret": "9f6421e8188a72c63812aedcfab9c00e7bb14273",
+    "reason": "Nombre de variable de Jenkins para credencial inyectada; no contiene el valor del secreto."
   }
 ]

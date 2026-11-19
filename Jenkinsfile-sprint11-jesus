@@ -1,0 +1,117 @@
+pipeline {
+    agent any
+
+    environment {
+        QA_URL = 'https://ineo-web-qa.vercel.app/login'
+        API_URL = 'https://api-clinica-jx4m.onrender.com'
+        PYTHON_EXE = 'C:\\Users\\al222\\AppData\\Local\\Programs\\Python\\Python311\\python.exe'
+        HEADLESS = 'true'
+        BROWSERS = 'chrome,firefox'
+        S11_ENABLE_MUTATION_TESTS = 'true'
+    }
+
+    parameters {
+        string(name: 'TURN_ROUTE', defaultValue: '', description: 'Ruta real del módulo de turno')
+        string(name: 'STUDIES_ROUTE', defaultValue: '', description: 'Ruta real del módulo de estudios')
+        string(name: 'ANALYTICS_ROUTE', defaultValue: '', description: 'Ruta real del módulo Analytics')
+        string(name: 'SIT_UPLOAD_ENDPOINT', defaultValue: '', description: 'Endpoint real de carga')
+        string(name: 'SIT_FILE_METADATA_ENDPOINT', defaultValue: '', description: 'Endpoint real de metadatos')
+        string(name: 'SIT_ANALYTICS_ENDPOINT', defaultValue: '', description: 'Endpoint real de Analytics')
+    }
+
+    stages {
+        stage('Preparar ambiente y metadatos') {
+            steps {
+                bat '''
+                    "%PYTHON_EXE%" --version
+                    if errorlevel 1 exit /b 1
+                    if not exist .venv-sprint11 "%PYTHON_EXE%" -m venv .venv-sprint11
+                    if errorlevel 1 exit /b 1
+                    .venv-sprint11\\Scripts\\python.exe -m pip install --upgrade pip
+                    .venv-sprint11\\Scripts\\python.exe -m pip install -r qa\\sprint-11\\requirements.txt
+                    if errorlevel 1 exit /b 1
+                    if not exist qa\\sprint-11\\reports mkdir qa\\sprint-11\\reports
+                    if not exist qa\\sprint-11\\screenshots mkdir qa\\sprint-11\\screenshots
+                    del /q qa\\sprint-11\\reports\\*.xml 2>nul
+                    del /q qa\\sprint-11\\screenshots\\*.png 2>nul
+                    (echo git_sha=%GIT_COMMIT%& echo build_number=%BUILD_NUMBER%& echo build_url=%BUILD_URL%& echo branch=%BRANCH_NAME%) > qa\\sprint-11\\reports\\build-metadata.properties
+                '''
+            }
+        }
+
+        stage('SIT y SAST Sprint 11') {
+            steps {
+                catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
+                    withEnv([
+                        "SIT_UPLOAD_ENDPOINT=${params.SIT_UPLOAD_ENDPOINT}",
+                        "SIT_FILE_METADATA_ENDPOINT=${params.SIT_FILE_METADATA_ENDPOINT}",
+                        "SIT_ANALYTICS_ENDPOINT=${params.SIT_ANALYTICS_ENDPOINT}"
+                    ]) {
+                        bat '''
+                            .venv-sprint11\\Scripts\\python.exe -m pytest ^
+                              qa\\sprint-11\\integration qa\\sprint-11\\security ^
+                              -v -c qa\\sprint-11\\pytest.ini ^
+                              --junitxml=qa\\sprint-11\\reports\\SIT-SAST-resultados.xml
+                        '''
+                    }
+                }
+            }
+        }
+
+        stage('UI Selenium Sprint 11') {
+            steps {
+                catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
+                    withCredentials([
+                        usernamePassword(credentialsId: 'ineo-admin-login', usernameVariable: 'ADMIN_LOGIN_USR', passwordVariable: 'ADMIN_LOGIN_PSW'),
+                        usernamePassword(credentialsId: 'ineo-enfermeria-login', usernameVariable: 'ENFERMERIA_LOGIN_USR', passwordVariable: 'ENFERMERIA_LOGIN_PSW')
+                    ]) {
+                        withEnv([
+                            "TURN_ROUTE=${params.TURN_ROUTE}",
+                            "STUDIES_ROUTE=${params.STUDIES_ROUTE}",
+                            "ANALYTICS_ROUTE=${params.ANALYTICS_ROUTE}"
+                        ]) {
+                            bat '''
+                                .venv-sprint11\\Scripts\\python.exe -m pytest ^
+                                  qa\\sprint-11\\selenium ^
+                                  -v -c qa\\sprint-11\\pytest.ini ^
+                                  --junitxml=qa\\sprint-11\\reports\\UI-resultados.xml
+                            '''
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Regresión PBL-20') {
+            steps {
+                catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
+                    withCredentials([
+                        usernamePassword(credentialsId: 'ineo-admin-login', usernameVariable: 'ADMIN_LOGIN_USR', passwordVariable: 'ADMIN_AUTH_VALUE'),
+                        usernamePassword(credentialsId: 'ineo-enfermeria-login', usernameVariable: 'ENFERMERIA_LOGIN_USR', passwordVariable: 'ENFERMERIA_AUTH_VALUE')
+                    ]) {
+                        bat '''
+                            .venv-sprint11\\Scripts\\python.exe -m pytest ^
+                              qa\\sprint-10\\selenium\\test_ui_01_login.py ^
+                              qa\\sprint-10\\selenium\\test_ui_02_permisos.py ^
+                              qa\\sprint-10\\selenium\\test_ui_03_idioma.py ^
+                              qa\\sprint-10\\selenium\\test_ui_04_validacion.py ^
+                              -v ^
+                              --junitxml=qa\\sprint-11\\reports\\PBL-20-regresion.xml
+                        '''
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            junit(testResults: 'qa/sprint-11/reports/*.xml', allowEmptyResults: true)
+            archiveArtifacts(
+                artifacts: 'qa/sprint-11/reports/**/*, qa/sprint-11/screenshots/**/*, evidence/sprint-11/**/*',
+                allowEmptyArchive: true,
+                fingerprint: true
+            )
+        }
+    }
+}
