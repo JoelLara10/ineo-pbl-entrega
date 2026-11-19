@@ -1,0 +1,21 @@
+﻿"Analítica general","2026-11-18T22:40:14.822280+00:00"
+"Desde","2022-10-20"
+"Hasta","2025-11-18"
+"Área","Urgencias"
+"Categoría","Valor","Unidad"
+"Pacientes registrados","207","Pacientes"
+"Atenciones registradas","149","Atenciones"
+"Atenciones abiertas","149","Atenciones"
+"Ocupación actual de camas","48","%"
+
+"Atenciones por estado","Atenciones"
+"Abiertas","149"
+
+"Carga actual por área","Atenciones"
+"Urgencias","149"
+
+"Disponibilidad de camas","Camas"
+"Libres","13"
+"Ocupadas","12"
+
+"Seguimiento de estudios","Estudios solicitados"

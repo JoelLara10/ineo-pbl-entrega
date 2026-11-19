@@ -21,6 +21,7 @@ __pycache__/
 .coverage
 test-results.xml
 spark-results.xml
+.venv-uat
 
 # Node
 node_modules/

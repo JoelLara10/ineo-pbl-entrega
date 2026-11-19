@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="20" failures="0" skipped="0" tests="20" time="0.894" timestamp="2026-11-18T22:13:02.779502-06:00" hostname="DESKTOP-N6EERLJ"><testcase classname="ci.selenium.test_uat_display_regressions" name="test_uat_typed_fields_are_readable_in_both_browser_themes[valoracion-light]" time="0.286"><error message="failed on setup with &quot;AssertionError: No inició la API sintética&#10;assert 1 is None&#10; +  where 1 = poll()&#10; +    where poll = &lt;Popen: returncode: 1 args: ['C:\\Users\\Jaime\\Documents\\CUATRI_9\\DESARRO...&gt;.poll&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=&lt;pluggy._tracing.TagTracerSub object at 0x000001D840689910&gt;, _basetemp=WindowsPath('C:/Users/Jaime/AppData/Local/Temp/pytest-of-Jaime/pytest-0'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope='session')
+    def demo_system(tmp_path_factory):
+        folder = tmp_path_factory.mktemp('selenium-system')
+        ready = folder / 'api.json'
+        web_port = free_port()
+        env = dict(os.environ, CORS_ORIGINS=f'http://127.0.0.1:{web_port}', PYTHONUTF8='1')
+        processes, logs = [], []
+        def launch(command, cwd):
+            log = (folder / f'process-{len(processes)}.log').open('w', encoding='utf8')
+            logs.append(log)
+            p = subprocess.Popen(command, cwd=cwd, env=env, stdout=log, stderr=subprocess.STDOUT)
+            processes.append(p)
+            return p
+        try:
+            api = launch([sys.executable, str(ROOT / 'ci/demo_api.py'), '--ready-file', str(ready), '--uat-regressions'], ROOT)
+            deadline = time.monotonic() + 50
+            while not ready.exists():
+&gt;               assert api.poll() is None, 'No inició la API sintética'
+E               AssertionError: No inició la API sintética
+E               assert 1 is None
+E                +  where 1 = poll()
+E                +    where poll = &lt;Popen: returncode: 1 args: ['C:\\Users\\Jaime\\Documents\\CUATRI_9\\DESARRO...&gt;.poll
+
+ci\selenium\conftest.py:52: AssertionError</error></testcase><testcase classname="ci.selenium.test_uat_display_regressions" name="test_uat_typed_fields_are_readable_in_both_browser_themes[valoracion-dark]" time="0.000"><error message="failed on setup with &quot;AssertionError: No inició la API sintética&#10;assert 1 is None&#10; +  where 1 = poll()&#10; +    where poll = &lt;Popen: returncode: 1 args: ['C:\\Users\\Jaime\\Documents\\CUATRI_9\\DESARRO...&gt;.poll&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=&lt;pluggy._tracing.TagTracerSub object at 0x000001D840689910&gt;, _basetemp=WindowsPath('C:/Users/Jaime/AppData/Local/Temp/pytest-of-Jaime/pytest-0'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope='session')
+    def demo_system(tmp_path_factory):
+        folder = tmp_path_factory.mktemp('selenium-system')
+        ready = folder / 'api.json'
+        web_port = free_port()
+        env = dict(os.environ, CORS_ORIGINS=f'http://127.0.0.1:{web_port}', PYTHONUTF8='1')
+        processes, logs = [], []
+        def launch(command, cwd):
+            log = (folder / f'process-{len(processes)}.log').open('w', encoding='utf8')
+            logs.append(log)
+            p = subprocess.Popen(command, cwd=cwd, env=env, stdout=log, stderr=subprocess.STDOUT)
+            processes.append(p)
+            return p
+        try:
+            api = launch([sys.executable, str(ROOT / 'ci/demo_api.py'), '--ready-file', str(ready), '--uat-regressions'], ROOT)
+            deadline = time.monotonic() + 50
+            while not ready.exists():
+&gt;               assert api.poll() is None, 'No inició la API sintética'
+E               AssertionError: No inició la API sintética
+E               assert 1 is None
+E                +  where 1 = poll()
+E                +    where poll = &lt;Popen: returncode: 1 args: ['C:\\Users\\Jaime\\Documents\\CUATRI_9\\DESARRO...&gt;.poll
+
+ci\selenium\conftest.py:52: AssertionError</error></testcase><testcase classname="ci.selenium.test_uat_display_regressions" name="test_uat_typed_fields_are_readable_in_both_browser_themes[balance-hidrico-light]" time="0.000"><error message="failed on setup with &quot;AssertionError: No inició la API sintética&#10;assert 1 is None&#10; +  where 1 = poll()&#10; +    where poll = &lt;Popen: returncode: 1 args: ['C:\\Users\\Jaime\\Documents\\CUATRI_9\\DESARRO...&gt;.poll&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=&lt;pluggy._tracing.TagTracerSub object at 0x000001D840689910&gt;, _basetemp=WindowsPath('C:/Users/Jaime/AppData/Local/Temp/pytest-of-Jaime/pytest-0'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope='session')
+    def demo_system(tmp_path_factory):
+        folder = tmp_path_factory.mktemp('selenium-system')
+        ready = folder / 'api.json'
+        web_port = free_port()
+        env = dict(os.environ, CORS_ORIGINS=f'http://127.0.0.1:{web_port}', PYTHONUTF8='1')
+        processes, logs = [], []
+        def launch(command, cwd):
+            log = (folder / f'process-{len(processes)}.log').open('w', encoding='utf8')
+            logs.append(log)
+            p = subprocess.Popen(command, cwd=cwd, env=env, stdout=log, stderr=subprocess.STDOUT)
+            processes.append(p)
+            return p
+        try:
+            api = launch([sys.executable, str(ROOT / 'ci/demo_api.py'), '--ready-file', str(ready), '--uat-regressions'], ROOT)
+            deadline = time.monotonic() + 50
+            while not ready.exists():
+&gt;               assert api.poll() is None, 'No inició la API sintética'
+E               AssertionError: No inició la API sintética
+E               assert 1 is None
+E                +  where 1 = poll()
+E                +    where poll = &lt;Popen: returncode: 1 args: ['C:\\Users\\Jaime\\Documents\\CUATRI_9\\DESARRO...&gt;.poll
+
+ci\selenium\conftest.py:52: AssertionError</error></testcase><testcase classname="ci.selenium.test_uat_display_regressions" name="test_uat_typed_fields_are_readable_in_both_browser_themes[balance-hidrico-dark]" time="0.001"><error message="failed on setup with &quot;AssertionError: No inició la API sintética&#10;assert 1 is None&#10; +  where 1 = poll()&#10; +    where poll = &lt;Popen: returncode: 1 args: ['C:\\Users\\Jaime\\Documents\\CUATRI_9\\DESARRO...&gt;.poll&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=&lt;pluggy._tracing.TagTracerSub object at 0x000001D840689910&gt;, _basetemp=WindowsPath('C:/Users/Jaime/AppData/Local/Temp/pytest-of-Jaime/pytest-0'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope='session')
+    def demo_system(tmp_path_factory):
+        folder = tmp_path_factory.mktemp('selenium-system')
+        ready = folder / 'api.json'
+        web_port = free_port()
+        env = dict(os.environ, CORS_ORIGINS=f'http://127.0.0.1:{web_port}', PYTHONUTF8='1')
+        processes, logs = [], []
+        def launch(command, cwd):
+            log = (folder / f'process-{len(processes)}.log').open('w', encoding='utf8')
+            logs.append(log)
+            p = subprocess.Popen(command, cwd=cwd, env=env, stdout=log, stderr=subprocess.STDOUT)
+            processes.append(p)
+            return p
+        try:
+            api = launch([sys.executable, str(ROOT / 'ci/demo_api.py'), '--ready-file', str(ready), '--uat-regressions'], ROOT)
+            deadline = time.monotonic() + 50
+            while not ready.exists():
+&gt;               assert api.poll() is None, 'No inició la API sintética'
+E               AssertionError: No inició la API sintética
+E               assert 1 is None
+E                +  where 1 = poll()
+E                +    where poll = &lt;Popen: returncode: 1 args: ['C:\\Users\\Jaime\\Documents\\CUATRI_9\\DESARRO...&gt;.poll
+
+ci\selenium\conftest.py:52: AssertionError</error></testcase><testcase classname="ci.selenium.test_uat_display_regressions" name="test_uat_typed_fields_are_readable_in_both_browser_themes[cuidados-light]" time="0.001"><error message="failed on setup with &quot;AssertionError: No inició la API sintética&#10;assert 1 is None&#10; +  where 1 = poll()&#10; +    where poll = &lt;Popen: returncode: 1 args: ['C:\\Users\\Jaime\\Documents\\CUATRI_9\\DESARRO...&gt;.poll&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=&lt;pluggy._tracing.TagTracerSub object at 0x000001D840689910&gt;, _basetemp=WindowsPath('C:/Users/Jaime/AppData/Local/Temp/pytest-of-Jaime/pytest-0'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope='session')
+    def demo_system(tmp_path_factory):
+        folder = tmp_path_factory.mktemp('selenium-system')
+        ready = folder / 'api.json'
+        web_port = free_port()
+        env = dict(os.environ, CORS_ORIGINS=f'http://127.0.0.1:{web_port}', PYTHONUTF8='1')
+        processes, logs = [], []
+        def launch(command, cwd):
+            log = (folder / f'process-{len(processes)}.log').open('w', encoding='utf8')
+            logs.append(log)
+            p = subprocess.Popen(command, cwd=cwd, env=env, stdout=log, stderr=subprocess.STDOUT)
+            processes.append(p)
+            return p
+        try:
+            api = launch([sys.executable, str(ROOT / 'ci/demo_api.py'), '--ready-file', str(ready), '--uat-regressions'], ROOT)
+            deadline = time.monotonic() + 50
+            while not ready.exists():
+&gt;               assert api.poll() is None, 'No inició la API sintética'
+E               AssertionError: No inició la API sintética
+E               assert 1 is None
+E                +  where 1 = poll()
+E                +    where poll = &lt;Popen: returncode: 1 args: ['C:\\Users\\Jaime\\Documents\\CUATRI_9\\DESARRO...&gt;.poll
+
+ci\selenium\conftest.py:52: AssertionError</error></testcase><testcase classname="ci.selenium.test_uat_display_regressions" name="test_uat_typed_fields_are_readable_in_both_browser_themes[cuidados-dark]" time="0.001"><error message="failed on setup with &quot;AssertionError: No inició la API sintética&#10;assert 1 is None&#10; +  where 1 = poll()&#10; +    where poll = &lt;Popen: returncode: 1 args: ['C:\\Users\\Jaime\\Documents\\CUATRI_9\\DESARRO...&gt;.poll&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=&lt;pluggy._tracing.TagTracerSub object at 0x000001D840689910&gt;, _basetemp=WindowsPath('C:/Users/Jaime/AppData/Local/Temp/pytest-of-Jaime/pytest-0'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope='session')
+    def demo_system(tmp_path_factory):
+        folder = tmp_path_factory.mktemp('selenium-system')
+        ready = folder / 'api.json'
+        web_port = free_port()
+        env = dict(os.environ, CORS_ORIGINS=f'http://127.0.0.1:{web_port}', PYTHONUTF8='1')
+        processes, logs = [], []
+        def launch(command, cwd):
+            log = (folder / f'process-{len(processes)}.log').open('w', encoding='utf8')
+            logs.append(log)
+            p = subprocess.Popen(command, cwd=cwd, env=env, stdout=log, stderr=subprocess.STDOUT)
+            processes.append(p)
+            return p
+        try:
+            api = launch([sys.executable, str(ROOT / 'ci/demo_api.py'), '--ready-file', str(ready), '--uat-regressions'], ROOT)
+            deadline = time.monotonic() + 50
+            while not ready.exists():
+&gt;               assert api.poll() is None, 'No inició la API sintética'
+E               AssertionError: No inició la API sintética
+E               assert 1 is None
+E                +  where 1 = poll()
+E                +    where poll = &lt;Popen: returncode: 1 args: ['C:\\Users\\Jaime\\Documents\\CUATRI_9\\DESARRO...&gt;.poll
+
+ci\selenium\conftest.py:52: AssertionError</error></testcase><testcase classname="ci.selenium.test_uat_display_regressions" name="test_uat_analytics_labels_and_buttons_remain_visible[light]" time="0.000"><error message="failed on setup with &quot;AssertionError: No inició la API sintética&#10;assert 1 is None&#10; +  where 1 = poll()&#10; +    where poll = &lt;Popen: returncode: 1 args: ['C:\\Users\\Jaime\\Documents\\CUATRI_9\\DESARRO...&gt;.poll&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=&lt;pluggy._tracing.TagTracerSub object at 0x000001D840689910&gt;, _basetemp=WindowsPath('C:/Users/Jaime/AppData/Local/Temp/pytest-of-Jaime/pytest-0'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope='session')
+    def demo_system(tmp_path_factory):
+        folder = tmp_path_factory.mktemp('selenium-system')
+        ready = folder / 'api.json'
+        web_port = free_port()
+        env = dict(os.environ, CORS_ORIGINS=f'http://127.0.0.1:{web_port}', PYTHONUTF8='1')
+        processes, logs = [], []
+        def launch(command, cwd):
+            log = (folder / f'process-{len(processes)}.log').open('w', encoding='utf8')
+            logs.append(log)
+            p = subprocess.Popen(command, cwd=cwd, env=env, stdout=log, stderr=subprocess.STDOUT)
+            processes.append(p)
+            return p
+        try:
+            api = launch([sys.executable, str(ROOT / 'ci/demo_api.py'), '--ready-file', str(ready), '--uat-regressions'], ROOT)
+            deadline = time.monotonic() + 50
+            while not ready.exists():
+&gt;               assert api.poll() is None, 'No inició la API sintética'
+E               AssertionError: No inició la API sintética
+E               assert 1 is None
+E                +  where 1 = poll()
+E                +    where poll = &lt;Popen: returncode: 1 args: ['C:\\Users\\Jaime\\Documents\\CUATRI_9\\DESARRO...&gt;.poll
+
+ci\selenium\conftest.py:52: AssertionError</error></testcase><testcase classname="ci.selenium.test_uat_display_regressions" name="test_uat_analytics_labels_and_buttons_remain_visible[dark]" time="0.001"><error message="failed on setup with &quot;AssertionError: No inició la API sintética&#10;assert 1 is None&#10; +  where 1 = poll()&#10; +    where poll = &lt;Popen: returncode: 1 args: ['C:\\Users\\Jaime\\Documents\\CUATRI_9\\DESARRO...&gt;.poll&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=&lt;pluggy._tracing.TagTracerSub object at 0x000001D840689910&gt;, _basetemp=WindowsPath('C:/Users/Jaime/AppData/Local/Temp/pytest-of-Jaime/pytest-0'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope='session')
+    def demo_system(tmp_path_factory):
+        folder = tmp_path_factory.mktemp('selenium-system')
+        ready = folder / 'api.json'
+        web_port = free_port()
+        env = dict(os.environ, CORS_ORIGINS=f'http://127.0.0.1:{web_port}', PYTHONUTF8='1')
+        processes, logs = [], []
+        def launch(command, cwd):
+            log = (folder / f'process-{len(processes)}.log').open('w', encoding='utf8')
+            logs.append(log)
+            p = subprocess.Popen(command, cwd=cwd, env=env, stdout=log, stderr=subprocess.STDOUT)
+            processes.append(p)
+            return p
+        try:
+            api = launch([sys.executable, str(ROOT / 'ci/demo_api.py'), '--ready-file', str(ready), '--uat-regressions'], ROOT)
+            deadline = time.monotonic() + 50
+            while not ready.exists():
+&gt;               assert api.poll() is None, 'No inició la API sintética'
+E               AssertionError: No inició la API sintética
+E               assert 1 is None
+E                +  where 1 = poll()
+E                +    where poll = &lt;Popen: returncode: 1 args: ['C:\\Users\\Jaime\\Documents\\CUATRI_9\\DESARRO...&gt;.poll
+
+ci\selenium\conftest.py:52: AssertionError</error></testcase><testcase classname="ci.selenium.test_uat_display_regressions" name="test_uat_beds_opens_for_administration_without_expanding_edit_permissions[admin]" time="0.001"><error message="failed on setup with &quot;AssertionError: No inició la API sintética&#10;assert 1 is None&#10; +  where 1 = poll()&#10; +    where poll = &lt;Popen: returncode: 1 args: ['C:\\Users\\Jaime\\Documents\\CUATRI_9\\DESARRO...&gt;.poll&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=&lt;pluggy._tracing.TagTracerSub object at 0x000001D840689910&gt;, _basetemp=WindowsPath('C:/Users/Jaime/AppData/Local/Temp/pytest-of-Jaime/pytest-0'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope='session')
+    def demo_system(tmp_path_factory):
+        folder = tmp_path_factory.mktemp('selenium-system')
+        ready = folder / 'api.json'
+        web_port = free_port()
+        env = dict(os.environ, CORS_ORIGINS=f'http://127.0.0.1:{web_port}', PYTHONUTF8='1')
+        processes, logs = [], []
+        def launch(command, cwd):
+            log = (folder / f'process-{len(processes)}.log').open('w', encoding='utf8')
+            logs.append(log)
+            p = subprocess.Popen(command, cwd=cwd, env=env, stdout=log, stderr=subprocess.STDOUT)
+            processes.append(p)
+            return p
+        try:
+            api = launch([sys.executable, str(ROOT / 'ci/demo_api.py'), '--ready-file', str(ready), '--uat-regressions'], ROOT)
+            deadline = time.monotonic() + 50
+            while not ready.exists():
+&gt;               assert api.poll() is None, 'No inició la API sintética'
+E               AssertionError: No inició la API sintética
+E               assert 1 is None
+E                +  where 1 = poll()
+E                +    where poll = &lt;Popen: returncode: 1 args: ['C:\\Users\\Jaime\\Documents\\CUATRI_9\\DESARRO...&gt;.poll
+
+ci\selenium\conftest.py:52: AssertionError</error></testcase><testcase classname="ci.selenium.test_uat_display_regressions" name="test_uat_beds_opens_for_administration_without_expanding_edit_permissions[administrativo]" time="0.001"><error message="failed on setup with &quot;AssertionError: No inició la API sintética&#10;assert 1 is None&#10; +  where 1 = poll()&#10; +    where poll = &lt;Popen: returncode: 1 args: ['C:\\Users\\Jaime\\Documents\\CUATRI_9\\DESARRO...&gt;.poll&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=&lt;pluggy._tracing.TagTracerSub object at 0x000001D840689910&gt;, _basetemp=WindowsPath('C:/Users/Jaime/AppData/Local/Temp/pytest-of-Jaime/pytest-0'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope='session')
+    def demo_system(tmp_path_factory):
+        folder = tmp_path_factory.mktemp('selenium-system')
+        ready = folder / 'api.json'
+        web_port = free_port()
+        env = dict(os.environ, CORS_ORIGINS=f'http://127.0.0.1:{web_port}', PYTHONUTF8='1')
+        processes, logs = [], []
+        def launch(command, cwd):
+            log = (folder / f'process-{len(processes)}.log').open('w', encoding='utf8')
+            logs.append(log)
+            p = subprocess.Popen(command, cwd=cwd, env=env, stdout=log, stderr=subprocess.STDOUT)
+            processes.append(p)
+            return p
+        try:
+            api = launch([sys.executable, str(ROOT / 'ci/demo_api.py'), '--ready-file', str(ready), '--uat-regressions'], ROOT)
+            deadline = time.monotonic() + 50
+            while not ready.exists():
+&gt;               assert api.poll() is None, 'No inició la API sintética'
+E               AssertionError: No inició la API sintética
+E               assert 1 is None
+E                +  where 1 = poll()
+E                +    where poll = &lt;Popen: returncode: 1 args: ['C:\\Users\\Jaime\\Documents\\CUATRI_9\\DESARRO...&gt;.poll
+
+ci\selenium\conftest.py:52: AssertionError</error></testcase><testcase classname="ci.selenium.test_uat_display_regressions" name="test_uat_history_shows_mexico_time_without_six_hour_advance[valoracion]" time="0.000"><error message="failed on setup with &quot;AssertionError: No inició la API sintética&#10;assert 1 is None&#10; +  where 1 = poll()&#10; +    where poll = &lt;Popen: returncode: 1 args: ['C:\\Users\\Jaime\\Documents\\CUATRI_9\\DESARRO...&gt;.poll&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=&lt;pluggy._tracing.TagTracerSub object at 0x000001D840689910&gt;, _basetemp=WindowsPath('C:/Users/Jaime/AppData/Local/Temp/pytest-of-Jaime/pytest-0'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope='session')
+    def demo_system(tmp_path_factory):
+        folder = tmp_path_factory.mktemp('selenium-system')
+        ready = folder / 'api.json'
+        web_port = free_port()
+        env = dict(os.environ, CORS_ORIGINS=f'http://127.0.0.1:{web_port}', PYTHONUTF8='1')
+        processes, logs = [], []
+        def launch(command, cwd):
+            log = (folder / f'process-{len(processes)}.log').open('w', encoding='utf8')
+            logs.append(log)
+            p = subprocess.Popen(command, cwd=cwd, env=env, stdout=log, stderr=subprocess.STDOUT)
+            processes.append(p)
+            return p
+        try:
+            api = launch([sys.executable, str(ROOT / 'ci/demo_api.py'), '--ready-file', str(ready), '--uat-regressions'], ROOT)
+            deadline = time.monotonic() + 50
+            while not ready.exists():
+&gt;               assert api.poll() is None, 'No inició la API sintética'
+E               AssertionError: No inició la API sintética
+E               assert 1 is None
+E                +  where 1 = poll()
+E                +    where poll = &lt;Popen: returncode: 1 args: ['C:\\Users\\Jaime\\Documents\\CUATRI_9\\DESARRO...&gt;.poll
+
+ci\selenium\conftest.py:52: AssertionError</error></testcase><testcase classname="ci.selenium.test_uat_display_regressions" name="test_uat_history_shows_mexico_time_without_six_hour_advance[balance-hidrico]" time="0.001"><error message="failed on setup with &quot;AssertionError: No inició la API sintética&#10;assert 1 is None&#10; +  where 1 = poll()&#10; +    where poll = &lt;Popen: returncode: 1 args: ['C:\\Users\\Jaime\\Documents\\CUATRI_9\\DESARRO...&gt;.poll&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=&lt;pluggy._tracing.TagTracerSub object at 0x000001D840689910&gt;, _basetemp=WindowsPath('C:/Users/Jaime/AppData/Local/Temp/pytest-of-Jaime/pytest-0'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope='session')
+    def demo_system(tmp_path_factory):
+        folder = tmp_path_factory.mktemp('selenium-system')
+        ready = folder / 'api.json'
+        web_port = free_port()
+        env = dict(os.environ, CORS_ORIGINS=f'http://127.0.0.1:{web_port}', PYTHONUTF8='1')
+        processes, logs = [], []
+        def launch(command, cwd):
+            log = (folder / f'process-{len(processes)}.log').open('w', encoding='utf8')
+            logs.append(log)
+            p = subprocess.Popen(command, cwd=cwd, env=env, stdout=log, stderr=subprocess.STDOUT)
+            processes.append(p)
+            return p
+        try:
+            api = launch([sys.executable, str(ROOT / 'ci/demo_api.py'), '--ready-file', str(ready), '--uat-regressions'], ROOT)
+            deadline = time.monotonic() + 50
+            while not ready.exists():
+&gt;               assert api.poll() is None, 'No inició la API sintética'
+E               AssertionError: No inició la API sintética
+E               assert 1 is None
+E                +  where 1 = poll()
+E                +    where poll = &lt;Popen: returncode: 1 args: ['C:\\Users\\Jaime\\Documents\\CUATRI_9\\DESARRO...&gt;.poll
+
+ci\selenium\conftest.py:52: AssertionError</error></testcase><testcase classname="ci.selenium.test_uat_display_regressions" name="test_uat_history_shows_mexico_time_without_six_hour_advance[cuidados]" time="0.000"><error message="failed on setup with &quot;AssertionError: No inició la API sintética&#10;assert 1 is None&#10; +  where 1 = poll()&#10; +    where poll = &lt;Popen: returncode: 1 args: ['C:\\Users\\Jaime\\Documents\\CUATRI_9\\DESARRO...&gt;.poll&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=&lt;pluggy._tracing.TagTracerSub object at 0x000001D840689910&gt;, _basetemp=WindowsPath('C:/Users/Jaime/AppData/Local/Temp/pytest-of-Jaime/pytest-0'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope='session')
+    def demo_system(tmp_path_factory):
+        folder = tmp_path_factory.mktemp('selenium-system')
+        ready = folder / 'api.json'
+        web_port = free_port()
+        env = dict(os.environ, CORS_ORIGINS=f'http://127.0.0.1:{web_port}', PYTHONUTF8='1')
+        processes, logs = [], []
+        def launch(command, cwd):
+            log = (folder / f'process-{len(processes)}.log').open('w', encoding='utf8')
+            logs.append(log)
+            p = subprocess.Popen(command, cwd=cwd, env=env, stdout=log, stderr=subprocess.STDOUT)
+            processes.append(p)
+            return p
+        try:
+            api = launch([sys.executable, str(ROOT / 'ci/demo_api.py'), '--ready-file', str(ready), '--uat-regressions'], ROOT)
+            deadline = time.monotonic() + 50
+            while not ready.exists():
+&gt;               assert api.poll() is None, 'No inició la API sintética'
+E               AssertionError: No inició la API sintética
+E               assert 1 is None
+E                +  where 1 = poll()
+E                +    where poll = &lt;Popen: returncode: 1 args: ['C:\\Users\\Jaime\\Documents\\CUATRI_9\\DESARRO...&gt;.poll
+
+ci\selenium\conftest.py:52: AssertionError</error></testcase><testcase classname="ci.selenium.test_user_journeys" name="test_sel_01_private_route_requires_login" time="0.000"><error message="failed on setup with &quot;AssertionError: No inició la API sintética&#10;assert 1 is None&#10; +  where 1 = poll()&#10; +    where poll = &lt;Popen: returncode: 1 args: ['C:\\Users\\Jaime\\Documents\\CUATRI_9\\DESARRO...&gt;.poll&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=&lt;pluggy._tracing.TagTracerSub object at 0x000001D840689910&gt;, _basetemp=WindowsPath('C:/Users/Jaime/AppData/Local/Temp/pytest-of-Jaime/pytest-0'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope='session')
+    def demo_system(tmp_path_factory):
+        folder = tmp_path_factory.mktemp('selenium-system')
+        ready = folder / 'api.json'
+        web_port = free_port()
+        env = dict(os.environ, CORS_ORIGINS=f'http://127.0.0.1:{web_port}', PYTHONUTF8='1')
+        processes, logs = [], []
+        def launch(command, cwd):
+            log = (folder / f'process-{len(processes)}.log').open('w', encoding='utf8')
+            logs.append(log)
+            p = subprocess.Popen(command, cwd=cwd, env=env, stdout=log, stderr=subprocess.STDOUT)
+            processes.append(p)
+            return p
+        try:
+            api = launch([sys.executable, str(ROOT / 'ci/demo_api.py'), '--ready-file', str(ready), '--uat-regressions'], ROOT)
+            deadline = time.monotonic() + 50
+            while not ready.exists():
+&gt;               assert api.poll() is None, 'No inició la API sintética'
+E               AssertionError: No inició la API sintética
+E               assert 1 is None
+E                +  where 1 = poll()
+E                +    where poll = &lt;Popen: returncode: 1 args: ['C:\\Users\\Jaime\\Documents\\CUATRI_9\\DESARRO...&gt;.poll
+
+ci\selenium\conftest.py:52: AssertionError</error></testcase><testcase classname="ci.selenium.test_user_journeys" name="test_sel_02_wrong_password_is_rejected" time="0.001"><error message="failed on setup with &quot;AssertionError: No inició la API sintética&#10;assert 1 is None&#10; +  where 1 = poll()&#10; +    where poll = &lt;Popen: returncode: 1 args: ['C:\\Users\\Jaime\\Documents\\CUATRI_9\\DESARRO...&gt;.poll&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=&lt;pluggy._tracing.TagTracerSub object at 0x000001D840689910&gt;, _basetemp=WindowsPath('C:/Users/Jaime/AppData/Local/Temp/pytest-of-Jaime/pytest-0'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope='session')
+    def demo_system(tmp_path_factory):
+        folder = tmp_path_factory.mktemp('selenium-system')
+        ready = folder / 'api.json'
+        web_port = free_port()
+        env = dict(os.environ, CORS_ORIGINS=f'http://127.0.0.1:{web_port}', PYTHONUTF8='1')
+        processes, logs = [], []
+        def launch(command, cwd):
+            log = (folder / f'process-{len(processes)}.log').open('w', encoding='utf8')
+            logs.append(log)
+            p = subprocess.Popen(command, cwd=cwd, env=env, stdout=log, stderr=subprocess.STDOUT)
+            processes.append(p)
+            return p
+        try:
+            api = launch([sys.executable, str(ROOT / 'ci/demo_api.py'), '--ready-file', str(ready), '--uat-regressions'], ROOT)
+            deadline = time.monotonic() + 50
+            while not ready.exists():
+&gt;               assert api.poll() is None, 'No inició la API sintética'
+E               AssertionError: No inició la API sintética
+E               assert 1 is None
+E                +  where 1 = poll()
+E                +    where poll = &lt;Popen: returncode: 1 args: ['C:\\Users\\Jaime\\Documents\\CUATRI_9\\DESARRO...&gt;.poll
+
+ci\selenium\conftest.py:52: AssertionError</error></testcase><testcase classname="ci.selenium.test_user_journeys" name="test_sel_03_login_and_assessment_navigation" time="0.001"><error message="failed on setup with &quot;AssertionError: No inició la API sintética&#10;assert 1 is None&#10; +  where 1 = poll()&#10; +    where poll = &lt;Popen: returncode: 1 args: ['C:\\Users\\Jaime\\Documents\\CUATRI_9\\DESARRO...&gt;.poll&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=&lt;pluggy._tracing.TagTracerSub object at 0x000001D840689910&gt;, _basetemp=WindowsPath('C:/Users/Jaime/AppData/Local/Temp/pytest-of-Jaime/pytest-0'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope='session')
+    def demo_system(tmp_path_factory):
+        folder = tmp_path_factory.mktemp('selenium-system')
+        ready = folder / 'api.json'
+        web_port = free_port()
+        env = dict(os.environ, CORS_ORIGINS=f'http://127.0.0.1:{web_port}', PYTHONUTF8='1')
+        processes, logs = [], []
+        def launch(command, cwd):
+            log = (folder / f'process-{len(processes)}.log').open('w', encoding='utf8')
+            logs.append(log)
+            p = subprocess.Popen(command, cwd=cwd, env=env, stdout=log, stderr=subprocess.STDOUT)
+            processes.append(p)
+            return p
+        try:
+            api = launch([sys.executable, str(ROOT / 'ci/demo_api.py'), '--ready-file', str(ready), '--uat-regressions'], ROOT)
+            deadline = time.monotonic() + 50
+            while not ready.exists():
+&gt;               assert api.poll() is None, 'No inició la API sintética'
+E               AssertionError: No inició la API sintética
+E               assert 1 is None
+E                +  where 1 = poll()
+E                +    where poll = &lt;Popen: returncode: 1 args: ['C:\\Users\\Jaime\\Documents\\CUATRI_9\\DESARRO...&gt;.poll
+
+ci\selenium\conftest.py:52: AssertionError</error></testcase><testcase classname="ci.selenium.test_user_journeys" name="test_sel_04_save_and_revisit_persisted_assessment" time="0.001"><error message="failed on setup with &quot;AssertionError: No inició la API sintética&#10;assert 1 is None&#10; +  where 1 = poll()&#10; +    where poll = &lt;Popen: returncode: 1 args: ['C:\\Users\\Jaime\\Documents\\CUATRI_9\\DESARRO...&gt;.poll&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=&lt;pluggy._tracing.TagTracerSub object at 0x000001D840689910&gt;, _basetemp=WindowsPath('C:/Users/Jaime/AppData/Local/Temp/pytest-of-Jaime/pytest-0'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope='session')
+    def demo_system(tmp_path_factory):
+        folder = tmp_path_factory.mktemp('selenium-system')
+        ready = folder / 'api.json'
+        web_port = free_port()
+        env = dict(os.environ, CORS_ORIGINS=f'http://127.0.0.1:{web_port}', PYTHONUTF8='1')
+        processes, logs = [], []
+        def launch(command, cwd):
+            log = (folder / f'process-{len(processes)}.log').open('w', encoding='utf8')
+            logs.append(log)
+            p = subprocess.Popen(command, cwd=cwd, env=env, stdout=log, stderr=subprocess.STDOUT)
+            processes.append(p)
+            return p
+        try:
+            api = launch([sys.executable, str(ROOT / 'ci/demo_api.py'), '--ready-file', str(ready), '--uat-regressions'], ROOT)
+            deadline = time.monotonic() + 50
+            while not ready.exists():
+&gt;               assert api.poll() is None, 'No inició la API sintética'
+E               AssertionError: No inició la API sintética
+E               assert 1 is None
+E                +  where 1 = poll()
+E                +    where poll = &lt;Popen: returncode: 1 args: ['C:\\Users\\Jaime\\Documents\\CUATRI_9\\DESARRO...&gt;.poll
+
+ci\selenium\conftest.py:52: AssertionError</error></testcase><testcase classname="ci.selenium.test_user_journeys" name="test_sel_05_invalid_pain_is_not_saved" time="0.001"><error message="failed on setup with &quot;AssertionError: No inició la API sintética&#10;assert 1 is None&#10; +  where 1 = poll()&#10; +    where poll = &lt;Popen: returncode: 1 args: ['C:\\Users\\Jaime\\Documents\\CUATRI_9\\DESARRO...&gt;.poll&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=&lt;pluggy._tracing.TagTracerSub object at 0x000001D840689910&gt;, _basetemp=WindowsPath('C:/Users/Jaime/AppData/Local/Temp/pytest-of-Jaime/pytest-0'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope='session')
+    def demo_system(tmp_path_factory):
+        folder = tmp_path_factory.mktemp('selenium-system')
+        ready = folder / 'api.json'
+        web_port = free_port()
+        env = dict(os.environ, CORS_ORIGINS=f'http://127.0.0.1:{web_port}', PYTHONUTF8='1')
+        processes, logs = [], []
+        def launch(command, cwd):
+            log = (folder / f'process-{len(processes)}.log').open('w', encoding='utf8')
+            logs.append(log)
+            p = subprocess.Popen(command, cwd=cwd, env=env, stdout=log, stderr=subprocess.STDOUT)
+            processes.append(p)
+            return p
+        try:
+            api = launch([sys.executable, str(ROOT / 'ci/demo_api.py'), '--ready-file', str(ready), '--uat-regressions'], ROOT)
+            deadline = time.monotonic() + 50
+            while not ready.exists():
+&gt;               assert api.poll() is None, 'No inició la API sintética'
+E               AssertionError: No inició la API sintética
+E               assert 1 is None
+E                +  where 1 = poll()
+E                +    where poll = &lt;Popen: returncode: 1 args: ['C:\\Users\\Jaime\\Documents\\CUATRI_9\\DESARRO...&gt;.poll
+
+ci\selenium\conftest.py:52: AssertionError</error></testcase><testcase classname="ci.selenium.test_user_journeys" name="test_sel_06_api_connection_failure_reports_error_and_retry_recovers" time="0.001"><error message="failed on setup with &quot;AssertionError: No inició la API sintética&#10;assert 1 is None&#10; +  where 1 = poll()&#10; +    where poll = &lt;Popen: returncode: 1 args: ['C:\\Users\\Jaime\\Documents\\CUATRI_9\\DESARRO...&gt;.poll&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=&lt;pluggy._tracing.TagTracerSub object at 0x000001D840689910&gt;, _basetemp=WindowsPath('C:/Users/Jaime/AppData/Local/Temp/pytest-of-Jaime/pytest-0'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope='session')
+    def demo_system(tmp_path_factory):
+        folder = tmp_path_factory.mktemp('selenium-system')
+        ready = folder / 'api.json'
+        web_port = free_port()
+        env = dict(os.environ, CORS_ORIGINS=f'http://127.0.0.1:{web_port}', PYTHONUTF8='1')
+        processes, logs = [], []
+        def launch(command, cwd):
+            log = (folder / f'process-{len(processes)}.log').open('w', encoding='utf8')
+            logs.append(log)
+            p = subprocess.Popen(command, cwd=cwd, env=env, stdout=log, stderr=subprocess.STDOUT)
+            processes.append(p)
+            return p
+        try:
+            api = launch([sys.executable, str(ROOT / 'ci/demo_api.py'), '--ready-file', str(ready), '--uat-regressions'], ROOT)
+            deadline = time.monotonic() + 50
+            while not ready.exists():
+&gt;               assert api.poll() is None, 'No inició la API sintética'
+E               AssertionError: No inició la API sintética
+E               assert 1 is None
+E                +  where 1 = poll()
+E                +    where poll = &lt;Popen: returncode: 1 args: ['C:\\Users\\Jaime\\Documents\\CUATRI_9\\DESARRO...&gt;.poll
+
+ci\selenium\conftest.py:52: AssertionError</error></testcase><testcase classname="ci.selenium.test_user_journeys" name="test_sel_07_offline_mode_blocks_clinical_writes_and_reconnects" time="0.001"><error message="failed on setup with &quot;AssertionError: No inició la API sintética&#10;assert 1 is None&#10; +  where 1 = poll()&#10; +    where poll = &lt;Popen: returncode: 1 args: ['C:\\Users\\Jaime\\Documents\\CUATRI_9\\DESARRO...&gt;.poll&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=&lt;pluggy._tracing.TagTracerSub object at 0x000001D840689910&gt;, _basetemp=WindowsPath('C:/Users/Jaime/AppData/Local/Temp/pytest-of-Jaime/pytest-0'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope='session')
+    def demo_system(tmp_path_factory):
+        folder = tmp_path_factory.mktemp('selenium-system')
+        ready = folder / 'api.json'
+        web_port = free_port()
+        env = dict(os.environ, CORS_ORIGINS=f'http://127.0.0.1:{web_port}', PYTHONUTF8='1')
+        processes, logs = [], []
+        def launch(command, cwd):
+            log = (folder / f'process-{len(processes)}.log').open('w', encoding='utf8')
+            logs.append(log)
+            p = subprocess.Popen(command, cwd=cwd, env=env, stdout=log, stderr=subprocess.STDOUT)
+            processes.append(p)
+            return p
+        try:
+            api = launch([sys.executable, str(ROOT / 'ci/demo_api.py'), '--ready-file', str(ready), '--uat-regressions'], ROOT)
+            deadline = time.monotonic() + 50
+            while not ready.exists():
+&gt;               assert api.poll() is None, 'No inició la API sintética'
+E               AssertionError: No inició la API sintética
+E               assert 1 is None
+E                +  where 1 = poll()
+E                +    where poll = &lt;Popen: returncode: 1 args: ['C:\\Users\\Jaime\\Documents\\CUATRI_9\\DESARRO...&gt;.poll
+
+ci\selenium\conftest.py:52: AssertionError</error></testcase></testsuite></testsuites>

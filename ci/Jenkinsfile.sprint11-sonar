@@ -1,0 +1,91 @@
+
+pipeline {
+    agent any
+
+    options {
+        timeout(time: 20, unit: 'MINUTES')
+        disableConcurrentBuilds()
+        skipDefaultCheckout(true)
+    }
+
+    parameters {
+        booleanParam(
+            name: 'FORZAR_FALLO_SONAR',
+            defaultValue: false,
+            description: 'Simular SonarQube indisponible'
+        )
+        string(
+            name: 'SONAR_PROJECT_KEY',
+            defaultValue: 'jaimediaz25_sprint11_jenkins',
+            description: 'Clave del proyecto SonarCloud de prueba'
+        )
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'feature/sprint-11-jaime-pwa',
+                    url: 'https://github.com/JoelLara10/ineo-pbl-entrega.git'
+                bat 'git rev-parse HEAD'
+            }
+        }
+
+        stage('SonarQube Scanner') {
+            steps {
+                script {
+                    def scanner = tool 'SonarScanner'
+
+                    def host = params.FORZAR_FALLO_SONAR
+                        ? 'http://127.0.0.1:1'
+                        : 'https://sonarcloud.io'
+
+                    echo "SonarQube Host: ${host}"
+
+                    withCredentials([
+                        string(
+                            credentialsId: 'sonar-token',
+                            variable: 'SONAR_TOKEN'
+                        )
+                    ]) {
+                        withEnv([
+                            "SONAR_HOST_URL=${host}",
+                            "SCANNER_HOME=${scanner}",
+                            "PROJECT_KEY=${params.SONAR_PROJECT_KEY}"
+                        ]) {
+                            dir('backend/api_hospital') {
+                                bat '''
+                                "%SCANNER_HOME%\\bin\\sonar-scanner.bat" ^
+                                  -Dsonar.organization=jaimediaz25 ^
+                                  -Dsonar.projectKey=%PROJECT_KEY% ^
+                                  -Dsonar.sources=. ^
+                                  -Dsonar.tests=tests ^
+                                  -Dsonar.exclusions=**/tests/**,**/.venv/**,**/__pycache__/** ^
+                                  -Dsonar.qualitygate.wait=true ^
+                                  -Dsonar.qualitygate.timeout=300
+                                '''
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Autorizar promocion') {
+            steps {
+                echo 'QUALITY GATE APROBADO'
+                echo 'PROMOCION AUTORIZADA'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'RESULTADO: APROBADO'
+        }
+
+        failure {
+            echo 'RESULTADO: FALLIDO'
+            echo 'PROMOCION BLOQUEADA'
+        }
+    }
+}
