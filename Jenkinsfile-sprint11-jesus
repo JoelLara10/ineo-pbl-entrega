@@ -91,7 +91,10 @@ pipeline {
                     ]) {
                         bat '''
                             .venv-sprint11\\Scripts\\python.exe -m pytest ^
-                              qa\\sprint-10\\selenium ^
+                              qa\\sprint-10\\selenium\\test_ui_01_login.py ^
+                              qa\\sprint-10\\selenium\\test_ui_02_permisos.py ^
+                              qa\\sprint-10\\selenium\\test_ui_03_idioma.py ^
+                              qa\\sprint-10\\selenium\\test_ui_04_validacion.py ^
                               -v ^
                               --junitxml=qa\\sprint-11\\reports\\PBL-20-regresion.xml
                         '''
