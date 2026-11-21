@@ -2,8 +2,6 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
-
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     react(),
@@ -27,9 +25,7 @@ export default defineConfig({
         ]
       },
       workbox: {
-        // Solo assets estáticos del frontend
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2}'],
-        // CRÍTICO (REQ-12): no cachear datos clínicos
         runtimeCaching: [
           {
             urlPattern: ({ url }) => url.pathname.startsWith('/api'),
@@ -41,13 +37,17 @@ export default defineConfig({
         clientsClaim: true,
         skipWaiting: true
       },
-      devOptions: {
-        enabled: true
-      }
+      devOptions: { enabled: true }
     })
   ],
-  // >>> AÑADE ESTO <<<
-  build: {
-    manifest: true   // genera dist/.vite/manifest.json (lo necesita check-lazy-bundle)
+  build: { manifest: true },
+  test: {
+    maxWorkers: 2,
+    coverage: {
+      provider: 'v8',
+      include: ['src/**/*.{js,jsx}'],
+      exclude: ['src/tests/**'],
+      reporter: ['text', 'json-summary', 'json', 'lcov', 'html']
+    }
   }
 })
