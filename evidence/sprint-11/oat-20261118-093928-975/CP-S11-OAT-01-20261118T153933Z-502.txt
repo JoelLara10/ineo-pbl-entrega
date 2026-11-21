@@ -1,0 +1,8 @@
+CP-S11-OAT-01 | SHA=1c299ff92b009a57ddeefc2f89ead35e0dde8d65 | UTC=2026-11-18T15:39:33+00:00
+mongodump version: 100.20.1
+git version: 99fd6bc7140e31e0287a9b4ef7e03194d834c7f0
+mongorestore version: 100.20.1
+git version: 99fd6bc7140e31e0287a9b4ef7e03194d834c7f0
+2.14.2
+TypeError: object is not iterable (cannot read property Symbol(Symbol.iterator))
+ESTADO=Fallido; exit=1; revisar prerrequisitos

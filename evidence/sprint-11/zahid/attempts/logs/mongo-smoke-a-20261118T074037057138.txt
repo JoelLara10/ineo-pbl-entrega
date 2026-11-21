@@ -1,0 +1,3 @@
+COMMAND: docker exec ineo-test-s11-qa-a mongosh --quiet --eval JSON.stringify(db.adminCommand('ping'))
+EXIT: 0
+{"ok":1}

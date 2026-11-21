@@ -1,0 +1,13 @@
+{
+  "case": "CP-S11-SIT-03",
+  "title": "Desconexión PWA entre cuentas",
+  "status": "Fallido",
+  "steps": [],
+  "detail": "Message: \n",
+  "executed_utc": "2026-11-18T07:27:13.854502+00:00",
+  "tested_sha": "69c61a5bce5ba98e5c09067b47b3ed93472f8767",
+  "executor": "Agente Codex bajo solicitud de Marcelino Zahid Galicia Bonifacio",
+  "owner": "Marcelino Zahid Galicia Bonifacio",
+  "reviewer": "Jesús — revisión pendiente",
+  "environment": "QA local aislado; datos sintéticos"
+}

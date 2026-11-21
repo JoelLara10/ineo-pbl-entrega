@@ -1,0 +1,16 @@
+<!doctype html><meta charset="utf-8"><style>body{font:22px Arial;margin:32px;color:#17212b}pre{white-space:pre-wrap;font:20px Consolas;line-height:1.25;background:#f3f5f7;padding:20px}small{overflow-wrap:anywhere}</style><h1>Registro de ejecución Sprint 11</h1><p>evidence/sprint-11/zahid/logs/idempotency-a.txt</p><small>SHA256 original: 3c998eec905beacb9721033cf63886f1f479ecf3e50f5ea2c6556b85db41f96d</small><p>Extractos del registro original; archivo completo conservado.</p><pre>COMMAND: terraform -chdir=C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\qa\sprint-11\infrastructure plan -detailed-exitcode -input=false -no-color -state=C:\Users\marce\Documents\Codex\2026-11-17\p\work\tf-s11\a\terraform.tfstate -var=environment_name=ineo-test-s11-qa-a -var=mongo_port=27111
+EXIT: 0
+
+Warning: Deprecated flag: -state
+
+Use the &quot;path&quot; attribute within the &quot;local&quot; backend to specify a file for
+state storage
+module.test_database.docker_volume.synthetic: Refreshing state... [id=ineo-test-s11-qa-a-synthetic]
+module.test_database.docker_image.mongo: Refreshing state... [id=sha256:c630c59342c1493d50345136df2af14a76b9e827dd5316bfabee07a0880a5f3amongo:7.0.16]
+module.test_database.docker_container.mongo: Refreshing state... [id=7f829c6d9cfe498572616aa8de22ea79ffc9ae62a7f5a9c5327f5790d4cf57f4]
+
+No changes. Your infrastructure matches the configuration.
+
+Terraform has compared your real infrastructure against your configuration
+and found no differences, so no changes are needed.
+</pre>

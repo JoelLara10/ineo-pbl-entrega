@@ -1,0 +1,8 @@
+{
+  "case": "test_sel_07_offline_mode_blocks_clinical_writes_and_reconnects",
+  "result": "passed",
+  "browser": "157.0.8103.38",
+  "scope": "Real web/API HTTP; synthetic in-memory Mongo; technical execution, not human UAT",
+  "url": "http://host.docker.internal:63790/enfermeria/valoracion",
+  "screenshot": true
+}

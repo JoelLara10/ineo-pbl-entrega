@@ -1,0 +1,8 @@
+{
+  "case": "test_sel_04_save_and_revisit_persisted_assessment",
+  "result": "passed",
+  "browser": "157.0.8103.38",
+  "scope": "Real web/API HTTP; synthetic in-memory Mongo; technical execution, not human UAT",
+  "url": "http://host.docker.internal:64597/enfermeria/valoracion",
+  "screenshot": true
+}

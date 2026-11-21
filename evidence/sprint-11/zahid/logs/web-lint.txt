@@ -1,0 +1,8 @@
+COMMAND: "C:\Program Files\nodejs\npm.cmd" run lint
+EXIT: 0
+
+> ineo-web@0.0.0 lint
+> oxlint
+
+vendor/picomatch-guarded/lib/parse.js:33:12: warning eslint(no-unused-vars): Catch parameter 'ex' is caught but never used. help: Consider handling this error.
+src/pages/config/UsuariosConfigScreen.jsx:152:27: warning unicorn(no-useless-fallback-in-spread): Empty fallbacks in spreads are unnecessary help: Spreading falsy values in object literals won't add any unexpected properties, so it's unnecessary to add an empty object as fallback.

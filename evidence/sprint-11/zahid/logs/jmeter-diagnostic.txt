@@ -1,0 +1,13 @@
+COMMAND: "C:\Program Files\Java\jdk-17\bin\java.exe" -Xms128m -Xmx512m -jar C:\Users\marce\Documents\Codex\2026-11-17\p\work\apache-jmeter-5.6.3\bin\ApacheJMeter.jar -n -t C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\qa\sprint-11\jmeter\read.jmx -l C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\evidence\sprint-11\zahid\jmeter\diagnostic\results.jtl -j C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\evidence\sprint-11\zahid\jmeter\diagnostic\jmeter.log -e -o C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\evidence\sprint-11\zahid\jmeter\diagnostic\html -Jusers=1 -Jramp=1 -Jduration=8 -Jpause=1000 -Jrun_id=S11-7fec637bbc -Jjmeter.save.saveservice.output_format=csv -Jjmeter.save.saveservice.response_data=false -Jjmeter.save.saveservice.response_data.on_error=false -Jjmeter.save.saveservice.samplerData=false -Jjmeter.save.saveservice.requestHeaders=false -Jjmeter.save.saveservice.responseHeaders=false
+EXIT: 0
+WARN StatusConsoleListener The use of package scanning to locate plugins is deprecated and will be removed in a future release
+WARN StatusConsoleListener The use of package scanning to locate plugins is deprecated and will be removed in a future release
+WARN StatusConsoleListener The use of package scanning to locate plugins is deprecated and will be removed in a future release
+WARN StatusConsoleListener The use of package scanning to locate plugins is deprecated and will be removed in a future release
+Creating summariser <summary>
+Created the tree successfully using C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\qa\sprint-11\jmeter\read.jmx
+Starting standalone test @ 2026 Nov 18 01:29:06 CST (1794986946371)
+Waiting for possible Shutdown/StopTestNow/HeapDump/ThreadDump message on port 4445
+summary =      4 in 00:00:07 =    0.6/s Avg:   109 Min:    95 Max:   136 Err:     0 (0.00%)
+Tidying up ...    @ 2026 Nov 18 01:29:14 CST (1794986954506)
+... end of run

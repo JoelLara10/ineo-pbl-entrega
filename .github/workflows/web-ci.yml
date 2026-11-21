@@ -46,6 +46,9 @@ jobs:
       - name: Run lint
         run: npm run lint
 
+      - name: Verify guarded glob dependency
+        run: npm run test:glob-security
+
       - name: Run tests
         run: npm test
 

@@ -1,0 +1,24 @@
+{
+  "case": "CP-S11-IAC-02",
+  "title": "Deriva controlada",
+  "status": "Aprobado",
+  "steps": [
+    [
+      "Cambiar nombre fuera de Terraform",
+      "Cambio real en Docker",
+      "docker rename exit 0"
+    ],
+    [
+      "Generar plan",
+      "Detectar deriva del contenedor",
+      "exit 2; nombre alterado observado"
+    ]
+  ],
+  "detail": "logs/introduce-drift.txt; logs/detect-drift.txt",
+  "executed_utc": "2026-11-18T07:21:42.212647+00:00",
+  "tested_sha": "13a79b5543e391a16392b747e49abfc05e9cbbb6",
+  "executor": "Agente Codex bajo solicitud de Marcelino Zahid Galicia Bonifacio",
+  "owner": "Marcelino Zahid Galicia Bonifacio",
+  "reviewer": "Jesús — revisión pendiente",
+  "environment": "QA local aislado; datos sintéticos"
+}

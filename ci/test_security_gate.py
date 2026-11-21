@@ -34,6 +34,20 @@ def test_exception_catalog_rejects_plaintext_or_additional_fields():
                                   'hashed_secret': '0' * 40, 'reason': 'fixture', 'secret': 'not allowed'}])
 
 
+def test_reviewed_docker_metadata_does_not_exempt_a_new_value_or_detector():
+    name = 'evidence/sprint-11/zahid/logs/inspect-a.txt'
+    reviewed = [{'file': name, 'type': 'Base64 High Entropy String',
+                 'hashed_secret': DIGEST_A,
+                 'reason': 'Dato sintetico de test o demo local; nunca usar en produccion'}]
+    module.validate_reviewed(reviewed)
+    scan = {'results': {name: [
+        {'type': 'Base64 High Entropy String', 'hashed_secret': DIGEST_A, 'line_number': 1},
+        {'type': 'Base64 High Entropy String', 'hashed_secret': DIGEST_B, 'line_number': 2},
+        {'type': 'Secret Keyword', 'hashed_secret': DIGEST_A, 'line_number': 3},
+    ]}}
+    assert [x['line'] for x in module.finding_locations(scan, reviewed)] == [2, 3]
+
+
 @pytest.mark.parametrize('report,code', [({}, 0), ({'metadata': None}, 0), ({'metadata': {'vulnerabilities': None}}, 0), ({'metadata': {}}, 0),
     ({'metadata': {'vulnerabilities': {'high': 0}}}, 0),
     ({'metadata': {'vulnerabilities': {'high': False, 'critical': 0}}}, 0),

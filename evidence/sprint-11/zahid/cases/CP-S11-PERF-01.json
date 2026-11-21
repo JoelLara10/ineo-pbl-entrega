@@ -1,0 +1,24 @@
+{
+  "case": "CP-S11-PERF-01",
+  "title": "Carga nominal API",
+  "status": "Pendiente de ratificación",
+  "steps": [
+    [
+      "Ejecutar escenario JMX",
+      "Carga real y reporte original",
+      "{\"samples\": 2922, \"errors\": 0, \"error_rate\": 0.0, \"p95_ms\": 228.0, \"observed_threads\": 10, \"application_seconds\": 354.497, \"run_id\": \"S11-e5f945d338\", \"thresholds\": {\"p95_ms\": 2000, \"error_rate\": 0.01}, \"thresholds_ratified\": false, \"observed_threshold_result\": true, \"users\": 10, \"ramp_seconds\": 60, \"scheduled_seconds\": 360}"
+    ],
+    [
+      "Evaluar métricas",
+      "p95 ≤ 2000 ms; errores ≤ 1 %",
+      "Cumple"
+    ]
+  ],
+  "detail": "Umbrales propuestos de Azure; ratificación humana pendiente.",
+  "executed_utc": "2026-11-18T07:36:09.165715+00:00",
+  "tested_sha": "8bf65707f3b2829b4c54351b8d63a580f6b8874a",
+  "executor": "Agente Codex bajo solicitud de Marcelino Zahid Galicia Bonifacio",
+  "owner": "Marcelino Zahid Galicia Bonifacio",
+  "reviewer": "Jesús — revisión pendiente",
+  "environment": "QA local aislado; datos sintéticos"
+}

@@ -1,0 +1,7 @@
+COMMAND: "C:\Program Files\nodejs\npm.cmd" run check:i18n
+EXIT: 0
+
+> ineo-web@0.0.0 check:i18n
+> node scripts/check-i18n-keys.mjs
+
+i18n OK: todas las claves estáticas usadas existen en es.json y en.json.

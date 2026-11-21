@@ -1,0 +1,29 @@
+{
+  "case": "CP-S11-IAC-03",
+  "title": "Aislamiento de estado",
+  "status": "Aprobado",
+  "steps": [
+    [
+      "Crear qa-a y qa-b",
+      "Estados distintos",
+      "Archivos de estado y TF_DATA_DIR independientes"
+    ],
+    [
+      "Comparar contenedores y volúmenes",
+      "Identificadores distintos",
+      "Aserciones de IDs y volúmenes aprobadas"
+    ],
+    [
+      "Comparar puertos",
+      "27111 y 27112 en loopback",
+      "Puertos independientes; planes exit 0"
+    ]
+  ],
+  "detail": "La imagen MongoDB es una dependencia inmutable compartida de lectura; contenedores, volúmenes y estados son exclusivos. logs/inspect-a.txt; logs/inspect-b.txt",
+  "executed_utc": "2026-11-18T07:22:23.001307+00:00",
+  "tested_sha": "13a79b5543e391a16392b747e49abfc05e9cbbb6",
+  "executor": "Agente Codex bajo solicitud de Marcelino Zahid Galicia Bonifacio",
+  "owner": "Marcelino Zahid Galicia Bonifacio",
+  "reviewer": "Jesús — revisión pendiente",
+  "environment": "QA local aislado; datos sintéticos"
+}

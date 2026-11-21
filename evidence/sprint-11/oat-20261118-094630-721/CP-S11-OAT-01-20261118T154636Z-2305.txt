@@ -1,0 +1,94 @@
+CP-S11-OAT-01
+SHA=1c299ff92b009a57ddeefc2f89ead35e0dde8d65
+UTC=2026-11-18T15:46:36+00:00
+mongodump version: 100.20.1
+git version: 99fd6bc7140e31e0287a9b4ef7e03194d834c7f0
+Go version: go1.27.3
+   os: linux
+   arch: amd64
+   compiler: gc
+mongorestore version: 100.20.1
+git version: 99fd6bc7140e31e0287a9b4ef7e03194d834c7f0
+Go version: go1.27.3
+   os: linux
+   arch: amd64
+   compiler: gc
+2.14.2
+PASO 1: Validar datos de origen
+BEFORE_COUNTS={"atencion":8,"camas":1,"catalogo_examenes":1,"counters":1,"examenes_det":1,"oat_recovery_marker":1,"pacientes":8,"signos_vitales":8,"users":4}
+SOURCE_SHA256=6e8b51e6f83ca468467aad1d6e8620759d129db7bacd626979b3227fb6aaa34e
+PASO 2: Generar respaldo
+2026-11-18T15:46:39.356+0000	writing `ineo_test_s11.pacientes` to "archive `./backups/restore-dKtHYqiO/backup.archive.gz`"
+2026-11-18T15:46:39.357+0000	writing `ineo_test_s11.signos_vitales` to "archive `./backups/restore-dKtHYqiO/backup.archive.gz`"
+2026-11-18T15:46:39.357+0000	writing `ineo_test_s11.users` to "archive `./backups/restore-dKtHYqiO/backup.archive.gz`"
+2026-11-18T15:46:39.357+0000	writing `ineo_test_s11.atencion` to "archive `./backups/restore-dKtHYqiO/backup.archive.gz`"
+2026-11-18T15:46:39.366+0000	done dumping `ineo_test_s11.atencion` (8 documents)
+2026-11-18T15:46:39.366+0000	writing `ineo_test_s11.camas` to "archive `./backups/restore-dKtHYqiO/backup.archive.gz`"
+2026-11-18T15:46:39.366+0000	done dumping `ineo_test_s11.users` (4 documents)
+2026-11-18T15:46:39.366+0000	writing `ineo_test_s11.oat_recovery_marker` to "archive `./backups/restore-dKtHYqiO/backup.archive.gz`"
+2026-11-18T15:46:39.366+0000	done dumping `ineo_test_s11.pacientes` (8 documents)
+2026-11-18T15:46:39.366+0000	writing `ineo_test_s11.catalogo_examenes` to "archive `./backups/restore-dKtHYqiO/backup.archive.gz`"
+2026-11-18T15:46:39.367+0000	done dumping `ineo_test_s11.signos_vitales` (8 documents)
+2026-11-18T15:46:39.367+0000	writing `ineo_test_s11.counters` to "archive `./backups/restore-dKtHYqiO/backup.archive.gz`"
+2026-11-18T15:46:39.372+0000	done dumping `ineo_test_s11.oat_recovery_marker` (1 document)
+2026-11-18T15:46:39.372+0000	writing `ineo_test_s11.examenes_det` to "archive `./backups/restore-dKtHYqiO/backup.archive.gz`"
+2026-11-18T15:46:39.377+0000	done dumping `ineo_test_s11.camas` (1 document)
+2026-11-18T15:46:39.395+0000	done dumping `ineo_test_s11.catalogo_examenes` (1 document)
+2026-11-18T15:46:39.395+0000	done dumping `ineo_test_s11.counters` (1 document)
+2026-11-18T15:46:39.411+0000	done dumping `ineo_test_s11.examenes_det` (1 document)
+DUMP_EXIT_CODE=0
+PASO 3: Calcular hash del respaldo
+BACKUP_SHA256=6cf1ab39133f1a32f15173a5e3f90c2f59c3514d04788b2b696c853b31c31ccd
+PASO 4: Restaurar respaldo
+{ ok: 1, dropped: 'ineo_test_s11_restore' }
+2026-11-18T15:46:41.548+0000	preparing collections to restore from
+2026-11-18T15:46:41.561+0000	reading metadata for `ineo_test_s11_restore.signos_vitales` from "archive `./backups/restore-dKtHYqiO/backup.archive.gz`"
+2026-11-18T15:46:41.561+0000	reading metadata for `ineo_test_s11_restore.examenes_det` from "archive `./backups/restore-dKtHYqiO/backup.archive.gz`"
+2026-11-18T15:46:41.562+0000	reading metadata for `ineo_test_s11_restore.catalogo_examenes` from "archive `./backups/restore-dKtHYqiO/backup.archive.gz`"
+2026-11-18T15:46:41.562+0000	reading metadata for `ineo_test_s11_restore.pacientes` from "archive `./backups/restore-dKtHYqiO/backup.archive.gz`"
+2026-11-18T15:46:41.562+0000	reading metadata for `ineo_test_s11_restore.atencion` from "archive `./backups/restore-dKtHYqiO/backup.archive.gz`"
+2026-11-18T15:46:41.562+0000	reading metadata for `ineo_test_s11_restore.camas` from "archive `./backups/restore-dKtHYqiO/backup.archive.gz`"
+2026-11-18T15:46:41.562+0000	reading metadata for `ineo_test_s11_restore.counters` from "archive `./backups/restore-dKtHYqiO/backup.archive.gz`"
+2026-11-18T15:46:41.562+0000	reading metadata for `ineo_test_s11_restore.users` from "archive `./backups/restore-dKtHYqiO/backup.archive.gz`"
+2026-11-18T15:46:41.562+0000	reading metadata for `ineo_test_s11_restore.oat_recovery_marker` from "archive `./backups/restore-dKtHYqiO/backup.archive.gz`"
+2026-11-18T15:46:42.230+0000	restoring `ineo_test_s11_restore.users` from "archive `./backups/restore-dKtHYqiO/backup.archive.gz`"
+2026-11-18T15:46:42.269+0000	finished restoring `ineo_test_s11_restore.users` (4 documents, 0 failures)
+2026-11-18T15:46:42.702+0000	restoring `ineo_test_s11_restore.atencion` from "archive `./backups/restore-dKtHYqiO/backup.archive.gz`"
+2026-11-18T15:46:43.254+0000	restoring `ineo_test_s11_restore.pacientes` from "archive `./backups/restore-dKtHYqiO/backup.archive.gz`"
+2026-11-18T15:46:43.280+0000	finished restoring `ineo_test_s11_restore.pacientes` (8 documents, 0 failures)
+2026-11-18T15:46:43.371+0000	finished restoring `ineo_test_s11_restore.atencion` (8 documents, 0 failures)
+2026-11-18T15:46:43.863+0000	restoring `ineo_test_s11_restore.signos_vitales` from "archive `./backups/restore-dKtHYqiO/backup.archive.gz`"
+2026-11-18T15:46:43.931+0000	finished restoring `ineo_test_s11_restore.signos_vitales` (8 documents, 0 failures)
+2026-11-18T15:46:44.386+0000	restoring `ineo_test_s11_restore.oat_recovery_marker` from "archive `./backups/restore-dKtHYqiO/backup.archive.gz`"
+2026-11-18T15:46:44.425+0000	finished restoring `ineo_test_s11_restore.oat_recovery_marker` (1 document, 0 failures)
+2026-11-18T15:46:44.982+0000	restoring `ineo_test_s11_restore.camas` from "archive `./backups/restore-dKtHYqiO/backup.archive.gz`"
+2026-11-18T15:46:45.023+0000	finished restoring `ineo_test_s11_restore.camas` (1 document, 0 failures)
+2026-11-18T15:46:47.111+0000	restoring `ineo_test_s11_restore.catalogo_examenes` from "archive `./backups/restore-dKtHYqiO/backup.archive.gz`"
+2026-11-18T15:46:47.193+0000	finished restoring `ineo_test_s11_restore.catalogo_examenes` (1 document, 0 failures)
+2026-11-18T15:46:47.861+0000	restoring `ineo_test_s11_restore.counters` from "archive `./backups/restore-dKtHYqiO/backup.archive.gz`"
+2026-11-18T15:46:47.965+0000	finished restoring `ineo_test_s11_restore.counters` (1 document, 0 failures)
+2026-11-18T15:46:48.778+0000	restoring `ineo_test_s11_restore.examenes_det` from "archive `./backups/restore-dKtHYqiO/backup.archive.gz`"
+2026-11-18T15:46:48.828+0000	finished restoring `ineo_test_s11_restore.examenes_det` (1 document, 0 failures)
+2026-11-18T15:46:48.828+0000	no indexes to restore for collection `ineo_test_s11_restore.signos_vitales`
+2026-11-18T15:46:48.828+0000	no indexes to restore for collection `ineo_test_s11_restore.pacientes`
+2026-11-18T15:46:48.828+0000	no indexes to restore for collection `ineo_test_s11_restore.camas`
+2026-11-18T15:46:48.828+0000	no indexes to restore for collection `ineo_test_s11_restore.users`
+2026-11-18T15:46:48.828+0000	no indexes to restore for collection `ineo_test_s11_restore.oat_recovery_marker`
+2026-11-18T15:46:48.828+0000	no indexes to restore for collection `ineo_test_s11_restore.examenes_det`
+2026-11-18T15:46:48.828+0000	no indexes to restore for collection `ineo_test_s11_restore.catalogo_examenes`
+2026-11-18T15:46:48.828+0000	no indexes to restore for collection `ineo_test_s11_restore.atencion`
+2026-11-18T15:46:48.828+0000	no indexes to restore for collection `ineo_test_s11_restore.counters`
+2026-11-18T15:46:48.828+0000	33 document(s) restored successfully. 0 document(s) failed to restore.
+RESTORE_EXIT_CODE=0
+PASO 5: Validar integridad y RPO
+AFTER_COUNTS={"atencion":8,"camas":1,"catalogo_examenes":1,"counters":1,"examenes_det":1,"oat_recovery_marker":1,"pacientes":8,"signos_vitales":8,"users":4}
+RESTORED_SHA256=6e8b51e6f83ca468467aad1d6e8620759d129db7bacd626979b3227fb6aaa34e
+DUMP_SECONDS=0
+RPO_SIMULATED_MS=2360
+RPO_TARGET_SECONDS=900
+RESTORE_VALIDATION_SECONDS=12
+HASH_MATCH=PASS
+COLLECTION_COUNTS_MATCH=PASS
+RECOVERY_MARKER_MATCH=PASS
+RPO_VALIDATION=PASS
+ESTADO=Aprobado (technical assertion; pending human review)

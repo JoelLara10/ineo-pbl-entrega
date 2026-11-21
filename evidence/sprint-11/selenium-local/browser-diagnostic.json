@@ -1,0 +1,10 @@
+{
+  "date": "2026-11-18",
+  "chrome": "157.0.8103.79",
+  "chromedriver": "157.0.8103.50",
+  "chromeHeadlessMinimalPage": "failed: tab crashed",
+  "chromeGpuProcess": "exit code 0xC0000022 (access denied), then fatal GPU process unusable",
+  "edge": "157.0.4341.60; Selenium session closed while loading a data URL",
+  "applicationDefectInferred": false,
+  "impact": "Selenium execution is blocked by this machine's browser runtime; functional suite remains unverified"
+}
