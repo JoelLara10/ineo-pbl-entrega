@@ -1,0 +1,21 @@
+SHA=1c299ff92b009a57ddeefc2f89ead35e0dde8d65
+Fecha=2026-11-18T09:19:51.0426171-06:00
+RPO_TARGET_SECONDS=900
+Case=backup
+?? backend/api_hospital/Dockerfile.oat
+?? backend/api_hospital/requirements-oat.txt
+?? compose.oat-s11.yml
+?? docs/sprints/sprint-11/CP-S11-OAT-01.docx
+?? docs/sprints/sprint-11/CP-S11-OAT-02.docx
+?? docs/sprints/sprint-11/CP-S11-SAST-01.docx
+?? docs/sprints/sprint-11/CP-S11-SAST-03.docx
+?? docs/sprints/sprint-11/CP-S11-UAT-01.docx
+?? docs/sprints/sprint-11/CP-S11-UAT-02.docx
+?? docs/sprints/sprint-11/CP-S11-UAT-03.docx
+?? docs/sprints/sprint-11/CP-S11-UAT-04.docx
+?? docs/sprints/sprint-11/Manual_Operativo_OAT_PBL-40.docx
+?? docs/sprints/sprint-11/Matriz_Plan_OAT_PBL-40.docx
+?? evidence/sprint-11/oat-20261118-091332-320/
+?? evidence/sprint-11/oat-20261118-091929-737/
+?? evidence/sprint-11/oat-20261118-091951-026/
+?? qa/sprint-11/
