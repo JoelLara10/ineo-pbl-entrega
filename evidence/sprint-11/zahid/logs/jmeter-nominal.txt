@@ -1,0 +1,37 @@
+COMMAND: "C:\Program Files\Java\jdk-17\bin\java.exe" -Xms128m -Xmx512m -jar C:\Users\marce\Documents\Codex\2026-11-17\p\work\apache-jmeter-5.6.3\bin\ApacheJMeter.jar -n -t C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\qa\sprint-11\jmeter\read.jmx -l C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\evidence\sprint-11\zahid\jmeter\nominal\results.jtl -j C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\evidence\sprint-11\zahid\jmeter\nominal\jmeter.log -e -o C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\evidence\sprint-11\zahid\jmeter\nominal\html -Jusers=10 -Jramp=60 -Jduration=360 -Jpause=1000 -Jrun_id=S11-e5f945d338 -Jjmeter.save.saveservice.output_format=csv -Jjmeter.save.saveservice.response_data=false -Jjmeter.save.saveservice.response_data.on_error=false -Jjmeter.save.saveservice.samplerData=false -Jjmeter.save.saveservice.requestHeaders=false -Jjmeter.save.saveservice.responseHeaders=false
+EXIT: 0
+WARN StatusConsoleListener The use of package scanning to locate plugins is deprecated and will be removed in a future release
+WARN StatusConsoleListener The use of package scanning to locate plugins is deprecated and will be removed in a future release
+WARN StatusConsoleListener The use of package scanning to locate plugins is deprecated and will be removed in a future release
+WARN StatusConsoleListener The use of package scanning to locate plugins is deprecated and will be removed in a future release
+Creating summariser <summary>
+Created the tree successfully using C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\qa\sprint-11\jmeter\read.jmx
+Starting standalone test @ 2026 Nov 18 01:30:03 CST (1794987003228)
+Waiting for possible Shutdown/StopTestNow/HeapDump/ThreadDump message on port 4445
+summary +     59 in 00:00:26 =    2.3/s Avg:    92 Min:    12 Max:   225 Err:     0 (0.00%) Active: 5 Started: 5 Finished: 0
+summary +    195 in 00:00:30 =    6.5/s Avg:   100 Min:     6 Max:   210 Err:     0 (0.00%) Active: 10 Started: 10 Finished: 0
+summary =    254 in 00:00:56 =    4.5/s Avg:    98 Min:     6 Max:   225 Err:     0 (0.00%)
+summary +    270 in 00:00:30 =    9.0/s Avg:   112 Min:    79 Max:   404 Err:     0 (0.00%) Active: 10 Started: 10 Finished: 0
+summary =    524 in 00:01:26 =    6.1/s Avg:   105 Min:     6 Max:   404 Err:     0 (0.00%)
+summary +    269 in 00:00:30 =    8.9/s Avg:   102 Min:    74 Max:   238 Err:     0 (0.00%) Active: 10 Started: 10 Finished: 0
+summary =    793 in 00:01:56 =    6.8/s Avg:   104 Min:     6 Max:   404 Err:     0 (0.00%)
+summary +    263 in 00:00:30 =    8.7/s Avg:   122 Min:    76 Max:   447 Err:     0 (0.00%) Active: 10 Started: 10 Finished: 0
+summary =   1056 in 00:02:26 =    7.2/s Avg:   109 Min:     6 Max:   447 Err:     0 (0.00%)
+summary +    263 in 00:00:30 =    8.7/s Avg:   143 Min:    75 Max:   334 Err:     0 (0.00%) Active: 10 Started: 10 Finished: 0
+summary =   1319 in 00:02:56 =    7.5/s Avg:   116 Min:     6 Max:   447 Err:     0 (0.00%)
+summary +    267 in 00:00:30 =    9.0/s Avg:   111 Min:    78 Max:   209 Err:     0 (0.00%) Active: 10 Started: 10 Finished: 0
+summary =   1586 in 00:03:26 =    7.7/s Avg:   115 Min:     6 Max:   447 Err:     0 (0.00%)
+summary +    253 in 00:00:31 =    8.2/s Avg:   193 Min:    82 Max:  1032 Err:     0 (0.00%) Active: 10 Started: 10 Finished: 0
+summary =   1839 in 00:03:57 =    7.8/s Avg:   126 Min:     6 Max:  1032 Err:     0 (0.00%)
+summary +    257 in 00:00:29 =    8.8/s Avg:   145 Min:    78 Max:   385 Err:     0 (0.00%) Active: 10 Started: 10 Finished: 0
+summary =   2096 in 00:04:26 =    7.9/s Avg:   128 Min:     6 Max:  1032 Err:     0 (0.00%)
+summary +    265 in 00:00:30 =    8.9/s Avg:   123 Min:    75 Max:   500 Err:     0 (0.00%) Active: 10 Started: 10 Finished: 0
+summary =   2361 in 00:04:56 =    8.0/s Avg:   127 Min:     6 Max:  1032 Err:     0 (0.00%)
+summary +    270 in 00:00:30 =    9.0/s Avg:   100 Min:    76 Max:   236 Err:     0 (0.00%) Active: 10 Started: 10 Finished: 0
+summary =   2631 in 00:05:26 =    8.1/s Avg:   125 Min:     6 Max:  1032 Err:     0 (0.00%)
+summary +    269 in 00:00:30 =    8.9/s Avg:   113 Min:    76 Max:   609 Err:     0 (0.00%) Active: 10 Started: 10 Finished: 0
+summary =   2900 in 00:05:56 =    8.1/s Avg:   124 Min:     6 Max:  1032 Err:     0 (0.00%)
+summary +     32 in 00:00:04 =    8.7/s Avg:   149 Min:    79 Max:   318 Err:     0 (0.00%) Active: 0 Started: 10 Finished: 10
+summary =   2932 in 00:06:00 =    8.1/s Avg:   124 Min:     6 Max:  1032 Err:     0 (0.00%)
+Tidying up ...    @ 2026 Nov 18 01:36:03 CST (1794987363791)
+... end of run

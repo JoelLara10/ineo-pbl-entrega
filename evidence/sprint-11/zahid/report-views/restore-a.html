@@ -1,0 +1,27 @@
+<!doctype html><meta charset="utf-8"><style>body{font:22px Arial;margin:32px;color:#17212b}pre{white-space:pre-wrap;font:20px Consolas;line-height:1.25;background:#f3f5f7;padding:20px}small{overflow-wrap:anywhere}</style><h1>Registro de ejecución Sprint 11</h1><p>evidence/sprint-11/zahid/logs/restore-a.txt</p><small>SHA256 original: cbe781726dcdb57192cef7f9b51a82e5fc44a44b849165a2b4e5a519870751f2</small><p>Extractos del registro original; archivo completo conservado.</p><pre>COMMAND: terraform -chdir=C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\qa\sprint-11\infrastructure apply -auto-approve -input=false -no-color -state=C:\Users\marce\Documents\Codex\2026-11-17\p\work\tf-s11\a\terraform.tfstate -var=environment_name=ineo-test-s11-qa-a -var=mongo_port=27111
+EXIT: 0
+… extracto del registro original …
+          - read_only      = false -&gt; null
+          - volume_name    = &quot;ineo-test-s11-qa-a-synthetic&quot; -&gt; null
+            # (2 unchanged attributes hidden)
+        }
+      + volumes {
+          + container_path = &quot;/data/db&quot;
+          + volume_name    = &quot;ineo-test-s11-qa-a-synthetic&quot;
+            # (2 unchanged attributes hidden)
+        }
+
+        # (2 unchanged blocks hidden)
+    }
+
+Plan: 1 to add, 0 to change, 1 to destroy.
+module.test_database.docker_container.mongo: Destroying... [id=7f829c6d9cfe498572616aa8de22ea79ffc9ae62a7f5a9c5327f5790d4cf57f4]
+module.test_database.docker_container.mongo: Destruction complete after 1s
+module.test_database.docker_container.mongo: Creating...
+module.test_database.docker_container.mongo: Creation complete after 8s [id=3ec0a40584689f19ecb8154418bb32dbf5f6e0d55c5e766aaa62af671492764a]
+
+Apply complete! Resources: 1 added, 0 changed, 1 destroyed.
+
+Outputs:
+
+mongo_uri = &quot;mongodb://127.0.0.1:27111/&quot;</pre>

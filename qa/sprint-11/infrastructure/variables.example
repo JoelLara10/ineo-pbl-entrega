@@ -1,0 +1,3 @@
+# No contiene secretos. Pasar con -var o mediante el ejecutor lifecycle.py.
+environment_name = "ineo-test-s11-qa-a"
+mongo_port       = 27111

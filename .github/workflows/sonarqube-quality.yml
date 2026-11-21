@@ -17,14 +17,47 @@ on:
       - main
 
   workflow_dispatch:
+    inputs:
+      diagnostic_task_id:
+        description: Existing Sonar task ID to inspect without starting another analysis
+        required: false
+        type: string
+      make_project_public:
+        description: Set jaimediaz25 public only with explicit project-owner authorization
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: read
   pull-requests: read
 
 jobs:
+  sonar-diagnostics:
+    name: Read existing Sonar task diagnostic
+    if: github.event_name == 'workflow_dispatch' && inputs.diagnostic_task_id != ''
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Apply explicitly authorized project visibility
+        if: inputs.make_project_public
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        run: python ci/sonar_task_diagnostics.py --make-project-public
+      - name: Read task status without publishing an analysis
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          SONAR_TASK_ID: ${{ inputs.diagnostic_task_id }}
+        run: python ci/sonar_task_diagnostics.py --task-id "$SONAR_TASK_ID"
+
   sonar-api:
     name: SonarQube - API + Coverage + Quality Gate
+    if: github.event_name != 'workflow_dispatch' || inputs.diagnostic_task_id == ''
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
@@ -111,12 +144,19 @@ jobs:
             -Dsonar.qualitygate.wait=true
             -Dsonar.qualitygate.timeout=300
 
+      - name: Diagnose failed Sonar processing without changing the gate
+        if: failure()
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        run: python ci/sonar_task_diagnostics.py
+
   sonar-required:
     name: SonarQube required check - API
     runs-on: ubuntu-latest
     needs:
       - sonar-api
-    if: always()
+    if: always() && (github.event_name != 'workflow_dispatch' || inputs.diagnostic_task_id == '')
 
     steps:
       - name: Verify API analysis and Quality Gate

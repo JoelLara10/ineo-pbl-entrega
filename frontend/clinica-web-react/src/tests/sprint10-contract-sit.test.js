@@ -6,7 +6,7 @@ import { sparkService } from '../services/sparkService';
 // Opt-in: requires the dedicated synthetic server, never a shared environment.
 describe.skipIf(process.env.RUN_CONTRACT_SIT !== '1')('PBL-30 SIT React client - Flask - MongoDB', () => {
   beforeAll(() => {
-    api.defaults.baseURL = 'http://127.0.0.1:5029/api/v1';
+    api.defaults.baseURL = process.env.INEO_CONTRACT_API_URL || 'http://127.0.0.1:5029/api/v1';
     api.defaults.adapter = 'fetch';
     localStorage.clear();
   });

@@ -1,0 +1,4 @@
+COMMAND: terraform -chdir=C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\qa\sprint-11\infrastructure validate -no-color
+EXIT: 0
+Success! The configuration is valid.
+

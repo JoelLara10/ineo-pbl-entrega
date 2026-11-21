@@ -1,0 +1,8 @@
+{
+  "case": "test_uat_typed_fields_are_readable_in_both_browser_themes[balance-hidrico-dark]",
+  "result": "passed",
+  "browser": "157.0.8103.38",
+  "scope": "Real web/API HTTP; synthetic in-memory Mongo; technical execution, not human UAT",
+  "url": "http://host.docker.internal:63790/enfermeria/balance-hidrico",
+  "screenshot": true
+}

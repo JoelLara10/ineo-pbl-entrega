@@ -1,0 +1,14 @@
+[
+  {
+    "url": "https://ineo-web-qa.vercel.app/login",
+    "status_code": 200,
+    "final_url": "https://ineo-web-qa.vercel.app/login",
+    "check": "Página pública de acceso disponible; sin autenticación ni flujo API."
+  },
+  {
+    "url": "https://clinica-ocular-ten.vercel.app/login",
+    "status_code": 200,
+    "final_url": "https://clinica-ocular-ten.vercel.app/login",
+    "check": "Página pública de acceso disponible; sin autenticación ni flujo API."
+  }
+]

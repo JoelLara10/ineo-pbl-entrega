@@ -1,0 +1,8 @@
+{
+  "case": "test_uat_history_shows_mexico_time_without_six_hour_advance[balance-hidrico]",
+  "result": "passed",
+  "browser": "157.0.8103.38",
+  "scope": "Real web/API HTTP; synthetic in-memory Mongo; technical execution, not human UAT",
+  "url": "http://host.docker.internal:63790/enfermeria/balance-hidrico",
+  "screenshot": true
+}

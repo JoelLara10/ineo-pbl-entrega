@@ -1,0 +1,27 @@
+<!doctype html><meta charset="utf-8"><style>body{font:22px Arial;margin:32px;color:#17212b}pre{white-space:pre-wrap;font:20px Consolas;line-height:1.25;background:#f3f5f7;padding:20px}small{overflow-wrap:anywhere}</style><h1>Registro de ejecución Sprint 11</h1><p>evidence/sprint-11/zahid/logs/cleanup-a.txt</p><small>SHA256 original: 6177d36fb897e912354851e373a6427008386f9febea4c1b83b6ebe4399c8f66</small><p>Extractos del registro original; archivo completo conservado.</p><pre>COMMAND: terraform -chdir=C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\qa\sprint-11\infrastructure destroy -auto-approve -input=false -no-color -state=C:\Users\marce\Documents\Codex\2026-11-17\p\work\tf-s11\a\terraform.tfstate -var=environment_name=ineo-test-s11-qa-a -var=mongo_port=27111
+EXIT: 0
+… extracto del registro original …
+      - repo_digest  = &quot;mongo@sha256:c630c59342c1493d50345136df2af14a76b9e827dd5316bfabee07a0880a5f3a&quot; -&gt; null
+    }
+
+  # module.test_database.docker_volume.synthetic will be destroyed
+  - resource &quot;docker_volume&quot; &quot;synthetic&quot; {
+      - driver      = &quot;local&quot; -&gt; null
+      - driver_opts = {} -&gt; null
+      - id          = &quot;ineo-test-s11-qa-a-synthetic&quot; -&gt; null
+      - mountpoint  = &quot;/var/lib/docker/volumes/ineo-test-s11-qa-a-synthetic/_data&quot; -&gt; null
+      - name        = &quot;ineo-test-s11-qa-a-synthetic&quot; -&gt; null
+    }
+
+Plan: 0 to add, 0 to change, 3 to destroy.
+
+Changes to Outputs:
+  - mongo_uri = &quot;mongodb://127.0.0.1:27111/&quot; -&gt; null
+module.test_database.docker_container.mongo: Destroying... [id=3ec0a40584689f19ecb8154418bb32dbf5f6e0d55c5e766aaa62af671492764a]
+module.test_database.docker_container.mongo: Destruction complete after 1s
+module.test_database.docker_volume.synthetic: Destroying... [id=ineo-test-s11-qa-a-synthetic]
+module.test_database.docker_image.mongo: Destroying... [id=sha256:c630c59342c1493d50345136df2af14a76b9e827dd5316bfabee07a0880a5f3amongo:7.0.16]
+module.test_database.docker_image.mongo: Destruction complete after 0s
+module.test_database.docker_volume.synthetic: Destruction complete after 2s
+
+Destroy complete! Resources: 3 destroyed.</pre>

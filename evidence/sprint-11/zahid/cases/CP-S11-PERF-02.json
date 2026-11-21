@@ -1,0 +1,24 @@
+{
+  "case": "CP-S11-PERF-02",
+  "title": "Pico acotado",
+  "status": "Pendiente de ratificación",
+  "steps": [
+    [
+      "Ejecutar escenario JMX",
+      "Carga real y reporte original",
+      "{\"samples\": 1226, \"errors\": 0, \"error_rate\": 0.0, \"p95_ms\": 426.0, \"observed_threads\": 20, \"application_seconds\": 114.621, \"run_id\": \"S11-fbfa4d1e98\", \"thresholds\": {\"p95_ms\": 2000, \"error_rate\": 0.01}, \"thresholds_ratified\": false, \"observed_threshold_result\": true, \"users\": 20, \"ramp_seconds\": 1, \"scheduled_seconds\": 120}"
+    ],
+    [
+      "Evaluar métricas",
+      "p95 ≤ 2000 ms; errores ≤ 1 %",
+      "Cumple"
+    ]
+  ],
+  "detail": "Umbrales propuestos de Azure; ratificación humana pendiente.",
+  "executed_utc": "2026-11-18T07:38:19.108395+00:00",
+  "tested_sha": "8bf65707f3b2829b4c54351b8d63a580f6b8874a",
+  "executor": "Agente Codex bajo solicitud de Marcelino Zahid Galicia Bonifacio",
+  "owner": "Marcelino Zahid Galicia Bonifacio",
+  "reviewer": "Jesús — revisión pendiente",
+  "environment": "QA local aislado; datos sintéticos"
+}

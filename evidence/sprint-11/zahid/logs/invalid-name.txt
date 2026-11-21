@@ -1,0 +1,38 @@
+COMMAND: terraform -chdir=C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\qa\sprint-11\infrastructure plan -var=environment_name=production -input=false -no-color -state=C:\Users\marce\Documents\Codex\2026-11-17\p\work\tf-s11\a\terraform.tfstate -var=mongo_port=27111
+EXIT: 1
+
+Warning: Deprecated flag: -state
+
+Use the "path" attribute within the "local" backend to specify a file for
+state storage
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform planned the following actions, but then encountered a problem:
+
+  # module.test_database.docker_image.mongo will be created
+  + resource "docker_image" "mongo" {
+      + id           = (known after apply)
+      + image_id     = (known after apply)
+      + keep_locally = true
+      + name         = "mongo:7.0.16"
+      + repo_digest  = (known after apply)
+    }
+
+Plan: 1 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + mongo_uri = "mongodb://127.0.0.1:27111/"
+
+Error: Invalid value for variable
+
+  on main.tf line 11:
+  11: variable "environment_name" {
+    ├────────────────
+    │ var.environment_name is "production"
+
+Solo se permiten los ambientes QA exclusivos del Sprint 11.
+
+This was checked by the validation rule at main.tf:13,3-13.

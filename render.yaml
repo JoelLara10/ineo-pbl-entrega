@@ -1,0 +1,23 @@
+# PBL-39: Render Blueprint; secrets are supplied in the Render dashboard.
+# Existing services must be reviewed/imported before using this blueprint.
+services:
+  - type: web
+    name: ineo-api
+    runtime: docker
+    dockerContext: ./backend/api_hospital
+    dockerfilePath: ./backend/api_hospital/Dockerfile
+    healthCheckPath: /ready
+    autoDeployTrigger: "off"
+    envVars:
+      - key: MONGO_URI
+        sync: false
+      - key: MONGO_DB
+        sync: false
+      - key: SECRET_KEY
+        sync: false
+      - key: CORS_ORIGINS
+        sync: false
+      - key: ENABLE_SCHEDULER
+        value: "false"
+      - key: ANALYSIS_ENGINE
+        value: auto

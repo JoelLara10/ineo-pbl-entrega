@@ -1,0 +1,97 @@
+COMMAND: "C:\Program Files\nodejs\npm.cmd" run build
+EXIT: 0
+
+> ineo-web@0.0.0 build
+> vite build
+
+vite v8.3.4 building client environment for production...
+transforming...
+✓ 220 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                         0.94 kB │ gzip:   0.43 kB
+dist/sw.js                                              4.22 kB
+dist/.vite/manifest.json                               26.78 kB │ gzip:   2.82 kB
+dist/assets/BackupStyles-B9tW3XSj.css                   0.80 kB │ gzip:   0.42 kB
+dist/assets/MetAnalyticsScreen-DFDnBz48.css             1.45 kB │ gzip:   0.58 kB
+dist/assets/LoginScreen-DcwcM3ph.css                    2.08 kB │ gzip:   0.78 kB
+dist/assets/NursingSections-BsXTQOxa.css                2.17 kB │ gzip:   0.74 kB
+dist/assets/DashboardScreen-TJr2iOHJ.css                2.22 kB │ gzip:   0.86 kB
+dist/assets/AdminLayout-DzVzvAn-.css                    4.36 kB │ gzip:   1.42 kB
+dist/assets/index-DjORR4D3.css                          4.90 kB │ gzip:   1.74 kB
+dist/assets/EnfermeriaCareScreen-BriA0QIv.css           4.96 kB │ gzip:   1.36 kB
+dist/assets/AnalysisCharts-DB8skq_A.css                 6.63 kB │ gzip:   1.80 kB
+dist/assets/MonitoringScreen-CGyuSkxk.css               6.88 kB │ gzip:   1.83 kB
+dist/assets/Spark-BLuYd0Za.css                          6.96 kB │ gzip:   1.86 kB
+dist/assets/ConfigHeader-Cw924Y-H.css                  12.23 kB │ gzip:   2.84 kB
+dist/assets/EditarResultadoGabScreen-DWyGLbJI.js        0.19 kB │ gzip:   0.17 kB
+dist/assets/EditarResultadoLabScreen-DWyGLbJI.js        0.19 kB │ gzip:   0.17 kB
+dist/assets/VerResultadoGabScreen-BtdO4q6q.js           0.19 kB │ gzip:   0.17 kB
+dist/assets/VerResultadoLabScreen-BtdO4q6q.js           0.19 kB │ gzip:   0.17 kB
+dist/assets/UnsupervisedAnalyticsScreen-DICuwuHe.js     0.19 kB │ gzip:   0.17 kB
+dist/assets/EstudiosCache-BN2ocLql.js                   0.44 kB │ gzip:   0.30 kB
+dist/assets/configCache-BbFxvqDb.js                     0.48 kB │ gzip:   0.30 kB
+dist/assets/usePageRevalidation-D5f3M2hc.js             0.54 kB │ gzip:   0.30 kB
+dist/assets/ConfigHeader-_zM4TPbY.js                    0.60 kB │ gzip:   0.35 kB
+dist/assets/Spark-0UJMwGyB.js                           0.74 kB │ gzip:   0.35 kB
+dist/assets/BackupStyles-DJa5V76n.js                    0.83 kB │ gzip:   0.36 kB
+dist/assets/useAdminData-iECQNQEN.js                    0.95 kB │ gzip:   0.53 kB
+dist/assets/AdminLayout-CO-d85y3.js                     0.96 kB │ gzip:   0.47 kB
+dist/assets/AdminScreen-xL3WuKub.js                     0.98 kB │ gzip:   0.54 kB
+dist/assets/regional-DJaqyz4O.js                        1.17 kB │ gzip:   0.56 kB
+dist/assets/ProfileConfigScreen-Phf6Q48A.js             1.36 kB │ gzip:   0.48 kB
+dist/assets/clinicalCache-7TBf3Ahp.js                   1.50 kB │ gzip:   0.78 kB
+dist/assets/NursingSections-Dwx8fnWZ.js                 1.60 kB │ gzip:   0.59 kB
+dist/assets/SparkDashboard-DlNCpmC8.js                  1.77 kB │ gzip:   0.71 kB
+dist/assets/ConfigScreen-BcT64F0z.js                    1.89 kB │ gzip:   0.71 kB
+dist/assets/AuthContext-P5bMvzqp.js                     2.04 kB │ gzip:   0.85 kB
+dist/assets/md-DwUql-zQ.js                              2.04 kB │ gzip:   0.73 kB
+dist/assets/adminCache-C2xTTX-x.js                      2.06 kB │ gzip:   0.95 kB
+dist/assets/LoginScreen-SpPV6udD.js                     2.55 kB │ gzip:   0.92 kB
+dist/assets/AnalyticsScreen-BqFc65Ot.js                 2.82 kB │ gzip:   1.10 kB
+dist/assets/CensoScreen-C_oLE_Q7.js                     3.40 kB │ gzip:   1.22 kB
+dist/assets/GeneralSettingsScreen-B4SZj345.js           3.69 kB │ gzip:   1.00 kB
+dist/assets/PacientesScreen-tKvWA39v.js                 4.21 kB │ gzip:   1.53 kB
+dist/assets/AutomationConfigScreen-D47RSKS9.js          4.34 kB │ gzip:   1.31 kB
+dist/assets/MetAnalyticsScreen-AiuGjZRj.js              4.41 kB │ gzip:   1.42 kB
+dist/assets/DiagnosticosConfigScreen-hOcBgd_w.js        4.63 kB │ gzip:   1.49 kB
+dist/assets/CorteCajaScreen-Ct9kgXXP.js                 5.13 kB │ gzip:   1.54 kB
+dist/assets/EnfermeriaCareScreen-H_ci0Weg.js            5.40 kB │ gzip:   1.63 kB
+dist/assets/BackupConfigScreen-DhWb6_An.js              6.34 kB │ gzip:   1.97 kB
+dist/assets/VitalSignsListScreen-ClijnLsu.js            7.63 kB │ gzip:   2.39 kB
+dist/assets/ClinicalAnalyticsScreen-D2hGC9T2.js         7.83 kB │ gzip:   2.95 kB
+dist/assets/NuevoPacienteScreen-B8Q5zzvJ.js             7.83 kB │ gzip:   2.42 kB
+dist/assets/CamasConfigScreen-BNvfe6Mg.js               8.03 kB │ gzip:   2.24 kB
+dist/assets/EnfermeriaNoteScreen-DWxtjekj.js            8.38 kB │ gzip:   2.62 kB
+dist/assets/DashboardScreen-BmfxxZWT.js                 8.45 kB │ gzip:   3.27 kB
+dist/assets/ViewResultForm-CyPm-iS0.js                  8.73 kB │ gzip:   2.74 kB
+dist/assets/MedicoScreen-Bju5LlP0.js                    8.74 kB │ gzip:   2.92 kB
+dist/assets/PacienteDetailScreen-Bljq2jl1.js            8.84 kB │ gzip:   2.57 kB
+dist/assets/EnfermeriaScreen-DzY8TOa2.js                8.84 kB │ gzip:   2.99 kB
+dist/assets/EnfermeriaAssessmentScreen-BkWzK8G3.js      8.93 kB │ gzip:   2.82 kB
+dist/assets/EnfermeriaFluidBalanceScreen-CJrq--CM.js    8.95 kB │ gzip:   2.70 kB
+dist/assets/SubirResultadoScreen-CL39-37W.js            9.01 kB │ gzip:   3.21 kB
+dist/assets/HistoriaClinicaScreen-C2MtSXvk.js           9.33 kB │ gzip:   2.90 kB
+dist/assets/MedicalNoteScreen-C1Ua8bK_.js               9.48 kB │ gzip:   2.87 kB
+dist/assets/MonitoringScreen-CbUc4H1G.js                9.52 kB │ gzip:   2.99 kB
+dist/assets/EditResultForm-DYg1qNzZ.js                  9.53 kB │ gzip:   3.29 kB
+dist/assets/EnfermeriaVitalSignsScreen-BJbE7Ua5.js      9.79 kB │ gzip:   3.01 kB
+dist/assets/PatientDetailScreen-Db-s59tT.js             9.88 kB │ gzip:   3.12 kB
+dist/assets/VitalSignsScreen-Bk5mQYiG.js                9.95 kB │ gzip:   2.98 kB
+dist/assets/PatientDetailScreen-CBkwo2IL.js            10.28 kB │ gzip:   3.19 kB
+dist/assets/ServiciosConfigScreen-BnJtCEwX.js          10.34 kB │ gzip:   2.93 kB
+dist/assets/PrintDocsScreen-Cu-ghg75.js                10.51 kB │ gzip:   3.34 kB
+dist/assets/LabExamsScreen-CoII-7ya.js                 10.69 kB │ gzip:   3.15 kB
+dist/assets/ImagingExamsScreen-DGVXWmrP.js             10.78 kB │ gzip:   3.14 kB
+dist/assets/UsuariosConfigScreen-PSxD92wc.js           11.47 kB │ gzip:   2.93 kB
+dist/assets/EnfermeriaMedicationsScreen-D-h9_IdZ.js    11.82 kB │ gzip:   3.28 kB
+dist/assets/DiagnosisScreen-WaR4SqDr.js                12.12 kB │ gzip:   3.14 kB
+dist/assets/PrescriptionScreen-D3nJHUGo.js             12.59 kB │ gzip:   3.34 kB
+dist/assets/StudyResultsScreen-7U_lspAe.js             13.62 kB │ gzip:   3.97 kB
+dist/assets/EstudiosScreen-b6HqlGCm.js                 23.77 kB │ gzip:   7.25 kB
+dist/assets/AnalysisCharts-Cc_gYgGT.js                 26.98 kB │ gzip:   7.90 kB
+dist/assets/fi-Dof9tYdE.js                             34.56 kB │ gzip:   9.09 kB
+dist/assets/api-C7R9LqAK.js                            53.07 kB │ gzip:  19.81 kB
+dist/assets/index-CucKseB6.js                         402.10 kB │ gzip: 124.02 kB
+
+✓ built in 1.62s

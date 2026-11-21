@@ -1,0 +1,16 @@
+COMMAND: C:\Users\marce\Documents\Codex\2026-11-17\p\work\qa-env\Scripts\python.exe -m pytest tests -q --basetemp=C:\Users\marce\Documents\Codex\2026-11-17\p\work\pytest-s11-full-api-host --junitxml=C:\Users\marce\Documents\Codex\2026-11-17\p\work\ineo-pbl-entrega\evidence\sprint-11\zahid\revalidation\api-tests.xml
+EXIT: 0
+......................................................ss................ [ 16%]
+........................................................................ [ 32%]
+........................................s............................... [ 48%]
+................................................ssssssssssss............ [ 64%]
+........................................................................ [ 80%]
+........................................................................ [ 97%]
+.............                                                            [100%]
+============================== warnings summary ===============================
+tests/test_monitoring_pages_push.py: 161 warnings
+  C:\Users\marce\Documents\Codex\2026-11-17\p\work\qa-env\Lib\site-packages\mongomock\helpers.py:73: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    return datetime.utcnow()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+430 passed, 15 skipped, 161 warnings in 218.37s (0:03:38)

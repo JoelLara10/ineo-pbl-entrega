@@ -1,0 +1,24 @@
+COMMAND: "C:\Program Files\nodejs\npm.cmd" audit --json
+EXIT: 0
+{
+  "auditReportVersion": 2,
+  "vulnerabilities": {},
+  "metadata": {
+    "vulnerabilities": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    },
+    "dependencies": {
+      "prod": 117,
+      "dev": 145,
+      "optional": 46,
+      "peer": 8,
+      "peerOptional": 0,
+      "total": 261
+    }
+  }
+}
