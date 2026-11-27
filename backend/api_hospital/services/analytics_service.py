@@ -1,6 +1,7 @@
 from utils.database import get_collection, serialize_doc
 from datetime import datetime, timedelta
 from decimal import Decimal
+from bson.decimal128 import Decimal128
 import pandas as pd
 import tempfile
 
@@ -44,10 +45,14 @@ class AnalyticsService:
         return {
             'active_patients': {
                 'total': sum(item['count'] for item in active_by_area),
-                'by_area': {item['_id']: item['count'] for item in active_by_area}
+                'by_area': {str(item['_id'] or 'Sin área'): item['count'] for item in active_by_area}
             },
             'today_attentions': today_attentions,
-            'today_income': float(today_income[0]['total']) if today_income else 0,
+            'today_income': float(
+                today_income[0]['total'].to_decimal()
+                if isinstance(today_income[0]['total'], Decimal128)
+                else today_income[0]['total']
+            ) if today_income else 0,
             'bed_occupancy': {
                 'total': total_beds,
                 'occupied': occupied_beds,

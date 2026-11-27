@@ -58,6 +58,7 @@
   },
   "dashboard": {
     "greeting": "¡Hola, {{name}}!",
+    "loadError": "No se pudieron actualizar todos los indicadores. Revisa tu conexión y vuelve a intentar; los valores disponibles corresponden a la última consulta correcta.",
     "activePatients": "Pacientes Activos",
     "occupiedBeds": "Camas Ocupadas",
     "pendingStudies": "Estudios Pendientes",
