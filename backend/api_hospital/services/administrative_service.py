@@ -1,3 +1,4 @@
+import re
 from collections import defaultdict
 from datetime import date, datetime, time, timedelta
 from decimal import Decimal, InvalidOperation
@@ -295,6 +296,9 @@ class AdministrativeService:
             row.get('area'),
             row.get('doctor'),
             row.get('reason'),
+            row.get('concept'),
+            row.get('description'),
+            row.get('method'),
         ]
         text = ' '.join(str(value or '') for value in values).lower()
         return query in text
@@ -480,6 +484,10 @@ class AdministrativeService:
         if appointment:
             return AdministrativeService._appointment_patient_row(db, appointment, patient)
 
+        return AdministrativeService._patient_without_attention_row(patient)
+
+    @staticmethod
+    def _patient_without_attention_row(patient):
         name = AdministrativeService._patient_name(patient)
         id_exp = patient.get('Id_exp')
         return {
@@ -508,24 +516,40 @@ class AdministrativeService:
         }
 
     @staticmethod
+    def _patient_record_rows_bulk(db, patients):
+        if not patients:
+            return []
+        ids = [patient.get('Id_exp') for patient in patients]
+        latest = {}
+        for appointment in db['atencion'].find({'Id_exp': {'$in': ids}}).sort('fecha_ing', -1):
+            latest.setdefault(appointment.get('Id_exp'), appointment)
+        rows = {
+            row['Id_exp']: row
+            for row in AdministrativeService._appointment_rows_bulk(db, list(latest.values()))
+        }
+        return [rows.get(patient.get('Id_exp')) or
+                AdministrativeService._patient_without_attention_row(patient) for patient in patients]
+
+    @staticmethod
     def _recent_discharge_rows(db, limit=20):
         expedientes = list(db['expedientes'].find({}).sort([('fecha_alta', -1), ('id_atencion', -1), ('_id', -1)]).limit(limit))
+        patient_ids = [record.get('id_exp') for record in expedientes]
+        patients = {patient['Id_exp']: patient for patient in db['pacientes'].find({'Id_exp': {'$in': patient_ids}})}
+        attention_ids = [record.get('id_atencion') for record in expedientes]
+        appointments = list(db['atencion'].find({'id_atencion': {'$in': attention_ids}}))
+        rows_by_attention = {row['id_atencion']: row for row in AdministrativeService._appointment_rows_bulk(db, appointments)}
+        fallback_patients = [patients[record['id_exp']] for record in expedientes
+                             if record.get('id_exp') in patients and record.get('id_atencion') not in rows_by_attention]
+        fallback = {row['Id_exp']: row for row in AdministrativeService._patient_record_rows_bulk(db, fallback_patients)}
         rows = []
-        for expediente in expedientes:
-            patient = db['pacientes'].find_one({'Id_exp': expediente.get('id_exp')})
-            appointment = db['atencion'].find_one({'id_atencion': expediente.get('id_atencion')})
-            if not patient:
+        for record in expedientes:
+            original = rows_by_attention.get(record.get('id_atencion')) or fallback.get(record.get('id_exp'))
+            if not original:
                 continue
-            row = (
-                AdministrativeService._appointment_patient_row(db, appointment, patient)
-                if appointment
-                else AdministrativeService._patient_record_row(db, patient)
-            )
-            row['dischargedAt'] = AdministrativeService._format_datetime(expediente.get('fecha_alta'))
-            row['totalCuenta'] = float(AdministrativeService._to_decimal(expediente.get('total_cuenta')))
-            rows.append(row)
+            rows.append({**original,
+                         'dischargedAt': AdministrativeService._format_datetime(record.get('fecha_alta')),
+                         'totalCuenta': float(AdministrativeService._to_decimal(record.get('total_cuenta')))})
         return rows
-
 
     @staticmethod
     def get_patient_groups(search=''):
@@ -543,7 +567,7 @@ class AdministrativeService:
         patients = list(db['pacientes'].find({}).sort('Id_exp', -1).limit(30))
         recent = [
             row for row in
-            (AdministrativeService._patient_record_row(db, patient) for patient in patients)
+            AdministrativeService._patient_record_rows_bulk(db, patients)
             if row and AdministrativeService._matches_search(row, search)
         ]
 
@@ -694,12 +718,39 @@ class AdministrativeService:
         }
 
     @staticmethod
+    def _validate_patient_data(db, data, id_exp=None):
+        if not isinstance(data, dict):
+            return 'Los datos del paciente deben ser un objeto'
+        for field in ['curp', 'papell', 'nom_pac', 'fecnac']:
+            if id_exp is None or field in data:
+                if not isinstance(data.get(field), str) or not data[field].strip():
+                    return f'Campo requerido: {field}'
+        if 'fecnac' in data:
+            birth_date = AdministrativeService._parse_date(data['fecnac'])
+            if not birth_date or birth_date.date() > date.today():
+                return 'Fecha de nacimiento invalida'
+        if 'curp' in data:
+            curp = data['curp'].strip().upper()
+            duplicate = db['pacientes'].find_one({'curp': {'$regex': '^' + re.escape(curp) + '$', '$options': 'i'}, 'Id_exp': {'$ne': id_exp}})
+            if duplicate:
+                return 'Ya existe un paciente con esta CURP. Busca su expediente para continuar.'
+        if any(data.get(key) not in (None, '') for key in ['id_cama', 'cama', 'bed']):
+            bed_id = AdministrativeService._resolve_bed_id(db, data)
+            bed = db['camas'].find_one({'id_cama': bed_id}) if bed_id is not None else None
+            if not bed:
+                return 'Cama no encontrada'
+            own = db['atencion'].find_one({'Id_exp': id_exp, 'id_cama': bed_id, 'status': 'ABIERTA'}) if id_exp is not None else None
+            other = db['atencion'].find_one({'id_cama': bed_id, 'status': 'ABIERTA', 'Id_exp': {'$ne': id_exp}})
+            if other or (bed.get('ocupada') and not own):
+                return 'La cama seleccionada ya esta ocupada. Actualiza las opciones.'
+        return None
+
+    @staticmethod
     def create_patient(data):
         db = AdministrativeService._db()
-        required = ['curp', 'papell', 'nom_pac', 'fecnac']
-        for field in required:
-            if not data.get(field):
-                return None, f'Campo requerido: {field}'
+        error = AdministrativeService._validate_patient_data(db, data)
+        if error:
+            return None, error
 
         birth_date = AdministrativeService._parse_date(data.get('fecnac'))
         if not birth_date:
@@ -760,10 +811,13 @@ class AdministrativeService:
         if not patient:
             return None, 'Paciente no encontrado'
 
+        error = AdministrativeService._validate_patient_data(db, data, id_exp)
+        if error:
+            return None, error
         patient_update = {}
         for field in ['curp', 'papell', 'sapell', 'nom_pac', 'email']:
             if field in data:
-                patient_update[field] = data[field]
+                patient_update[field] = data[field].strip().upper() if field == 'curp' else data[field]
         if 'tel' in data or 'phone' in data:
             patient_update['tel'] = data.get('tel') or data.get('phone') or ''
         if data.get('fecnac'):
@@ -783,7 +837,7 @@ class AdministrativeService:
 
         id_atencion = appointment.get('id_atencion') if appointment else None
         old_id_cama = appointment.get('id_cama') if appointment else None
-        new_id_cama = AdministrativeService._resolve_bed_id(db, data) if should_touch_appointment else old_id_cama
+        new_id_cama = AdministrativeService._resolve_bed_id(db, data) if any(key in data for key in ['id_cama', 'cama', 'bed']) else old_id_cama
 
         if should_touch_appointment:
             appointment_update = {
@@ -1123,8 +1177,14 @@ class AdministrativeService:
         appointment = db['atencion'].find_one({'id_atencion': id_atencion})
         if not appointment:
             return None, 'Atencion no encontrada'
+        if appointment.get('status') != 'ABIERTA':
+            return None, 'La cuenta ya esta cerrada'
 
-        quantity = AdministrativeService._to_int(data.get('cantidad') or data.get('quantity')) or 1
+        raw_quantity = data.get('cantidad', data.get('quantity', 1))
+        numeric_quantity = AdministrativeService._to_decimal(raw_quantity)
+        if isinstance(raw_quantity, bool) or not numeric_quantity.is_finite() or numeric_quantity < 1 or numeric_quantity != numeric_quantity.to_integral_value():
+            return None, 'Cantidad invalida: debe ser un entero mayor que cero'
+        quantity = int(numeric_quantity)
         description = data.get('descripcion') or data.get('description') or ''
         price = AdministrativeService._to_decimal(data.get('precio', data.get('price')))
         charge_type = (data.get('tipo') or data.get('type') or 'SERVICIO').upper()
@@ -1148,7 +1208,7 @@ class AdministrativeService:
 
         if not description:
             return None, 'Descripcion requerida'
-        if price <= 0:
+        if not price.is_finite() or price <= 0:
             return None, 'Precio invalido'
 
         subtotal = price * Decimal(quantity)
@@ -1159,8 +1219,8 @@ class AdministrativeService:
             'fecha': datetime.now(),
             'descripcion': description,
             'cantidad': quantity,
-            'precio': price,
-            'subtotal': subtotal,
+            'precio': Decimal128(price),
+            'subtotal': Decimal128(subtotal),
             'tipo': charge_type,
             'estado': data.get('estado', 'PENDIENTE'),
         }
@@ -1202,18 +1262,20 @@ class AdministrativeService:
         appointment = db['atencion'].find_one({'id_atencion': id_atencion})
         if not appointment:
             return None, 'Atencion no encontrada'
+        if appointment.get('status') != 'ABIERTA':
+            return None, 'La cuenta ya esta cerrada'
 
         amount = AdministrativeService._to_decimal(
             data.get('amount', data.get('monto', data.get('deposito')))
         )
-        if amount <= 0:
+        if not amount.is_finite() or amount <= 0:
             return None, 'Monto invalido'
 
         payment = {
             'id_deposito': get_next_sequence('depositos_pserv_id_deposito'),
             'id_atencion': id_atencion,
             'Id_exp': appointment.get('Id_exp'),
-            'deposito': amount,
+            'deposito': Decimal128(amount),
             'tipo_pago': data.get('payment_method') or data.get('tipo_pago') or data.get('method') or 'Efectivo',
             'fecha': datetime.now(),
             'usuario_registro': user_id,
@@ -1273,13 +1335,16 @@ class AdministrativeService:
 
         payments.sort(key=lambda payment: AdministrativeService._sort_date(payment.get('fecha')), reverse=True)
 
+        attention_ids = [payment.get('id_atencion') for payment in payments]
+        appointments = {item['id_atencion']: item for item in db['atencion'].find({'id_atencion': {'$in': attention_ids}})}
+        patient_ids = [item.get('Id_exp') for item in appointments.values()]
+        patients = {item['Id_exp']: item for item in db['pacientes'].find({'Id_exp': {'$in': patient_ids}})}
         movements = []
         income = Decimal('0')
         for payment in payments:
             amount = AdministrativeService._payment_amount(payment)
-            income += amount
-            appointment = db['atencion'].find_one({'id_atencion': payment.get('id_atencion')}) or {}
-            patient = db['pacientes'].find_one({'Id_exp': appointment.get('Id_exp')}) or {}
+            appointment = appointments.get(payment.get('id_atencion'), {})
+            patient = patients.get(appointment.get('Id_exp'), {})
             patient_name = AdministrativeService._patient_name(patient)
             movement = {
                 'id': str(payment.get('_id')),
@@ -1295,6 +1360,7 @@ class AdministrativeService:
             }
             if AdministrativeService._matches_search(movement, search):
                 movements.append(movement)
+                income += amount
 
         active_accounts = AdministrativeService.get_active_accounts(search)
         pending = sum(AdministrativeService._to_decimal(account.get('balance')) for account in active_accounts)

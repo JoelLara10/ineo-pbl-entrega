@@ -1,8 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { adminErrorMessage } from '../../utils/adminError';
 import { usePageRevalidation } from '../../hooks/usePageRevalidation';
 import { getAdminCache, setAdminCache } from '../../services/adminCache';
 
 export default function useAdminData(cacheKey, loader, initialValue) {
+  const { t } = useTranslation();
   const requestId = useRef(0);
   const initialData = useRef(initialValue);
   const currentKey = useRef(cacheKey);
@@ -37,14 +40,14 @@ export default function useAdminData(cacheKey, loader, initialValue) {
       setError('');
     } catch (requestError) {
       if (currentRequest !== requestId.current) return;
-      setError(requestError.response?.data?.error || requestError.message);
+      setError(adminErrorMessage(requestError, t));
     } finally {
       if (currentRequest === requestId.current) {
         setLoading(false);
         setRefreshing(false);
       }
     }
-  }, [cacheKey, loader]);
+  }, [cacheKey, loader, t]);
 
   useEffect(() => { load(); return () => { requestId.current += 1; }; }, [load]);
   const refresh = useCallback(() => load(true), [load]);

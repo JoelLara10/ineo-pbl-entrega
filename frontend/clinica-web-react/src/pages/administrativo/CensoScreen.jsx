@@ -15,8 +15,8 @@ export default function CensoScreen() {
   const sections = useMemo(() => state.data?.sections || state.data?.data || [], [state.data]);
   const filtered = useMemo(() => sections.map((section) => ({ ...section, data: (section.data || section.patients || []).filter((patient) => !searches[section.key]?.trim() || Object.values(patient).join(' ').toLowerCase().includes(searches[section.key].trim().toLowerCase())) })), [sections, searches]);
   return <AdminLayout title={t('administrative.census')} subtitle={t('administrative.censusDesc')} onRefresh={state.reload} refreshing={state.refreshing} updatedAt={state.updatedAt}>
-    <div className="adm-summary">{['activos', 'areas', 'avisos'].map((key, index) => <div className="adm-stat" style={{ '--accent': ['#667eea', '#38b2ac', '#ed8936'][index] }} key={key}><span>{t(`administrative.${key}`)}</span><strong>{state.data?.summary?.[key] || 0}</strong></div>)}</div>
-    {state.error && <div className="adm-alert">{state.error}</div>}
+    <div className="adm-summary">{['activos', 'areas', 'avisos'].map((key, index) => <div className="adm-stat" style={{ '--accent': ['#667eea', '#38b2ac', '#ed8936'][index] }} key={key}><span>{t(`administrative.${key}`)}</span><strong>{!state.updatedAt ? '—' : state.data?.summary?.[key] || 0}</strong></div>)}</div>
+    {state.error && <div role="alert" className="adm-alert">{state.error}</div>}
     {state.loading ? <div className="adm-loading">{t('common.loading')}</div> : filtered.map((section) => {
       const totalPages = Math.max(1, Math.ceil(section.data.length / LIMIT)); const page = Math.min(pages[section.key] || 1, totalPages); const visible = section.data.slice((page - 1) * LIMIT, page * LIMIT);
       return <section className="adm-panel adm-section" key={section.key}><div className="adm-section-head"><h2>{t(`administrative.census_${section.key}`, section.title || section.key)}</h2><span className="adm-badge">{section.data.length}</span></div>

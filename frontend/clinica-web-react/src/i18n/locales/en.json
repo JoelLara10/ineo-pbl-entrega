@@ -1205,7 +1205,19 @@
     "confirmCloseAccount": "Do you want to close this account?",
     "searchPreviousPatients": "Find a previously treated patient",
     "reactivatePatient": "Reactivate in a new visit",
-    "patientAlreadyActive": "This patient already has an active visit"
+    "patientAlreadyActive": "This patient already has an active visit",
+    "errors": {
+      "offline": "There is no Internet connection. Connect and try again.",
+      "timeout": "The server took too long to respond. Please try again.",
+      "connection": "Could not connect to the server. Check your connection and try again.",
+      "session": "Your session expired. Please sign in again.",
+      "permission": "You do not have permission to perform this operation.",
+      "notFound": "The requested record is unavailable. Refresh the list.",
+      "server": "The server could not complete the operation. Please try again later.",
+      "validation": "Check the entered information and try again.",
+      "unexpected": "Could not complete the operation. Please try again.",
+      "charge": "Select an item and a whole quantity greater than zero."
+    }
   },
   "analysisMetadata": {
     "title": "Analysis freshness",
