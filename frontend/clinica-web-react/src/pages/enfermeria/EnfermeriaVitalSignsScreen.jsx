@@ -1,6 +1,8 @@
+import { adminErrorMessage } from '../../utils/adminError';
+import { nursingContextError, validateNursingInput } from '../../utils/nursingValidation';
 import { getClinicalCache, setClinicalCache } from '../../services/clinicalCache';
 import { formatRegionalDate } from '../../i18n/regional';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FiActivity, FiArrowLeft, FiHeart, FiSave, FiShield, FiUser } from 'react-icons/fi';
 import { usePatient } from '../../context/PatientContext';
@@ -14,21 +16,19 @@ const CACHE_TTL = 2 * 60 * 1000;
 function getCachedValue(key) { return getClinicalCache(CACHE_PREFIX + key); }
 function setCachedValue(key, data, ttl = CACHE_TTL) { setClinicalCache(CACHE_PREFIX + key, data, ttl); }
 
-function parseNumericValue(value) {
-  if (!value || value === '') return null;
-  const parsed = parseFloat(value);
-  return Number.isNaN(parsed) ? null : parsed;
-}
-
 export default function EnfermeriaVitalSignsScreen() {
   const { t, i18n } = useTranslation();
 
   const navigate = useNavigate();
   const location = useLocation();
   const { selectedPatient } = usePatient();
-  const idAtencion = selectedPatient?.id_atencion || location.state?.id_atencion;
-  const idExp = selectedPatient?.Id_exp || location.state?.Id_exp;
+  const idAtencion = location.state?.id_atencion || selectedPatient?.id_atencion;
+  const idExp = location.state?.Id_exp || selectedPatient?.Id_exp;
   const [loading, setLoading] = useState(false);
+  const [historyError, setHistoryError] = useState('');
+  const sending = useRef(false);
+  const currentAttention = useRef(idAtencion);
+  currentAttention.current = idAtencion;
   const [loadingHistory, setLoadingHistory] = useState(false);
   const [history, setHistory] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
@@ -42,6 +42,16 @@ export default function EnfermeriaVitalSignsScreen() {
     talla: '',
   });
 
+  useEffect(() => { setHistory([]); setFormData({
+    ta: '',
+    fc: '',
+    fr: '',
+    temp: '',
+    spo2: '',
+    peso: '',
+    talla: '',
+  }); }, [idAtencion]);
+
   const patientLabel = useMemo(() => `Exp: ${idExp || 'N/A'} | Atención: ${idAtencion || 'N/A'}`, [idAtencion, idExp]);
 
   useEffect(() => {
@@ -54,6 +64,7 @@ export default function EnfermeriaVitalSignsScreen() {
 
     const loadVitalSignsHistory = async (forceRefresh = false) => {
       setLoadingHistory(true);
+    setHistoryError('');
       const cacheKey = String(idAtencion);
 
       if (!forceRefresh) {
@@ -67,11 +78,14 @@ export default function EnfermeriaVitalSignsScreen() {
 
       try {
         const response = await api.get(`/appointments/${idAtencion}/vital-signs`);
+      if (currentAttention.current !== idAtencion) return;
+      if (!Array.isArray(response.data)) throw new Error('invalid_response');
         const nextHistory = response.data || [];
         setCachedValue(cacheKey, nextHistory);
         setHistory(nextHistory);
       } catch (error) {
-        console.error('Error loading vital signs history:', error);
+      if (currentAttention.current !== idAtencion) return;
+      setHistoryError(adminErrorMessage(error, t));
         const cachedData = getCachedValue(cacheKey);
         if (cachedData) {
           setHistory(cachedData);
@@ -87,14 +101,18 @@ export default function EnfermeriaVitalSignsScreen() {
   const reloadHistory = async () => {
     if (!idAtencion) return;
     setLoadingHistory(true);
+    setHistoryError('');
 
     try {
       const response = await api.get(`/appointments/${idAtencion}/vital-signs`);
+      if (currentAttention.current !== idAtencion) return;
+      if (!Array.isArray(response.data)) throw new Error('invalid_response');
       const nextHistory = response.data || [];
       setCachedValue(String(idAtencion), nextHistory);
       setHistory(nextHistory);
     } catch (error) {
-      console.error('Error reloading vital signs history:', error);
+      if (currentAttention.current !== idAtencion) return;
+      setHistoryError(adminErrorMessage(error, t));
     } finally {
       setLoadingHistory(false);
     }
@@ -105,37 +123,26 @@ export default function EnfermeriaVitalSignsScreen() {
   };
 
   const handleSubmit = async () => {
-    const hasData = Object.values(formData).some((value) => value !== '');
-    if (!hasData) {
-      window.alert(t('vitalSigns.enterAtLeastOne'));
-      return;
-    }
+    if (sending.current) return;
+    const contextError = nursingContextError(idAtencion, idExp);
+    const checked = validateNursingInput('vitals', formData);
+    if (contextError || checked.error) { window.alert(contextError || checked.error); return; }
 
-    const dataToSend = {
-      ta: formData.ta || '',
-      fc: parseNumericValue(formData.fc),
-      fr: parseNumericValue(formData.fr),
-      temp: parseNumericValue(formData.temp),
-      spo2: parseNumericValue(formData.spo2),
-      peso: parseNumericValue(formData.peso),
-      talla: parseNumericValue(formData.talla),
-    };
+    const dataToSend = checked.data;
 
-    Object.keys(dataToSend).forEach((key) => {
-      if (dataToSend[key] === null) delete dataToSend[key];
-    });
-
+    sending.current = true;
     setLoading(true);
     try {
       const response = await api.post(`/appointments/${idAtencion}/vital-signs`, dataToSend);
+      if (currentAttention.current !== idAtencion) return;
       if (response.data) {
         setFormData({ ta: '', fc: '', fr: '', temp: '', spo2: '', peso: '', talla: '' });
         await reloadHistory();
       }
     } catch (error) {
-      console.error('Error saving vital signs:', error);
-      window.alert(error.response?.data?.error || t('vitalSigns.saveError'));
+      window.alert(adminErrorMessage(error, t));
     } finally {
+      sending.current = false;
       setLoading(false);
     }
   };
@@ -163,6 +170,7 @@ export default function EnfermeriaVitalSignsScreen() {
         <div style={styles.headerSpacer} />
       </div>
 
+      {historyError && <div role="alert" style={{ margin: '16px 0', padding: 16, background: '#fff7ed', color: '#9b1c1c' }}><span>{historyError}</span> <button type="button" disabled={loadingHistory} onClick={() => reloadHistory()}>{t('common.retry')}</button></div>}
       <section style={styles.patientCard}>
         <div style={styles.patientAvatar}><FiUser size={30} color="#fff" /></div>
         <div>

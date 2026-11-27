@@ -1,6 +1,8 @@
+import { adminErrorMessage } from '../../utils/adminError';
+import { nursingContextError, validateNursingInput } from '../../utils/nursingValidation';
 import { NursingPatientCard, NursingFormCard, NursingHistoryCard } from '../../components/nursing/NursingSections';
 import { formatRegionalDate } from '../../i18n/regional';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FiArrowLeft, FiDroplet, FiRefreshCw, FiSave, FiShield } from 'react-icons/fi';
 import { usePatient } from '../../context/PatientContext';
@@ -14,9 +16,13 @@ export default function EnfermeriaFluidBalanceScreen() {
   const navigate = useNavigate();
   const location = useLocation();
   const { selectedPatient } = usePatient();
-  const idAtencion = selectedPatient?.id_atencion || location.state?.id_atencion;
-  const idExp = selectedPatient?.Id_exp || location.state?.Id_exp;
+  const idAtencion = location.state?.id_atencion || selectedPatient?.id_atencion;
+  const idExp = location.state?.Id_exp || selectedPatient?.Id_exp;
   const [loading, setLoading] = useState(false);
+  const [historyError, setHistoryError] = useState('');
+  const sending = useRef(false);
+  const currentAttention = useRef(idAtencion);
+  currentAttention.current = idAtencion;
   const [loadingHistory, setLoadingHistory] = useState(false);
   const [history, setHistory] = useState([]);
   const [formData, setFormData] = useState({
@@ -26,6 +32,14 @@ export default function EnfermeriaFluidBalanceScreen() {
     egresos_drenajes: '',
     observaciones: '',
   });
+
+  useEffect(() => { setHistory([]); setFormData({
+    ingresos_orales: '',
+    ingresos_iv: '',
+    egresos_orina: '',
+    egresos_drenajes: '',
+    observaciones: '',
+  }); }, [idAtencion]);
 
   const patientLabel = useMemo(
     () => `Exp: ${idExp || 'N/A'} | Atención: ${idAtencion || 'N/A'}`,
@@ -43,11 +57,15 @@ export default function EnfermeriaFluidBalanceScreen() {
   const loadHistory = useCallback(async () => {
     if (!idAtencion) return;
     setLoadingHistory(true);
+    setHistoryError('');
     try {
       const response = await api.get(`/appointments/${idAtencion}/fluid-balance`);
+      if (currentAttention.current !== idAtencion) return;
+      if (!Array.isArray(response.data)) throw new Error('invalid_response');
       setHistory(response.data || []);
     } catch (error) {
-      console.error('Error loading fluid balance history:', error);
+      if (currentAttention.current !== idAtencion) return;
+      setHistoryError(adminErrorMessage(error, t));
     } finally {
       setLoadingHistory(false);
     }
@@ -60,10 +78,17 @@ export default function EnfermeriaFluidBalanceScreen() {
   const handleChange = (field, value) => setFormData((current) => ({ ...current, [field]: value }));
 
   const handleSubmit = async () => {
+    if (sending.current) return;
+    const contextError = nursingContextError(idAtencion, idExp);
+    const checked = validateNursingInput('balance', formData);
+    if (contextError || checked.error) { window.alert(contextError || checked.error); return; }
+
     if (!idAtencion) return;
+    sending.current = true;
     setLoading(true);
     try {
-      await api.post(`/appointments/${idAtencion}/fluid-balance`, formData);
+      await api.post(`/appointments/${idAtencion}/fluid-balance`, checked.data);
+      if (currentAttention.current !== idAtencion) return;
       setFormData({
         ingresos_orales: '',
         ingresos_iv: '',
@@ -74,9 +99,9 @@ export default function EnfermeriaFluidBalanceScreen() {
       await loadHistory();
       window.alert(t('nursingFluidBalance.saveSuccess'));
     } catch (error) {
-      console.error('Error saving fluid balance:', error);
-      window.alert(error.response?.data?.error || t('nursingFluidBalance.saveError'));
+      window.alert(adminErrorMessage(error, t));
     } finally {
+      sending.current = false;
       setLoading(false);
     }
   };
@@ -94,6 +119,7 @@ export default function EnfermeriaFluidBalanceScreen() {
         <div style={styles.headerSpacer} />
       </div>
 
+      {historyError && <div role="alert" style={{ margin: '16px 0', padding: 16, background: '#fff7ed', color: '#9b1c1c' }}><span>{historyError}</span> <button type="button" disabled={loadingHistory} onClick={() => loadHistory()}>{t('common.retry')}</button></div>}
       <NursingPatientCard theme="balance" title={t('nursingFluidBalance.selectedPatient')} label={patientLabel} />
 
       <NursingFormCard theme="balance" title={t('nursingFluidBalance.newRecord')} icon={<FiDroplet size={22} />}>
