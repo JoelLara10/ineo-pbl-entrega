@@ -58,6 +58,7 @@
   },
   "dashboard": {
     "greeting": "Hello, {{name}}!",
+    "loadError": "Some indicators could not be refreshed. Check your connection and try again; available values come from the last successful request.",
     "activePatients": "Active Patients",
     "occupiedBeds": "Occupied Beds",
     "pendingStudies": "Pending Studies",

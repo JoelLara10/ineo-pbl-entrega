@@ -31,27 +31,26 @@ export default function DashboardScreen() {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
 
-  const [stats, setStats] = useState({
-    active_patients: { total: 0 },
-    bed_occupancy:   { occupied: 0 },
-  });
-  const [pendingStudies, setPendingStudies] = useState({ total: 0 });
+  const [stats, setStats] = useState(null);
+  const [pendingStudies, setPendingStudies] = useState(null);
+  const [loadError, setLoadError] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
 
 
   useEffect(() => { loadDashboardData(); }, []);
 
   const loadDashboardData = async () => {
-    try {
-      const [statsRes, studiesRes] = await Promise.all([
-        api.get('/analytics/dashboard').catch(() => ({ data: {} })),
-        api.get('/exams/counts').catch(() => ({ data: { total: 0 } })),
-      ]);
-      setStats(statsRes.data);
-      setPendingStudies(studiesRes.data);
-    } catch (err) {
-      console.error('Error loading dashboard:', err);
-    }
+    const [statsResult, studiesResult] = await Promise.allSettled([
+      api.get('/analytics/dashboard'), api.get('/exams/counts'),
+    ]);
+    const validStats = statsResult.status === 'fulfilled' &&
+      Number.isFinite(statsResult.value.data?.active_patients?.total) &&
+      Number.isFinite(statsResult.value.data?.bed_occupancy?.occupied);
+    const validStudies = studiesResult.status === 'fulfilled' &&
+      Number.isFinite(studiesResult.value.data?.total);
+    if (validStats) setStats(statsResult.value.data);
+    if (validStudies) setPendingStudies(studiesResult.value.data);
+    setLoadError(!validStats || !validStudies);
   };
 
   const onRefresh = async () => {
@@ -60,7 +59,7 @@ export default function DashboardScreen() {
     setRefreshing(false);
   };
 
-  const menuOptions = getDashboardMenuOptions(user?.role, t, pendingStudies.total);
+  const menuOptions = getDashboardMenuOptions(user?.role, t, pendingStudies?.total);
 
   return (
     <div className="dashboard">
@@ -82,21 +81,22 @@ export default function DashboardScreen() {
         </div>
       </div>
 
+      {loadError && <div role="alert" className="adm-alert">{t('dashboard.loadError')}</div>}
       {/* Stats */}
       <div className="stats-container">
         <div className="stat-card">
           <FiUsers size={32} color="#667eea" />
-          <span className="stat-number">{stats.active_patients?.total || 0}</span>
+          <span className="stat-number">{stats?.active_patients?.total ?? '—'}</span>
           <span className="stat-label">{t('dashboard.activePatients')}</span>
         </div>
         <div className="stat-card">
           <MdOutlineBed size={32} color="#48bb78" />
-          <span className="stat-number">{stats.bed_occupancy?.occupied || 0}</span>
+          <span className="stat-number">{stats?.bed_occupancy?.occupied ?? '—'}</span>
           <span className="stat-label">{t('dashboard.occupiedBeds')}</span>
         </div>
         <div className="stat-card">
           <GiChemicalDrop size={32} color="#ed8936" />
-          <span className="stat-number">{pendingStudies.total || 0}</span>
+          <span className="stat-number">{pendingStudies?.total ?? '—'}</span>
           <span className="stat-label">{t('dashboard.pendingStudies')}</span>
         </div>
       </div>
