@@ -1,6 +1,8 @@
+import { adminErrorMessage } from '../../utils/adminError';
+import { nursingContextError, validateNursingInput } from '../../utils/nursingValidation';
 import { getClinicalCache, setClinicalCache } from '../../services/clinicalCache';
 import { formatRegionalDate } from '../../i18n/regional';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FiArrowLeft, FiChevronDown, FiChevronUp, FiClock, FiPlus, FiSave, FiShield, FiTrash2, FiUser } from 'react-icons/fi';
 import { MdMedication } from 'react-icons/md';
@@ -25,14 +27,20 @@ export default function EnfermeriaMedicationsScreen() {
   const navigate = useNavigate();
   const location = useLocation();
   const { selectedPatient } = usePatient();
-  const idAtencion = selectedPatient?.id_atencion || location.state?.id_atencion;
-  const idExp = selectedPatient?.Id_exp || location.state?.Id_exp;
+  const idAtencion = location.state?.id_atencion || selectedPatient?.id_atencion;
+  const idExp = location.state?.Id_exp || selectedPatient?.Id_exp;
   const [loading, setLoading] = useState(false);
+  const [historyError, setHistoryError] = useState('');
+  const sending = useRef(false);
+  const currentAttention = useRef(idAtencion);
+  currentAttention.current = idAtencion;
   const [loadingHistory, setLoadingHistory] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
   const [history, setHistory] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
   const [medications, setMedications] = useState([createMedicationItem(0)]);
+
+  useEffect(() => { setHistory([]); setMedications([createMedicationItem(0)]); }, [idAtencion]);
 
   const patientLabel = useMemo(() => `Exp: ${idExp || 'N/A'} | Atención: ${idAtencion || 'N/A'}`, [idAtencion, idExp]);
 
@@ -46,6 +54,7 @@ export default function EnfermeriaMedicationsScreen() {
 
     const loadMedicationsHistory = async (forceRefresh = false) => {
       setLoadingHistory(true);
+    setHistoryError('');
       const cacheKey = String(idAtencion);
 
       if (!forceRefresh) {
@@ -59,11 +68,14 @@ export default function EnfermeriaMedicationsScreen() {
 
       try {
         const response = await api.get(`/appointments/${idAtencion}/medications`);
+      if (currentAttention.current !== idAtencion) return;
+      if (!Array.isArray(response.data)) throw new Error('invalid_response');
         const nextHistory = response.data || [];
         setCachedValue(cacheKey, nextHistory);
         setHistory(nextHistory);
       } catch (error) {
-        console.error('Error loading medications history:', error);
+      if (currentAttention.current !== idAtencion) return;
+      setHistoryError(adminErrorMessage(error, t));
         const cachedData = getCachedValue(cacheKey);
         if (cachedData) {
           setHistory(cachedData);
@@ -79,14 +91,18 @@ export default function EnfermeriaMedicationsScreen() {
   const reloadHistory = async () => {
     if (!idAtencion) return;
     setLoadingHistory(true);
+    setHistoryError('');
 
     try {
       const response = await api.get(`/appointments/${idAtencion}/medications`);
+      if (currentAttention.current !== idAtencion) return;
+      if (!Array.isArray(response.data)) throw new Error('invalid_response');
       const nextHistory = response.data || [];
       setCachedValue(String(idAtencion), nextHistory);
       setHistory(nextHistory);
     } catch (error) {
-      console.error('Error reloading medications history:', error);
+      if (currentAttention.current !== idAtencion) return;
+      setHistoryError(adminErrorMessage(error, t));
     } finally {
       setLoadingHistory(false);
     }
@@ -112,17 +128,16 @@ export default function EnfermeriaMedicationsScreen() {
   };
 
   const handleSubmit = async () => {
-    const validMedications = medications.filter((medication) => medication.nombre.trim() !== '');
-    if (!validMedications.length) {
-      window.alert(t('nursingMeds.minOneMedication'));
-      return;
-    }
+    if (sending.current) return;
+    const contextError = nursingContextError(idAtencion, idExp);
+    const checked = validateNursingInput('medications', medications);
+    if (contextError || checked.error) { window.alert(contextError || checked.error); return; }
 
+    sending.current = true;
     setLoading(true);
     try {
-      const response = await api.post(`/appointments/${idAtencion}/medications`, {
-        medicamentos: validMedications,
-      });
+      const response = await api.post(`/appointments/${idAtencion}/medications`, checked.data);
+      if (currentAttention.current !== idAtencion) return;
 
       if (response.data) {
         setMedications([createMedicationItem(0)]);
@@ -130,9 +145,9 @@ export default function EnfermeriaMedicationsScreen() {
         await reloadHistory();
       }
     } catch (error) {
-      console.error('Error saving medications:', error);
-      window.alert(error.response?.data?.error || t('nursingMeds.saveError'));
+      window.alert(adminErrorMessage(error, t));
     } finally {
+      sending.current = false;
       setLoading(false);
     }
   };
@@ -150,6 +165,7 @@ export default function EnfermeriaMedicationsScreen() {
         <div style={styles.headerSpacer} />
       </div>
 
+      {historyError && <div role="alert" style={{ margin: '16px 0', padding: 16, background: '#fff7ed', color: '#9b1c1c' }}><span>{historyError}</span> <button type="button" disabled={loadingHistory} onClick={() => reloadHistory()}>{t('common.retry')}</button></div>}
       <section style={styles.patientCard}>
         <div style={styles.patientAvatar}><FiUser size={30} color="#fff" /></div>
         <div>

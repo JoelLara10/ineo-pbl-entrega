@@ -11,7 +11,7 @@ import api from '../services/api';
 
 vi.mock('../services/api', () => ({ default: { get: vi.fn(), post: vi.fn() } }));
 vi.mock('../context/PatientContext', () => ({
-  usePatient: () => ({ selectedPatient: { id_atencion: 'AT-JAIME-8', Id_exp: 'EXP-JAIME-8' } }),
+  usePatient: () => ({ selectedPatient: { id_atencion: '8', Id_exp: '8' } }),
 }));
 
 beforeEach(() => {
@@ -56,7 +56,7 @@ describe('PBL-21 — Valoración de Enfermería unificada', () => {
     const i18n = mount();
 
     expect(await screen.findByText(i18n.t('nursingAssessment.noRecords'))).toBeInTheDocument();
-    expect(api.get).toHaveBeenCalledWith('/appointments/AT-JAIME-8/nursing-assessment');
+    expect(api.get).toHaveBeenCalledWith('/appointments/8/nursing-assessment');
     await userEvent.type(screen.getByLabelText(i18n.t('nursingAssessment.generalStateLabel')), 'Estable');
     await userEvent.type(screen.getByLabelText(i18n.t('nursingAssessment.painLabel')), '0');
     await userEvent.type(screen.getByLabelText(i18n.t('nursingAssessment.mobilityLabel')), 'Independiente');
@@ -66,7 +66,7 @@ describe('PBL-21 — Valoración de Enfermería unificada', () => {
     await userEvent.click(screen.getByRole('button', { name: i18n.t('nursingAssessment.save') }));
 
     await waitFor(() => expect(api.post).toHaveBeenCalledWith(
-      '/appointments/AT-JAIME-8/nursing-assessment',
+      '/appointments/8/nursing-assessment',
       expect.objectContaining({ estado_general: 'Estable', observaciones: 'Paciente sin dolor' })
     ));
     expect(window.alert).toHaveBeenCalledWith(i18n.t('nursingAssessment.saveSuccess'));
