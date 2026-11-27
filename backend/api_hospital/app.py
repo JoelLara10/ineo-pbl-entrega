@@ -108,7 +108,10 @@ def create_app():
     @token_required
     def dashboard_fallback():
         from services.analytics_service import AnalyticsService
-        return jsonify(AnalyticsService.get_dashboard_stats()), 200
+        try:
+            return jsonify(AnalyticsService.get_dashboard_stats()), 200
+        except Exception:
+            return jsonify({'error': 'Error interno del servidor'}), 500
 
     @app.route(f'{config.API_PREFIX}/studies/counts', methods=['GET'])
     @token_required
