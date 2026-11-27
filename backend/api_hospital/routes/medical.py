@@ -200,78 +200,34 @@ def get_medico_dashboard():
 @medical_bp.route('/paciente/<int:id_atencion>/<int:Id_exp>', methods=['GET'])
 @token_required
 def get_paciente(id_atencion, Id_exp):
-    """Obtiene los datos de un paciente para el médico"""
+    """Load only the selected attention, patient and related records."""
     try:
         db = get_db()
-        
-        pipeline = [
-            {"$match": {"Id_exp": Id_exp}},
-            {"$lookup": {
-                "from": "atencion",
-                "localField": "Id_exp",
-                "foreignField": "Id_exp",
-                "as": "atencion"
-            }},
-            {"$unwind": "$atencion"},
-            {"$match": {"atencion.id_atencion": id_atencion}},
-            {"$project": {
-                "Id_exp": 1,
-                "papell": 1,
-                "sapell": 1,
-                "nom_pac": 1,
-                "fecnac": 1,
-                "id_cama": "$atencion.id_cama",
-                "area": "$atencion.area",
-                "motivo_atn": {"$ifNull": ["$atencion.motivo", ""]},
-                "alergias": {"$ifNull": ["$atencion.alergias", ""]},
-                "fecha": "$atencion.fecha_ing"
-            }}
-        ]
-        
-        resultado = list(db['pacientes'].aggregate(pipeline))
-        if not resultado:
+        attention = db['atencion'].find_one({'id_atencion': id_atencion, 'Id_exp': Id_exp})
+        patient = db['pacientes'].find_one({'Id_exp': Id_exp}) if attention else None
+        if not patient:
             return jsonify({'error': 'Paciente no encontrado'}), 404
-        
-        paciente = resultado[0]
-        
-        # Obtener familiar
-        familiar = db['familiares'].find_one({"Id_exp": Id_exp})
-        
-        # Obtener médicos
-        pipeline_med = [
-            {"$match": {"id_atencion": id_atencion}},
-            {"$lookup": {
-                "from": "users",
-                "localField": "id_medico",
-                "foreignField": "id",
-                "as": "user"
-            }},
-            {"$unwind": "$user"},
-            {"$project": {"doctor": "$user.username"}}
-        ]
-        
-        medicos = list(db['atencion_medicos'].aggregate(pipeline_med))
-        
-        # Obtener cama
-        cama = {"num_cama": "Sin Cama", "tipo": ""}
-        if paciente.get("id_cama"):
-            cama_data = db['camas'].find_one({"id_cama": paciente['id_cama']})
-            if cama_data:
-                cama = {
-                    "num_cama": cama_data.get("numero"),
-                    "tipo": cama_data.get("area")
-                }
-        
-        return jsonify({
-            'paciente': serialize_doc(paciente),
-            'familiar': serialize_doc(familiar),
-            'medicos': serialize_doc(medicos),
-            'cama': serialize_doc(cama)
-        }), 200
-        
-    except Exception as e:
+        paciente = {key: patient[key] for key in ('_id', 'Id_exp', 'papell', 'sapell', 'nom_pac', 'fecnac') if key in patient}
+        paciente.update({
+            'id_cama': attention.get('id_cama'), 'area': attention.get('area'),
+            'motivo_atn': attention.get('motivo') or '', 'alergias': attention.get('alergias') or '',
+            'fecha': attention.get('fecha_ing'),
+        })
+        familiar = db['familiares'].find_one({'Id_exp': Id_exp})
+        assignments = list(db['atencion_medicos'].find({'id_atencion': id_atencion}))
+        doctor_ids = [row.get('id_medico') for row in assignments if row.get('id_medico') is not None]
+        doctors = {row['id']: row for row in db['users'].find({'id': {'$in': doctor_ids}}, {'id': 1, 'username': 1})} if doctor_ids else {}
+        medicos = [{'_id': row['_id'], 'doctor': doctors[row['id_medico']].get('username', '')}
+                   for row in assignments if row.get('id_medico') in doctors]
+        cama = {'num_cama': 'Sin Cama', 'tipo': ''}
+        if paciente.get('id_cama'):
+            bed = db['camas'].find_one({'id_cama': paciente['id_cama']}, {'numero': 1, 'area': 1})
+            if bed:
+                cama = {'num_cama': bed.get('numero'), 'tipo': bed.get('area')}
+        return jsonify(serialize_doc({'paciente': paciente, 'familiar': familiar, 'medicos': medicos, 'cama': cama})), 200
+    except Exception:
         return jsonify({'error': 'Error interno del servidor'}), 500
-    
+
 
 @medical_bp.route('/historia-clinica/<int:id_atencion>/<int:Id_exp>', methods=['POST'])
 @token_required

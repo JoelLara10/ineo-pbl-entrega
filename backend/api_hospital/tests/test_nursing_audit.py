@@ -82,3 +82,22 @@ def test_nursing_database_failure_has_safe_error(client, monkeypatch, endpoint, 
     result = client.post('/api/v1/appointments/1/' + endpoint, headers=headers(), json=payload)
     assert result.status_code == 500
     assert result.json == {'error': 'Error interno del servidor'}
+
+
+def test_selected_patient_detail_keeps_relationships_without_history_aggregation(client, isolated_database, monkeypatch):
+    db = isolated_database
+    db.atencion.update_one({'id_atencion': 1}, {'$set': {'id_cama': 1, 'alergias': 'QA', 'motivo': 'PRUEBA'}})
+    db.familiares.insert_one({'Id_exp': 1, 'nombre': 'FAMILIAR SINTETICO'})
+    db.atencion_medicos.insert_one({'id_atencion': 1, 'id_medico': 2})
+    def no_history_scan(*args, **kwargs):
+        raise AssertionError('No aggregate is needed for one selected attention')
+    monkeypatch.setattr(db.pacientes, 'aggregate', no_history_scan)
+    result = client.get('/api/v1/paciente/1/1', headers=headers())
+    assert result.status_code == 200
+    assert result.json['paciente']['Id_exp'] == 1
+    assert result.json['paciente']['motivo_atn'] == 'PRUEBA'
+    assert result.json['familiar']['nombre'] == 'FAMILIAR SINTETICO'
+    assert result.json['medicos'][0]['doctor'] == 'medico.test'
+    assert result.json['cama']['num_cama'] == 'TEST-1'
+    assert 'password' not in str(result.json)
+    assert client.get('/api/v1/paciente/1/3', headers=headers()).status_code == 404

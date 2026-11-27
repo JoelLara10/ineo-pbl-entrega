@@ -70,7 +70,7 @@ describe('PBL-22 - Balance hídrico', () => {
 
     await waitFor(() => expect(apiPost).toHaveBeenCalledWith(
       '/appointments/25/fluid-balance',
-      expect.objectContaining({ ingresos_orales: '100' }),
+      expect.objectContaining({ ingresos_orales: 100 }),
     ));
     await waitFor(() => expect(apiGet).toHaveBeenCalledTimes(2));
   });

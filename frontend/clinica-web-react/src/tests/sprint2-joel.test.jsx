@@ -15,7 +15,7 @@ vi.mock('../services/sparkService', () => ({ sparkService: {
   getResults: vi.fn(), getStatus: vi.fn(), run: vi.fn(), getImage: vi.fn(),
 } }));
 vi.mock('../context/PatientContext', () => ({
-  usePatient: () => ({ selectedPatient: { id_atencion: 'AT-7', Id_exp: 'EXP-7' } }),
+  usePatient: () => ({ selectedPatient: { id_atencion: '7', Id_exp: '7' } }),
 }));
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
@@ -106,16 +106,20 @@ describe('PBL-23 — diseño de Cuidados de Enfermería', () => {
     api.post.mockResolvedValue({ data: { ok: true } });
     await render(<EnfermeriaCareScreen />);
 
-    expect(api.get).toHaveBeenCalledWith('/appointments/AT-7/nursing-care');
+    expect(api.get).toHaveBeenCalledWith('/appointments/7/nursing-care');
     expect(host.querySelector('.nursing-care-grid')).not.toBeNull();
     expect(host.textContent).toContain(i18n.t('nursingCare.noRecords'));
     expect([...host.querySelectorAll('option')].map((item) => item.textContent)).toEqual([
       'En proceso', 'Pendiente', 'Completado',
     ]);
 
-    fill(host.querySelectorAll('textarea')[0], 'Riesgo de caída');
+    await act(async () => {
+      fill(host.querySelectorAll('textarea')[0], 'Riesgo de caída');
+      fill(host.querySelectorAll('textarea')[1], 'Objetivo sintético');
+      fill(host.querySelectorAll('textarea')[2], 'Intervención sintética');
+    });
     await click(i18n.t('nursingCare.save'));
-    expect(api.post).toHaveBeenCalledWith('/appointments/AT-7/nursing-care', expect.objectContaining({
+    expect(api.post).toHaveBeenCalledWith('/appointments/7/nursing-care', expect.objectContaining({
       diagnostico_enfermeria: 'Riesgo de caída', estado: 'EN_PROCESO',
     }));
   });
@@ -124,7 +128,7 @@ describe('PBL-23 — diseño de Cuidados de Enfermería', () => {
     api.get.mockRejectedValueOnce(new Error('offline')).mockResolvedValueOnce({ data: [] });
     await render(<EnfermeriaCareScreen />);
 
-    expect(host.querySelector('[role="alert"]').textContent).toContain(i18n.t('nursingCare.historyError'));
+    expect(host.querySelector('[role="alert"]').textContent).toContain(i18n.t('administrative.errors.connection'));
     await click(i18n.t('common.retry'));
     expect(api.get).toHaveBeenCalledTimes(2);
     expect(host.textContent).toContain(i18n.t('nursingCare.noRecords'));
