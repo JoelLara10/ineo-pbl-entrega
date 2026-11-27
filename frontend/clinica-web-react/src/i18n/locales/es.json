@@ -1205,7 +1205,19 @@
     "confirmCloseAccount": "¿Deseas cerrar esta cuenta?",
     "searchPreviousPatients": "Buscar paciente atendido anteriormente",
     "reactivatePatient": "Reactivar en una nueva atención",
-    "patientAlreadyActive": "Ya tiene una atención activa"
+    "patientAlreadyActive": "Ya tiene una atención activa",
+    "errors": {
+      "offline": "No hay conexión a Internet. Conéctate y vuelve a intentarlo.",
+      "timeout": "Se agotó el tiempo de espera del servidor. Vuelve a intentarlo.",
+      "connection": "No se pudo establecer conexión con el servidor. Revisa tu conexión y vuelve a intentarlo.",
+      "session": "Tu sesión venció. Inicia sesión de nuevo.",
+      "permission": "No tienes permiso para realizar esta operación.",
+      "notFound": "El registro solicitado no está disponible. Actualiza la lista.",
+      "server": "El servidor no pudo completar la operación. Vuelve a intentarlo más tarde.",
+      "validation": "Revisa los datos ingresados e inténtalo de nuevo.",
+      "unexpected": "No se pudo completar la operación. Vuelve a intentarlo.",
+      "charge": "Selecciona un concepto y una cantidad entera mayor que cero."
+    }
   },
   "analysisMetadata": {
     "title": "Vigencia del análisis",
