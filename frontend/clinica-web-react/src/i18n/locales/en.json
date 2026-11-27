@@ -494,6 +494,8 @@
     "cancelPasswordChange": "Keep current password"
   },
   "common": {
+    "screenLoadError": "This screen could not be opened. Check your connection and reload to get the current version.",
+    "reloadPage": "Reload application",
     "loading": "Loading...",
     "saving": "Saving...",
     "save": "Save",

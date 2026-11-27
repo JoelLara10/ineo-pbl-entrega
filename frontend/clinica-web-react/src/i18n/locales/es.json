@@ -494,6 +494,8 @@
     "cancelPasswordChange": "Conservar contraseña actual"
   },
   "common": {
+    "screenLoadError": "No se pudo abrir esta pantalla. Revisa tu conexión y recarga para obtener la versión actual.",
+    "reloadPage": "Recargar aplicación",
     "loading": "Cargando...",
     "saving": "Guardando...",
     "save": "Guardar",
