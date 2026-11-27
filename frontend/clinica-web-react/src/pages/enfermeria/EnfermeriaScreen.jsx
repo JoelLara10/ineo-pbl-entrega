@@ -50,6 +50,7 @@ export default function EnfermeriaScreen() {
     urgencias: [],
     hospitalizados: [],
   });
+  const [search, setSearch] = useState('');
   const [pages, setPages] = useState({
     consulta: 1,
     urgencias: 1,
@@ -97,7 +98,7 @@ export default function EnfermeriaScreen() {
       setPatientsByArea(nextState);
     } catch (error) {
       if (currentRequest !== requestId.current) return;
-      console.error('Error loading nursing patients:', error);
+
 
       const cachedConsulta = getCachedValue(CACHE_KEYS.consulta);
       const cachedUrgencias = getCachedValue(CACHE_KEYS.urgencias);
@@ -134,9 +135,7 @@ export default function EnfermeriaScreen() {
   }, [loadPatients]);
 
   const totalPatients =
-    patientsByArea.consulta.length +
-    patientsByArea.urgencias.length +
-    patientsByArea.hospitalizados.length;
+    Object.values(patientsByArea).flat().filter(item => item.estatus === 'OCUPADA' && item.tiene_atencion).length;
 
   const handlePatientClick = (item) => {
     const isOccupied = item.estatus === 'OCUPADA' && item.tiene_atencion;
@@ -192,13 +191,14 @@ export default function EnfermeriaScreen() {
         <div style={styles.heroPill}>{t('nursing.totalPatients', { count: totalPatients })}</div>
       </div>
 
-      {errorMessage ? <div style={styles.alert}>{errorMessage}</div> : null}
+      <input aria-label={t('common.search')} placeholder={t('common.search')} value={search} onChange={event => { setSearch(event.target.value); setPages({ consulta: 1, urgencias: 1, hospitalizados: 1 }); }} style={{ marginTop: 16, width: '100%', boxSizing: 'border-box', padding: 12, border: '1px solid #cbd5e1', borderRadius: 12 }} />
+      {errorMessage ? <div role="alert" style={styles.alert}>{errorMessage}</div> : null}
 
       {loading ? (
         <div style={styles.loadingCard}>{t('nursing.loading')}</div>
       ) : (
         sectionConfig.map((section) => {
-          const sectionData = patientsByArea[section.key];
+          const sectionData = patientsByArea[section.key].filter(item => [item.nom_pac, item.papell, item.sapell, item.Id_exp, item.num_cama].join(' ').toLowerCase().includes(search.trim().toLowerCase()));
           const totalPages = getTotalPages(sectionData);
           const page = Math.min(pages[section.key], Math.max(1, totalPages));
           const pagedData = getPagedData(sectionData, page);

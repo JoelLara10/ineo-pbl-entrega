@@ -1,5 +1,6 @@
 from utils.database import get_collection, serialize_doc, get_next_sequence
-from datetime import datetime
+from datetime import datetime, timezone
+from utils.clinical_dates import serialize_clinical_record
 from bson import ObjectId
 
 class MedicalService:
@@ -131,7 +132,8 @@ class MedicalService:
             'id_signos': get_next_sequence('signos_vitales_id'),
             'id_atencion': id_atencion,
             'ta': data.get('ta', ''),  # String
-            'fecha_registro': datetime.now()
+            'fecha_registro': datetime.now(timezone.utc),
+            'id_medico': ObjectId(data['id_medico'])
         }
         
         # Agregar solo si tienen valor (como números)
@@ -142,14 +144,14 @@ class MedicalService:
         if data.get('temp') is not None:
             sign['temp'] = float(data['temp'])
         if data.get('spo2') is not None:
-            sign['spo2'] = int(data['spo2']) if isinstance(data['spo2'], (int, float)) else int(float(data['spo2']))
+            sign['spo2'] = float(data['spo2'])
         if data.get('peso') is not None:
             sign['peso'] = float(data['peso'])
         if data.get('talla') is not None:
             sign['talla'] = float(data['talla'])
         
         collection.insert_one(sign)
-        return serialize_doc(sign)
+        return serialize_clinical_record(sign)
     
     @staticmethod
     def get_vital_signs(id_atencion):
@@ -160,7 +162,7 @@ class MedicalService:
             {'id_atencion': id_atencion}
         ).sort('fecha_registro', -1))
         
-        return [serialize_doc(s) for s in signs]
+        return [serialize_clinical_record(s) for s in signs]
     
     @staticmethod
     def add_medical_note(id_atencion, data):

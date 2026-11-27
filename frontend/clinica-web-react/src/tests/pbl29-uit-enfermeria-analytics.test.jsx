@@ -33,8 +33,8 @@ vi.mock('../services/api', () => ({
 vi.mock('../context/PatientContext', () => ({
   usePatient: () => ({
     selectedPatient: {
-      id_atencion: 'AT-S10-001',
-      Id_exp: 'EXP-S10-001',
+      id_atencion: '101',
+      Id_exp: '201',
       nombre: 'Paciente Sintetico S10',
     },
   }),
@@ -73,7 +73,7 @@ describe('CP-UIT-001 — Valoración de Enfermería (completar y validar)', () =
     const i18n = mountWithI18n(<EnfermeriaAssessmentScreen />);
 
     expect(await screen.findByText(i18n.t('nursingAssessment.noRecords'))).toBeInTheDocument();
-    expect(api.get).toHaveBeenCalledWith('/appointments/AT-S10-001/nursing-assessment');
+    expect(api.get).toHaveBeenCalledWith('/appointments/101/nursing-assessment');
 
     const user = userEvent.setup();
     await user.type(
@@ -104,7 +104,7 @@ describe('CP-UIT-001 — Valoración de Enfermería (completar y validar)', () =
 
     await waitFor(() =>
       expect(api.post).toHaveBeenCalledWith(
-        '/appointments/AT-S10-001/nursing-assessment',
+        '/appointments/101/nursing-assessment',
         expect.objectContaining({
           estado_general: 'Estable',
           dolor: '2/10',

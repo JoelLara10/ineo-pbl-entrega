@@ -1,6 +1,8 @@
+import { adminErrorMessage } from '../../utils/adminError';
+import { nursingContextError, validateNursingInput } from '../../utils/nursingValidation';
 import { NursingPatientCard, NursingFormCard, NursingHistoryCard } from '../../components/nursing/NursingSections';
 import { formatRegionalDate } from '../../i18n/regional';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
   FiArrowLeft,
@@ -23,10 +25,14 @@ export default function EnfermeriaAssessmentScreen() {
   const navigate = useNavigate();
   const location = useLocation();
   const { selectedPatient } = usePatient();
-  const idAtencion = selectedPatient?.id_atencion || location.state?.id_atencion;
-  const idExp = selectedPatient?.Id_exp || location.state?.Id_exp;
+  const idAtencion = location.state?.id_atencion || selectedPatient?.id_atencion;
+  const idExp = location.state?.Id_exp || selectedPatient?.Id_exp;
 
   const [loading, setLoading] = useState(false);
+  const [historyError, setHistoryError] = useState('');
+  const sending = useRef(false);
+  const currentAttention = useRef(idAtencion);
+  currentAttention.current = idAtencion;
   const [loadingHistory, setLoadingHistory] = useState(false);
   const [history, setHistory] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
@@ -38,6 +44,15 @@ export default function EnfermeriaAssessmentScreen() {
     riesgo_upp: '',
     observaciones: '',
   });
+
+  useEffect(() => { setHistory([]); setFormData({
+    estado_general: '',
+    dolor: '',
+    movilidad: '',
+    riesgo_caidas: '',
+    riesgo_upp: '',
+    observaciones: '',
+  }); }, [idAtencion]);
 
   const patientLabel = useMemo(
     () => `Exp: ${idExp || 'N/A'} | Atención: ${idAtencion || 'N/A'}`,
@@ -78,11 +93,15 @@ export default function EnfermeriaAssessmentScreen() {
   const loadHistory = useCallback(async () => {
     if (!idAtencion) return;
     setLoadingHistory(true);
+    setHistoryError('');
     try {
       const response = await api.get(`/appointments/${idAtencion}/nursing-assessment`);
+      if (currentAttention.current !== idAtencion) return;
+      if (!Array.isArray(response.data)) throw new Error('invalid_response');
       setHistory(response.data || []);
     } catch (error) {
-      console.error('Error loading nursing assessment history:', error);
+      if (currentAttention.current !== idAtencion) return;
+      setHistoryError(adminErrorMessage(error, t));
     } finally {
       setLoadingHistory(false);
     }
@@ -103,6 +122,7 @@ export default function EnfermeriaAssessmentScreen() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (sending.current) return;
     if (!idAtencion || loading) return;
     setErrorMessage('');
     if (fieldConfig.some(({ key }) => !formData[key].trim())) {
@@ -114,9 +134,15 @@ export default function EnfermeriaAssessmentScreen() {
       setErrorMessage(t('nursingAssessment.invalidPain'));
       return;
     }
+    const contextError = nursingContextError(idAtencion, idExp);
+    const checked = validateNursingInput('assessment', formData);
+    if (contextError || checked.error) { setErrorMessage(contextError || checked.error); return; }
+
+    sending.current = true;
     setLoading(true);
     try {
-      await api.post(`/appointments/${idAtencion}/nursing-assessment`, formData);
+      await api.post(`/appointments/${idAtencion}/nursing-assessment`, checked.data);
+      if (currentAttention.current !== idAtencion) return;
       setFormData({
         estado_general: '',
         dolor: '',
@@ -128,9 +154,9 @@ export default function EnfermeriaAssessmentScreen() {
       await loadHistory();
       window.alert(t('nursingAssessment.saveSuccess'));
     } catch (error) {
-      console.error('Error saving nursing assessment:', error);
-      window.alert(error.response?.data?.error || t('nursingAssessment.saveError'));
+      window.alert(adminErrorMessage(error, t));
     } finally {
+      sending.current = false;
       setLoading(false);
     }
   };
@@ -148,6 +174,7 @@ export default function EnfermeriaAssessmentScreen() {
         <div style={styles.headerSpacer} />
       </header>
 
+      {historyError && <div role="alert" style={{ margin: '16px 0', padding: 16, background: '#fff7ed', color: '#9b1c1c' }}><span>{historyError}</span> <button type="button" disabled={loadingHistory} onClick={() => loadHistory()}>{t('common.retry')}</button></div>}
       <NursingPatientCard theme="assessment" title={t('nursingAssessment.selectedPatient')} label={patientLabel} />
 
       {errorMessage ? <div role="alert" style={styles.errorCard}>{errorMessage}</div> : null}

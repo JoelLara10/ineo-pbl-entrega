@@ -61,6 +61,9 @@ it('selects a medication date with a calendar and preserves the existing API dat
   fireEvent.change(date, { target: { value: '2026-10-21' } });
   expect(date).toHaveValue('2026-10-21');
   fireEvent.change(screen.getByLabelText('nursingMeds.medicationName'), { target: { value: 'Medicamento sintético' } });
+  for (const field of ['dose', 'frequency', 'route']) {
+    fireEvent.change(screen.getByLabelText('nursingMeds.' + field), { target: { value: 'PRUEBA SINTETICA' } });
+  }
   fireEvent.click(screen.getByRole('button', { name: 'nursingMeds.registerAdmin' }));
   await waitFor(() => expect(api.post).toHaveBeenCalledWith('/appointments/25/medications', {
     medicamentos: [expect.objectContaining({ nombre: 'Medicamento sintético', fecha_aplicacion: '21/10/2026' })],

@@ -1,6 +1,8 @@
+import { adminErrorMessage } from '../../utils/adminError';
+import { nursingContextError, validateNursingInput } from '../../utils/nursingValidation';
 import { getClinicalCache, setClinicalCache } from '../../services/clinicalCache';
 import { formatRegionalDate } from '../../i18n/regional';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FiArrowLeft, FiChevronDown, FiChevronUp, FiClock, FiFileText, FiSave, FiShield, FiUser } from 'react-icons/fi';
 import { usePatient } from '../../context/PatientContext';
@@ -20,14 +22,20 @@ export default function EnfermeriaNoteScreen() {
   const navigate = useNavigate();
   const location = useLocation();
   const { selectedPatient } = usePatient();
-  const idAtencion = selectedPatient?.id_atencion || location.state?.id_atencion;
-  const idExp = selectedPatient?.Id_exp || location.state?.Id_exp;
+  const idAtencion = location.state?.id_atencion || selectedPatient?.id_atencion;
+  const idExp = location.state?.Id_exp || selectedPatient?.Id_exp;
   const [loading, setLoading] = useState(false);
+  const [historyError, setHistoryError] = useState('');
+  const sending = useRef(false);
+  const currentAttention = useRef(idAtencion);
+  currentAttention.current = idAtencion;
   const [loadingHistory, setLoadingHistory] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
   const [history, setHistory] = useState([]);
   const [note, setNote] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+
+  useEffect(() => { setHistory([]); setNote(''); }, [idAtencion]);
 
   const patientLabel = useMemo(() => `Exp: ${idExp || 'N/A'} | Atención: ${idAtencion || 'N/A'}`, [idAtencion, idExp]);
 
@@ -41,6 +49,7 @@ export default function EnfermeriaNoteScreen() {
 
     const loadNursingNotesHistory = async (forceRefresh = false) => {
       setLoadingHistory(true);
+    setHistoryError('');
       const cacheKey = String(idAtencion);
 
       if (!forceRefresh) {
@@ -54,11 +63,14 @@ export default function EnfermeriaNoteScreen() {
 
       try {
         const response = await api.get(`/appointments/${idAtencion}/nursing-notes`);
+      if (currentAttention.current !== idAtencion) return;
+      if (!Array.isArray(response.data)) throw new Error('invalid_response');
         const nextHistory = response.data || [];
         setCachedValue(cacheKey, nextHistory);
         setHistory(nextHistory);
       } catch (error) {
-        console.error('Error loading nursing notes history:', error);
+      if (currentAttention.current !== idAtencion) return;
+      setHistoryError(adminErrorMessage(error, t));
         const cachedData = getCachedValue(cacheKey);
         if (cachedData) {
           setHistory(cachedData);
@@ -74,30 +86,34 @@ export default function EnfermeriaNoteScreen() {
   const reloadHistory = async () => {
     if (!idAtencion) return;
     setLoadingHistory(true);
+    setHistoryError('');
 
     try {
       const response = await api.get(`/appointments/${idAtencion}/nursing-notes`);
+      if (currentAttention.current !== idAtencion) return;
+      if (!Array.isArray(response.data)) throw new Error('invalid_response');
       const nextHistory = response.data || [];
       setCachedValue(String(idAtencion), nextHistory);
       setHistory(nextHistory);
     } catch (error) {
-      console.error('Error reloading nursing notes history:', error);
+      if (currentAttention.current !== idAtencion) return;
+      setHistoryError(adminErrorMessage(error, t));
     } finally {
       setLoadingHistory(false);
     }
   };
 
   const handleSubmit = async () => {
-    if (!note.trim()) {
-      window.alert(t('nursingNote.noteRequired'));
-      return;
-    }
+    if (sending.current) return;
+    const contextError = nursingContextError(idAtencion, idExp);
+    const checked = validateNursingInput('note', { nota_enfermeria: note });
+    if (contextError || checked.error) { window.alert(contextError || checked.error); return; }
 
+    sending.current = true;
     setLoading(true);
     try {
-      const response = await api.post(`/appointments/${idAtencion}/nursing-notes`, {
-        nota_enfermeria: note,
-      });
+      const response = await api.post(`/appointments/${idAtencion}/nursing-notes`, checked.data);
+      if (currentAttention.current !== idAtencion) return;
 
       if (response.data) {
         setNote('');
@@ -105,9 +121,9 @@ export default function EnfermeriaNoteScreen() {
         await reloadHistory();
       }
     } catch (error) {
-      console.error('Error saving nursing note:', error);
-      window.alert(error.response?.data?.error || t('nursingNote.saveError'));
+      window.alert(adminErrorMessage(error, t));
     } finally {
+      sending.current = false;
       setLoading(false);
     }
   };
@@ -125,6 +141,7 @@ export default function EnfermeriaNoteScreen() {
         <div style={styles.headerSpacer} />
       </div>
 
+      {historyError && <div role="alert" style={{ margin: '16px 0', padding: 16, background: '#fff7ed', color: '#9b1c1c' }}><span>{historyError}</span> <button type="button" disabled={loadingHistory} onClick={() => reloadHistory()}>{t('common.retry')}</button></div>}
       <section style={styles.patientCard}>
         <div style={styles.patientAvatar}><FiUser size={30} color="#fff" /></div>
         <div>

@@ -1,6 +1,8 @@
+import { adminErrorMessage } from '../../utils/adminError';
+import { nursingContextError, validateNursingInput } from '../../utils/nursingValidation';
 import { NursingPatientCard, NursingFormCard, NursingHistoryCard } from '../../components/nursing/NursingSections';
 import { formatRegionalDate } from '../../i18n/regional';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FiArrowLeft, FiClipboard, FiRefreshCw, FiSave, FiShield } from 'react-icons/fi';
 import { usePatient } from '../../context/PatientContext';
@@ -16,9 +18,12 @@ export default function EnfermeriaCareScreen() {
   const navigate = useNavigate();
   const location = useLocation();
   const { selectedPatient } = usePatient();
-  const idAtencion = selectedPatient?.id_atencion || location.state?.id_atencion;
-  const idExp = selectedPatient?.Id_exp || location.state?.Id_exp;
+  const idAtencion = location.state?.id_atencion || selectedPatient?.id_atencion;
+  const idExp = location.state?.Id_exp || selectedPatient?.Id_exp;
   const [loading, setLoading] = useState(false);
+  const sending = useRef(false);
+  const currentAttention = useRef(idAtencion);
+  currentAttention.current = idAtencion;
   const [loadingHistory, setLoadingHistory] = useState(false);
   const [historyError, setHistoryError] = useState('');
   const [history, setHistory] = useState([]);
@@ -31,6 +36,15 @@ export default function EnfermeriaCareScreen() {
     observaciones: '',
   });
 
+  useEffect(() => { setHistory([]); setFormData({
+    diagnostico_enfermeria: '',
+    objetivos: '',
+    intervenciones: '',
+    evaluacion: '',
+    estado: 'EN_PROCESO',
+    observaciones: '',
+  }); }, [idAtencion]);
+
   const patientLabel = useMemo(
     () => `Exp: ${idExp || 'N/A'} | Atención: ${idAtencion || 'N/A'}`,
     [idAtencion, idExp]
@@ -42,10 +56,13 @@ export default function EnfermeriaCareScreen() {
     setHistoryError('');
     try {
       const response = await api.get(`/appointments/${idAtencion}/nursing-care`);
+      if (currentAttention.current !== idAtencion) return;
+      if (!Array.isArray(response.data)) throw new Error('invalid_response');
       setHistory(response.data || []);
     } catch (error) {
-      console.error('Error loading nursing care history:', error);
-      setHistoryError(t('nursingCare.historyError'));
+      if (currentAttention.current !== idAtencion) return;
+      setHistoryError(adminErrorMessage(error, t));
+
     } finally {
       setLoadingHistory(false);
     }
@@ -58,10 +75,17 @@ export default function EnfermeriaCareScreen() {
   const handleChange = (field, value) => setFormData((current) => ({ ...current, [field]: value }));
 
   const handleSubmit = async () => {
+    if (sending.current) return;
+    const contextError = nursingContextError(idAtencion, idExp);
+    const checked = validateNursingInput('care', formData);
+    if (contextError || checked.error) { window.alert(contextError || checked.error); return; }
+
     if (!idAtencion) return;
+    sending.current = true;
     setLoading(true);
     try {
-      await api.post(`/appointments/${idAtencion}/nursing-care`, formData);
+      await api.post(`/appointments/${idAtencion}/nursing-care`, checked.data);
+      if (currentAttention.current !== idAtencion) return;
       setFormData({
         diagnostico_enfermeria: '',
         objetivos: '',
@@ -73,9 +97,9 @@ export default function EnfermeriaCareScreen() {
       await loadHistory();
       window.alert(t('nursingCare.saveSuccess'));
     } catch (error) {
-      console.error('Error saving nursing care:', error);
-      window.alert(error.response?.data?.error || t('nursingCare.saveError'));
+      window.alert(adminErrorMessage(error, t));
     } finally {
+      sending.current = false;
       setLoading(false);
     }
   };
