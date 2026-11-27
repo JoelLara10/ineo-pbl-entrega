@@ -1,3 +1,4 @@
+import { adminErrorMessage } from '../../utils/adminError';
 import { usePageRevalidation } from '../../hooks/usePageRevalidation';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -21,14 +22,16 @@ export default function CamasConfigScreen() {
   const [page, setPage] = useState(1);
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState('');
 
   const load = useCallback(async () => {
     setLoading(true);
     try {
       const response = await api.get('/beds');
       setCamas(Array.isArray(response.data) ? response.data : []);
+      setLoadError('');
     } catch (error) {
-      setMessage(error.response?.data?.error || t('config.bedLoadError'));
+      setLoadError(adminErrorMessage(error, t));
     } finally { setLoading(false); }
   }, [t]);
 
@@ -61,7 +64,7 @@ export default function CamasConfigScreen() {
       setMessage(editingId !== null ? t('config.bedUpdated') : t('config.bedSaved'));
       resetForm(); setPage(1); await load();
     } catch (error) {
-      setMessage(error.response?.data?.error || t('config.bedSaveError'));
+      setMessage(adminErrorMessage(error, t));
     }
   };
 
@@ -79,7 +82,7 @@ export default function CamasConfigScreen() {
       setMessage(t('config.bedDeleted'));
       await load();
     } catch (error) {
-      setMessage(error.response?.data?.error || t('config.bedDeleteError'));
+      setMessage(adminErrorMessage(error, t));
     }
   };
 
@@ -87,6 +90,7 @@ export default function CamasConfigScreen() {
     <main className="config-page config-polished">
       <ConfigHeader title={t('config.headerBeds')} />
       <section className="config-content">
+        {loadError && <div role="alert" className="config-alert">{loadError} <button className="config-btn secondary" type="button" disabled={loading} onClick={load}>{t('administrative.refresh')}</button></div>}
         {canManage && <form className="config-card config-main-card" onSubmit={save}>
           <div className="config-card-header"><h2>{editingId !== null ? t('config.editBed') : t('config.registerBed')}</h2></div>
           <div className="config-card-body">
@@ -117,7 +121,7 @@ export default function CamasConfigScreen() {
         </div>
 
         {loading && <div className="config-card">{t('config.loadingBeds')}</div>}
-        {!loading && <div className="config-table-wrap">
+        {!loading && !loadError && <div className="config-table-wrap">
           <table className="config-table">
             <thead><tr><th>ID</th><th>{t('config.bedNumber')}</th><th>{t('config.bedArea')}</th><th>{t('config.room')}</th><th>{t('config.bedFloor')}</th><th>{t('config.bedSection')}</th><th>{t('config.bedStatus')}</th><th>{t('administrative.patient')}</th>{canManage && <th>{t('config.actions')}</th>}</tr></thead>
             <tbody>{visibleBeds.map((cama) => <tr key={cama.id_cama}>

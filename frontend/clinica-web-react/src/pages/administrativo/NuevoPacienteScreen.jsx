@@ -1,3 +1,4 @@
+import { adminErrorMessage } from '../../utils/adminError';
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -12,11 +13,11 @@ const optionValue = (option) => {
   if (option == null) return '';
   if (typeof option !== 'object') return String(option);
   return String(
-    option.id ??
-    option.value ??
     option.id_cama ??
     option.id_medico ??
     option.id_serv ??
+    option.value ??
+    option.id ??
     option.numero ??
     option.nombre ??
     option.username ??
@@ -92,7 +93,7 @@ export default function NuevoPacienteScreen() {
           setDoctors(active.doctors || []);
         }
       })
-      .catch((requestError) => setError(requestError.response?.data?.error || requestError.message))
+      .catch((requestError) => setError(adminErrorMessage(requestError, t)))
       .finally(() => setLoading(false));
   }, [editMode, id, source.id_cama]);
 
@@ -115,7 +116,7 @@ export default function NuevoPacienteScreen() {
       } catch (requestError) {
         if (!cancelled) {
           setPatientMatches([]);
-          setPatientSearchError(requestError.response?.data?.error || requestError.message);
+          setPatientSearchError(adminErrorMessage(requestError, t));
         }
       } finally {
         if (!cancelled) setSearchingPatients(false);
@@ -140,18 +141,18 @@ export default function NuevoPacienteScreen() {
     event.preventDefault();
     setSaving(true); setError('');
     try {
-      const payload = { ...form, assignedDoctors: doctors };
+      const payload = { ...Object.fromEntries(Object.keys(defaults).map((key) => [key, form[key]])), assignedDoctors: doctors };
       if (editMode) await adminService.updatePatient(id, payload);
       else await adminService.createPatient(payload);
       clearAdminCache();
       navigate('/pacientes');
     } catch (requestError) {
-      setError(requestError.response?.data?.error || requestError.message);
+      setError(adminErrorMessage(requestError, t));
     } finally { setSaving(false); }
   };
-  const input = (key, type = 'text', required = false) => <input type={type} value={form[key] || ''} required={required} onChange={(event) => update(key, event.target.value)} />;
+  const input = (key, type = 'text', required = false) => <input id={`patient-${key}`} name={key} type={type} value={form[key] || ''} required={required} onChange={(event) => update(key, event.target.value)} />;
   const select = (key, values = []) => (
-    <select value={form[key] || ''} onChange={(event) => update(key, event.target.value)}>
+    <select id={`patient-${key}`} name={key} value={form[key] || ''} onChange={(event) => update(key, event.target.value)}>
       <option value="">{t('common.select')}</option>
       {values.map((value, index) => {
         const normalizedValue = optionValue(value);
@@ -169,7 +170,7 @@ export default function NuevoPacienteScreen() {
       <h2>{t('administrative.searchPreviousPatients')}</h2>
       <div className="adm-search"><FiSearch /><input value={patientSearch} onChange={(event) => setPatientSearch(event.target.value)} placeholder={t('administrative.searchPatients')} aria-label={t('administrative.searchPreviousPatients')} /></div>
       {searchingPatients && <div className="adm-loading">{t('common.loading')}</div>}
-      {patientSearchError && <div className="adm-alert" role="alert">{patientSearchError}</div>}
+      {patientSearchError && <div role="alert" className="adm-alert">{patientSearchError}</div>}
       {patientMatches.length > 0 && <div className="adm-actions">{patientMatches.map((patient, index) => {
         const patientId = patient.Id_exp || patient.id_exp || patient.record;
         const name = patient.name || patient.patient || [patient.nom_pac, patient.papell, patient.sapell].filter(Boolean).join(' ');
@@ -181,25 +182,25 @@ export default function NuevoPacienteScreen() {
       {patientSearch.trim().length >= 2 && !searchingPatients && !patientSearchError && patientMatches.length === 0 && <div className="adm-empty">{t('administrative.noPatients')}</div>}
     </section>}
     {loading ? <div className="adm-loading">{t('common.loading')}</div> : <form onSubmit={submit}>
-      {error && <div className="adm-alert">{error}</div>}
+      {error && <div role="alert" className="adm-alert">{error}</div>}
       <section className="adm-panel adm-form-section"><h2>{t('administrative.personalData')}</h2><div className="adm-form-grid">
-        <div className="adm-field"><label>CURP</label>{input('curp', 'text', true)}</div>
-        <div className="adm-field"><label>{t('administrative.firstSurname')}</label>{input('papell', 'text', true)}</div>
-        <div className="adm-field"><label>{t('administrative.secondSurname')}</label>{input('sapell')}</div>
-        <div className="adm-field"><label>{t('administrative.names')}</label>{input('nom_pac', 'text', true)}</div>
-        <div className="adm-field"><label>{t('administrative.birthDate')}</label>{input('fecnac', 'date', true)}</div>
-        <div className="adm-field"><label>{t('administrative.phone')}</label>{input('tel')}</div>
+        <div className="adm-field"><label htmlFor="patient-curp">CURP</label>{input('curp', 'text', true)}</div>
+        <div className="adm-field"><label htmlFor="patient-papell">{t('administrative.firstSurname')}</label>{input('papell', 'text', true)}</div>
+        <div className="adm-field"><label htmlFor="patient-sapell">{t('administrative.secondSurname')}</label>{input('sapell')}</div>
+        <div className="adm-field"><label htmlFor="patient-nom_pac">{t('administrative.names')}</label>{input('nom_pac', 'text', true)}</div>
+        <div className="adm-field"><label htmlFor="patient-fecnac">{t('administrative.birthDate')}</label>{input('fecnac', 'date', true)}</div>
+        <div className="adm-field"><label htmlFor="patient-tel">{t('administrative.phone')}</label>{input('tel')}</div>
       </div></section>
       <section className="adm-panel adm-form-section"><h2>{t('administrative.attentionData')}</h2><div className="adm-form-grid">
-        <div className="adm-field"><label>{t('administrative.area')}</label>{select('area', options.areas || [])}</div>
-        <div className="adm-field"><label>{t('administrative.bed')}</label>{select('cama', options.camas || [])}</div>
-        <div className="adm-field"><label>{t('administrative.reason')}</label>{select('motivo', options.motivos || [])}</div>
-        <div className="adm-field"><label>{t('administrative.specialty')}</label>{select('especialidad', options.especialidades || [])}</div>
-        <div className="adm-field" style={{ gridColumn: '1/-1' }}><label>{t('administrative.allergies')}</label><textarea value={form.alergias || ''} onChange={(event) => update('alergias', event.target.value)} /></div>
+        <div className="adm-field"><label htmlFor="patient-area">{t('administrative.area')}</label>{select('area', options.areas || [])}</div>
+        <div className="adm-field"><label htmlFor="patient-cama">{t('administrative.bed')}</label>{select('cama', options.camas || [])}</div>
+        <div className="adm-field"><label htmlFor="patient-motivo">{t('administrative.reason')}</label>{select('motivo', options.motivos || [])}</div>
+        <div className="adm-field"><label htmlFor="patient-especialidad">{t('administrative.specialty')}</label>{select('especialidad', options.especialidades || [])}</div>
+        <div className="adm-field" style={{ gridColumn: '1/-1' }}><label htmlFor="patient-alergias">{t('administrative.allergies')}</label><textarea id="patient-alergias" name="alergias" value={form.alergias || ''} onChange={(event) => update('alergias', event.target.value)} /></div>
       </div></section>
       <section className="adm-panel adm-form-section"><h2>{t('administrative.assignedDoctors')}</h2><div className="adm-actions">{doctorOptions.map((doctor) => <label className="adm-document" key={doctor.id}><input type="checkbox" checked={doctors.includes(doctor.id)} onChange={() => toggleDoctor(doctor.id)} /> {doctor.label}</label>)}</div></section>
       <section className="adm-panel adm-form-section"><h2>{t('administrative.familyData')}</h2><div className="adm-form-grid">
-        <div className="adm-field"><label>{t('administrative.familyName')}</label>{input('fam_nombre')}</div><div className="adm-field"><label>{t('administrative.relationship')}</label>{input('fam_parentesco')}</div><div className="adm-field"><label>{t('administrative.phone')}</label>{input('fam_tel')}</div>
+        <div className="adm-field"><label htmlFor="patient-fam_nombre">{t('administrative.familyName')}</label>{input('fam_nombre')}</div><div className="adm-field"><label htmlFor="patient-fam_parentesco">{t('administrative.relationship')}</label>{input('fam_parentesco')}</div><div className="adm-field"><label htmlFor="patient-fam_tel">{t('administrative.phone')}</label>{input('fam_tel')}</div>
       </div></section>
       <div className="adm-toolbar"><button type="button" className="adm-button adm-button-light" onClick={() => navigate(-1)}>{t('common.cancel')}</button><button className="adm-button adm-button-success" disabled={saving}>{saving ? t('common.loading') : t('common.save')}</button></div>
     </form>}

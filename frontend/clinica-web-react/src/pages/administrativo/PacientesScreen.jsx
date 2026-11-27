@@ -42,14 +42,14 @@ export default function PacientesScreen() {
         {['activos', 'expedientes', 'altas'].map((item, index) => (
           <div className="adm-stat" style={{ '--accent': ['#667eea', '#ed8936', '#48bb78'][index] }} key={item}>
             <span>{t(`administrative.${item}`)}</span>
-            <strong>{state.data?.summary?.[item] ?? groups.find((group) => group.key === item)?.patients?.length ?? 0}</strong>
+            <strong>{!state.updatedAt ? '—' : state.data?.summary?.[item] ?? groups.find((group) => group.key === item)?.patients?.length ?? 0}</strong>
           </div>
         ))}
       </div>
       <div className="adm-toolbar">
         <div className="adm-search"><FiSearch /><input value={search} onChange={(event) => { setSearch(event.target.value); setPage(1); }} placeholder={t('administrative.searchPatients')} /></div>
       </div>
-      {state.error && <div className="adm-alert">{t('administrative.apiError')}: {state.error}</div>}
+      {state.error && <div role="alert" className="adm-alert">{t('administrative.apiError')}: {state.error}</div>}
       {state.loading ? <div className="adm-loading">{t('common.loading')}</div> : groups.map((group) => {
         const visible = (group.patients || []).slice((page - 1) * LIMIT, page * LIMIT);
         return (
