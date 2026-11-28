@@ -1,5 +1,7 @@
+import useMedicalRequests from '../../hooks/useMedicalRequests';
+import MedicalConnectionStatus from '../../components/MedicalConnectionStatus';
 import { formatRegionalDate } from '../../i18n/regional';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FiActivity, FiArrowLeft, FiDownload, FiFileText, FiPrinter, FiShield, FiUser } from 'react-icons/fi';
 import { MdOutlineScreenshotMonitor } from 'react-icons/md';
@@ -15,7 +17,7 @@ function getPatientName(paciente) {
   return [paciente.papell, paciente.sapell, paciente.nom_pac].filter(Boolean).join(' ') || 'Paciente';
 }
 
-export default function StudyResultsScreen() {
+function StudyResultsScreen() {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
@@ -24,6 +26,8 @@ export default function StudyResultsScreen() {
   const idExp = selectedPatient?.Id_exp || location.state?.Id_exp;
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
+  const { connection, load, current, sending } = useMedicalRequests(`${idAtencion}_${idExp}`);
+  const dirty = useRef(false);
   const [patient, setPatient] = useState(null);
   const [labResults, setLabResults] = useState([]);
   const [imagingResults, setImagingResults] = useState([]);
@@ -35,37 +39,14 @@ export default function StudyResultsScreen() {
 
   const patientLabel = useMemo(() => `Exp: ${idExp || 'N/A'} | Atención: ${idAtencion || 'N/A'}`, [idAtencion, idExp]);
 
-  useEffect(() => {
-    if (!idAtencion || !idExp) {
-      setErrorMessage(t('studyResults.selectPatientFirst'));
-      setLoading(false);
-      return;
-    }
+  const reloadData = async () => {
+    if (!/^[1-9]\d*$/.test(String(idAtencion)) || !/^[1-9]\d*$/.test(String(idExp))) {setErrorMessage('Selecciona un paciente válido.'); setLoading(false); return;}
+    setLoading(true);
+    await Promise.all([load(`/paciente/${idAtencion}/${idExp}`, data => setPatient(data.paciente), 'object'),load(`/exams/patient/${idAtencion}?type=LABORATORIO`,setLabResults),load(`/exams/patient/${idAtencion}?type=GABINETE`,setImagingResults)]);
+    if (current()) setLoading(false);
+  };
+  useEffect(() => {reloadData();},[idAtencion,idExp]);
 
-    setErrorMessage('');
-
-    const loadData = async () => {
-      setLoading(true);
-      try {
-        const [patientResponse, labResponse, imagingResponse] = await Promise.all([
-          api.get(`/paciente/${idAtencion}/${idExp}`),
-          api.get(`/exams/patient/${idAtencion}?type=LABORATORIO`),
-          api.get(`/exams/patient/${idAtencion}?type=GABINETE`),
-        ]);
-
-        setPatient(patientResponse.data?.paciente || null);
-        setLabResults(Array.isArray(labResponse.data) ? labResponse.data : []);
-        setImagingResults(Array.isArray(imagingResponse.data) ? imagingResponse.data : []);
-      } catch (error) {
-        console.error('Error loading study results:', error);
-        setErrorMessage(t('studyResults.errorLoading'));
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadData();
-  }, [idAtencion, idExp]);
 
   useEffect(() => {
     setLabPage(1);
@@ -183,6 +164,8 @@ export default function StudyResultsScreen() {
         <div style={styles.headerSpacer} />
       </div>
 
+      <MedicalConnectionStatus status={connection.status} message={connection.message} />
+      <button type="button" onClick={reloadData}>Recargar</button>
       <section style={styles.patientCard}>
         <div style={styles.patientAvatar}><FiUser size={30} color="#fff" /></div>
         <div>
@@ -310,3 +293,5 @@ const styles = {
   detailResultText: { margin: '8px 0 0', color: '#475569', lineHeight: 1.5 },
   footer: { marginTop: '26px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', color: '#5b21b6', fontSize: '13px' },
 };
+
+export default function MedicalPatientScreen() {const {selectedPatient}=usePatient();const location=useLocation();return <StudyResultsScreen key={`${selectedPatient?.id_atencion || location.state?.id_atencion}_${selectedPatient?.Id_exp || location.state?.Id_exp}`} />;}

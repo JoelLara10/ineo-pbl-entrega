@@ -1,6 +1,10 @@
+import useMedicalRequests from '../../hooks/useMedicalRequests';
+import MedicalConnectionStatus from '../../components/MedicalConnectionStatus';
+import { adminErrorMessage } from '../../utils/medicalFeedback';
+import { validatePrescription } from '../../utils/medicalSecurity';
 import { getClinicalCache, setClinicalCache } from '../../services/clinicalCache';
 import { formatRegionalDate } from '../../i18n/regional';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FiArrowLeft, FiChevronDown, FiChevronUp, FiClock, FiFileText, FiRefreshCw, FiSave, FiShield, FiUser } from 'react-icons/fi';
 import { usePatient } from '../../context/PatientContext';
@@ -13,7 +17,7 @@ const CACHE_TTL = 2 * 60 * 1000;
 function getCachedValue(key) { return getClinicalCache(CACHE_PREFIX + key); }
 function setCachedValue(key, data, ttl = CACHE_TTL) { setClinicalCache(CACHE_PREFIX + key, data, ttl); }
 
-export default function MedicalNoteScreen() {
+function MedicalNoteScreen() {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
@@ -21,6 +25,8 @@ export default function MedicalNoteScreen() {
   const idAtencion = selectedPatient?.id_atencion || location.state?.id_atencion;
   const idExp = selectedPatient?.Id_exp || location.state?.Id_exp;
   const [loading, setLoading] = useState(false);
+  const { connection, load, current, sending } = useMedicalRequests(`${idAtencion}_${idExp}`);
+  const dirty = useRef(false);
   const [loadingHistory, setLoadingHistory] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
   const [history, setHistory] = useState([]);
@@ -30,81 +36,36 @@ export default function MedicalNoteScreen() {
 
   const patientLabel = useMemo(() => `Exp: ${idExp || 'N/A'} | Atención: ${idAtencion || 'N/A'}`, [idAtencion, idExp]);
 
-  useEffect(() => {
-    if (!idAtencion) {
-      setErrorMessage(t('medicalSoap.selectPatientFirst'));
-      return;
-    }
-    setErrorMessage('');
-
-    const loadHistory = async (forceRefresh = false) => {
-      setLoadingHistory(true);
-      const cacheKey = String(idAtencion);
-      if (!forceRefresh) {
-        const cachedData = getCachedValue(cacheKey);
-        if (cachedData) {
-          setHistory(cachedData);
-          setLoadingHistory(false);
-          return;
-        }
-      }
-
-      try {
-        const response = await api.get(`/appointments/${idAtencion}/medical-notes`);
-        const nextHistory = response.data || [];
-        setCachedValue(cacheKey, nextHistory);
-        setHistory(nextHistory);
-      } catch (error) {
-        console.error('Error loading medical notes history:', error);
-        const cachedData = getCachedValue(cacheKey);
-        if (cachedData) setHistory(cachedData);
-      } finally {
-        setLoadingHistory(false);
-      }
-    };
-
-    loadHistory();
-  }, [idAtencion]);
-
   const reloadHistory = async () => {
-    if (!idAtencion) return;
+    if (!/^[1-9]\d*$/.test(String(idAtencion)) || !/^[1-9]\d*$/.test(String(idExp))) { setErrorMessage('Selecciona un paciente válido.'); return; }
     setLoadingHistory(true);
-    try {
-      const response = await api.get(`/appointments/${idAtencion}/medical-notes`);
-      const nextHistory = response.data || [];
-      setCachedValue(String(idAtencion), nextHistory);
-      setHistory(nextHistory);
-    } catch (error) {
-      console.error('Error reloading medical notes history:', error);
-    } finally {
-      setLoadingHistory(false);
-    }
+    await load(`/appointments/${idAtencion}/medical-notes`, setHistory);
+    if (current()) { setLoadingHistory(false); }
   };
+  const reloadAll = reloadHistory;
+  const reloadData = reloadHistory;
+  useEffect(() => { reloadHistory(); }, [idAtencion, idExp]);
 
   const handleChange = (field, value) => {
+    dirty.current = true;
     setFormData((current) => ({ ...current, [field]: value }));
   };
 
   const handleSubmit = async () => {
-    if (!formData.subjetivo.trim()) {
-      window.alert(t('medicalSoap.subjectiveRequired'));
-      return;
-    }
-
+    if (sending.current || !current()) return;
+    if (!/^[1-9]\d*$/.test(String(idAtencion)) || !/^[1-9]\d*$/.test(String(idExp))) {window.alert('Selecciona un paciente válido.'); return;}
+    if (!formData.subjetivo.trim() || Object.values(formData).some(value => typeof value !== 'string' || value.length > 2000)) {window.alert('Completa el campo obligatorio y respeta el límite de 2000 caracteres.'); return;} const payload = Object.fromEntries(Object.entries(formData).map(([key,value]) => [key,value.trim()]));
+    sending.current = true;
     setLoading(true);
     try {
-      const response = await api.post(`/appointments/${idAtencion}/medical-notes`, formData);
-      if (response.data) {
-        setFormData({ subjetivo: '', objetivo: '', analisis: '', plan: '' });
-        setShowHistory(true);
-        await reloadHistory();
-      }
+      await api.post(`/appointments/${idAtencion}/medical-notes`, payload);
+      if (!current()) return;
+      setFormData({subjetivo:'', objetivo:'', analisis:'', plan:''});
+      setShowHistory(true);
+      await reloadHistory();
     } catch (error) {
-      console.error('Error saving medical note:', error);
-      window.alert(error.response?.data?.error || t('medicalSoap.saveError'));
-    } finally {
-      setLoading(false);
-    }
+      if (current()) window.alert(adminErrorMessage(error));
+    } finally { sending.current = false; if (current()) setLoading(false); }
   };
 
   const sections = [
@@ -133,7 +94,7 @@ export default function MedicalNoteScreen() {
         </div>
       </section>
 
-      {errorMessage ? <div style={styles.errorCard}>{errorMessage}</div> : null}
+      {errorMessage ? <div role="alert" style={styles.errorCard}>{errorMessage}</div> : <MedicalConnectionStatus status={connection.status} message={connection.message} />}
 
       <section style={styles.mainCard}>
         <div style={styles.cardHeader}><FiFileText size={20} /><strong>{t('medicalSoap.newNote')}</strong></div>
@@ -214,3 +175,9 @@ const styles = {
   historyFieldValue: { margin: 0, color: '#475569', lineHeight: 1.6 },
   footer: { marginTop: '26px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', color: '#64748b', fontSize: '13px' },
 };
+
+export default function MedicalPatientScreen() {
+  const { selectedPatient } = usePatient();
+  const location = useLocation();
+  return <MedicalNoteScreen key={`${selectedPatient?.id_atencion || location.state?.id_atencion}_${selectedPatient?.Id_exp || location.state?.Id_exp}`} />;
+}

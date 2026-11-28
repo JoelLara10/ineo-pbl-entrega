@@ -52,6 +52,8 @@ export default function MedicoScreen() {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { user } = useAuth();
+  const [search, setSearch] = useState('');
+  const matches = row => !search.trim() || [row.nom_pac,row.papell,row.sapell,row.Id_exp,row.num_cama].some(value => String(value || '').toLowerCase().includes(search.trim().toLowerCase()));
   const { selectPatient } = usePatient();
   const [patientsByArea, setPatientsByArea] = useState({ consulta: [], urgencias: [], hospitalizados: [] });
   const [pages, setPages] = useState({ consulta: 1, urgencias: 1, hospitalizados: 1 });
@@ -85,6 +87,7 @@ export default function MedicoScreen() {
     try {
       const response = await api.get('/medico');
       if (currentRequest !== requestId.current) return;
+      if (!['beds_consulta','beds_preparacion','beds_recuperacion'].every(key => Array.isArray(response.data?.[key]))) throw new Error('Invalid response');
       const nextState = {
         consulta: response.data.beds_consulta || [],
         urgencias: response.data.beds_preparacion || [],
@@ -134,7 +137,7 @@ export default function MedicoScreen() {
   }, [loadPatients]);
 
   const totalPatients = useMemo(() => (
-    patientsByArea.consulta.length + patientsByArea.urgencias.length + patientsByArea.hospitalizados.length
+    Object.values(patientsByArea).flat().filter(row => row.estatus === 'OCUPADA' && row.tiene_atencion && row.Id_exp).length
   ), [patientsByArea]);
 
   const handlePatientClick = (item) => {
@@ -176,13 +179,14 @@ export default function MedicoScreen() {
         <div style={styles.heroPill}>{t('medical.totalPatients', { count: totalPatients })}</div>
       </div>
 
+      <input aria-label="Buscar paciente" placeholder="Buscar paciente, expediente o cama" value={search} onChange={event => {setSearch(event.target.value);setPages({consulta:1,urgencias:1,hospitalizados:1});}} style={{padding:12,marginTop:16,width:'100%',borderRadius:10,border:'1px solid #cbd5e0'}} />
       {errorMessage ? <div style={styles.alert}>{errorMessage}</div> : null}
 
       {loading ? (
         <div style={styles.loadingCard}>{t('medical.loading')}</div>
       ) : (
         sections.map((section) => {
-          const sectionData = patientsByArea[section.key];
+          const sectionData = patientsByArea[section.key].filter(matches);
           const totalPages = getTotalPages(sectionData);
           const page = Math.min(pages[section.key], Math.max(1, totalPages));
           const pagedData = getPagedData(sectionData, page);

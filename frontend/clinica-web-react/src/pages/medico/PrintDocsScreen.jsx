@@ -1,4 +1,8 @@
-import { useEffect, useMemo, useState } from 'react';
+import useMedicalRequests from '../../hooks/useMedicalRequests';
+import MedicalConnectionStatus from '../../components/MedicalConnectionStatus';
+import { downloadMedicalPdf } from '../../services/medicalPdf';
+import { adminErrorMessage } from '../../utils/medicalFeedback';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FiArrowLeft, FiClock, FiFileText, FiPrinter, FiShield, FiUser } from 'react-icons/fi';
 import { MdMedication, MdOutlineScreenshotMonitor } from 'react-icons/md';
@@ -15,7 +19,7 @@ function getPatientName(patientInfo) {
 const PRINT_HISTORY_LIMIT = 5;
 const loadPrintHistory = () => [];
 
-export default function PrintDocsScreen() {
+function PrintDocsScreen() {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
@@ -25,6 +29,8 @@ export default function PrintDocsScreen() {
   const [loading, setLoading] = useState(true);
   const [loadingDoc, setLoadingDoc] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const { connection, load, current, sending } = useMedicalRequests(`${idAtencion}_${idExp}`);
+  const dirty = useRef(false);
   const [patientInfo, setPatientInfo] = useState(null);
   const [printHistory, setPrintHistory] = useState(loadPrintHistory);
 
@@ -49,45 +55,17 @@ export default function PrintDocsScreen() {
     });
   };
 
-  useEffect(() => {
-    if (!idAtencion || !idExp) {
-      setErrorMessage(t('printDocs.selectPatientFirst'));
-      setLoading(false);
-      return;
-    }
+  const reloadData = async () => {
+    if (!/^[1-9]\d*$/.test(String(idAtencion)) || !/^[1-9]\d*$/.test(String(idExp))) {setErrorMessage('Selecciona un paciente válido.'); setLoading(false); return;}
+    setLoading(true);
+    await load(`/paciente/${idAtencion}/${idExp}`, data => setPatientInfo(data.paciente), 'object');
+    if (current()) setLoading(false);
+  };
+  useEffect(() => {reloadData();},[idAtencion,idExp]);
 
-    setErrorMessage('');
 
-    const loadPatientInfo = async () => {
-      setLoading(true);
-      try {
-        const response = await api.get(`/paciente/${idAtencion}/${idExp}`);
-        setPatientInfo(response.data?.paciente || null);
-      } catch (error) {
-        console.error('Error loading patient info for print docs:', error);
-        setErrorMessage(t('printDocs.errorLoading'));
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadPatientInfo();
-  }, [idAtencion, idExp]);
-
-  const openPdfUrl = (path) => {
-    const token = typeof window !== 'undefined' ? window.localStorage.getItem('@ineo_token') : '';
-    if (!token) {
-      window.alert(t('printDocs.noActiveSession'));
-      return false;
-    }
-    const baseUrl = (api.defaults.baseURL || '').replace(/\/$/, '');
-    const query = new URLSearchParams({
-      token,
-      id_atencion: String(idAtencion),
-    }).toString();
-    const url = `${baseUrl}${path}?${query}`;
-    window.open(url, '_blank', 'noopener,noreferrer');
-    return true;
+  const openPdfUrl = async (path) => {
+    return downloadMedicalPdf(path, idAtencion);
   };
 
   const handlePrint = async (documentType) => {
@@ -100,41 +78,41 @@ export default function PrintDocsScreen() {
           const response = await api.get(`/appointments/${idAtencion}/vital-signs`);
           const lastItem = Array.isArray(response.data) ? response.data[0] : null;
           if (!lastItem?.id_signos) throw new Error('No hay signos vitales');
-          if (!openPdfUrl(`/pdf/vital-signs/${lastItem.id_signos}`)) return;
+          if (!await openPdfUrl(`/pdf/vital-signs/${lastItem.id_signos}`)) return;
           break;
         }
         case 'medical-note': {
           const response = await api.get(`/appointments/${idAtencion}/medical-notes`);
           const lastItem = Array.isArray(response.data) ? response.data[0] : null;
           if (!lastItem?.id_nota) throw new Error('No hay notas médicas');
-          if (!openPdfUrl(`/pdf/medical-note/${lastItem.id_nota}`)) return;
+          if (!await openPdfUrl(`/pdf/medical-note/${lastItem.id_nota}`)) return;
           break;
         }
         case 'diagnosis': {
           const response = await api.get(`/appointments/${idAtencion}/diagnosis`);
           if (!response.data?.id_diagnostico) throw new Error('No hay diagnóstico');
-          if (!openPdfUrl(`/pdf/diagnosis/${response.data.id_diagnostico}`)) return;
+          if (!await openPdfUrl(`/pdf/diagnosis/${response.data.id_diagnostico}`)) return;
           break;
         }
         case 'prescription': {
           const response = await api.get(`/appointments/${idAtencion}/prescriptions`);
           const lastItem = Array.isArray(response.data) ? response.data[0] : null;
           if (!lastItem?.id_receta) throw new Error('No hay recetas');
-          if (!openPdfUrl(`/pdf/prescription/${lastItem.id_receta}`)) return;
+          if (!await openPdfUrl(`/pdf/prescription/${lastItem.id_receta}`)) return;
           break;
         }
         case 'lab-exams': {
           const response = await api.get(`/exams/requested/${idAtencion}?type=LABORATORIO`);
           const lastItem = Array.isArray(response.data) ? response.data[0] : null;
           if (!lastItem?.id_examen) throw new Error('No hay exámenes de laboratorio');
-          if (!openPdfUrl(`/pdf/lab/${lastItem.id_examen}`)) return;
+          if (!await openPdfUrl(`/pdf/lab/${lastItem.id_examen}`)) return;
           break;
         }
         case 'imaging-exams': {
           const response = await api.get(`/exams/requested/${idAtencion}?type=GABINETE`);
           const lastItem = Array.isArray(response.data) ? response.data[0] : null;
           if (!lastItem?.id_examen) throw new Error('No hay exámenes de gabinete');
-          if (!openPdfUrl(`/pdf/imaging/${lastItem.id_examen}`)) return;
+          if (!await openPdfUrl(`/pdf/imaging/${lastItem.id_examen}`)) return;
           break;
         }
         default:
@@ -143,7 +121,7 @@ export default function PrintDocsScreen() {
       savePrintedDocument(documentType);
     } catch (error) {
       console.error('Error printing document:', error);
-      window.alert(error.message || 'No se pudo preparar el documento para imprimir');
+      window.alert(adminErrorMessage(error));
     } finally {
       setLoadingDoc('');
     }
@@ -169,6 +147,8 @@ export default function PrintDocsScreen() {
         <div style={styles.headerSpacer} />
       </div>
 
+      <MedicalConnectionStatus status={connection.status} message={connection.message} />
+      <button type="button" onClick={reloadData}>Recargar</button>
       <section style={styles.patientCard}>
         <div style={styles.patientAvatar}><FiUser size={30} color="#fff" /></div>
         <div>
@@ -277,3 +257,5 @@ const styles = {
   historyDate: { color: '#475569', fontSize: '12px', textAlign: 'right', flexShrink: 0 },
   footer: { marginTop: '26px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', color: '#312e81', fontSize: '13px' },
 };
+
+export default function MedicalPatientScreen() {const {selectedPatient}=usePatient();const location=useLocation();return <PrintDocsScreen key={`${selectedPatient?.id_atencion || location.state?.id_atencion}_${selectedPatient?.Id_exp || location.state?.Id_exp}`} />;}

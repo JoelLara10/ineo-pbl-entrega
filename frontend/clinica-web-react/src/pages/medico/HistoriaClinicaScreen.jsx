@@ -1,5 +1,9 @@
+import { validateClinicalHistory } from '../../utils/medicalSecurity';
+import { adminErrorMessage } from '../../utils/medicalFeedback';
+import useMedicalRequests from '../../hooks/useMedicalRequests';
+import MedicalConnectionStatus from '../../components/MedicalConnectionStatus';
 import { getClinicalCache, setClinicalCache } from '../../services/clinicalCache';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FiArrowLeft, FiCheckCircle, FiClipboard, FiRefreshCw, FiSave, FiShield, FiUser } from 'react-icons/fi';
 import { usePatient } from '../../context/PatientContext';
@@ -16,7 +20,7 @@ const nopatOptions = ['Tabaquismo', 'Alcohol', 'Sedentarismo', 'Vacunacion COVID
 function getCachedValue(key) { return getClinicalCache(CACHE_PREFIX + key); }
 function setCachedValue(key, data, ttl = CACHE_TTL) { setClinicalCache(CACHE_PREFIX + key, data, ttl); }
 
-export default function HistoriaClinicaScreen() {
+function HistoriaClinicaScreen() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
@@ -26,72 +30,23 @@ export default function HistoriaClinicaScreen() {
   const [loading, setLoading] = useState(false);
   const [loadingData, setLoadingData] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const { connection, load, current, sending } = useMedicalRequests(`${idAtencion}_${idExp}`);
+  const dirty = useRef(false);
   const [formData, setFormData] = useState({
     motivo_consulta: '', sintomatologia: [], sintomatologia_otros: '', heredo: [], heredo_otros: '', nopat: [], nopat_otros: '', pat_enfermedades: '', pat_medicamentos: '', pat_alergias: '', pat_oculares: '', pat_cirugias: '',
   });
 
   const patientLabel = useMemo(() => `Paciente: ${idExp || 'N/A'}`, [idExp]);
 
-  const reloadData = useCallback(async ({ forceRefresh = false } = {}) => {
-    if (!idAtencion || !idExp) {
-      setErrorMessage(t('historiaClinica.selectPatientFirst'));
-      setLoadingData(false);
-      return;
-    }
-
-    setErrorMessage('');
+  const reloadData = async () => {
+    if (!/^[1-9]\d*$/.test(String(idAtencion)) || !/^[1-9]\d*$/.test(String(idExp))) {setErrorMessage('Selecciona un paciente válido.'); setLoadingData(false); return;}
     setLoadingData(true);
-    const cacheKey = `${idAtencion}_${idExp}`;
-
-    if (!forceRefresh) {
-      const cachedData = getCachedValue(cacheKey);
-      if (cachedData) {
-        setFormData(cachedData);
-        setLoadingData(false);
-        return;
-      }
-    }
-
-    try {
-      const response = await api.get(`/historia-clinica/${idAtencion}/${idExp}`);
-      const data = response.data || {};
-      const parsedData = {
-        motivo_consulta: data.motivo_consulta || '',
-        sintomatologia: Array.isArray(data.sintomatologia)
-          ? data.sintomatologia
-          : (data.sintomatologia || '').split(',').filter(Boolean),
-        sintomatologia_otros: data.sintomatologia_otros || '',
-        heredo: Array.isArray(data.heredo)
-          ? data.heredo
-          : (data.heredo || '').split(',').filter(Boolean),
-        heredo_otros: data.heredo_otros || '',
-        nopat: Array.isArray(data.nopat)
-          ? data.nopat
-          : (data.nopat || '').split(',').filter(Boolean),
-        nopat_otros: data.nopat_otros || '',
-        pat_enfermedades: data.pat_enfermedades || '',
-        pat_medicamentos: data.pat_medicamentos || '',
-        pat_alergias: data.pat_alergias || '',
-        pat_oculares: data.pat_oculares || '',
-        pat_cirugias: data.pat_cirugias || '',
-      };
-      setCachedValue(cacheKey, parsedData);
-      setFormData(parsedData);
-    } catch (error) {
-      console.error('Error loading historia clinica:', error);
-      const fallback = getCachedValue(cacheKey);
-      if (fallback) setFormData(fallback);
-      setErrorMessage(error.response?.data?.error || 'No se pudo cargar la historia clínica.');
-    } finally {
-      setLoadingData(false);
-    }
-  }, [idAtencion, idExp, t]);
-
-  useEffect(() => {
-    reloadData();
-  }, [reloadData]);
-
+    await load(`/historia-clinica/${idAtencion}/${idExp}`, data => { if (!dirty.current) setFormData(current => ({...current, ...data, ...Object.fromEntries(['sintomatologia','heredo','nopat'].map(key => [key, Array.isArray(data[key]) ? data[key] : (data[key] || '').split(',').filter(Boolean)]))}));}, 'object');
+    if (current()) setLoadingData(false);
+  };
+  useEffect(() => {reloadData();},[idAtencion,idExp]);
   const toggleCheckbox = (field, value) => {
+    dirty.current = true;
     setFormData((current) => {
       const exists = current[field].includes(value);
       return { ...current, [field]: exists ? current[field].filter((item) => item !== value) : [...current[field], value] };
@@ -99,64 +54,20 @@ export default function HistoriaClinicaScreen() {
   };
 
   const handleChange = (field, value) => {
+    dirty.current = true;
     setFormData((current) => ({ ...current, [field]: value }));
   };
 
   const handleSubmit = async () => {
-    if (!formData.motivo_consulta.trim()) {
-      window.alert(t('historiaClinica.motivoRequired'));
-      return;
-    }
-    setLoading(true);
+    if (sending.current || !current()) return;
+    const validation = validateClinicalHistory({id_atencion:idAtencion,Id_exp:idExp,formData});
+    if (!validation.ok) {window.alert(validation.error);return;}
+    sending.current = true; setLoading(true);
     try {
-      const dataToSend = {
-        ...formData,
-        sintomatologia: formData.sintomatologia.join(','),
-        heredo: formData.heredo.join(','),
-        nopat: formData.nopat.join(','),
-      };
-
-      /* const reloadData = async () => {
-        if (!idAtencion || !idExp) return;
-        setLoadingData(true);
-        try {
-          const response = await api.get(`/historia-clinica/${idAtencion}/${idExp}`);
-          if (response.data && Object.keys(response.data).length > 0) {
-            const data = response.data;
-            const parsedData = {
-              motivo_consulta: data.motivo_consulta || '',
-              sintomatologia: data.sintomatologia ? data.sintomatologia.split(',') : [],
-              sintomatologia_otros: data.sintomatologia_otros || '',
-              heredo: data.heredo ? data.heredo.split(',') : [],
-              heredo_otros: data.heredo_otros || '',
-              nopat: data.nopat ? data.nopat.split(',') : [],
-              nopat_otros: data.nopat_otros || '',
-              pat_enfermedades: data.pat_enfermedades || '',
-              pat_medicamentos: data.pat_medicamentos || '',
-              pat_alergias: data.pat_alergias || '',
-              pat_oculares: data.pat_oculares || '',
-              pat_cirugias: data.pat_cirugias || '',
-            };
-            setCachedValue(`${idAtencion}_${idExp}`, parsedData);
-            setFormData(parsedData);
-          }
-        } catch (error) {
-          console.error('Error reloading historia clinica:', error);
-        } finally {
-          setLoadingData(false);
-        }
-      }; */
-      const response = await api.post(`/historia-clinica/${idAtencion}/${idExp}`, dataToSend);
-      if (response.data) {
-        setCachedValue(`${idAtencion}_${idExp}`, formData);
-        navigate(-1);
-      }
-    } catch (error) {
-      console.error('Error saving historia clinica:', error);
-      window.alert(error.response?.data?.error || t('historiaClinica.saveError'));
-    } finally {
-      setLoading(false);
-    }
+      await api.post(`/historia-clinica/${idAtencion}/${idExp}`,validation.data);
+      if (current()) navigate(-1);
+    } catch(error) {if(current()) window.alert(adminErrorMessage(error));}
+    finally {sending.current = false; if(current()) setLoading(false);}
   };
 
   const renderCheckboxGroup = (title, options, field) => (
@@ -246,3 +157,4 @@ const styles = {
   saveButton: { display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 18px', border: 'none', borderRadius: '12px', backgroundColor: '#16a34a', color: '#fff', fontWeight: 700 },
   footer: { marginTop: '26px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', color: '#64748b', fontSize: '13px' },
 };
+export default function MedicalPatientScreen() {const {selectedPatient}=usePatient();const location=useLocation();return <HistoriaClinicaScreen key={`${selectedPatient?.id_atencion || location.state?.id_atencion}_${selectedPatient?.Id_exp || location.state?.Id_exp}`} />;}

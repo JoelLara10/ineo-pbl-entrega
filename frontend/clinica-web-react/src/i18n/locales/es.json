@@ -513,7 +513,9 @@
     "view": "Ver",
     "select": "Seleccionar",
     "previous": "Anterior",
-    "next": "Siguiente"
+    "next": "Siguiente",
+    "remoteDataLoaded": "Datos actualizados desde el servidor.",
+    "cachedDataWarning": "Sin conexión: se muestra una copia temporal."
   },
   "vitalSigns": {
     "eyebrow": "ENFERMERÍA",
@@ -1295,13 +1297,13 @@
       "excluded": "Observaciones excluidas"
     },
     "labels": {
+      "0": "Libres",
+      "1": "Ocupadas",
       "ABIERTA": "Abiertas",
       "CERRADA": "Cerradas",
       "OTRO": "Otros estados",
       "UNKNOWN": "Sin especificar",
       "OTHER": "Otras categorías",
-      "0": "Libres",
-      "1": "Ocupadas",
       "PENDIENTE": "Pendientes",
       "REALIZADO": "Realizados",
       "CANCELADO": "Cancelados",

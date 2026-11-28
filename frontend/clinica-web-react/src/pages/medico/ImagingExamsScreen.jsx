@@ -1,6 +1,10 @@
+import useMedicalRequests from '../../hooks/useMedicalRequests';
+import MedicalConnectionStatus from '../../components/MedicalConnectionStatus';
+import { adminErrorMessage } from '../../utils/medicalFeedback';
+import { validatePrescription } from '../../utils/medicalSecurity';
 import { getClinicalCache, setClinicalCache } from '../../services/clinicalCache';
 import { formatRegionalDate } from '../../i18n/regional';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FiArrowLeft, FiChevronDown, FiChevronUp, FiClock, FiRefreshCw, FiSave, FiShield, FiUser } from 'react-icons/fi';
 import { MdOutlineScreenshotMonitor } from 'react-icons/md';
@@ -8,15 +12,12 @@ import { usePatient } from '../../context/PatientContext';
 import api from '../../services/api';
 import { useTranslation } from 'react-i18next';
 
-const CATALOG_CACHE = 'ineo_web_cache_imaging_catalog';
-const HISTORY_PREFIX = 'ineo_web_cache_imaging_history_';
 const CACHE_TTL = 5 * 60 * 1000;
-const HISTORY_TTL = 2 * 60 * 1000;
 
 function getCachedValue(key) { return getClinicalCache(key); }
 function setCachedValue(key, data, ttl = CACHE_TTL) { setClinicalCache(key, data, ttl); }
 
-export default function ImagingExamsScreen() {
+function ImagingExamsScreen() {
   const { t, i18n } = useTranslation();
 
   const navigate = useNavigate();
@@ -25,6 +26,8 @@ export default function ImagingExamsScreen() {
   const idAtencion = selectedPatient?.id_atencion || location.state?.id_atencion;
   const idExp = selectedPatient?.Id_exp || location.state?.Id_exp;
   const [loading, setLoading] = useState(false);
+  const { connection, load, current, sending } = useMedicalRequests(`${idAtencion}_${idExp}`);
+  const dirty = useRef(false);
   const [loadingCatalog, setLoadingCatalog] = useState(false);
   const [loadingHistory, setLoadingHistory] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
@@ -36,127 +39,35 @@ export default function ImagingExamsScreen() {
 
   const patientLabel = useMemo(() => `Exp: ${idExp || 'N/A'} | Atención: ${idAtencion || 'N/A'}`, [idAtencion, idExp]);
 
-  useEffect(() => {
-    if (!idAtencion) {
-      setErrorMessage(t('imagingExams.selectPatientFirst'));
-      return;
-    }
-
-    setErrorMessage('');
-    setSelectedExams([]);
-    setObservations('');
-
-    const loadCatalog = async () => {
-      setLoadingCatalog(true);
-      const cached = getCachedValue(CATALOG_CACHE);
-      if (cached) {
-        setExams(cached);
-        setLoadingCatalog(false);
-      }
-      try {
-        const response = await api.get('/exams/catalog?type=GABINETE');
-        const nextCatalog = Array.isArray(response.data) ? response.data : [];
-        setCachedValue(CATALOG_CACHE, nextCatalog, CACHE_TTL);
-        setExams(nextCatalog);
-      } catch (error) {
-        console.error('Error loading imaging catalog:', error);
-        if (!cached) setExams([]);
-      } finally {
-        setLoadingCatalog(false);
-      }
-    };
-
-    const loadHistory = async () => {
-      setLoadingHistory(true);
-      const cacheKey = `${HISTORY_PREFIX}${idAtencion}`;
-      const cached = getCachedValue(cacheKey);
-      if (cached) {
-        setHistory(cached);
-        setLoadingHistory(false);
-      }
-      try {
-        const response = await api.get(`/exams/requested/${idAtencion}?type=GABINETE`);
-        const nextHistory = Array.isArray(response.data) ? response.data : [];
-        setCachedValue(cacheKey, nextHistory, HISTORY_TTL);
-        setHistory(nextHistory);
-      } catch (error) {
-        console.error('Error loading imaging history:', error);
-        if (!cached) setHistory([]);
-      } finally {
-        setLoadingHistory(false);
-      }
-    };
-
-    loadCatalog();
-    loadHistory();
-  }, [idAtencion]);
-
   const reloadHistory = async () => {
-    if (!idAtencion) return;
-    setLoadingHistory(true);
-    try {
-      const response = await api.get(`/exams/requested/${idAtencion}?type=GABINETE`);
-      const nextHistory = Array.isArray(response.data) ? response.data : [];
-      setCachedValue(`${HISTORY_PREFIX}${idAtencion}`, nextHistory, HISTORY_TTL);
-      setHistory(nextHistory);
-    } catch (error) {
-      console.error('Error reloading imaging history:', error);
-    } finally {
-      setLoadingHistory(false);
-    }
+    if (!/^[1-9]\d*$/.test(String(idAtencion)) || !/^[1-9]\d*$/.test(String(idExp))) { setErrorMessage('Selecciona un paciente válido.'); return; }
+    setLoadingHistory(true); setLoadingCatalog(true);
+    await Promise.all([load('/exams/catalog?type=GABINETE', setExams), load(`/exams/requested/${idAtencion}?type=GABINETE`, setHistory)]);
+    if (current()) { setLoadingHistory(false); setLoadingCatalog(false); }
   };
-
-  const reloadData = async () => {
-    if (!idAtencion) return;
-    setLoadingCatalog(true);
-    setLoadingHistory(true);
-    try {
-      const [catalogResponse, historyResponse] = await Promise.all([
-        api.get('/exams/catalog?type=GABINETE'),
-        api.get(`/exams/requested/${idAtencion}?type=GABINETE`),
-      ]);
-      const nextCatalog = Array.isArray(catalogResponse.data) ? catalogResponse.data : [];
-      const nextHistory = Array.isArray(historyResponse.data) ? historyResponse.data : [];
-      setCachedValue(CATALOG_CACHE, nextCatalog, CACHE_TTL);
-      setCachedValue(`${HISTORY_PREFIX}${idAtencion}`, nextHistory, HISTORY_TTL);
-      setExams(nextCatalog);
-      setHistory(nextHistory);
-    } catch (error) {
-      console.error('Error reloading imaging data:', error);
-    } finally {
-      setLoadingCatalog(false);
-      setLoadingHistory(false);
-    }
-  };
+  const reloadAll = reloadHistory;
+  const reloadData = reloadHistory;
+  useEffect(() => { reloadHistory(); }, [idAtencion, idExp]);
 
   const toggleExam = (examId) => {
     setSelectedExams((current) => (current.includes(examId) ? current.filter((id) => id !== examId) : [...current, examId]));
   };
 
   const handleSubmit = async () => {
-    if (selectedExams.length === 0) {
-      window.alert(t('imagingExams.selectAtLeastOne'));
-      return;
-    }
-
+    if (sending.current || !current()) return;
+    if (!/^[1-9]\d*$/.test(String(idAtencion)) || !/^[1-9]\d*$/.test(String(idExp))) {window.alert('Selecciona un paciente válido.'); return;}
+    if (!selectedExams.length || observations.length > 2000 || selectedExams.some(id => !/^[1-9]\d*$/.test(String(id)))) {window.alert('Selecciona estudios válidos y revisa las observaciones.'); return;} const payload = {id_atencion:Number(idAtencion), exams:selectedExams.map(Number), observations:observations.trim(), type:'GABINETE'};
+    sending.current = true;
     setLoading(true);
     try {
-      await api.post('/exams/request', {
-        id_atencion: parseInt(idAtencion, 10),
-        exams: selectedExams.map((id) => parseInt(id, 10)),
-        observations: observations || '',
-        type: 'GABINETE',
-      });
-      setSelectedExams([]);
-      setObservations('');
+      await api.post('/exams/request', payload);
+      if (!current()) return;
+      setSelectedExams([]); setObservations('');
       setShowHistory(true);
       await reloadHistory();
     } catch (error) {
-      console.error('Error requesting imaging exams:', error);
-      window.alert(error.response?.data?.error || t('imagingExams.requestError'));
-    } finally {
-      setLoading(false);
-    }
+      if (current()) window.alert(adminErrorMessage(error));
+    } finally { sending.current = false; if (current()) setLoading(false); }
   };
 
   return (
@@ -178,7 +89,7 @@ export default function ImagingExamsScreen() {
         </div>
       </section>
 
-      {errorMessage ? <div style={styles.errorCard}>{errorMessage}</div> : null}
+      {errorMessage ? <div role="alert" style={styles.errorCard}>{errorMessage}</div> : <MedicalConnectionStatus status={connection.status} message={connection.message} />}
 
       <section style={styles.mainCard}>
         <div style={styles.cardHeader}><MdOutlineScreenshotMonitor size={22} /><strong>{t('imagingExams.newRequest')}</strong></div>
@@ -284,3 +195,9 @@ const styles = {
   historyExamChip: { padding: '6px 10px', borderRadius: '999px', backgroundColor: '#fff', border: '1px solid #ffedd5', color: '#92400e', fontSize: '12px' },
   footer: { marginTop: '26px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', color: '#92400e', fontSize: '13px' },
 };
+
+export default function MedicalPatientScreen() {
+  const { selectedPatient } = usePatient();
+  const location = useLocation();
+  return <ImagingExamsScreen key={`${selectedPatient?.id_atencion || location.state?.id_atencion}_${selectedPatient?.Id_exp || location.state?.Id_exp}`} />;
+}
