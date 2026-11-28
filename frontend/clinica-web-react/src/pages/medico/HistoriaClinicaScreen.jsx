@@ -99,6 +99,7 @@ function HistoriaClinicaScreen() {
         <button type="button" onClick={() => reloadData({ forceRefresh: true })} style={styles.headerActionButton} disabled={!idAtencion || !idExp || loadingData}><FiRefreshCw size={18} /></button>
       </div>
 
+      <MedicalConnectionStatus status={connection.status} message={connection.message} />
       {errorMessage ? <div style={styles.errorCard}>{errorMessage}</div> : null}
 
       {loadingData ? <div style={styles.loadingCard}>{t('historiaClinica.loadingData')}</div> : (

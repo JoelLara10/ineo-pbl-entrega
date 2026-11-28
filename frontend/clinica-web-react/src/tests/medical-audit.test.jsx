@@ -1,3 +1,4 @@
+import Historia from '../pages/medico/HistoriaClinicaScreen';
 import useMedicalRequests from '../hooks/useMedicalRequests';
 // @vitest-environment jsdom
 import React from 'react';
@@ -19,7 +20,7 @@ const patient = vi.hoisted(()=>({current:{id_atencion:1,Id_exp:1}}));
 vi.mock('../context/PatientContext',()=>({usePatient:()=>({selectedPatient:patient.current})}));
 beforeEach(()=>{vi.clearAllMocks();clearClinicalCache();patient.current={id_atencion:1,Id_exp:1};api.get.mockResolvedValue({data:[]});vi.spyOn(window,'alert').mockImplementation(()=>{});});
 afterEach(()=>{cleanup();vi.restoreAllMocks();});
-const forms=[['notes',MedicalNote],['prescription',Prescription],['vitals',Vitals],['diagnosis',Diagnosis],['lab',Lab],['imaging',Imaging]];
+const forms=[['notes',MedicalNote],['prescription',Prescription],['vitals',Vitals],['diagnosis',Diagnosis],['lab',Lab],['imaging',Imaging],['history',Historia]];
 function show(Form){return render(<MemoryRouter><Form /></MemoryRouter>);}
 describe.each(forms)('%s safety',(_name,Form)=>{
  it('shows a safe load failure and recovers on refresh',async()=>{
@@ -27,7 +28,7 @@ describe.each(forms)('%s safety',(_name,Form)=>{
   show(Form);
   await waitFor(()=>expect(screen.getByRole('alert').textContent).toMatch(/conexión/));
   expect(document.body.textContent).not.toMatch(/private mongodb|password token/);
-  api.get.mockImplementation(url=>Promise.resolve({data:url.endsWith('/diagnosis')?{}:[]}));
+  api.get.mockImplementation(url=>Promise.resolve({data:(url.endsWith('/diagnosis')||url.includes('/historia-clinica/'))?{}:[]}));
   const buttons=screen.getAllByRole('button');
   // Header has Back followed by Refresh in each medical form.
   fireEvent.click(buttons[1]);
