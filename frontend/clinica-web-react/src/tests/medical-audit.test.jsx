@@ -80,6 +80,7 @@ it('uses only a temporary cached copy after a failed refresh and recovers',async
  const apply=vi.fn();api.get.mockResolvedValueOnce({data:[{id_nota:1}]});
  await act(async()=>{await result.current.load('/appointments/1/medical-notes',apply);});
  expect(result.current.connection.status).toBe('remote');
+ clearClinicalCache(); // Expired cache must not hide data already visible on this screen.
  api.get.mockRejectedValueOnce(new Error('private token'));
  await act(async()=>{await result.current.load('/appointments/1/medical-notes',apply);});
  expect(result.current.connection.status).toBe('cache');expect(apply).toHaveBeenCalledTimes(2);

@@ -9,11 +9,13 @@ export default function useMedicalRequests(context) {
   const active = useRef(context);
   const sequence = useRef({});
   const sources = useRef({});
+  const visibleData = useRef({});
   const sending = useRef(false);
   const [connection, setConnection] = useState({ status: 'loading', message: '' });
   useEffect(() => {
     active.current = context;
     sources.current = {};
+    visibleData.current = {};
     setConnection({ status: 'loading', message: '' });
     return () => { active.current = null; };
   }, [context]);
@@ -33,6 +35,7 @@ export default function useMedicalRequests(context) {
       const response = await api.get(url);
       if (!valid(response.data)) throw new Error('Invalid response');
       if (!fresh()) return;
+      visibleData.current[url] = response.data;
       apply(response.data);
       await CacheService.set('medical_qa_' + url, response.data, 120000);
       if (!fresh()) return;
@@ -40,7 +43,7 @@ export default function useMedicalRequests(context) {
     } catch (error) {
       if (!fresh()) return;
       const denied = [401, 403].includes(error?.response?.status);
-      const cached = denied ? null : await CacheService.get('medical_qa_' + url);
+      const cached = denied ? null : visibleData.current[url] ?? await CacheService.get('medical_qa_' + url);
       if (!fresh()) return;
       if (valid(cached)) {
         apply(cached);
