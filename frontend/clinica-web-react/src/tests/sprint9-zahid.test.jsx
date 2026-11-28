@@ -105,7 +105,9 @@ describe('PBL-25', () => {
     render(<I18nextProvider i18n={instance}><OfflineBoundary><div>CLINICAL</div></OfflineBoundary></I18nextProvider>);
     expect(screen.getByText('CLINICAL')).toBeInTheDocument();
     online(false); act(() => window.dispatchEvent(new Event('offline')));
-    expect(screen.queryByText('CLINICAL')).not.toBeInTheDocument();
+    // Clinical content remains inaccessible visually while React keeps the unsent
+    // draft in memory. Cache purging and persistent-storage checks remain above.
+    expect(screen.getByText('CLINICAL')).not.toBeVisible();
     expect(screen.getByRole('heading', { name: 'Operación offline limitada' })).toBeInTheDocument();
     fireEvent.change(screen.getByRole('combobox'), { target: { value: 'en' } });
     await waitFor(() => expect(readOfflineQueue('owner')?.language).toBe('en'));

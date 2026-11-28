@@ -40,13 +40,14 @@ export default function OfflineBoundary({ children }) {
       <span role="status">{!online ? t('offline.disconnected') : failed ? t('offline.failed') : pending ? t('offline.pending') : t('offline.online')}</span>
       {online && pending && <button onClick={sync}>{t('offline.retry')}</button>}
     </aside>}
-    {!online ? <main className="offline-shell">
+    <div hidden={!online} style={online ? { display: 'contents' } : undefined}>{children}</div>
+    {!online && <main className="offline-shell">
       <label>{t('offline.language')} <select value={i18n.resolvedLanguage || 'es'} onChange={(event) => changeLanguage(event.target.value)}>
         <option value="es">Español</option><option value="en">English</option>
       </select></label>
       <h1>{t('offline.title')}</h1><p>{t('offline.hint')}</p>
       <p>{t('offline.safeAction')}</p>
       {user && <button onClick={logout}>{t('offline.logout')}</button>}
-    </main> : children}
+    </main>}
   </OfflinePreferencesContext.Provider>;
 }

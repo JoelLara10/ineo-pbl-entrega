@@ -1,4 +1,5 @@
 import { lazy, Suspense } from 'react';
+import ScreenBoundary from '../components/ScreenBoundary';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
@@ -107,7 +108,7 @@ export default function AppRouter() {
   const isEstudios = role === 'estudios';
 
   return (
-    <Suspense fallback={<PageLoader />}>
+    <ScreenBoundary><Suspense fallback={<PageLoader />}>
       <Routes>
         <Route path="/login" element={<PublicLoginRoute />} />
 
@@ -116,7 +117,7 @@ export default function AppRouter() {
           element={
             <PrivateRoute>
               <MainLayout>
-                <Suspense fallback={<PageLoader />}>
+                <ScreenBoundary><Suspense fallback={<PageLoader />}>
                   <Routes>
                     <Route path="/" element={<DashboardScreen />} />
 
@@ -210,12 +211,12 @@ export default function AppRouter() {
                     {(isAdmin || isMedico || isEnfermeria) && <><Route path="monitoreo" element={<MonitoringScreen />} /><Route path="monitoreo/:patientId" element={<MonitoringScreen />} /></>}
                     <Route path="*" element={<Navigate to="/" replace />} />
                   </Routes>
-                </Suspense>
+                </Suspense></ScreenBoundary>
               </MainLayout>
             </PrivateRoute>
           }
         />
       </Routes>
-    </Suspense>
+    </Suspense></ScreenBoundary>
   );
 }
