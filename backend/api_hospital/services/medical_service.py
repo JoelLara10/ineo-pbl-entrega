@@ -177,11 +177,11 @@ class MedicalService:
             'analisis': data.get('analisis'),
             'plan': data.get('plan'),
             'id_medico': ObjectId(data['id_medico']),
-            'fecha_registro': datetime.now()
+            'fecha_registro': datetime.now(timezone.utc)
         }
         
         collection.insert_one(note)
-        return serialize_doc(note)
+        return serialize_clinical_record(note)
     
     @staticmethod
     def get_medical_notes(id_atencion):
@@ -192,7 +192,7 @@ class MedicalService:
             {'id_atencion': id_atencion}
         ).sort('fecha_registro', -1))
         
-        return [serialize_doc(n) for n in notes]
+        return [serialize_clinical_record(n) for n in notes]
     
     @staticmethod
     def add_diagnosis(id_atencion, data):

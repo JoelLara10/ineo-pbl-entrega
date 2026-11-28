@@ -1,20 +1,22 @@
+import useMedicalRequests from '../../hooks/useMedicalRequests';
+import MedicalConnectionStatus from '../../components/MedicalConnectionStatus';
+import { adminErrorMessage } from '../../utils/medicalFeedback';
+import { validatePrescription } from '../../utils/medicalSecurity';
 import { getClinicalCache, setClinicalCache } from '../../services/clinicalCache';
 import { formatRegionalDate } from '../../i18n/regional';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FiArrowLeft, FiChevronDown, FiChevronUp, FiClipboard, FiClock, FiRefreshCw, FiSave, FiShield, FiUser } from 'react-icons/fi';
 import { usePatient } from '../../context/PatientContext';
 import api from '../../services/api';
 import { useTranslation } from 'react-i18next';
 
-const CACHE_CURRENT = 'ineo_web_cache_medico_diagnosis_current_';
-const CACHE_HISTORY = 'ineo_web_cache_medico_diagnosis_history_';
 const CACHE_TTL = 2 * 60 * 1000;
 
 function getCachedValue(key) { return getClinicalCache(key); }
 function setCachedValue(key, data, ttl = CACHE_TTL) { setClinicalCache(key, data, ttl); }
 
-export default function DiagnosisScreen() {
+function DiagnosisScreen() {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
@@ -22,6 +24,8 @@ export default function DiagnosisScreen() {
   const idAtencion = selectedPatient?.id_atencion || location.state?.id_atencion;
   const idExp = selectedPatient?.Id_exp || location.state?.Id_exp;
   const [loading, setLoading] = useState(false);
+  const { connection, load, current, sending } = useMedicalRequests(`${idAtencion}_${idExp}`);
+  const dirty = useRef(false);
   const [loadingData, setLoadingData] = useState(false);
   const [loadingHistory, setLoadingHistory] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
@@ -33,135 +37,36 @@ export default function DiagnosisScreen() {
 
   const patientLabel = useMemo(() => `Exp: ${idExp || 'N/A'} | Atención: ${idAtencion || 'N/A'}`, [idAtencion, idExp]);
 
-  useEffect(() => {
-    if (!idAtencion) {
-      setErrorMessage(t('medicalDiagnosis.selectPatientFirst'));
-      return;
-    }
-    setErrorMessage('');
-
-    const loadCurrentDiagnosis = async (forceRefresh = false) => {
-      setLoadingData(true);
-      const cacheKey = `${CACHE_CURRENT}${idAtencion}`;
-      if (!forceRefresh) {
-        const cachedData = getCachedValue(cacheKey);
-        if (cachedData) {
-          setCurrentDiagnosis(cachedData);
-          setFormData({
-            diagnostico_principal: cachedData.diagnostico_principal || '',
-            diagnosticos_secundarios: cachedData.diagnosticos_secundarios || '',
-            observaciones: cachedData.observaciones || '',
-          });
-          setLoadingData(false);
-          return;
-        }
-      }
-      try {
-        const response = await api.get(`/appointments/${idAtencion}/diagnosis`);
-        if (response.data) {
-          setCachedValue(cacheKey, response.data);
-          setCurrentDiagnosis(response.data);
-          setFormData({
-            diagnostico_principal: response.data.diagnostico_principal || '',
-            diagnosticos_secundarios: response.data.diagnosticos_secundarios || '',
-            observaciones: response.data.observaciones || '',
-          });
-        }
-      } catch (error) {
-        console.error('Error loading current diagnosis:', error);
-        const cachedData = getCachedValue(cacheKey);
-        if (cachedData) {
-          setCurrentDiagnosis(cachedData);
-          setFormData({
-            diagnostico_principal: cachedData.diagnostico_principal || '',
-            diagnosticos_secundarios: cachedData.diagnosticos_secundarios || '',
-            observaciones: cachedData.observaciones || '',
-          });
-        }
-      } finally {
-        setLoadingData(false);
-      }
-    };
-
-    const loadHistory = async (forceRefresh = false) => {
-      setLoadingHistory(true);
-      const cacheKey = `${CACHE_HISTORY}${idAtencion}`;
-      if (!forceRefresh) {
-        const cachedData = getCachedValue(cacheKey);
-        if (cachedData) {
-          setHistory(cachedData);
-          setLoadingHistory(false);
-          return;
-        }
-      }
-      try {
-        const response = await api.get(`/appointments/${idAtencion}/diagnosis/history`);
-        const nextHistory = Array.isArray(response.data) ? response.data : [];
-        setCachedValue(cacheKey, nextHistory);
-        setHistory(nextHistory);
-      } catch (error) {
-        console.error('Error loading diagnosis history:', error);
-        const cachedData = getCachedValue(cacheKey);
-        setHistory(cachedData || []);
-      } finally {
-        setLoadingHistory(false);
-      }
-    };
-
-    loadCurrentDiagnosis();
-    loadHistory();
-  }, [idAtencion]);
-
-  const reloadAll = async () => {
-    if (!idAtencion) return;
-    setLoadingData(true);
-    setLoadingHistory(true);
-    try {
-      const [currentResponse, historyResponse] = await Promise.all([
-        api.get(`/appointments/${idAtencion}/diagnosis`),
-        api.get(`/appointments/${idAtencion}/diagnosis/history`),
-      ]);
-      if (currentResponse.data) {
-        setCachedValue(`${CACHE_CURRENT}${idAtencion}`, currentResponse.data);
-        setCurrentDiagnosis(currentResponse.data);
-        setFormData({
-          diagnostico_principal: currentResponse.data.diagnostico_principal || '',
-          diagnosticos_secundarios: currentResponse.data.diagnosticos_secundarios || '',
-          observaciones: currentResponse.data.observaciones || '',
-        });
-      }
-      const nextHistory = Array.isArray(historyResponse.data) ? historyResponse.data : [];
-      setCachedValue(`${CACHE_HISTORY}${idAtencion}`, nextHistory);
-      setHistory(nextHistory);
-    } catch (error) {
-      console.error('Error reloading diagnosis data:', error);
-    } finally {
-      setLoadingData(false);
-      setLoadingHistory(false);
-    }
+  const reloadHistory = async () => {
+    if (!/^[1-9]\d*$/.test(String(idAtencion)) || !/^[1-9]\d*$/.test(String(idExp))) { setErrorMessage('Selecciona un paciente válido.'); return; }
+    setLoadingHistory(true); setLoadingData(true);
+    await Promise.all([load(`/appointments/${idAtencion}/diagnosis`, data => {setCurrentDiagnosis(data); if (!dirty.current) setFormData({diagnostico_principal:data.diagnostico_principal || '', diagnosticos_secundarios:data.diagnosticos_secundarios || '', observaciones:data.observaciones || ''});}, 'object'),load(`/appointments/${idAtencion}/diagnosis/history`,setHistory)]);
+    if (current()) { setLoadingHistory(false); setLoadingData(false); }
   };
+  const reloadAll = reloadHistory;
+  const reloadData = reloadHistory;
+  useEffect(() => { reloadHistory(); }, [idAtencion, idExp]);
 
   const handleChange = (field, value) => {
+    dirty.current = true;
     setFormData((current) => ({ ...current, [field]: value }));
   };
 
   const handleSubmit = async () => {
-    if (!formData.diagnostico_principal.trim()) {
-      window.alert(t('medicalDiagnosis.principalRequired'));
-      return;
-    }
-
+    if (sending.current || !current()) return;
+    if (!/^[1-9]\d*$/.test(String(idAtencion)) || !/^[1-9]\d*$/.test(String(idExp))) {window.alert('Selecciona un paciente válido.'); return;}
+    if (!formData.diagnostico_principal.trim() || Object.values(formData).some(value => typeof value !== 'string' || value.length > 2000)) {window.alert('Completa el campo obligatorio y respeta el límite de 2000 caracteres.'); return;} const payload = Object.fromEntries(Object.entries(formData).map(([key,value]) => [key,value.trim()]));
+    sending.current = true;
     setLoading(true);
     try {
-      await api.post(`/appointments/${idAtencion}/diagnosis`, formData);
+      await api.post(`/appointments/${idAtencion}/diagnosis`, payload);
+      if (!current()) return;
+
       setShowHistory(true);
-      await reloadAll();
+      await reloadHistory();
     } catch (error) {
-      console.error('Error saving diagnosis:', error);
-      window.alert(error.response?.data?.error || t('medicalDiagnosis.saveError'));
-    } finally {
-      setLoading(false);
-    }
+      if (current()) window.alert(adminErrorMessage(error));
+    } finally { sending.current = false; if (current()) setLoading(false); }
   };
 
   return (
@@ -183,7 +88,7 @@ export default function DiagnosisScreen() {
         </div>
       </section>
 
-      {errorMessage ? <div style={styles.errorCard}>{errorMessage}</div> : null}
+      {errorMessage ? <div role="alert" style={styles.errorCard}>{errorMessage}</div> : <MedicalConnectionStatus status={connection.status} message={connection.message} />}
 
       {loadingData ? <div style={styles.loadingCard}>{t('medicalDiagnosis.loadingData')}</div> : (
         <>
@@ -252,3 +157,9 @@ const styles = {
   historyFieldValue: { margin: 0, color: '#475569', lineHeight: 1.6 },
   footer: { marginTop: '26px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', color: '#64748b', fontSize: '13px' },
 };
+
+export default function MedicalPatientScreen() {
+  const { selectedPatient } = usePatient();
+  const location = useLocation();
+  return <DiagnosisScreen key={`${selectedPatient?.id_atencion || location.state?.id_atencion}_${selectedPatient?.Id_exp || location.state?.Id_exp}`} />;
+}

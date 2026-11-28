@@ -10,6 +10,7 @@ from utils.nursing_care_validation import validate_nursing_care_payload
 from utils.nursing_assessment_validation import validate_nursing_assessment
 from utils.nursing_validation import validate_vitals, validate_medications, validate_balance
 from functools import wraps
+from utils.medical_validation import validate_medical_text, validate_prescription
 
 medical_bp = Blueprint('medical', __name__, url_prefix='/medical')
 
@@ -18,7 +19,10 @@ def open_nursing_attention(handler):
     @wraps(handler)
     def wrapped(id_atencion, *args, **kwargs):
         try:
-            attention = get_db()['atencion'].find_one({'id_atencion': id_atencion})
+            query = {'id_atencion': id_atencion}
+            if 'Id_exp' in kwargs:
+                query['Id_exp'] = kwargs['Id_exp']
+            attention = get_db()['atencion'].find_one(query)
             if not attention:
                 return jsonify({'error': 'Atención no encontrada'}), 404
             if attention.get('status') != 'ABIERTA':
@@ -232,11 +236,14 @@ def get_paciente(id_atencion, Id_exp):
 @medical_bp.route('/historia-clinica/<int:id_atencion>/<int:Id_exp>', methods=['POST'])
 @token_required
 @role_required('admin', 'medico')
+@open_nursing_attention
 def save_historia_clinica(id_atencion, Id_exp):
     """Guarda la historia clínica del paciente"""
     try:
         db = get_db()
-        data = request.get_json()
+        data, error = validate_medical_text(request.get_json(silent=True), 'history')
+        if error:
+            return jsonify({"error": error}), 400
         
         # Verificar si ya existe una historia clínica para esta atención
         existing = db['historia_clinica'].find_one({
@@ -329,15 +336,21 @@ def get_vital_signs(id_atencion):
 @token_required
 def get_medical_notes(id_atencion):
     """Obtiene notas médicas"""
-    notes = MedicalService.get_medical_notes(id_atencion)
-    return jsonify(notes), 200
+    try:
+        notes = MedicalService.get_medical_notes(id_atencion)
+        return jsonify(notes), 200
+    except Exception:
+        return jsonify({'error': 'Error interno del servidor'}), 500
 
 @medical_bp.route('/appointments/<int:id_atencion>/medical-notes', methods=['POST'])
 @token_required
 @role_required('admin', 'medico')
+@open_nursing_attention
 def add_medical_note(id_atencion):
     """Agrega nota médica"""
-    data = request.get_json()
+    data, error = validate_medical_text(request.get_json(silent=True), 'note')
+    if error:
+        return jsonify({"error": error}), 400
     data['id_medico'] = g.user['user_id']
     
     result = MedicalService.add_medical_note(id_atencion, data)
@@ -371,11 +384,14 @@ def get_diagnosis(id_atencion):
 @medical_bp.route('/appointments/<int:id_atencion>/diagnosis', methods=['POST'])
 @token_required
 @role_required('admin', 'medico')
+@open_nursing_attention
 def add_diagnosis(id_atencion):
     """Agrega o actualiza diagnóstico"""
     try:
         db = get_db()
-        data = request.get_json()
+        data, error = validate_medical_text(request.get_json(silent=True), 'diagnosis')
+        if error:
+            return jsonify({"error": error}), 400
         
         # Verificar si ya existe diagnóstico para esta atención
         existing = db['diagnosticos'].find_one({'id_atencion': id_atencion})
@@ -394,7 +410,7 @@ def add_diagnosis(id_atencion):
             # Guardar versión anterior en historial
             history_data = {k: v for k, v in existing.items() if k != '_id'}
             history_data['id_diagnostico_original'] = existing['_id']
-            history_data['fecha_modificacion'] = datetime.now()
+            history_data['fecha_modificacion'] = datetime.now(timezone.utc)
             db['diagnosticos_historial'].insert_one(history_data)
             
             # Actualizar diagnóstico actual
@@ -472,11 +488,14 @@ def get_prescriptions(id_atencion):
 @medical_bp.route('/appointments/<int:id_atencion>/prescriptions', methods=['POST'])
 @token_required
 @role_required('admin', 'medico')
+@open_nursing_attention
 def add_prescription(id_atencion):
     """Agrega una receta médica"""
     try:
         db = get_db()
-        data = request.get_json()
+        data, error = validate_prescription(request.get_json(silent=True))
+        if error:
+            return jsonify({"error": error}), 400
         
         prescription = {
             'id_receta': get_next_sequence('recetas_id'),

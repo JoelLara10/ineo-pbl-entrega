@@ -1,23 +1,22 @@
+import useMedicalRequests from '../../hooks/useMedicalRequests';
+import MedicalConnectionStatus from '../../components/MedicalConnectionStatus';
+import { downloadMedicalPdf } from '../../services/medicalPdf';
+import { adminErrorMessage } from '../../utils/medicalFeedback';
 import { formatRegionalDate } from '../../i18n/regional';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FiActivity, FiArrowLeft, FiDownload, FiPlus, FiShield, FiUser } from 'react-icons/fi';
 import { usePatient } from '../../context/PatientContext';
 import api from '../../services/api';
 import { useTranslation } from 'react-i18next';
 
-function openPdfForVitalSigns(idSignos) {
-  const baseUrl = api.defaults.baseURL || '';
-  const pdfUrl = `${baseUrl.replace('/api/v1', '')}/pdf/vital-signs/${idSignos}`;
-  window.open(pdfUrl, '_blank', 'noopener,noreferrer');
-}
 
 function getPatientName(paciente) {
   if (!paciente) return 'Paciente';
   return [paciente.papell, paciente.sapell, paciente.nom_pac].filter(Boolean).join(' ') || 'Paciente';
 }
 
-export default function VitalSignsListScreen() {
+function VitalSignsListScreen() {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
@@ -26,41 +25,24 @@ export default function VitalSignsListScreen() {
   const idExp = selectedPatient?.Id_exp || location.state?.Id_exp;
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
+  const { connection, load, current, sending } = useMedicalRequests(`${idAtencion}_${idExp}`);
+  const dirty = useRef(false);
   const [patient, setPatient] = useState(null);
   const [history, setHistory] = useState([]);
 
 
   const patientLabel = useMemo(() => `Exp: ${idExp || 'N/A'} | Atención: ${idAtencion || 'N/A'}`, [idAtencion, idExp]);
 
-  useEffect(() => {
-    if (!idAtencion || !idExp) {
-      setErrorMessage(t('vitalSigns.selectPatientFirst'));
-      setLoading(false);
-      return;
-    }
+  const reloadData = async () => {
+    if (!/^[1-9]\d*$/.test(String(idAtencion)) || !/^[1-9]\d*$/.test(String(idExp))) {setErrorMessage('Selecciona un paciente válido.'); setLoading(false); return;}
+    setLoading(true);
+    await Promise.all([load(`/paciente/${idAtencion}/${idExp}`, data => setPatient(data.paciente), 'object'),load(`/appointments/${idAtencion}/vital-signs`,setHistory)]);
+    if (current()) setLoading(false);
+  };
+  useEffect(() => {reloadData();},[idAtencion,idExp]);
 
-    setErrorMessage('');
 
-    const loadData = async () => {
-      setLoading(true);
-      try {
-        const [patientResponse, historyResponse] = await Promise.all([
-          api.get(`/paciente/${idAtencion}/${idExp}`),
-          api.get(`/appointments/${idAtencion}/vital-signs`),
-        ]);
-        setPatient(patientResponse.data?.paciente || null);
-        setHistory(Array.isArray(historyResponse.data) ? historyResponse.data : []);
-      } catch (error) {
-        console.error('Error loading vital signs history:', error);
-        setErrorMessage(t('vitalSigns.saveError'));
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadData();
-  }, [idAtencion, idExp]);
-
+  const openPdfForVitalSigns = async id => {try {await downloadMedicalPdf(`/pdf/vital-signs/${id}`,idAtencion);} catch(error) {window.alert(adminErrorMessage(error));}};
   return (
     <div style={styles.page}>
       <div style={styles.header}>
@@ -72,6 +54,8 @@ export default function VitalSignsListScreen() {
         <div style={styles.headerSpacer} />
       </div>
 
+      <MedicalConnectionStatus status={connection.status} message={connection.message} />
+      <button type="button" onClick={reloadData}>Recargar</button>
       <section style={styles.patientCard}>
         <div style={styles.patientAvatar}><FiUser size={30} color="#fff" /></div>
         <div>
@@ -147,3 +131,5 @@ const styles = {
   metricLabel: { display: 'block', fontSize: '12px', color: '#64748b', marginBottom: '6px' },
   footer: { marginTop: '26px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', color: '#1e3a8a', fontSize: '13px' },
 };
+
+export default function MedicalPatientScreen() {const {selectedPatient}=usePatient();const location=useLocation();return <VitalSignsListScreen key={`${selectedPatient?.id_atencion || location.state?.id_atencion}_${selectedPatient?.Id_exp || location.state?.Id_exp}`} />;}

@@ -513,7 +513,9 @@
     "view": "View",
     "select": "Select",
     "previous": "Previous",
-    "next": "Next"
+    "next": "Next",
+    "remoteDataLoaded": "Data refreshed from the server.",
+    "cachedDataWarning": "Offline: showing a temporary copy."
   },
   "vitalSigns": {
     "eyebrow": "NURSING",
@@ -1295,13 +1297,13 @@
       "excluded": "Excluded observations"
     },
     "labels": {
+      "0": "Available",
+      "1": "Occupied",
       "ABIERTA": "Open",
       "CERRADA": "Closed",
       "OTRO": "Other statuses",
       "UNKNOWN": "Unspecified",
       "OTHER": "Other categories",
-      "0": "Available",
-      "1": "Occupied",
       "PENDIENTE": "Pending",
       "REALIZADO": "Completed",
       "CANCELADO": "Cancelled",

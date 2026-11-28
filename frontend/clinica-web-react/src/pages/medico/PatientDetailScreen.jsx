@@ -1,3 +1,5 @@
+import useMedicalRequests from '../../hooks/useMedicalRequests';
+import MedicalConnectionStatus from '../../components/MedicalConnectionStatus';
 import { getClinicalCache, setClinicalCache } from '../../services/clinicalCache';
 import { formatRegionalDate } from '../../i18n/regional';
 import { useEffect, useMemo, useState } from 'react';
@@ -41,6 +43,7 @@ export default function PatientDetailScreen() {
   const [patient, setPatient] = useState(null);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
+  const {connection, load, current} = useMedicalRequests(`${routeIdAtencion}_${routeIdExp}`);
 
   useEffect(() => {
     if (!routeIdExp || !routeIdAtencion) {
@@ -57,47 +60,14 @@ export default function PatientDetailScreen() {
     setLoading(true);
   }, [routeIdAtencion, routeIdExp, selectPatient, setSelectedPatient]);
 
-  useEffect(() => {
-    if (!routeIdExp || !routeIdAtencion) return;
+  const reloadData = async () => {
+    if (!/^[1-9]\d*$/.test(String(routeIdAtencion)) || !/^[1-9]\d*$/.test(String(routeIdExp))) {setErrorMessage('Selecciona un paciente válido.');setLoading(false);return;}
+    setLoading(true);
+    await load(`/paciente/${routeIdAtencion}/${routeIdExp}`,setPatient,value => Boolean(value?.paciente));
+    if(current()) setLoading(false);
+  };
+  useEffect(() => {setPatient(null);reloadData();},[routeIdAtencion,routeIdExp]);
 
-    let isCancelled = false;
-
-    const loadPatientData = async () => {
-      const cacheKey = `${routeIdAtencion}_${routeIdExp}`;
-      const cachedData = getCachedValue(cacheKey);
-
-      if (cachedData) {
-        if (!isCancelled) {
-          setPatient(cachedData);
-          setLoading(false);
-        }
-        return;
-      }
-
-      try {
-        const response = await api.get(`/paciente/${routeIdAtencion}/${routeIdExp}`);
-        setCachedValue(cacheKey, response.data);
-        if (!isCancelled) {
-          setPatient(response.data);
-        }
-      } catch (error) {
-        console.error('Error loading medico patient detail:', error);
-        if (!isCancelled) {
-          setErrorMessage(t('medicalDetail.errorLoading'));
-        }
-      } finally {
-        if (!isCancelled) {
-          setLoading(false);
-        }
-      }
-    };
-
-    loadPatientData();
-
-    return () => {
-      isCancelled = true;
-    };
-  }, [routeIdAtencion, routeIdExp]);
 
   const patientData = patient?.paciente || {};
   const familiarData = patient?.familiar || {};
@@ -133,6 +103,8 @@ export default function PatientDetailScreen() {
         <div style={styles.headerSpacer} />
       </div>
 
+      <MedicalConnectionStatus status={connection.status} message={connection.message} />
+      <button type="button" onClick={reloadData}>Recargar</button>
       {loading ? (
         <div style={styles.loadingCard}>{t('medicalDetail.loading')}</div>
       ) : errorMessage ? (
@@ -187,7 +159,7 @@ export default function PatientDetailScreen() {
                 const ModuleIcon = module.icon;
                 return (
                   <button
-                    key={module.title}
+                    disabled={!patient?.paciente || connection.status === 'error'} key={module.title}
                     type="button"
                     onClick={() => navigate(module.path, { state: { id_atencion: routeIdAtencion, Id_exp: routeIdExp } })}
                     style={{ ...styles.moduleCard, backgroundColor: module.background }}
