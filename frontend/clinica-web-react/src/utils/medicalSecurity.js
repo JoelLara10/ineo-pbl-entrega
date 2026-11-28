@@ -17,16 +17,6 @@ function validateClinicalContext(idAtencion, idExp) {
   return { ok: true };
 }
 
-function getSafeClinicalError(error, fallback = 'No fue posible guardar la información.') {
-  const status = error?.response?.status;
-  if (status === 401) return 'La sesión expiró. Inicia sesión nuevamente.';
-  if (status === 403) return 'No tienes permiso para realizar esta operación.';
-  if (status === 409) return 'El registro cambió. Actualiza la pantalla e inténtalo de nuevo.';
-  if (status === 422) return 'La información clínica no es válida.';
-  if (status === 429) return 'Se realizaron demasiados intentos. Espera un momento.';
-  return fallback;
-}
-
 function validateClinicalHistory({ id_atencion, Id_exp, formData = {} }) {
   const context = validateClinicalContext(id_atencion, Id_exp);
   if (!context.ok) return context;
@@ -139,109 +129,5 @@ function validateMedicationAdministration({ id_atencion, Id_exp, medications = [
   return { ok: true, data: normalized };
 }
 
-function validateFluidBalance({ id_atencion, Id_exp, formData = {} }) {
-  const context = validateClinicalContext(id_atencion, Id_exp);
-  if (!context.ok) return context;
 
-  const fields = ['ingresos_orales', 'ingresos_iv', 'egresos_orina', 'egresos_drenajes'];
-  const values = {};
-  for (const field of fields) {
-    const raw = cleanText(formData[field]);
-    const numeric = raw === '' ? 0 : Number(raw);
-    if (!Number.isFinite(numeric) || numeric < 0 || numeric > 100000) {
-      return { ok: false, error: 'Los volúmenes deben ser números entre 0 y 100000 ml.' };
-    }
-    values[field] = numeric;
-  }
-
-  if (Object.values(values).every((value) => value === 0)) {
-    return { ok: false, error: 'Captura al menos un ingreso o egreso mayor que cero.' };
-  }
-
-  const observations = cleanText(formData.observaciones);
-  if (observations.length > 1000) {
-    return { ok: false, error: 'Las observaciones no pueden exceder 1000 caracteres.' };
-  }
-
-  return { ok: true, data: { ...values, observaciones: observations } };
-}
-
-function validateNursingCare({ id_atencion, Id_exp, formData = {} }) {
-  const context = validateClinicalContext(id_atencion, Id_exp);
-  if (!context.ok) return context;
-
-  // Lista permitida: evita enviar propiedades inesperadas al servicio remoto.
-  const fields = [
-    'diagnostico_enfermeria', 'objetivos', 'intervenciones',
-    'evaluacion', 'observaciones',
-  ];
-  const normalized = Object.fromEntries(
-    fields.map((field) => [field, cleanText(formData[field])]),
-  );
-  normalized.estado = cleanText(formData.estado) || 'EN_PROCESO';
-
-  for (const field of ['diagnostico_enfermeria', 'objetivos', 'intervenciones']) {
-    if (normalized[field].length < 3 || normalized[field].length > 1000) {
-      return {
-        ok: false,
-        error: 'Diagnóstico, objetivos e intervenciones deben tener entre 3 y 1000 caracteres.',
-      };
-    }
-  }
-
-  if (normalized.evaluacion.length > 1000 || normalized.observaciones.length > 1000) {
-    return { ok: false, error: 'Los campos clínicos no pueden exceder 1000 caracteres.' };
-  }
-  if (!['EN_PROCESO', 'PENDIENTE', 'COMPLETADO'].includes(normalized.estado)) {
-    return { ok: false, error: 'El estado del cuidado no es válido.' };
-  }
-
-  return { ok: true, data: normalized };
-}
-
-function normalizeFluidBalanceRecord(record = {}) {
-  // La API devuelve actualmente los campos del balance en la raíz del registro.
-  // También aceptamos la forma anidada usada por versiones anteriores de la app.
-  const source = record?.balance && typeof record.balance === 'object'
-    ? record.balance
-    : record;
-  const asNumber = (value) => {
-    const number = Number(value);
-    return Number.isFinite(number) ? number : 0;
-  };
-  const ingresosOrales = asNumber(source.ingresos_orales);
-  const ingresosIv = asNumber(source.ingresos_iv);
-  const egresosOrina = asNumber(source.egresos_orina);
-  const egresosDrenajes = asNumber(source.egresos_drenajes);
-  const totalIngresos = source.total_ingresos == null
-    ? ingresosOrales + ingresosIv
-    : asNumber(source.total_ingresos);
-  const totalEgresos = source.total_egresos == null
-    ? egresosOrina + egresosDrenajes
-    : asNumber(source.total_egresos);
-
-  return {
-    ingresos_orales: ingresosOrales,
-    ingresos_iv: ingresosIv,
-    egresos_orina: egresosOrina,
-    egresos_drenajes: egresosDrenajes,
-    total_ingresos: totalIngresos,
-    total_egresos: totalEgresos,
-    balance_neto: source.balance_neto == null
-      ? totalIngresos - totalEgresos
-      : asNumber(source.balance_neto),
-    observaciones: cleanText(source.observaciones),
-  };
-}
-
-export {
-  getSafeClinicalError,
-  normalizeFluidBalanceRecord,
-  isPositiveInteger,
-  validateClinicalContext,
-  validateClinicalHistory,
-  validateFluidBalance,
-  validateMedicationAdministration,
-  validateNursingCare,
-  validatePrescription,
-};
+export { validateClinicalHistory, validatePrescription };
