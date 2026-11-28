@@ -1,6 +1,7 @@
+import useMedicalRequests from '../hooks/useMedicalRequests';
 // @vitest-environment jsdom
 import React from 'react';
-import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act, cleanup, fireEvent, render, renderHook, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import MedicalNote from '../pages/medico/MedicalNoteScreen';
@@ -72,4 +73,37 @@ it('clears unsaved data when changing the selected patient',async()=>{
  patient.current={id_atencion:3,Id_exp:3};
  view.rerender(<MemoryRouter><MedicalNote /></MemoryRouter>);
  expect(screen.getAllByRole('textbox')[0].value).toBe('');
+});
+
+it('uses only a temporary cached copy after a failed refresh and recovers',async()=>{
+ const {result}=renderHook(()=>useMedicalRequests('1_1'));
+ const apply=vi.fn();api.get.mockResolvedValueOnce({data:[{id_nota:1}]});
+ await act(async()=>{await result.current.load('/appointments/1/medical-notes',apply);});
+ expect(result.current.connection.status).toBe('remote');
+ api.get.mockRejectedValueOnce(new Error('private token'));
+ await act(async()=>{await result.current.load('/appointments/1/medical-notes',apply);});
+ expect(result.current.connection.status).toBe('cache');expect(apply).toHaveBeenCalledTimes(2);
+ api.get.mockResolvedValueOnce({data:[]});
+ await act(async()=>{await result.current.load('/appointments/1/medical-notes',apply);});
+ expect(result.current.connection.status).toBe('remote');
+});
+it('does not apply a late request after unmount',async()=>{
+ let resolve;api.get.mockImplementation(()=>new Promise(done=>{resolve=done;}));
+ const {result,unmount}=renderHook(()=>useMedicalRequests('1_1'));const apply=vi.fn();
+ let pending;await act(async()=>{pending=result.current.load('/appointments/1/medical-notes',apply);});
+ unmount();resolve({data:[{id_nota:1}]});await pending;expect(apply).not.toHaveBeenCalled();
+});
+it('discards an earlier history response after a newer refresh',async()=>{
+ const resolvers=[];api.get.mockImplementation(()=>new Promise(done=>resolvers.push(done)));
+ const {result}=renderHook(()=>useMedicalRequests('1_1'));const apply=vi.fn();let first,second;
+ await act(async()=>{first=result.current.load('/appointments/1/medical-notes',apply);second=result.current.load('/appointments/1/medical-notes',apply);});
+ await act(async()=>{resolvers[1]({data:[{id_nota:2}]});await second;resolvers[0]({data:[{id_nota:1}]});await first;});
+ expect(apply).toHaveBeenCalledTimes(1);expect(apply).toHaveBeenCalledWith([{id_nota:2}]);
+});
+it('never falls back to a cached history after permission denial',async()=>{
+ const {result}=renderHook(()=>useMedicalRequests('1_1'));const apply=vi.fn();api.get.mockResolvedValueOnce({data:[]});
+ await act(async()=>{await result.current.load('/appointments/1/medical-notes',apply);});
+ apply.mockClear();api.get.mockRejectedValueOnce({response:{status:403,data:{error:'private token'}}});
+ await act(async()=>{await result.current.load('/appointments/1/medical-notes',apply);});
+ expect(result.current.connection.status).toBe('error');expect(apply).not.toHaveBeenCalled();expect(result.current.connection.message).not.toMatch(/private token/);
 });
