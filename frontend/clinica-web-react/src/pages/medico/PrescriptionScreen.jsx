@@ -1,6 +1,10 @@
+import useMedicalRequests from '../../hooks/useMedicalRequests';
+import MedicalConnectionStatus from '../../components/MedicalConnectionStatus';
+import { adminErrorMessage } from '../../utils/medicalFeedback';
+import { validatePrescription } from '../../utils/medicalSecurity';
 import { getClinicalCache, setClinicalCache } from '../../services/clinicalCache';
 import { formatRegionalDate } from '../../i18n/regional';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FiArrowLeft, FiChevronDown, FiChevronUp, FiClock, FiPlus, FiRefreshCw, FiSave, FiShield, FiTrash2, FiUser } from 'react-icons/fi';
 import { MdMedication } from 'react-icons/md';
@@ -23,7 +27,7 @@ const emptyMedication = (id) => ({
 function getCachedValue(key) { return getClinicalCache(CACHE_PREFIX + key); }
 function setCachedValue(key, data, ttl = CACHE_TTL) { setClinicalCache(CACHE_PREFIX + key, data, ttl); }
 
-export default function PrescriptionScreen() {
+function PrescriptionScreen() {
   const { t, i18n } = useTranslation();
 
   const navigate = useNavigate();
@@ -32,6 +36,8 @@ export default function PrescriptionScreen() {
   const idAtencion = selectedPatient?.id_atencion || location.state?.id_atencion;
   const idExp = selectedPatient?.Id_exp || location.state?.Id_exp;
   const [loading, setLoading] = useState(false);
+  const { connection, load, current, sending } = useMedicalRequests(`${idAtencion}_${idExp}`);
+  const dirty = useRef(false);
   const [loadingHistory, setLoadingHistory] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
   const [history, setHistory] = useState([]);
@@ -40,57 +46,15 @@ export default function PrescriptionScreen() {
 
   const patientLabel = useMemo(() => `Exp: ${idExp || 'N/A'} | Atención: ${idAtencion || 'N/A'}`, [idAtencion, idExp]);
 
-  useEffect(() => {
-    if (!idAtencion) {
-      setErrorMessage(t('prescription.selectPatientFirst'));
-      return;
-    }
-
-    setErrorMessage('');
-
-    const loadHistory = async (forceRefresh = false) => {
-      setLoadingHistory(true);
-      const cacheKey = String(idAtencion);
-
-      if (!forceRefresh) {
-        const cached = getCachedValue(cacheKey);
-        if (cached) {
-          setHistory(cached);
-          setLoadingHistory(false);
-          return;
-        }
-      }
-
-      try {
-        const response = await api.get(`/appointments/${idAtencion}/prescriptions`);
-        const nextHistory = Array.isArray(response.data) ? response.data : [];
-        setCachedValue(cacheKey, nextHistory);
-        setHistory(nextHistory);
-      } catch (error) {
-        console.error('Error loading prescriptions history:', error);
-        setHistory(getCachedValue(cacheKey) || []);
-      } finally {
-        setLoadingHistory(false);
-      }
-    };
-
-    loadHistory();
-  }, [idAtencion]);
-
   const reloadHistory = async () => {
-    if (!idAtencion) return;
+    if (!/^[1-9]\d*$/.test(String(idAtencion)) || !/^[1-9]\d*$/.test(String(idExp))) { setErrorMessage('Selecciona un paciente válido.'); return; }
     setLoadingHistory(true);
-    try {
-      const response = await api.get(`/appointments/${idAtencion}/prescriptions`);
-      const nextHistory = Array.isArray(response.data) ? response.data : [];
-      setCachedValue(String(idAtencion), nextHistory);
-      setHistory(nextHistory);
-    } catch (error) {
-      console.error('Error reloading prescriptions history:', error);
-    } finally {
-      setLoadingHistory(false);
-    }
+    await load(`/appointments/${idAtencion}/prescriptions`, setHistory);
+    if (current()) { setLoadingHistory(false); }
   };
+  const reloadAll = reloadHistory;
+  const reloadData = reloadHistory;
+  useEffect(() => { reloadHistory(); }, [idAtencion, idExp]);
 
   const addMedication = () => {
     setMedications((current) => [...current, emptyMedication(Date.now())]);
@@ -109,24 +73,20 @@ export default function PrescriptionScreen() {
   };
 
   const handleSubmit = async () => {
-    const validMedications = medications.filter((item) => item.medicamento.trim() !== '');
-    if (validMedications.length === 0) {
-      window.alert(t('prescription.minOneMedication'));
-      return;
-    }
-
+    if (sending.current || !current()) return;
+    if (!/^[1-9]\d*$/.test(String(idAtencion)) || !/^[1-9]\d*$/.test(String(idExp))) {window.alert('Selecciona un paciente válido.'); return;}
+    const validation = validatePrescription({id_atencion:idAtencion, Id_exp:idExp, medications}); if (!validation.ok) {window.alert(validation.error); return;} const payload = {medicamentos:validation.data};
+    sending.current = true;
     setLoading(true);
     try {
-      await api.post(`/appointments/${idAtencion}/prescriptions`, { medicamentos: validMedications });
+      await api.post(`/appointments/${idAtencion}/prescriptions`, payload);
+      if (!current()) return;
       setMedications([emptyMedication(0)]);
       setShowHistory(true);
       await reloadHistory();
     } catch (error) {
-      console.error('Error saving prescription:', error);
-      window.alert(error.response?.data?.error || t('prescription.saveError'));
-    } finally {
-      setLoading(false);
-    }
+      if (current()) window.alert(adminErrorMessage(error));
+    } finally { sending.current = false; if (current()) setLoading(false); }
   };
 
   return (
@@ -148,7 +108,7 @@ export default function PrescriptionScreen() {
         </div>
       </section>
 
-      {errorMessage ? <div style={styles.errorCard}>{errorMessage}</div> : null}
+      {errorMessage ? <div role="alert" style={styles.errorCard}>{errorMessage}</div> : <MedicalConnectionStatus status={connection.status} message={connection.message} />}
 
       <section style={styles.mainCard}>
         <div style={styles.cardHeader}><MdMedication size={22} /><strong>{t('prescription.newPrescription')}</strong></div>
@@ -285,3 +245,9 @@ const styles = {
   historyMedicationNotes: { margin: '10px 0 0', color: '#475569', lineHeight: 1.5 },
   footer: { marginTop: '26px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', color: '#9a3412', fontSize: '13px' },
 };
+
+export default function MedicalPatientScreen() {
+  const { selectedPatient } = usePatient();
+  const location = useLocation();
+  return <PrescriptionScreen key={`${selectedPatient?.id_atencion || location.state?.id_atencion}_${selectedPatient?.Id_exp || location.state?.Id_exp}`} />;
+}

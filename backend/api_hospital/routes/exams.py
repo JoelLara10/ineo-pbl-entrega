@@ -36,16 +36,32 @@ def get_exam_catalog():
 def request_exams():
     try:
         db = get_db()
-        data = request.get_json()
+        data = request.get_json(silent=True)
+        if not isinstance(data, dict):
+            return jsonify({'error': 'Se requiere un objeto JSON válido.'}), 400
         id_atencion = data.get('id_atencion')
         exam_ids = data.get('exams', [])
         observations = data.get('observations', '')
         exam_type = data.get('type', 'LABORATORIO')
         
+        if type(id_atencion) is not int or id_atencion <= 0:
+            return jsonify({'error': 'La atención no es válida.'}), 400
+        if not isinstance(exam_ids, list) or not 1 <= len(exam_ids) <= 50:
+            return jsonify({'error': 'Selecciona entre 1 y 50 estudios.'}), 400
+        if any(type(value) is not int or value <= 0 for value in exam_ids) or len(set(exam_ids)) != len(exam_ids):
+            return jsonify({'error': 'Los estudios seleccionados no son válidos.'}), 400
+        if exam_type not in ('LABORATORIO', 'GABINETE') or not isinstance(observations, str) or len(observations.strip()) > 2000:
+            return jsonify({'error': 'El tipo o las observaciones no son válidos.'}), 400
         atencion = db['atencion'].find_one({'id_atencion': id_atencion})
         if not atencion:
             return jsonify({'error': 'Atención no encontrada'}), 404
         
+        if atencion.get('status') != 'ABIERTA':
+            return jsonify({'error': 'La atención está cerrada; no se pueden solicitar estudios.'}), 409
+        catalog_rows = list(db['catalogo_examenes'].find({'id_catalogo': {'$in': exam_ids}, 'tipo': exam_type}))
+        if len(catalog_rows) != len(exam_ids):
+            return jsonify({'error': 'Uno o más estudios no pertenecen al catálogo seleccionado.'}), 400
+
         if 'examenes' not in db.list_collection_names():
             db.create_collection('examenes')
         

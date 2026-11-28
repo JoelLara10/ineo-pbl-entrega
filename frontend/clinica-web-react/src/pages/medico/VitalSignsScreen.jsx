@@ -1,6 +1,11 @@
+import useMedicalRequests from '../../hooks/useMedicalRequests';
+import MedicalConnectionStatus from '../../components/MedicalConnectionStatus';
+import { adminErrorMessage } from '../../utils/medicalFeedback';
+import { validateNursingInput } from '../../utils/nursingValidation';
+import { validatePrescription } from '../../utils/medicalSecurity';
 import { getClinicalCache, setClinicalCache } from '../../services/clinicalCache';
 import { formatRegionalDate } from '../../i18n/regional';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FiActivity, FiArrowLeft, FiHeart, FiRefreshCw, FiSave, FiShield, FiUser } from 'react-icons/fi';
 import { usePatient } from '../../context/PatientContext';
@@ -19,7 +24,7 @@ function parseNumericValue(value) {
   return Number.isNaN(parsed) ? null : parsed;
 }
 
-export default function VitalSignsScreen() {
+function VitalSignsScreen() {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
@@ -27,6 +32,8 @@ export default function VitalSignsScreen() {
   const idAtencion = selectedPatient?.id_atencion || location.state?.id_atencion;
   const idExp = selectedPatient?.Id_exp || location.state?.Id_exp;
   const [loading, setLoading] = useState(false);
+  const { connection, load, current, sending } = useMedicalRequests(`${idAtencion}_${idExp}`);
+  const dirty = useRef(false);
   const [loadingHistory, setLoadingHistory] = useState(false);
   const [history, setHistory] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
@@ -35,91 +42,31 @@ export default function VitalSignsScreen() {
 
   const patientLabel = useMemo(() => `Exp: ${idExp || 'N/A'} | Atención: ${idAtencion || 'N/A'}`, [idAtencion, idExp]);
 
-  useEffect(() => {
-    if (!idAtencion) {
-      setErrorMessage(t('vitalSigns.selectPatientFirst'));
-      return;
-    }
-
-    setErrorMessage('');
-
-    const loadHistory = async () => {
-      setLoadingHistory(true);
-      const cacheKey = String(idAtencion);
-      const cachedData = getCachedValue(cacheKey);
-      if (cachedData) {
-        setHistory(cachedData);
-        setLoadingHistory(false);
-        return;
-      }
-
-      try {
-        const response = await api.get(`/appointments/${idAtencion}/vital-signs`);
-        const nextHistory = response.data || [];
-        setCachedValue(cacheKey, nextHistory);
-        setHistory(nextHistory);
-      } catch (error) {
-        console.error('Error loading medico vital signs history:', error);
-      } finally {
-        setLoadingHistory(false);
-      }
-    };
-
-    loadHistory();
-  }, [idAtencion]);
-
   const reloadHistory = async () => {
-    if (!idAtencion) return;
+    if (!/^[1-9]\d*$/.test(String(idAtencion)) || !/^[1-9]\d*$/.test(String(idExp))) { setErrorMessage('Selecciona un paciente válido.'); return; }
     setLoadingHistory(true);
-    try {
-      const response = await api.get(`/appointments/${idAtencion}/vital-signs`);
-      const nextHistory = response.data || [];
-      setCachedValue(String(idAtencion), nextHistory);
-      setHistory(nextHistory);
-    } catch (error) {
-      console.error('Error reloading medico vital signs history:', error);
-    } finally {
-      setLoadingHistory(false);
-    }
+    await load(`/appointments/${idAtencion}/vital-signs`, setHistory);
+    if (current()) { setLoadingHistory(false); }
   };
+  const reloadAll = reloadHistory;
+  const reloadData = reloadHistory;
+  useEffect(() => { reloadHistory(); }, [idAtencion, idExp]);
 
   const handleSubmit = async () => {
-    const hasData = Object.values(formData).some((value) => value !== '');
-    if (!hasData) {
-      window.alert(t('vitalSigns.enterAtLeastOne'));
-      return;
-    }
-
-    const dataToSend = {
-      ta: formData.ta || '',
-      fc: parseNumericValue(formData.fc),
-      fr: parseNumericValue(formData.fr),
-      temp: parseNumericValue(formData.temp),
-      spo2: parseNumericValue(formData.spo2),
-      peso: parseNumericValue(formData.peso),
-      talla: parseNumericValue(formData.talla),
-    };
-
-    Object.keys(dataToSend).forEach((key) => {
-      if (dataToSend[key] === null) delete dataToSend[key];
-    });
-
+    if (sending.current || !current()) return;
+    if (!/^[1-9]\d*$/.test(String(idAtencion)) || !/^[1-9]\d*$/.test(String(idExp))) {window.alert('Selecciona un paciente válido.'); return;}
+    const validation = validateNursingInput('vitals', formData); if (validation.error) { window.alert(validation.error); return; } const payload = validation.data;
+    sending.current = true;
     setLoading(true);
     try {
-      const response = await api.post(`/appointments/${idAtencion}/vital-signs`, dataToSend);
-      if (response.data) {
-        setFormData({ ta: '', fc: '', fr: '', temp: '', spo2: '', peso: '', talla: '' });
-        const historyResponse = await api.get(`/appointments/${idAtencion}/vital-signs`);
-        const nextHistory = historyResponse.data || [];
-        setCachedValue(String(idAtencion), nextHistory);
-        setHistory(nextHistory);
-      }
+      await api.post(`/appointments/${idAtencion}/vital-signs`, payload);
+      if (!current()) return;
+      setFormData({ta:'',fc:'',fr:'',temp:'',spo2:'',peso:'',talla:''});
+
+      await reloadHistory();
     } catch (error) {
-      console.error('Error saving medico vital signs:', error);
-      window.alert(error.response?.data?.error || t('vitalSigns.saveError'));
-    } finally {
-      setLoading(false);
-    }
+      if (current()) window.alert(adminErrorMessage(error));
+    } finally { sending.current = false; if (current()) setLoading(false); }
   };
 
   const fieldConfig = [
@@ -145,7 +92,7 @@ export default function VitalSignsScreen() {
         <div><h2 style={styles.patientName}>{t('vitalSigns.selectedPatient')}</h2><p style={styles.patientMeta}>{patientLabel}</p></div>
       </section>
 
-      {errorMessage ? <div style={styles.errorCard}>{errorMessage}</div> : null}
+      {errorMessage ? <div role="alert" style={styles.errorCard}>{errorMessage}</div> : <MedicalConnectionStatus status={connection.status} message={connection.message} />}
 
       <section style={styles.mainCard}>
         <div style={styles.cardHeader}><FiHeart size={20} /><strong>{t('vitalSigns.newRecord')}</strong></div>
@@ -228,3 +175,9 @@ const styles = {
   metricLabel: { display: 'block', fontSize: '12px', color: '#64748b', marginBottom: '4px' },
   footer: { marginTop: '26px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', color: '#64748b', fontSize: '13px' },
 };
+
+export default function MedicalPatientScreen() {
+  const { selectedPatient } = usePatient();
+  const location = useLocation();
+  return <VitalSignsScreen key={`${selectedPatient?.id_atencion || location.state?.id_atencion}_${selectedPatient?.Id_exp || location.state?.Id_exp}`} />;
+}
